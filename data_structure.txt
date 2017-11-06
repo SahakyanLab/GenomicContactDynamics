@@ -1,0 +1,46 @@
+source cell_type merge_source_if_repl species chrs description label
+primary_cohort CO - human 'c(1:22,"X")' 'dorsolateral prefrontal cortex' Co
+primary_cohort HC - human 'c(1:22,"X")' 'hippocampus' Hi
+primary_cohort LG.merge LG1;LG2 human 'c(1:22,"X")' 'lung' Lu
+primary_cohort LV - human 'c(1:22,"X")' 'left ventricle' LV
+primary_cohort RV - human 'c(1:22,"X")' 'right ventricle' RV
+primary_cohort AO - human 'c(1:22,"X")' 'aorta' Ao
+primary_cohort PO.merge PO1;PO3 human 'c(1:22,"X")' 'psoas muscle' PM
+primary_cohort PA.merge PA2;PA3 human 'c(1:22,"X")' 'pancreas' Pa
+primary_cohort SX.merge SX1;SX3 human 'c(1:22,"X")' 'spleen' Sp
+primary_cohort LI - human 'c(1:22,"X")' 'liver' Li
+primary_cohort SB2 - human 'c(1:22,"X")' 'small bowel' SB
+primary_cohort AD - human 'c(1:22,"X")' 'adrenal gland' AG
+primary_cohort OV - human 'c(1:22,"X")' 'ovary' Ov
+primary_cohort BL - human 'c(1:22,"X")' 'bladder' Bl
+primary_cohort mes.merge mes.rep1;mes.rep2 human 'c(1:22,"X")' 'mesendoderm cell' MesC
+primary_cohort msc.merge msc.rep1;msc.rep2 human 'c(1:22,"X")' 'mesenchymal stem cell' MSC
+primary_cohort npc.merge npc.rep1;npc.rep2 human 'c(1:22,"X")' 'neural progenitor cell' NPC
+primary_cohort tro.merge tro.rep1;tro.rep2 human 'c(1:22,"X")' 'trophoblast-like cell' TLC
+primary_cohort h1.merge h1.rep1;h1.rep2 human 'c(1:22,"X")' 'embryonic stem cell' ESC
+primary_cohort IMR90 - human 'c(1:22,"X")' 'fibroblast cell' FC
+primary_cohort GM12878 - human 'c(1:22,"X")' 'lymphoblast cell' LC
+dixon_2012 mES.merge mES.rep1.HindIII;mES.rep2.HindIII mouse 'c(1:19)' - -
+dixon_2012 mES.NcoI - mouse 'c(1:19,"X")' - -
+fraser_2016 HindIII_mESC - mouse 'c(1:19,"X")' - -
+fraser_2016 HindIII_Neuron - mouse 'c(1:19,"X")' - -
+fraser_2016 HindIII_NPC - mouse 'c(1:19,"X")' - -
+fraser_2016 NcoI_mESC - mouse 'c(1:19,"X")' - -
+fraser_2016 NcoI_Neuron - mouse 'c(1:19,"X")' - -
+fraser_2016 NcoI_NPC - mouse 'c(1:19,"X")' - -
+seitan_2013 Tcell.Rad21.KO.merge Tcell.Rad21.KO.rep1;Tcell.Rad21.KO.rep3 mouse 'c(1:19)' - -
+seitan_2013 Tcell.Rad21.WT.merge Tcell.Rad21.WT.rep1;Tcell.Rad21.WT.rep3 mouse 'c(1:19)' - -
+shen_2012 mCO.merge mCO.rep1.HindIII;mCO.rep2.HindIII mouse 'c(1:19)' - -
+sofueva_2013 mAST-Rad21-deleted.merge mAST-Rad21-deleted.rep1;mAST-Rad21-deleted.rep2 mouse 'c(1:19)' - -
+sofueva_2013 mAST-Rad21-floxed.merge mAST-Rad21-floxed.rep1;mAST-Rad21-floxed.rep2 mouse 'c(1:19)' - -
+sofueva_2013 mNSC-Rad21-deleted.merge mNSC-Rad21-deleted.rep1;mNSC-Rad21-deleted.rep2 mouse 'c(1:19)' - -
+sofueva_2013 mNSC-Rad21-floxed.merge mNSC-Rad21-floxed.rep1;mNSC-Rad21-floxed.rep2 mouse 'c(1:19)' - -
+sofueva_2013 mAST-Rad21-WT.AdCre.rep1 - mouse 'c(1:19,"X")' - -
+sofueva_2013 mAST-Rad21-WT.rep1 - mouse 'c(1:19,"X")' - -
+sofueva_2013 mNSC-Rad21-floxed-G1.rep1 - mouse 'c(1:19,"X")' - -
+sofueva_2013 mNSC-Rad21-WT.OHT.rep1 - mouse 'c(1:19,"X")' - -
+sofueva_2013 mNSC-Rad21-WT.rep1 - mouse 'c(1:19,"X")' - -
+zuin_2014 HRV.merge HRV.rep1;HRV.rep2 human 'c(1:22,"X")' - -
+zuin_2014 siCONTROL.merge siCONTROL.rep1;siCONTROL.rep2 human 'c(1:22,"X")' - -
+zuin_2014 siCTCF.merge siCTCF.rep1;siCTCF.rep2 human 'c(1:22,"X")' - -
+zuin_2014 TEV.merge TEV.rep1;TEV.rep2 human 'c(1:22,"X")' - -
