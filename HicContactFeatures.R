@@ -4,7 +4,7 @@ HicContactFeatures <- function(
   chr  = "chr10",
 
   # Output path and filename suffix:
-  outputPath = "/Users/alex/Desktop/Chrom_seq",
+  outputPath = "/Volumes/Data/Database/HiC_features_GSE87112_RAWpc",
   suffix     = "min2Mb",
 
   # Combined contact directory path for Hi-C data and filtering configuration:
@@ -124,11 +124,20 @@ print("HicContactFeatures is DONE!", quote=FALSE)
 
 # Execution of the function writen above...
 ################################################################################
-CHR = c("chr10","chr10","chr1","chr1")
-MIN.DIST = c(2000000,500000,2000000,500000)
-SUFFIX = c("min2Mb","min05Mb","min2Mb","min05Mb")
+CHR      = rep( paste0("chr",c(1:22,"X")), 2 )
+MIN.DIST =  c( rep(500000, 23), rep(2000000, 23) )
+SUFFIX   = c( rep("min05Mb", 23), rep("min2Mb", 23) )
+outputPath         = "./OUT"
+combinedContactDir = "./RAW_primary_cohort"
+#"/Volumes/Data/Database/GSE87112/combined_contacts/RAW_primary_cohort"
+repmaskPath        = "./RepeatMasker_hg19/RepeatMasker_hg19"
+#"/Volumes/Data/Database/RepeatMasker_hg19/RepeatMasker_hg19"
+genomePath         = "./human_genome_unmasked_37.73"
+#"/Volumes/Data/Database/human_genome_unmasked_37.73"
+LIB.TRANTOR        = "./TrantoR"
+#"/Users/alex/GIT/GITrepo/TrantoR"
 
-for(i in 3:4){ #length(CHR)
+for( i in 1:length(CHR) ){ #length(CHR)
   
   print(paste0("**** ",CHR[i]," -- ",SUFFIX[i]," ****"))
 
@@ -136,23 +145,22 @@ for(i in 3:4){ #length(CHR)
     # Chromosome for which the data are to be pulled:
     chr  = CHR[i],
     # Output path and filename suffix:
-    outputPath = "/Users/alex/Desktop/Chrom_seq",
+    outputPath = outputPath,
     suffix     = SUFFIX[i],
     # Combined contact directory path for Hi-C data and filtering configuration:
-    combinedContactDir = 
-      "/Volumes/Data/Database/GSE87112/combined_contacts/RAW_primary_cohort",
+    combinedContactDir = combinedContactDir,
     hic.resol = 40000,
     min.dist  = MIN.DIST[i],
     top.perc  = 100,
     min.tiss  = 1,
     # RepeatMasker database path:
-    repmaskPath = "/Volumes/Data/Database/RepeatMasker_hg19/RepeatMasker_hg19",
+    repmaskPath = repmaskPath,
     # Human genome path and filename configuration:
-    genomePath       = "/Volumes/Data/Database/human_genome_unmasked_37.73",
+    genomePath       = genomePath,
     genome.prefix    = "Homo_sapiens.GRCh37.73.dna.chromosome.",
     fastafile.ending = ".fa",
     # Path to the TrantoR library:
-    LIB.TRANTOR = "/Users/alex/GIT/GITrepo/TrantoR"
+    LIB.TRANTOR = LIB.TRANTOR
   )
   
 }
