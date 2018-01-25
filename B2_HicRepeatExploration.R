@@ -1,14 +1,18 @@
 ## FUNCTION ####################################################################
 HicRepeatExploration <- function(
   # Number of CPU cores to be used
-  nCPU = 4,
+  nCPU = 4, # optimal for the task on bucephalus (takes ~5GB per core for chr1)
   # Chromosome for which the data are to be pulled:
   chr = "chr1",
   # Feature database path and filename suffix:
   featureDBPath = "/home/alex/Desktop/CHROMSEQ/OUT",
         #"/Volumes/Data/Database/HiC_features_GSE87112_RAWpc",
   # Feature database filename suffix
-  suffix = "min2Mb"
+  suffix = "min2Mb",
+  # Wheteher to do the initial chr related expl. plots (contact vs. tissue freq)
+  initialExplPlots = TRUE,
+  # Whether to do the rest of the mobile DNA exploration
+  mobDNAExplPlots = TRUE
 ){
 ################################################################################
 library(hexbin)
@@ -28,81 +32,146 @@ load(paste0(featureDBPath,"/",chr,"_Persist_",suffix,".RData"))
 
 rf <- colorRampPalette(rev(brewer.pal(11,'Spectral')))
 
-pdf(file=paste0(id,"_hexplotA.pdf"), width=7, height=7)
-df <- data.frame(ntis=PERSIST.MX$ntis, valsum=PERSIST.MX$valsum)
-hexbinplot(valsum~ntis, data=df, colramp=rf,
-           trans=log, inv=exp, aspect=1, mincnt=1,
-           xlab="Num(non-0 tissues/cell lines)",
-           ylab="Sum",
-           main=id)
-dev.off()
-rm(df)
+###########################
+if(initialExplPlots==TRUE){
 
-pdf(file=paste0(id,"_hexplotB.pdf"), width=7, height=7)
-df <- data.frame(ntis=PERSIST.MX$ntis, meanvalsum=PERSIST.MX$valsum/PERSIST.MX$ntis)
-hexbinplot(meanvalsum~ntis, data=df, colramp=rf,
-           trans=log, inv=exp, aspect=1, mincnt=1,
-           xlab="Num(non-0 tissues/cell lines)",
-           ylab="Sum / N(non-0)",
-           main=id)
-dev.off()
-rm(df)
+  # As of 25Jan18, hexbinplot does not work with pdf/jpeg/png devices while
+  # both are specified inside a function. Hence, replotting would be needed
+  # from PERSIST.MX in featureDBPath.
 
-df <- data.frame(ntis=PERSIST.MX$ntis, meanvalsum=PERSIST.MX$valsum/PERSIST.MX$ntis)
-pdf(file=paste0(id,"_boxplotB.pdf"), width=9, height=7)
-boxplot(formula=meanvalsum~ntis, data=df, col=rf(max(PERSIST.MX$ntis)), cex=0.1, ylim=c(1,14),
-        outline=FALSE, xlab="Num(non-0 tissues/cell lines)",
-        ylab="Sum / N(non-0)",
-        main=id)
-dev.off()
-rm(df)
-
-element.names <- names(BINREP.MX[1,4:58])
-hits.len <- length(PERSIST.MX$hits[,1])
-ij.mx <- cbind(i=PERSIST.MX$hits[,"i"], j=PERSIST.MX$hits[,"j"])
-ntis.vec <- PERSIST.MX$ntis
-
-rm(PERSIST.MX)
-gc()
-
-################################################################################
-for(element in element.names){
-
-  print(element, quote=FALSE)
-
-  #### FOREACH EXECUTION #########
-  element.count<-foreach(itr=isplitVector(1:hits.len, chunks=nCPU),
-                         .combine="c", .inorder=TRUE,
-                         .export=c("BINREP.MX","ij.mx","element"),
-                         .noexport=ls()[!ls()%in%c("BINREP.MX","ij.mx","element")]
-                        ) %dopar% {
-
-     element.count.chunk <- sapply(itr,
-                                   FUN=function(itr){
-                                     min(
-                                         BINREP.MX[which(BINREP.MX[,"bins"] %in%
-                                                           ij.mx[itr,]),element]
-                                        )
-                                    },
-                                    simplify=TRUE, USE.NAMES=FALSE)
-    return(element.count.chunk)
-  }
-  ### END OF FOREACH EXECUTION ###
-
-  df <- data.frame(ntis=ntis.vec, minELM=element.count)
-  pdf(file=paste0(id,"_boxplot_",element,".pdf"), width=9, height=7)
-    boxplot(formula=minELM~ntis, data=df,
-            col=rf(max(ntis.vec)), cex=0.1, # ylim=c(0,30)
-            outline=FALSE, xlab="Num(non-0 tissues/cell lines)",
-            ylab="min repeat count in contact pairs",
-            main=paste0(id,"_",element))
+  df <- data.frame(ntis=PERSIST.MX$ntis, valsum=PERSIST.MX$valsum)
+  pdf(file=paste0(id,"_hexplotA.pdf"), width=7, height=7)
+  hexbinplot(valsum~ntis, data=df, colramp=rf,
+             trans=log, inv=exp, aspect=1, mincnt=1,
+             xlab="Num(non-0 tissues/cell lines)",
+             ylab="Sum",
+             main=id)
   dev.off()
-  rm(df); gc()
+  rm(df)
+
+  df <- data.frame(ntis=PERSIST.MX$ntis, meanvalsum=PERSIST.MX$valsum/PERSIST.MX$ntis)
+  pdf(file=paste0(id,"_hexplotB.pdf"), width=7, height=7)
+  hexbinplot(meanvalsum~ntis, data=df, colramp=rf,
+             trans=log, inv=exp, aspect=1, mincnt=1,
+             xlab="Num(non-0 tissues/cell lines)",
+             ylab="Sum / N(non-0)",
+             main=id)
+  dev.off()
+  rm(df)
+
+  df <- data.frame(ntis=PERSIST.MX$ntis, meanvalsum=PERSIST.MX$valsum/PERSIST.MX$ntis)
+  pdf(file=paste0(id,"_boxplotB.pdf"), width=9, height=7)
+  boxplot(formula=meanvalsum~ntis, data=df, col=rf(max(PERSIST.MX$ntis)),
+          cex=0.1, ylim=c(1,14),
+          outline=FALSE, xlab="Num(non-0 tissues/cell lines)",
+          ylab="Sum / N(non-0)",
+          main=id)
+  dev.off()
+  rm(df)
+
+}
+###########################
+
+############################
+if(mobDNAExplPlots == TRUE){
+
+  element.names <- names(BINREP.MX[1,4:58])
+  hits.len <- length(PERSIST.MX$hits[,1])
+  ij.mx <- cbind(i=PERSIST.MX$hits[,"i"], j=PERSIST.MX$hits[,"j"])
+  ntis.vec <- PERSIST.MX$ntis
+
+  rm(PERSIST.MX)
+  gc()
+
+  ###---------------------------
+  for(element in element.names){
+
+    print(element, quote=FALSE)
+
+    #### FOREACH EXECUTION #########
+    element.count <- foreach(itr=isplitVector(1:hits.len, chunks=nCPU),
+                             .combine="c", .inorder=TRUE,
+                             .export=c("BINREP.MX","ij.mx","element"),
+                       .noexport=ls()[!ls()%in%c("BINREP.MX","ij.mx","element")]
+                            ) %dopar% {
+
+       element.count.chunk <- sapply(itr,
+                                     FUN=function(itr){
+                                       min(
+                                           BINREP.MX[which(BINREP.MX[,"bins"] %in%
+                                                             ij.mx[itr,]),element]
+                                          )
+                                      },
+                                      simplify=TRUE, USE.NAMES=FALSE)
+      return(element.count.chunk)
+    }
+    ### END OF FOREACH EXECUTION ###
+
+    df <- data.frame(ntis=ntis.vec, minELM=element.count)
+    pdf(file=paste0(id,"_boxplot_",element,".pdf"), width=9, height=7)
+      boxplot(formula=minELM~ntis, data=df,
+              col=rf(max( ntis.vec )), cex=0.1, # ylim=c(0,30)
+              outline=FALSE, xlab="Num(non-0 tissues/cell lines)",
+              ylab="min repeat count in contact pairs",
+              main=paste0(id,"_",element))
+    dev.off()
+
+    unique.ntis <- unique(ntis.vec)
+    unique.ntis <- unique.ntis[order(unique.ntis)]
+    num.contacts.each.ntis <- rep(NA,unique.ntis)
+    num.non0cont.each.ntis <- rep(NA,unique.ntis)
+    for(k in 1:length(unique.ntis)){
+      num.contacts.each.ntis[k] <- sum( ntis.vec==unique.ntis[k] )
+
+      num.non0cont.each.ntis[k] <- sum( (ntis.vec==unique.ntis[k]) &
+                                        (element.count>=1) )
+    }
+    pdf(file=paste0(id,"_lineplot_",element,".pdf"), width=9, height=7)
+      plot(x=unique.ntis, y=100*num.non0cont.each.ntis/num.contacts.each.ntis,
+           col=rf(max(unique.ntis)), cex=1, pch=21, lwd=3, # ylim=c(0,30)
+           xlab="Num(non-0 tissues/cell lines)",
+           ylab="contact % with >=1 repeat pair",
+           main=paste0(id,"_",element))
+      lines(x=unique.ntis, y=100*num.non0cont.each.ntis/num.contacts.each.ntis)
+    dev.off()
+
+    # Dumped per element, then collected later, for memory efficiency.
+    save(element.count, file=paste0(featureDBPath,"/",chr,
+                                    "_MinElmSOURCE_",suffix,"_",element,".RData"))
+
+    rm(df,
+       element.count,
+       unique.ntis,
+       num.contacts.each.ntis,
+       num.non0cont.each.ntis, k); gc()
+
+  }
+  ###---------------------------
+
+  rm(ij.mx); gc()
+
+  # Saving all data for min(repeat counts) in each interacting pairs of chr loci
+  MINELM.MX <- matrix( NA, nrow=hits.len, ncol=length(element.names)+1 )
+  dimnames(MINELM.MX)[[2]] <- c("ntis", element.names)
+  MINELM.MX[,"ntis"] <- ntis.vec; rm(ntis.vec)
+  for(element in element.names){
+    SRC<-paste0(featureDBPath,"/",chr,"_MinElmSOURCE_",suffix,"_",element,".RData")
+    load(SRC); file.remove(SRC)
+    MINELM.MX[,element] <- element.count
+    rm(element.count)
+    gc()
+  }
+  save(MINELM.MX, paste0(featureDBPath,"/",chr,"_MinElm_",suffix,".RData"))
+
+}
+############################
+
+print("HicRepeatExploration is DONE!", quote=FALSE)
 
 }
 ################################################################################
-}
-################################################################################
+suppressWarnings(suppressPackageStartupMessages(library(compiler)))
+HicRepeatExploration <- cmpfun(HicRepeatExploration, options=list(suppressUndefined=TRUE))
 
 
 # Execution of the function writen above...
@@ -116,9 +185,10 @@ HicRepeatExploration(
   featureDBPath = "/home/alex/Desktop/CHROMSEQ/OUT",
         #"/Volumes/Data/Database/HiC_features_GSE87112_RAWpc",
   # Feature database filename suffix
-  suffix = "min2Mb"
+  suffix = "min2Mb",
+  initialExplPlots = TRUE,
+  mobDNAExplPlots = TRUE
 )
-
 
 
 
