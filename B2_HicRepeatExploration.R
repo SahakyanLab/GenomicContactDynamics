@@ -118,9 +118,9 @@ if(mobDNAExplPlots == TRUE){
 
     unique.ntis <- unique(ntis.vec)
     unique.ntis <- unique.ntis[order(unique.ntis)]
-    num.contacts.each.ntis <- rep(NA,unique.ntis)
-    num.non0cont.each.ntis <- rep(NA,unique.ntis)
-    for(k in 1:length(unique.ntis)){
+    unique.ntis.len <- length(unique.ntis)
+    num.contacts.each.ntis <- num.non0cont.each.ntis <- rep(NA,unique.ntis.len)
+    for(k in 1:unique.ntis.len){
       num.contacts.each.ntis[k] <- sum( ntis.vec==unique.ntis[k] )
 
       num.non0cont.each.ntis[k] <- sum( (ntis.vec==unique.ntis[k]) &
@@ -142,6 +142,7 @@ if(mobDNAExplPlots == TRUE){
     rm(df,
        element.count,
        unique.ntis,
+       unique.ntis.len,
        num.contacts.each.ntis,
        num.non0cont.each.ntis, k); gc()
 
@@ -161,7 +162,7 @@ if(mobDNAExplPlots == TRUE){
     rm(element.count)
     gc()
   }
-  save(MINELM.MX, paste0(featureDBPath,"/",chr,"_MinElm_",suffix,".RData"))
+  save(MINELM.MX, file=paste0(featureDBPath,"/",chr,"_MinElm_",suffix,".RData"))
 
 }
 ############################
@@ -174,7 +175,7 @@ suppressWarnings(suppressPackageStartupMessages(library(compiler)))
 HicRepeatExploration <- cmpfun(HicRepeatExploration, options=list(suppressUndefined=TRUE))
 
 
-# Execution of the function writen above...
+# Execution of the function written above...
 ################################################################################
 HicRepeatExploration(
   # Number of CPU cores to be used
@@ -191,28 +192,10 @@ HicRepeatExploration(
 )
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #library(ggplot2)
 #p <- ggplot(df, aes(ntis,valsum)) +
 #      stat_bin2d(binwidth=c(1,10)) +
 #      scale_fill_gradientn(colours=r)
-
-
 
 #> names(PERSIST.MX)
 #[1] "hits"    "ntis"    "valsum"  "control"
@@ -230,7 +213,6 @@ HicRepeatExploration(
 #> PERSIST.MX$control[1,]
 #i  j value
 #172840 1 52     0
-
 
 
 #> BINKMER4.MX[1,]
@@ -261,75 +243,3 @@ HicRepeatExploration(
 # [13] "chr10_BinRep_min05Mb.RData"   "chr10_BinRep_min2Mb.RData"
 # [15] "chr10_Persist_min05Mb.RData"  "chr10_Persist_min2Mb.RData"
 #
-#
-
-
-#
-#
-# ## FUNCTION ####################################################################
-# # This function is for calculating the cross-hybridisation score between two
-# # sequences.
-# # getCHS <- function(
-#
-# K    = 7
-# seq1 = seqA
-# seq2 = seqB
-#
-#
-# kmerGfree.par <- getKmerHybridisationGs(k = K, plot = FALSE)
-#
-# Kmers1        <- getKmers(seq.string = DNAStringSet(seq1), k = K,
-# method = "Biostrings")
-# RevCompKmers1 <- getKmers(seq.string=reverseComplement(DNAStringSet(seq1)), k=K,
-# method = "Biostrings")
-#
-# Kmers2        <- getKmers(seq.string = DNAStringSet(seq2), k = K,
-# method = "Biostrings")
-# RevCompKmers2 <- getKmers(seq.string=reverseComplement(DNAStringSet(seq2)), k=K,
-# method = "Biostrings")
-# ################################################################################
-#
-# library(doMC)
-# library(foreach)
-# library(itertools)
-# registerDoMC(cores=nCPU)
-#
-# #### FOREACH EXECUTION #########
-# QP <- foreach(j=isplitVector(1:seq$length, chunks=ceiling(seq$length/SeqPartitionBy)),
-# .combine="rbind", .inorder=TRUE) %dopar% {
-#
-#     Kmers1 <-
-#
-# }
-# ### END OF FOREACH EXECUTION ###
-#
-#
-#
-# ################################################################################
-#
-#
-#
-#
-#
-#
-# # Overlap with repeat Masker
-# #getRepeatScores <- function(
-#
-#
-#
-#
-#
-#
-#
-#
-#
-# ## FUNCTION ####################################################################
-#
-# ################################################################################
-#
-# #-----------------------------------------------------------------------------
-#
-# ################################################################################
-#
-#
-# ## FUNCTION ####################################################################
