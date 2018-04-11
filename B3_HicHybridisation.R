@@ -61,13 +61,15 @@ HYB.MX <- foreach(itr=isplitVector(1:hits.len, chunks=nCPU),
      #kmerBrc <- kmer.mx[2,kmer.revcomp.ind]
      kmerAall <- (kmer.mx[1,] + kmer.mx[1,kmer.revcomp.ind]) #(kmerA + kmerArc)
      kmerBall <- (kmer.mx[2,] + kmer.mx[2,kmer.revcomp.ind]) #(kmerB + kmerBrc)
+     difference <- kmerAall - kmerBall
      return( c(
        # everything is counted twice, hence 2 in the division
        sum(pmin(kmerAall, kmerBall)*gfree[,2])/(2*scale),
        # everything is twice in frequency
-       #hist(kmerAall - kmerBall, breaks=100, col="navy")
-       sd( kmerAall - kmerBall )
-       #mean( kmerAall - kmerBall ) # mean is alws 0; double checked numerically
+       #hist(difference, breaks=100, col="navy")
+       sd( difference ),
+       #mean( difference ) # mean is alws 0; double checked numerically
+       sum(abs(difference))
      ) )
    }, simplify=TRUE) # USE.NAMES=FALSE
 
@@ -97,8 +99,17 @@ pdf(file=paste0(id,"_Discordance_boxplot.pdf"), width=9, height=7)
           main=paste0(id))
 dev.off()
 
+df <- data.frame(ntis=ntis.vec, SUM=HYB.MX[3,])
+pdf(file=paste0(id,"_SumAbsDiscordance_boxplot.pdf"), width=9, height=7)
+  boxplot(formula=SUM~ntis, data=df,
+          col=rf(max( ntis.vec )), cex=0.1, # ylim=c(0,30)
+          outline=FALSE, xlab="Num(non-0 tissues/cell lines)",
+          ylab="T.H.E. Sum(Abs(discordance))",
+          main=paste0(id))
+dev.off()
+
 ############################
-dimnames(HYB.MX)[[1]] <- c("Gfree", "Discordance")
+dimnames(HYB.MX)[[1]] <- c("Gfree", "Discordance", "Sumabsdif")
 save(HYB.MX, file=paste0(featureDBPath,"/",chr,"_Hyb",k,"_",suffix,".RData"))
 ############################
 

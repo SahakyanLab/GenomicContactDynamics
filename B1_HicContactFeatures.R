@@ -8,7 +8,7 @@ HicContactFeatures <- function(
   suffix     = "min2Mb",
 
   # Combined contact directory path for Hi-C data and filtering configuration:
-  combinedContactDir = 
+  combinedContactDir =
          "/Volumes/Data/Database/GSE87112/combined_contacts/RAW_primary_cohort",
   hic.resol = 40000,
   min.dist  = 2000000,
@@ -116,7 +116,7 @@ kmerGfree.par <- getKmerHybridisationGs(k = 4, plot = TRUE)
 
 kmerGfree.par <- getKmerHybridisationGs(k = 7, plot = TRUE)
   write.table(kmerGfree.par, file=paste0("Gfree_",7,"mer.par"), row.names=FALSE)
-  
+
 print("HicContactFeatures is DONE!", quote=FALSE)
 
 }
@@ -137,8 +137,8 @@ genomePath         = "./human_genome_unmasked_37.73"
 LIB.TRANTOR        = "./TrantoR"
 #"/Users/alex/GIT/GITrepo/TrantoR"
 
-for( i in 1:length(CHR) ){ #length(CHR)
-  
+for(i in 1:length(CHR)){
+
   print(paste0("**** ",CHR[i]," -- ",SUFFIX[i]," ****"))
 
   HicContactFeatures(
@@ -162,6 +162,6 @@ for( i in 1:length(CHR) ){ #length(CHR)
     # Path to the TrantoR library:
     LIB.TRANTOR = LIB.TRANTOR
   )
-  
+
 }
 ################################################################################
