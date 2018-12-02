@@ -1,0 +1,4 @@
+Chromosome	
+Position(bp)	
+Rate(cM/Mb)	
+Map(cM)

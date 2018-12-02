@@ -1,0 +1,16 @@
+The HapMap recombination map data orignated from Myers et al., 2005. 
+	Myers, S.; Bottolo, L.; Freeman, C.; McVean, G.; Donnelly, P. A Fine-Scale Map of 
+	Recombination Rates and Hotspots Across the Human Genome. Science 2005, 310, 321–324.
+	
+It was lifted to GRCh35 to GRCh37 by Munch et al., 2014.
+	Munch, K., Mailund, T., Dutheil, J. & Schierup, M. A fine-scale recombination map of 
+	the human–chimpanzee ancestor reveals faster change in humans than in chimpanzees and 
+	a strong impact of GC-biased gene conversion. Genome Res 24, 467–474 (2014).
+
+The data lifted to GRCh37 (hg190) was downloaded from the HapMap website archives 
+(2011-01_phaseII_B37) and was used for the analyses.
+
+Unzipping in R
+#untar(tarfile="/Users/ltamon/ProjectBoard/HiC_contacts_dim/RecombinationRates/recombinationRates_data/genetic_map_HapMapII_GRCh37.tar.gz", 
+#list=FALSE, exdir="/Users/ltamon/ProjectBoard/HiC_contacts_dim/RecombinationRates/recombinationRates_data/recomRates_2011-01_phaseII_B37_Myers")
+#list=FALSE means it will extract the data, if TRUE it will just return a list of files
