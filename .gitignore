@@ -2,6 +2,7 @@
 # no file with certain endings
 *~
 *.DS_Store
+*.Rhistory
 # ignore these directories with all the files within
 exper/
 
