@@ -1,4 +1,13 @@
 ################################################################################
+PersistScoreColour <- function(PersistScores = ntisUsed){
+  hexColour <- lapply(PersistScores, function(x) {
+    rgb.v <- c(255,255,255)-(12*x)
+    rgb(rgb.v[1], rgb.v[2], rgb.v[3], max=255)
+  } )
+   unlist(hexColour)
+}
+
+################################################################################
 theme.persist <- theme(panel.grid.major=element_blank(),       
                        panel.grid.minor=element_blank(),
                        #modify border lines of plot
@@ -17,6 +26,3 @@ theme.persist <- theme(panel.grid.major=element_blank(),
                        axis.text.x = element_text(face="bold", size=11, angle=360),
                        axis.text.y = element_text(face="bold", size=11, angle=360)
                  )
-
-
-                  

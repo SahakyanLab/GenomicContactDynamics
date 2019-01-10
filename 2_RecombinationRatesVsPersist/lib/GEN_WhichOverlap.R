@@ -5,7 +5,8 @@
 ################################################################################
 WhichOverlap <- function(start.query=start, end.query=end, space.query=chr,
                          start.subject=anno$txStart, end.subject=anno$txEnd,
-                         space.subject=anno$chrom, maxgap=-1L, minoverlap=1L){  #default in linux is maxgap=0L
+                         space.subject=anno$chrom, maxgap=0L, minoverlap=1L){  
+                         #default in mac is maxgap=-1L
 
   #> source("http://bioconductor.org/biocLite.R")
   #> biocLite("IRanges")
