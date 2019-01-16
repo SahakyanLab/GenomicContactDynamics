@@ -29,7 +29,7 @@ gc.v <- c(2, "05")
 
 #write as a vector of chromosome number or X 
 #no recombination data for Y and MT from Myers2005/Munsch2014
-chr.v <- c(1)
+chr.v <- c(1:22, "X")
 
 plotOnly <- FALSE 
 
@@ -82,13 +82,13 @@ foreach(gc=gc.v, .inorder=TRUE) %do% {
           stat.v <- c("MEANij", "MEDIANij", "SDEVij", "MINij", "MAXij", "DIFFij")
         }
         
+        dropped.rows.NA <- c()
+  
         foreach(stat=stat.v, .inorder=TRUE) %do% {
           
           #subset data to be plotted
           df <- as.data.frame( cbind(ntis, as.numeric(toPlot[[plot]][,stat])) )
           colnames(df) <- c("ntis", paste0(stat))
-          save(df, 
-               file=paste0(output.dir,"/bp_min", gc, "Mb_", plot, "_", stat, "_chr", chr, "_RecomVsPersist.Rdata"))
           
           #remove rows with NAs
           NA.rows      <- apply(df, 1, function(x){any(is.na(x))})
@@ -98,43 +98,48 @@ foreach(gc=gc.v, .inorder=TRUE) %do% {
             df <- df[-c(NA.rows.ind),]
           }
           
-          p <- myplot(df=df)
-          if(drop.rows.NA!=0){
-            p <- p + annotate("text", x=21, y=max(df[,2])+1.5, 
-                              label=paste0("Dropped:", drop.rows.NA), size=3)
-          } 
+          dropped.rows.NA[stat] <- drop.rows.NA
           
-          pdf(file=paste0(output.dir, "/bp_min", gc, "Mb_", plot, "_", stat, "_chr", chr, "_RecomVsPersist.pdf"),
-              height=8, width=8)
-          print(p)
-          dev.off()
+          save(df, 
+               file=paste0(output.dir,"/bp_min", gc, "Mb_", plot, "_", stat, 
+                           "_chr", chr, "_RecomVsPersist.Rdata"))
+          
+          p <- myplot(df=df)
+          ggsave(file=paste0(output.dir, "/bp_min", gc, "Mb_", plot, "_", stat, 
+                             "_chr", chr, "_RecomVsPersist.png"),
+                 p)
+          
+          #pdf(file=paste0(output.dir, "/bp_min", gc, "Mb_", plot, "_", stat, 
+          #                "_chr", chr, "_RecomVsPersist.pdf"), height=8, width=8)
+          #print(p)
+          #dev.off()
           
         } #stat
+        
+        if(sum(dropped.rows.NA)!=0){
+          write.table(as.data.frame(dropped.rows.NA), 
+                file=paste0(output.dir,"/bp_min", gc, "Mb_", 
+                            plot, "_chr", chr, "_RecomVsPersist_SumDroppedNAs.txt"),
+                col.names=FALSE, quote=FALSE)
+        }
+        
       } #plot
       
     } else {
       foreach(plot=sel.plot.v, .inorder=TRUE) %do% {
         foreach(stat=sel.stat.v, .inorder=TRUE) %do% {
-          load(file=paste0(output.dir,"/bp_min", gc, "Mb_", plot, "_", stat, "_chr", chr, "_RecomVsPersist.Rdata"))
-          
-          #remove rows with NAs
-          NA.rows      <- apply(df, 1, function(x){any(is.na(x))})
-          NA.rows.ind  <- which(NA.rows==TRUE)
-          drop.rows.NA <- sum(NA.rows) #number of dropped rows (with NA)
-          if(drop.rows.NA!=0){
-            df <- df[-c(NA.rows.ind),]
-          }
+          load(file=paste0(output.dir,"/bp_min", gc, "Mb_", plot, "_", stat, 
+                           "_chr", chr, "_RecomVsPersist.Rdata"))
           
           p <- myplot(df=df)
-          if(drop.rows.NA!=0){
-            p <- p + annotate("text", x=21, y=max(df[,2])+1.5, 
-                              label=paste0("Dropped:", drop.rows.NA), size=3)
-          } 
+          ggsave(file=paste0(output.dir, "/bp_min", gc, "Mb_", plot, "_", stat, 
+                             "_chr", chr, "_RecomVsPersist.png"),
+                 p)
           
-          pdf(file=paste0(output.dir, "/bp_min", gc, "Mb_", plot, "_", stat, "_chr", chr, "_RecomVsPersist.pdf"),
-              height=8, width=8)
-          print(p)
-          dev.off()
+          #pdf(file=paste0(output.dir, "/bp_min", gc, "Mb_", plot, "_", stat, 
+          #                "_chr", chr, "_RecomVsPersist.pdf"), height=8, width=8)
+          #print(p)
+          #dev.off()
           
         } # sel.stat.v
       } #sel.plot.v
@@ -142,7 +147,7 @@ foreach(gc=gc.v, .inorder=TRUE) %do% {
   } #end bracket for chromosome foreach
 } #end bracket for gap foreach  
 
-rm(list=ls())
+#rm(list=ls())
 
 
 
