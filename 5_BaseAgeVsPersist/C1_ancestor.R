@@ -15,32 +15,32 @@ persist.dir = "/t1-home/icbml/ltamon/Database/HiC_features_GSE87112_RAWpc"
 baseAge.persist.dir = "/t1-data/user/ltamon/ProjectBoard/_GenomicContactDynamics/5_BaseAgeVsPersist/out_BaseAgeVsPersist"
 #dir.create(paste0(objective.dir, "/out_ancestor_test"))
 #output.dir = paste0(objective.dir, "/out_ancestor_test") 
-#dir.create(paste0(objective.dir, "/out_ancestor_noOutliers"))
+#dir.create(paste0(objective.dir, "/out_ancestor"))
 output.dir = paste0(objective.dir, "/out_ancestor") 
 
 library(ggplot2)
 library(foreach)
-#install.packages(doParallel)
-#install.packages(iterators)
 library(itertools) #isplitVector
+library(doParallel) 
 
-nCPU=4
+nCPU=40
+registerDoParallel(cores=nCPU)
 
 #2(2Mb) or "05"(0-5 Mb), minimum gap acceptedbetween contacting bins 
-gc.v = "2" #c("2", "05") 
+gc.v = c("2", "05") 
 
-chr.v = c("21")
+chr.v = c(1:22, "X")
 
 #minimum allowed number of age data per bin
-minAgeCountPerBin <- 1L 
+minAgeCountPerBin <- 1000L 
 
 plotOnly <- FALSE
 
-gc="2"
-chr="21"
+#gc="2"
+#chr="22"
 
 ################################################################################   
-source(paste0(lib, "/UTL_NCPU.R"))
+#source(paste0(lib, "/UTL_NCPU.R"))
 source(paste0(lib, "/findHPM.R"))
 source(paste0(lib, "/ggLayers_persist.R"))
 #source(paste0(lib, "/multiplot.R"))
@@ -102,8 +102,8 @@ for(gc in gc.v){
                          "incl.ij.ind"),
                .noexport=ls()[!ls()%in%c("BASEAGE.BIN.MX", 
                                          "HPM.NTIS.MX", 
-                                         "incl.ij.ind")]) 
-      %op% {
+                                         "incl.ij.ind")] 
+      ) %dopar% {
         #combine ancestor of i and j as a string and calculate fraction
         findHPM.chunk <- sapply(X=itr, simplify=FALSE, FUN=function(x){
           ancestor.str <- paste(BASEAGE.BIN.MX[ as.character(HPM.NTIS.MX[incl.ij.ind[x],"i"]), 
@@ -139,16 +139,16 @@ for(gc in gc.v){
     
     #-------------------------------------------
     #myplots.list <- list()
-    for(grp in c("HumanSpecificBase", "PrimateSpecificBase", "MammalSpecificBase")){
-      df <- HPM.NTIS.MX[,c(grp, "ntis")]
-      p <- myplot(df=df)
+    #for(grp in c("HumanSpecificBase", "PrimateSpecificBase", "MammalSpecificBase")){
+    #  df <- HPM.NTIS.MX[,c(grp, "ntis")]
+    #  p <- myplot(df=df)
       #myplots.list[[as.character(grp)]] <- p
-      ggsave(file=paste0(output.dir, "/plot_min", gc, "Mb_chr", chr, "_",
-                         minAgeCountPerBin, "_", grp, 
-                         "_AncestorVsPersist.jpeg"),
-             plot=p)
+    #  ggsave(file=paste0(output.dir, "/plot_min", gc, "Mb_chr", chr, "_",
+    #                     minAgeCountPerBin, "_", grp, 
+    #                     "_AncestorVsPersist.jpeg"),
+    #         plot=p)
       
-    }
+    #}
     #pdf( file=paste0(output.dir, "/plot_min", gc, "Mb_chr", chr, "_",
     #                  minAgeCountPerBin, "_HPM_AncestorVsPersist.pdf"),
     #     width=13, height=8.5 )
