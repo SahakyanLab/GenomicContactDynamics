@@ -1,0 +1,138 @@
+
+	Position file = /scratch/2154908.5.batchq/Rtmp6KgFic/target_ed5c2192e88d
+	Genome = hg19
+	Output Directory = /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.9
+	Motif length set at 8,9,10,11,12,
+	Using actual sizes of regions (-size given)
+	Fragment size set to given
+	Will optimize 5 putative motifs
+	Using 4 CPUs
+	Using 100 MB for statistics cache
+	Will randomize and repeat motif finding 3 times to estimate FDR
+	background position file: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.9/chrALL_uniquebins_targCp21_bgrCpHiCAll_bgr
+	Chopping up large background regions to the avg size of target regions
+	Found mset for "human", will check against vertebrates motifs
+	Peak/BED file conversion summary:
+		BED/Header formatted lines: 11727
+		peakfile formatted lines: 0
+
+	Peak File Statistics:
+		Total Peaks: 11727
+		Redundant Peak IDs: 0
+		Peaks lacking information: 0 (need at least 5 columns per peak)
+		Peaks with misformatted coordinates: 0 (should be integer)
+		Peaks with misformatted strand: 0 (should be either +/- or 0/1)
+
+	Peak file looks good!
+
+	Peak/BED file conversion summary:
+		BED/Header formatted lines: 1163448
+		peakfile formatted lines: 0
+	Average target sequence length = 39998 bp
+	Created 1163448 background regions from 1163448 (valid) original regions
+	Max distance to merge: direct overlap required (-d given)
+	Calculating co-bound peaks relative to reference: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.9/bg.clean.pos
+
+	Comparing peaks: (peakfile, overlapping peaks, logRatio(obs/expected), logP)
+		/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.9/target.clean..pos	219665	-0.34	-0.00
+
+	Co-bound by 0 peaks: 943783
+	Co-bound by 1 peaks: 219665 (max: 219665 effective total)
+	Custom genome sequence directory: /t1-data/user/ltamon/homer/.//data/genomes/hg19//
+
+	Extracting sequences from directory: /t1-data/user/ltamon/homer/.//data/genomes/hg19//
+	Extracting 78583 sequences from chr1
+	Extracting 80440 sequences from chr2
+	Extracting 66524 sequences from chr3
+	Extracting 61768 sequences from chr4
+	Extracting 58433 sequences from chr5
+	Extracting 56710 sequences from chr6
+	Extracting 51840 sequences from chr7
+	Extracting 47362 sequences from chr8
+	Extracting 37278 sequences from chr9
+	Extracting 44662 sequences from chr10
+	Extracting 44977 sequences from chr11
+	Extracting 44619 sequences from chr12
+	Extracting 31443 sequences from chr13
+	Extracting 29580 sequences from chr14
+	Extracting 27997 sequences from chr15
+	Extracting 25850 sequences from chr16
+	Extracting 26979 sequences from chr17
+	Extracting 25391 sequences from chr18
+	Extracting 18068 sequences from chr19
+	Extracting 19236 sequences from chr20
+	Extracting 11467 sequences from chr21
+	Extracting 11788 sequences from chr22
+	Extracting 54515 sequences from chrX
+
+	Not removing redundant sequences
+
+
+	Sequences processed:
+		Auto detected maximum sequence length of 39999 bp
+		100000
+		200000
+		300000
+		400000
+		500000
+		600000
+		700000
+		800000
+		900000
+		955510 total
+
+	Frequency Bins: 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.6 0.7 0.8
+	Freq	Bin	Count
+	0.35	3	71281
+	0.4	4	415737
+	0.45	5	282670
+	0.5	6	119426
+	0.6	7	64537
+	0.7	8	1859
+	Bin	# Targets	# Background	Background Weight
+	3	1380	69901	1.589
+	4	6822	408915	1.343
+	5	2872	279798	0.826
+	6	573	118853	0.388
+	7	79	64458	0.099
+	8	1	1858	0.043
+	Normalizing lower order oligos using homer2
+
+	Reading input files...
+...............................................................................
+	Final normalization:	Autonormalization: 1-mers (4 total)
+		A	30.65%	30.64%	1.000
+		C	19.35%	19.36%	1.000
+		G	19.35%	19.36%	1.000
+		T	30.65%	30.64%	1.000
+	Autonormalization: 2-mers (16 total)
+		AA	10.44%	10.46%	0.999
+		CA	7.14%	7.13%	1.001
+		GA	5.90%	5.86%	1.006
+		TA	7.18%	7.20%	0.997
+		AC	5.01%	5.02%	0.998
+		CC	4.61%	4.63%	0.995
+		GC	3.83%	3.84%	0.998
+		TC	5.90%	5.86%	1.006
+		AG	6.84%	6.81%	1.004
+		CG	0.76%	0.78%	0.967
+		GG	4.61%	4.63%	0.995
+		TG	7.14%	7.13%	1.001
+		AT	8.36%	8.35%	1.001
+		CT	6.84%	6.81%	1.004
+		GT	5.01%	5.02%	0.998
+		TT	10.44%	10.46%	0.999
+	Autonormalization: 3-mers (64 total)
+	Finished preparing sequence/group files
+
+	----------------------------------------------------------
+	Known motif enrichment
+
+	Reading input files...
+	955510 total sequences read
+	428 motifs loaded
+	Cache length = 5000
+	Using binomial scoring
+	Checking enrichment of 428 motif(s)
+	|0%                                    50%                                  100%|
+	============================================================================

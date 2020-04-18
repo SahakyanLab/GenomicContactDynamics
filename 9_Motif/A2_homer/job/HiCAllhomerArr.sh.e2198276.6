@@ -1,0 +1,197 @@
+
+	Position file = /scratch/2198276.6.batchq/Rtmpp1e68G/target_867b44cadfec
+	Genome = hg19
+	Output Directory = /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize1
+	Motif length set at 8,9,10,11,12,
+	Using actual sizes of regions (-size given)
+	Fragment size set to given
+	Will optimize 5 putative motifs
+	Using 4 CPUs
+	Using 100 MB for statistics cache
+	Will randomize and repeat motif finding 3 times to estimate FDR
+	background position file: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize1/chrALL_uniquebins_targCp21_bgrCpHiCAll_bgr
+	Chopping up large background regions to the avg size of target regions
+	Found mset for "human", will check against vertebrates motifs
+	Peak/BED file conversion summary:
+		BED/Header formatted lines: 13030
+		peakfile formatted lines: 0
+
+	Peak File Statistics:
+		Total Peaks: 13030
+		Redundant Peak IDs: 0
+		Peaks lacking information: 0 (need at least 5 columns per peak)
+		Peaks with misformatted coordinates: 0 (should be integer)
+		Peaks with misformatted strand: 0 (should be either +/- or 0/1)
+
+	Peak file looks good!
+
+	Peak/BED file conversion summary:
+		BED/Header formatted lines: 1292721
+		peakfile formatted lines: 0
+	Average target sequence length = 39998 bp
+	Created 1292721 background regions from 1292721 (valid) original regions
+	Max distance to merge: direct overlap required (-d given)
+	Calculating co-bound peaks relative to reference: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize1/bg.clean.pos
+
+	Comparing peaks: (peakfile, overlapping peaks, logRatio(obs/expected), logP)
+		/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize1/target.clean..pos	271187	-0.34	-0.00
+
+	Co-bound by 0 peaks: 1021534
+	Co-bound by 1 peaks: 271187 (max: 271187 effective total)
+	Custom genome sequence directory: /t1-data/user/ltamon/homer/.//data/genomes/hg19//
+
+	Extracting sequences from directory: /t1-data/user/ltamon/homer/.//data/genomes/hg19//
+	Extracting 85662 sequences from chr1
+	Extracting 86771 sequences from chr2
+	Extracting 71325 sequences from chr3
+	Extracting 66299 sequences from chr4
+	Extracting 62985 sequences from chr5
+	Extracting 61077 sequences from chr6
+	Extracting 56277 sequences from chr7
+	Extracting 50926 sequences from chr8
+	Extracting 40350 sequences from chr9
+	Extracting 48352 sequences from chr10
+	Extracting 48623 sequences from chr11
+	Extracting 48035 sequences from chr12
+	Extracting 33423 sequences from chr13
+	Extracting 32053 sequences from chr14
+	Extracting 30529 sequences from chr15
+	Extracting 28249 sequences from chr16
+	Extracting 29784 sequences from chr17
+	Extracting 27319 sequences from chr18
+	Extracting 19797 sequences from chr19
+	Extracting 20872 sequences from chr20
+	Extracting 12315 sequences from chr21
+	Extracting 13071 sequences from chr22
+	Extracting 60470 sequences from chrX
+
+	Not removing redundant sequences
+
+
+	Sequences processed:
+		0 total
+
+	Frequency Bins: 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.6 0.7 0.8
+	Freq	Bin	Count
+Illegal division by zero at /t1-data/user/ltamon/homer/bin/assignGeneWeights.pl line 63.
+	Normalizing lower order oligos using homer2
+
+	Reading input files...
+	0 total sequences read
+	Autonormalization: 1-mers (4 total)
+		A	inf%	inf%	-nan
+		C	inf%	inf%	-nan
+		G	inf%	inf%	-nan
+		T	inf%	inf%	-nan
+	Autonormalization: 2-mers (16 total)
+		AA	inf%	inf%	-nan
+		CA	inf%	inf%	-nan
+		GA	inf%	inf%	-nan
+		TA	inf%	inf%	-nan
+		AC	inf%	inf%	-nan
+		CC	inf%	inf%	-nan
+		GC	inf%	inf%	-nan
+		TC	inf%	inf%	-nan
+		AG	inf%	inf%	-nan
+		CG	inf%	inf%	-nan
+		GG	inf%	inf%	-nan
+		TG	inf%	inf%	-nan
+		AT	inf%	inf%	-nan
+		CT	inf%	inf%	-nan
+		GT	inf%	inf%	-nan
+		TT	inf%	inf%	-nan
+	Autonormalization: 3-mers (64 total)
+	Normalization weights can be found in file: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize1/seq.autonorm.tsv
+	Converging on autonormalization solution:
+	...............................................................................
+	Final normalization:	Autonormalization: 1-mers (4 total)
+		A	inf%	inf%	-nan
+		C	inf%	inf%	-nan
+		G	inf%	inf%	-nan
+		T	inf%	inf%	-nan
+	Autonormalization: 2-mers (16 total)
+		AA	inf%	inf%	-nan
+		CA	inf%	inf%	-nan
+		GA	inf%	inf%	-nan
+		TA	inf%	inf%	-nan
+		AC	inf%	inf%	-nan
+		CC	inf%	inf%	-nan
+		GC	inf%	inf%	-nan
+		TC	inf%	inf%	-nan
+		AG	inf%	inf%	-nan
+		CG	inf%	inf%	-nan
+		GG	inf%	inf%	-nan
+		TG	inf%	inf%	-nan
+		AT	inf%	inf%	-nan
+		CT	inf%	inf%	-nan
+		GT	inf%	inf%	-nan
+		TT	inf%	inf%	-nan
+	Autonormalization: 3-mers (64 total)
+	Finished preparing sequence/group files
+
+	----------------------------------------------------------
+	Known motif enrichment
+
+	Reading input files...
+	0 total sequences read
+	428 motifs loaded
+	Cache length = 5000
+	Using binomial scoring
+	Checking enrichment of 428 motif(s)
+	|0%                                    50%                                  100%|
+	=================================================================================
+Illegal division by zero at /t1-data/user/ltamon/homer/bin/findKnownMotifs.pl line 152.
+	----------------------------------------------------------
+	De novo motif finding (HOMER)
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+!!! Something is wrong... are you sure you chose the right length for motif finding?
+!!! i.e. also check your sequence file!!!
+	Performing empirical FDR calculation for length 8 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+!!! Something is wrong... are you sure you chose the right length for motif finding?
+!!! i.e. also check your sequence file!!!
+	Performing empirical FDR calculation for length 9 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+!!! Something is wrong... are you sure you chose the right length for motif finding?
+!!! i.e. also check your sequence file!!!
+	Performing empirical FDR calculation for length 10 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+!!! Something is wrong... are you sure you chose the right length for motif finding?
+!!! i.e. also check your sequence file!!!
+	Performing empirical FDR calculation for length 11 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	-blen automatically set to 2
+	Scanning input files...
+!!! Something is wrong... are you sure you chose the right length for motif finding?
+!!! i.e. also check your sequence file!!!
+	Performing empirical FDR calculation for length 12 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+Use of uninitialized value in numeric gt (>) at /t1-data/user/ltamon/homer/bin/compareMotifs.pl line 1389.
+	!!! Filtered out all motifs!!!
+	Job finished - if results look good, please send beer to ..
+
+	Cleaning up tmp files...
+

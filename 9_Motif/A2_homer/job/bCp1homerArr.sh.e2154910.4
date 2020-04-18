@@ -1,0 +1,265 @@
+
+	Position file = /scratch/2154910.4.batchq/Rtmpe2bBzN/target_2e4f061fa0747
+	Genome = hg19
+	Output Directory = /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8
+	Motif length set at 8,9,10,11,12,
+	Using actual sizes of regions (-size given)
+	Fragment size set to given
+	Will optimize 5 putative motifs
+	Using 4 CPUs
+	Using 100 MB for statistics cache
+	Will randomize and repeat motif finding 3 times to estimate FDR
+	background position file: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/chrALL_uniquebins_targCp21_bgrCp1_bgr
+	Chopping up large background regions to the avg size of target regions
+	Found mset for "human", will check against vertebrates motifs
+	Peak/BED file conversion summary:
+		BED/Header formatted lines: 10424
+		peakfile formatted lines: 0
+
+	Peak File Statistics:
+		Total Peaks: 10424
+		Redundant Peak IDs: 0
+		Peaks lacking information: 0 (need at least 5 columns per peak)
+		Peaks with misformatted coordinates: 0 (should be integer)
+		Peaks with misformatted strand: 0 (should be either +/- or 0/1)
+
+	Peak file looks good!
+
+	Peak/BED file conversion summary:
+		BED/Header formatted lines: 56386
+		peakfile formatted lines: 0
+	Average target sequence length = 39998 bp
+	Created 56386 background regions from 56386 (valid) original regions
+	Max distance to merge: direct overlap required (-d given)
+	Calculating co-bound peaks relative to reference: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/bg.clean.pos
+
+	Comparing peaks: (peakfile, overlapping peaks, logRatio(obs/expected), logP)
+		/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/target.clean..pos	8321	-0.35	-0.00
+
+	Co-bound by 0 peaks: 48065
+	Co-bound by 1 peaks: 8321 (max: 8321 effective total)
+	Custom genome sequence directory: /t1-data/user/ltamon/homer/.//data/genomes/hg19//
+
+	Extracting sequences from directory: /t1-data/user/ltamon/homer/.//data/genomes/hg19//
+	Extracting 4588 sequences from chr1
+	Extracting 4934 sequences from chr2
+	Extracting 4075 sequences from chr3
+	Extracting 3896 sequences from chr4
+	Extracting 3710 sequences from chr5
+	Extracting 3507 sequences from chr6
+	Extracting 3256 sequences from chr7
+	Extracting 3029 sequences from chr8
+	Extracting 2466 sequences from chr9
+	Extracting 2680 sequences from chr10
+	Extracting 2688 sequences from chr11
+	Extracting 2694 sequences from chr12
+	Extracting 2001 sequences from chr13
+	Extracting 1833 sequences from chr14
+	Extracting 1652 sequences from chr15
+	Extracting 1621 sequences from chr16
+	Extracting 1562 sequences from chr17
+	Extracting 1547 sequences from chr18
+	Extracting 1134 sequences from chr19
+	Extracting 1219 sequences from chr20
+	Extracting 714 sequences from chr21
+	Extracting 703 sequences from chr22
+	Extracting 2980 sequences from chrX
+
+	Not removing redundant sequences
+
+
+	Sequences processed:
+		Auto detected maximum sequence length of 39999 bp
+		58489 total
+
+	Frequency Bins: 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.6 0.7 0.8
+	Freq	Bin	Count
+	0.35	3	4625
+	0.4	4	26299
+	0.45	5	16727
+	0.5	6	6825
+	0.6	7	3847
+	0.7	8	166
+	Bin	# Targets	# Background	Background Weight
+	3	1231	3394	1.667
+	4	6066	20233	1.378
+	5	2558	14169	0.830
+	6	495	6330	0.359
+	7	74	3773	0.090
+	Normalizing lower order oligos using homer2
+
+	Reading input files...
+	58323 total sequences read
+	Autonormalization: 1-mers (4 total)
+		A	30.66%	30.56%	1.003
+		C	19.34%	19.44%	0.995
+		G	19.34%	19.44%	0.995
+		T	30.66%	30.56%	1.003
+	Autonormalization: 2-mers (16 total)
+		AA	10.44%	10.41%	1.003
+		CA	7.14%	7.14%	1.000
+		GA	5.90%	5.86%	1.005
+		TA	7.18%	7.15%	1.004
+		AC	5.01%	5.03%	0.997
+		CC	4.61%	4.67%	0.985
+		GC	3.83%	3.87%	0.988
+		TC	5.90%	5.86%	1.005
+		AG	6.84%	6.82%	1.002
+		CG	0.76%	0.81%	0.941
+		GG	4.61%	4.67%	0.985
+		TG	7.14%	7.14%	1.000
+		AT	8.36%	8.30%	1.008
+		CT	6.84%	6.82%	1.002
+		GT	5.01%	5.03%	0.997
+		TT	10.44%	10.41%	1.003
+	Autonormalization: 3-mers (64 total)
+	Normalization weights can be found in file: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.autonorm.tsv
+	Converging on autonormalization solution:
+	..............................................................
+	Final normalization:	Autonormalization: 1-mers (4 total)
+		A	30.66%	30.65%	1.000
+		C	19.34%	19.35%	0.999
+		G	19.34%	19.35%	0.999
+		T	30.66%	30.65%	1.000
+	Autonormalization: 2-mers (16 total)
+		AA	10.44%	10.46%	0.998
+		CA	7.14%	7.13%	1.001
+		GA	5.90%	5.86%	1.006
+		TA	7.18%	7.20%	0.997
+		AC	5.01%	5.02%	0.998
+		CC	4.61%	4.63%	0.995
+		GC	3.83%	3.84%	0.998
+		TC	5.90%	5.86%	1.006
+		AG	6.84%	6.81%	1.005
+		CG	0.76%	0.79%	0.964
+		GG	4.61%	4.63%	0.995
+		TG	7.14%	7.13%	1.001
+		AT	8.36%	8.36%	1.001
+		CT	6.84%	6.81%	1.005
+		GT	5.01%	5.02%	0.998
+		TT	10.44%	10.46%	0.998
+	Autonormalization: 3-mers (64 total)
+	Finished preparing sequence/group files
+
+	----------------------------------------------------------
+	Known motif enrichment
+
+	Reading input files...
+	58323 total sequences read
+	428 motifs loaded
+	Cache length = 5000
+	Using binomial scoring
+	Checking enrichment of 428 motif(s)
+	|0%                                    50%                                  100%|
+	=================================================================================
+	Preparing HTML output with sequence logos...
+		1 of 428 (1e-10) HRE(HSF)/HepG2-HSF1-ChIP-Seq(GSE31477)/Homer
+		2 of 428 (1e-10) ETS:E-box(ETS,bHLH)/HPC7-Scl-ChIP-Seq(GSE22178)/Homer
+		3 of 428 (1e-10) CTCF(Zf)/CD4+-CTCF-ChIP-Seq(Barski_et_al.)/Homer
+		4 of 428 (1e-9) ZNF768(Zf)/Rajj-ZNF768-ChIP-Seq(GSE111879)/Homer
+		5 of 428 (1e-6) EBF(EBF)/proBcell-EBF-ChIP-Seq(GSE21978)/Homer
+		6 of 428 (1e-5) HRE(HSF)/Striatum-HSF1-ChIP-Seq(GSE38000)/Homer
+		7 of 428 (1e-4) E2F6(E2F)/Hela-E2F6-ChIP-Seq(GSE31477)/Homer
+		8 of 428 (1e-4) Twist(bHLH)/HMLE-TWIST1-ChIP-Seq(Chang_et_al)/Homer
+		9 of 428 (1e-4) Pknox1(Homeobox)/ES-Prep1-ChIP-Seq(GSE63282)/Homer
+		10 of 428 (1e-3) Zic3(Zf)/mES-Zic3-ChIP-Seq(GSE37889)/Homer
+		11 of 428 (1e-3) GATA:SCL(Zf,bHLH)/Ter119-SCL-ChIP-Seq(GSE18720)/Homer
+		12 of 428 (1e-3) PGR(NR)/EndoStromal-PGR-ChIP-Seq(GSE69539)/Homer
+		13 of 428 (1e-3) Tcfcp2l1(CP2)/mES-Tcfcp2l1-ChIP-Seq(GSE11431)/Homer
+		14 of 428 (1e-3) VDR(NR),DR3/GM10855-VDR+vitD-ChIP-Seq(GSE22484)/Homer
+		15 of 428 (1e-3) ZNF669(Zf)/HEK293-ZNF669.GFP-ChIP-Seq(GSE58341)/Homer
+		16 of 428 (1e-3) DUX4(Homeobox)/Myoblasts-DUX4.V5-ChIP-Seq(GSE75791)/Homer
+		17 of 428 (1e-3) RORgt(NR)/EL4-RORgt.Flag-ChIP-Seq(GSE56019)/Homer
+		18 of 428 (1e-3) RORgt(NR)/EL4-RORgt.Flag-ChIP-Seq(GSE56019)/Homer
+		19 of 428 (1e-3) GATA3(Zf),DR4/iTreg-Gata3-ChIP-Seq(GSE20898)/Homer
+		20 of 428 (1e-3) Nur77(NR)/K562-NR4A1-ChIP-Seq(GSE31363)/Homer
+		21 of 428 (1e-3) T1ISRE(IRF)/ThioMac-Ifnb-Expression/Homer
+		22 of 428 (1e-3) Egr2(Zf)/Thymocytes-Egr2-ChIP-Seq(GSE34254)/Homer
+		23 of 428 (1e-2) Zfp809(Zf)/ES-Zfp809-ChIP-Seq(GSE70799)/Homer
+		24 of 428 (1e-2) X-box(HTH)/NPC-H3K4me1-ChIP-Seq(GSE16256)/Homer
+		25 of 428 (1e-2) PAX5(Paired,Homeobox),condensed/GM12878-PAX5-ChIP-Seq(GSE32465)/Homer
+		26 of 428 (1e-2) PBX1(Homeobox)/MCF7-PBX1-ChIP-Seq(GSE28007)/Homer
+		27 of 428 (1e-2) TR4(NR),DR1/Hela-TR4-ChIP-Seq(GSE24685)/Homer
+		28 of 428 (1e-2) ZNF143|STAF(Zf)/CUTLL-ZNF143-ChIP-Seq(GSE29600)/Homer
+		29 of 428 (1e-2) TCFL2(HMG)/K562-TCF7L2-ChIP-Seq(GSE29196)/Homer
+		30 of 428 (1e-2) JunD(bZIP)/K562-JunD-ChIP-Seq/Homer
+		31 of 428 (1e-2) ZKSCAN1(Zf)/HepG2-ZKSCAN1-ChIP-Seq(Encode)/Homer
+		32 of 428 (1e-2) Ets1-distal(ETS)/CD4+-PolII-ChIP-Seq(Barski_et_al.)/Homer
+		33 of 428 (1e-2) Rfx2(HTH)/LoVo-RFX2-ChIP-Seq(GSE49402)/Homer
+		34 of 428 (1e-2) CArG(MADS)/PUER-Srf-ChIP-Seq(Sullivan_et_al.)/Homer
+		35 of 428 (1e-2) REST-NRSF(Zf)/Jurkat-NRSF-ChIP-Seq/Homer
+		36 of 428 (1e-2) Bach2(bZIP)/OCILy7-Bach2-ChIP-Seq(GSE44420)/Homer
+		37 of 428 (1e-2) p73(p53)/Trachea-p73-ChIP-Seq(PRJNA310161)/Homer
+		38 of 428 (1e-2) OCT:OCT(POU,Homeobox,IR1)/NPC-Brn2-ChIP-Seq(GSE35496)/Homer
+		39 of 428 (1e-2) GATA(Zf),IR4/iTreg-Gata3-ChIP-Seq(GSE20898)/Homer
+		40 of 428 (1e-2) SpiB(ETS)/OCILY3-SPIB-ChIP-Seq(GSE56857)/Homer
+		41 of 428 (1e-2) GRE(NR),IR3/A549-GR-ChIP-Seq(GSE32465)/Homer
+	----------------------------------------------------------
+	De novo motif finding (HOMER)
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+	Performing empirical FDR calculation for length 8 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+sh: line 1: 192416 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand0.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 8 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r0.motifs8" 2> /dev/null
+sh: line 1: 192412 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand1.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 8 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r1.motifs8" 2> /dev/null
+sh: line 1: 192415 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand2.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 8 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r2.motifs8" 2> /dev/null
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+	Performing empirical FDR calculation for length 9 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+sh: line 1: 192442 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand1.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 9 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r1.motifs9" 2> /dev/null
+sh: line 1: 192444 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand0.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 9 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r0.motifs9" 2> /dev/null
+sh: line 1: 192446 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand2.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 9 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r2.motifs9" 2> /dev/null
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+	Performing empirical FDR calculation for length 10 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+sh: line 1: 192472 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand1.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 10 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r1.motifs10" 2> /dev/null
+sh: line 1: 192470 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand2.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 10 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r2.motifs10" 2> /dev/null
+sh: line 1: 192474 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand0.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 10 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r0.motifs10" 2> /dev/null
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+	Performing empirical FDR calculation for length 11 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+sh: line 1: 192500 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand0.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 11 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r0.motifs11" 2> /dev/null
+sh: line 1: 192502 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand1.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 11 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r1.motifs11" 2> /dev/null
+sh: line 1: 192499 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand2.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 11 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r2.motifs11" 2> /dev/null
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	-blen automatically set to 2
+	Scanning input files...
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+	Performing empirical FDR calculation for length 12 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+sh: line 1: 192530 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand0.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 12 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r0.motifs12" 2> /dev/null
+sh: line 1: 192531 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand2.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 12 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r2.motifs12" 2> /dev/null
+sh: line 1: 192529 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/rand1.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 12 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.8/randomizations/homerMotifs.r1.motifs12" 2> /dev/null
+Use of uninitialized value in numeric gt (>) at /t1-data/user/ltamon/homer/bin/compareMotifs.pl line 1389.
+	!!! Filtered out all motifs!!!
+	Job finished - if results look good, please send beer to ..
+
+	Cleaning up tmp files...
+

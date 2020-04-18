@@ -1,0 +1,282 @@
+
+	Position file = /scratch/2154908.2.batchq/RtmpTiC5VD/target_e80f786abe43
+	Genome = hg19
+	Output Directory = /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6
+	Motif length set at 8,9,10,11,12,
+	Using actual sizes of regions (-size given)
+	Fragment size set to given
+	Will optimize 5 putative motifs
+	Using 4 CPUs
+	Using 100 MB for statistics cache
+	Will randomize and repeat motif finding 3 times to estimate FDR
+	background position file: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/chrALL_uniquebins_targCp21_bgrCpHiCAll_bgr
+	Chopping up large background regions to the avg size of target regions
+	Found mset for "human", will check against vertebrates motifs
+	Peak/BED file conversion summary:
+		BED/Header formatted lines: 7818
+		peakfile formatted lines: 0
+
+	Peak File Statistics:
+		Total Peaks: 7818
+		Redundant Peak IDs: 0
+		Peaks lacking information: 0 (need at least 5 columns per peak)
+		Peaks with misformatted coordinates: 0 (should be integer)
+		Peaks with misformatted strand: 0 (should be either +/- or 0/1)
+
+	Peak file looks good!
+
+	Peak/BED file conversion summary:
+		BED/Header formatted lines: 775632
+		peakfile formatted lines: 0
+	Average target sequence length = 39998 bp
+	Created 775632 background regions from 775632 (valid) original regions
+	Max distance to merge: direct overlap required (-d given)
+	Calculating co-bound peaks relative to reference: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/bg.clean.pos
+
+	Comparing peaks: (peakfile, overlapping peaks, logRatio(obs/expected), logP)
+		/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/target.clean..pos	97561	-0.34	-0.00
+
+	Co-bound by 0 peaks: 678071
+	Co-bound by 1 peaks: 97561 (max: 97561 effective total)
+	Custom genome sequence directory: /t1-data/user/ltamon/homer/.//data/genomes/hg19//
+
+	Extracting sequences from directory: /t1-data/user/ltamon/homer/.//data/genomes/hg19//
+	Extracting 55454 sequences from chr1
+	Extracting 58234 sequences from chr2
+	Extracting 48110 sequences from chr3
+	Extracting 46059 sequences from chr4
+	Extracting 43261 sequences from chr5
+	Extracting 41277 sequences from chr6
+	Extracting 37250 sequences from chr7
+	Extracting 34529 sequences from chr8
+	Extracting 27038 sequences from chr9
+	Extracting 31804 sequences from chr10
+	Extracting 32143 sequences from chr11
+	Extracting 31929 sequences from chr12
+	Extracting 23541 sequences from chr13
+	Extracting 21307 sequences from chr14
+	Extracting 19753 sequences from chr15
+	Extracting 18129 sequences from chr16
+	Extracting 18439 sequences from chr17
+	Extracting 18556 sequences from chr18
+	Extracting 12355 sequences from chr19
+	Extracting 13977 sequences from chr20
+	Extracting 8211 sequences from chr21
+	Extracting 7997 sequences from chr22
+	Extracting 36536 sequences from chrX
+
+	Not removing redundant sequences
+
+
+	Sequences processed:
+		Auto detected maximum sequence length of 39999 bp
+		100000
+		200000
+		300000
+		400000
+		500000
+		600000
+		685889 total
+
+	Frequency Bins: 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.6 0.7 0.8
+	Freq	Bin	Count
+	0.35	3	53144
+	0.4	4	305750
+	0.45	5	200374
+	0.5	6	81884
+	0.6	7	43505
+	0.7	8	1232
+	Bin	# Targets	# Background	Background Weight
+	3	929	52215	1.540
+	4	4533	301217	1.303
+	5	1896	198478	0.827
+	6	410	81474	0.436
+	7	50	43455	0.100
+	Normalizing lower order oligos using homer2
+
+	Reading input files...
+	684657 total sequences read
+	Autonormalization: 1-mers (4 total)
+		A	30.65%	30.56%	1.003
+		C	19.35%	19.44%	0.996
+		G	19.35%	19.44%	0.996
+		T	30.65%	30.56%	1.003
+	Autonormalization: 2-mers (16 total)
+		AA	10.44%	10.41%	1.003
+		CA	7.14%	7.14%	1.000
+		GA	5.90%	5.87%	1.005
+		TA	7.17%	7.15%	1.003
+		AC	5.01%	5.03%	0.997
+		CC	4.61%	4.67%	0.988
+		GC	3.83%	3.87%	0.989
+		TC	5.90%	5.87%	1.005
+		AG	6.84%	6.83%	1.002
+		CG	0.76%	0.80%	0.948
+		GG	4.61%	4.67%	0.988
+		TG	7.14%	7.14%	1.000
+		AT	8.36%	8.30%	1.007
+		CT	6.84%	6.83%	1.002
+		GT	5.01%	5.03%	0.997
+		TT	10.44%	10.41%	1.003
+	Autonormalization: 3-mers (64 total)
+	Normalization weights can be found in file: /t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/seq.autonorm.tsv
+	Converging on autonormalization solution:
+	..............................................................................
+	Final normalization:	Autonormalization: 1-mers (4 total)
+		A	30.65%	30.64%	1.000
+		C	19.35%	19.36%	1.000
+		G	19.35%	19.36%	1.000
+		T	30.65%	30.64%	1.000
+	Autonormalization: 2-mers (16 total)
+		AA	10.44%	10.45%	0.998
+		CA	7.14%	7.13%	1.001
+		GA	5.90%	5.86%	1.006
+		TA	7.17%	7.19%	0.997
+		AC	5.01%	5.02%	0.998
+		CC	4.61%	4.63%	0.996
+		GC	3.83%	3.84%	0.998
+		TC	5.90%	5.86%	1.006
+		AG	6.84%	6.81%	1.004
+		CG	0.76%	0.78%	0.969
+		GG	4.61%	4.63%	0.996
+		TG	7.14%	7.13%	1.001
+		AT	8.36%	8.35%	1.001
+		CT	6.84%	6.81%	1.004
+		GT	5.01%	5.02%	0.998
+		TT	10.44%	10.45%	0.998
+	Autonormalization: 3-mers (64 total)
+	Finished preparing sequence/group files
+
+	----------------------------------------------------------
+	Known motif enrichment
+
+	Reading input files...
+	684657 total sequences read
+	428 motifs loaded
+	Cache length = 5000
+	Using binomial scoring
+	Checking enrichment of 428 motif(s)
+	|0%                                    50%                                  100%|
+	=================================================================================
+	Preparing HTML output with sequence logos...
+		1 of 428 (1e-6) EBF(EBF)/proBcell-EBF-ChIP-Seq(GSE21978)/Homer
+		2 of 428 (1e-5) ETS:E-box(ETS,bHLH)/HPC7-Scl-ChIP-Seq(GSE22178)/Homer
+		3 of 428 (1e-5) CTCF(Zf)/CD4+-CTCF-ChIP-Seq(Barski_et_al.)/Homer
+		4 of 428 (1e-4) ZNF768(Zf)/Rajj-ZNF768-ChIP-Seq(GSE111879)/Homer
+		5 of 428 (1e-4) Twist(bHLH)/HMLE-TWIST1-ChIP-Seq(Chang_et_al)/Homer
+		6 of 428 (1e-4) X-box(HTH)/NPC-H3K4me1-ChIP-Seq(GSE16256)/Homer
+		7 of 428 (1e-3) Zic3(Zf)/mES-Zic3-ChIP-Seq(GSE37889)/Homer
+		8 of 428 (1e-3) HRE(HSF)/HepG2-HSF1-ChIP-Seq(GSE31477)/Homer
+		9 of 428 (1e-3) Bach2(bZIP)/OCILy7-Bach2-ChIP-Seq(GSE44420)/Homer
+		10 of 428 (1e-3) VDR(NR),DR3/GM10855-VDR+vitD-ChIP-Seq(GSE22484)/Homer
+		11 of 428 (1e-3) Rfx2(HTH)/LoVo-RFX2-ChIP-Seq(GSE49402)/Homer
+		12 of 428 (1e-2) Tcfcp2l1(CP2)/mES-Tcfcp2l1-ChIP-Seq(GSE11431)/Homer
+		13 of 428 (1e-2) TFE3(bHLH)/MEF-TFE3-ChIP-Seq(GSE75757)/Homer
+		14 of 428 (1e-2) MafK(bZIP)/C2C12-MafK-ChIP-Seq(GSE36030)/Homer
+		15 of 428 (1e-2) TCFL2(HMG)/K562-TCF7L2-ChIP-Seq(GSE29196)/Homer
+		16 of 428 (1e-2) ZNF669(Zf)/HEK293-ZNF669.GFP-ChIP-Seq(GSE58341)/Homer
+		17 of 428 (1e-2) USF1(bHLH)/GM12878-Usf1-ChIP-Seq(GSE32465)/Homer
+		18 of 428 (1e-2) E2F(E2F)/Hela-CellCycle-Expression/Homer
+		19 of 428 (1e-2) Rfx1(HTH)/NPC-H3K4me1-ChIP-Seq(GSE16256)/Homer
+		20 of 428 (1e-2) TR4(NR),DR1/Hela-TR4-ChIP-Seq(GSE24685)/Homer
+		21 of 428 (1e-2) Tbox:Smad(T-box,MAD)/ESCd5-Smad2_3-ChIP-Seq(GSE29422)/Homer
+		22 of 428 (1e-2) GATA:SCL(Zf,bHLH)/Ter119-SCL-ChIP-Seq(GSE18720)/Homer
+		23 of 428 (1e-2) Pknox1(Homeobox)/ES-Prep1-ChIP-Seq(GSE63282)/Homer
+		24 of 428 (1e-2) Unknown-ESC-element(?)/mES-Nanog-ChIP-Seq(GSE11724)/Homer
+		25 of 428 (1e-2) NFkB-p65-Rel(RHD)/ThioMac-LPS-Expression(GSE23622)/Homer
+		26 of 428 (1e-2) EBNA1(EBV-virus)/Raji-EBNA1-ChIP-Seq(GSE30709)/Homer
+		27 of 428 (1e-2) HRE(HSF)/Striatum-HSF1-ChIP-Seq(GSE38000)/Homer
+		28 of 428 (1e-2) GFX(?)/Promoter/Homer
+	----------------------------------------------------------
+	De novo motif finding (HOMER)
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+	Parsing sequences...
+	|0%                                   50%                                  100%|
+	================================================================================
+	Total number of Oligos: 32896
+	Autoadjustment for sequence coverage in background: 1.00x
+
+	Oligos: 32896 of 34497 max
+	Tree  : 66688 of 172485 max
+	Optimizing memory usage...
+	Cache length = 5000
+	Using binomial scoring
+
+	Global Optimization Phase: Looking for enriched oligos with up to 2 mismatches...
+
+	Screening oligos 32896 (allowing 0 mismatches):
+	|0%                                   50%                                  100%|
+	================================================================================
+		0.00% skipped, 100.00% checked (32896 of 32896), of those checked:
+		0.00% not in target, 0.00% increased p-value, 0.00% high p-value
+
+	Screening oligos 32896 (allowing 1 mismatches):
+	|0%                                   50%                                  100%|
+	================================================================================
+		0.00% skipped, 100.00% checked (32896 of 32896), of those checked:
+		0.00% not in target, 4.02% increased p-value, 3.94% high p-value
+
+	Screening oligos 32896 (allowing 2 mismatches):
+	|0%                                   50%                                  100%|
+	================================================================================
+		5.33% skipped, 94.67% checked (31144 of 32896), of those checked:
+		0.00% not in target, 86.27% increased p-value, 0.00% high p-value
+	Reading input files...
+	684657 total sequences read
+	Cache length = 5000
+	Using binomial scoring
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+	Performing empirical FDR calculation for length 8 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3
+sh: line 1: 145452 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/randomizations/rand2.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 8 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/randomizations/homerMotifs.r2.motifs8" 2> /dev/null
+sh: line 1: 145451 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/randomizations/rand1.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 8 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/randomizations/homerMotifs.r1.motifs8" 2> /dev/null
+sh: line 1: 145454 Aborted                 (core dumped) homer2 denovo -s "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/seq.tsv" -g "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/randomizations/rand0.group" -S 5 -stat binomial -mis 2 -cache 100 -minlp -10 -len 8 -o "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif/out_motif/chrALL_uniquebins_targCp21_bgrCpHiCAll_seed845_sampsize0.6/randomizations/homerMotifs.r0.motifs8" 2> /dev/null
+
+	Number of Trial motifs (-T) set to 12 (from 10) to work well with 4 CPUs
+	Scanning input files...
+	Parsing sequences...
+	|0%                                   50%                                  100%|
+	===============================================================
+	Total number of Oligos: 131072
+	Autoadjustment for sequence coverage in background: 1.00x
+
+	Oligos: 131072 of 137975 max
+	Tree  : 266600 of 689875 max
+	Optimizing memory usage...
+	Cache length = 5000
+	Using binomial scoring
+
+	Global Optimization Phase: Looking for enriched oligos with up to 2 mismatches...
+
+	Screening oligos 131072 (allowing 0 mismatches):
+	|0%                                   50%                                  100%|
+	================================================================================
+		0.00% skipped, 100.00% checked (131072 of 131072), of those checked:
+		0.00% not in target, 0.00% increased p-value, 0.00% high p-value
+
+	Screening oligos 131072 (allowing 1 mismatches):
+	|0%                                   50%                                  100%|
+	================================================================================
+		0.00% skipped, 100.00% checked (131072 of 131072), of those checked:
+		0.00% not in target, 19.59% increased p-value, 16.85% high p-value
+
+	Screening oligos 131072 (allowing 2 mismatches):
+	|0%                                   50%                                  100%|
+	================================================================================
+		26.62% skipped, 73.38% checked (96176 of 131072), of those checked:
+		0.00% not in target, 39.34% increased p-value, 0.00% high p-value
+	Reading input files...
+	684657 total sequences read
+	Cache length = 5000
+	Using binomial scoring
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+	Performing empirical FDR calculation for length 9 (n=3)
+		1 of 3
+		2 of 3
+		3 of 3

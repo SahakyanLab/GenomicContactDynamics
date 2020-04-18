@@ -1,0 +1,76 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+UNIQBIN.DF
+
+plotLengthDist.R
+GG_bgr.R
+
+library(ggplot2)
+library(data.table)
+library(marge)
+Homer installation
+################################################################################
+################################################################################
+# De novo motif discovery and motif analysis of HiC contact bins with Homer via
+# R API marge (https://github.com/robertamezquita/marge)
+################################################################################
+1. Plot length distribution of 426 homer known motifs (5-16-2018 / v4.10)
+The .motif files are stored in homer/motifs. This was done to decide the range of 
+motif lengths to be subsequently used.
+
+2. Homer known motif analysis and de novo discovery.
+Generate bed files of target (targ) and background (bgr) HiC contact bins. The
+targ/bgr sequences is randomly sampled with size based on samp.size variable (%).
+UNIQBIN.DF is used for sampling.
+
+# Motif analysis (de novo and known)
+find_motifs_genome(
+  x=bed,
+  path = out.dir,
+  # or add "r" for repeat-masked version e.g. "hg19r"
+  genome = "hg19",
+  # Vector of motif lengths to consider [default is c(8, 10, 12)]
+  # Not advisable to look for motifs longer than 12 bp. Start with shorter
+  # lengths and once you get promising motifs, try longer ones
+  motif_length = 8:12,
+  scan_size = "given",
+  # Default optimize_count = 8
+  # Specifies the number of motifs of each length to find
+  optimize_count = 5,
+  background = paste0(out.dir, "/", suffix, "_bgr"),
+  local_background = FALSE,
+  only_known = FALSE, 
+  # Default fdr_num = 0; for de novo discovery,
+  only_denovo = FALSE,
+  fdr_num = 3,
+  cores = 4, 
+  cache = 100,
+  overwrite = TRUE, 
+  keep_minimal = FALSE
+) 
+
+## Default Parameters:
+## Sequences not masked for repeats
+## -mis Allowed mismatches set to 2
+## -gc (use GC% for sequence content normalization, now the default)
+## CG normalization
+## Homer looks for motifs on both strands
+
+
+## HOMER will still try to normalize the background to remove GC-bias and 
+## will also perform autonormalization, normalization can be turned off
+## Extract sequences from the genome corresponding to the regions in the 
+## input file, filtering sequences that are >70% "N"
+## Custom background regions provided are still GC-normalized and HOMER
+## makes sure regions don't overlap with target regions
+
+# Interpretation of results
+## Enrichment p-values reported by HOMER should be very very significant
+## (i.e. << 1e-50).  If this is not the case, there is a strong possibility
+## that the experiment may have failed in one way or another. 
+## In principle, in a motif is present in less than 5% of the targets 
+## sequences, there may be a problem
+
+3. p-value plots of results 
+################################################################################
