@@ -1,0 +1,26 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX
+Hsa_GRCh37_73_chr_info.txt
+
+UTL_doPar.R
+GG_bgr.R
+
+library(foreach)
+library(doParallel)
+library(itertools)
+library(data.table)
+library(ggplot2)
+library(RColorBrewer)
+################################################################################
+A. Location of contacts in the linear genome
+################################################################################
+1. Density plot of the nearest distance (log10 transformed) to chromosome ends 
+of the midPoints of unique bins per Cp (combined for all chr). 
+################################################################################
+
+
+
+
+
