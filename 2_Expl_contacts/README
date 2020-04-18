@@ -1,0 +1,38 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+MELT.MX
+PERSIST.MX
+
+GG_bgr.R
+
+library(foreach)
+library(ggplot2)
+################################################################################
+A. Count contacts
+################################################################################
+1. Count all Hi-C contacts per cell line/tissue using MELT.MX.
+2. Count long-range contacts per cell line/tissue using PERSIST.MX (combined 
+long-rannge contacts from all cells/tissues).
+3. Bar plot of long-range contacts per Cp (from A2)
+################################################################################
+B. HiC Human 21 unique contacting 40-kb bins
+################################################################################
+1. Make a dataframe (per minimum distance between contacts) of unique bins with 
+their Cp and chromosome info. Note that a bin can have multiple Cps. 
+Output: UNIQBIN.DF (chr-Cp-bin)
+2. Determine and plot the percent overlap of unique contacting bins across Cps.
+Unique bins from all chromosomes were combined.   
+Overlaps tested: HiCAll_1, 1_2...1_21. Values are percent overlap. For example,
+1_21==10% for FC cell line means that 10% of all Cp=21 unique bins are also in
+Cp=1 unique bins. 
+Output: OLAPCP.MX (cell/tissue X overlap) 
+3.
+################################################################################
+LOG
+
+31/01/2020 - written
+
+
+
+
