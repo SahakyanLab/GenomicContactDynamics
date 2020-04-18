@@ -1,0 +1,97 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+BINKMER.MX
+UNIQBIN.DF
+
+lib/makeKmerStrandInvar.R
+UTL_doPar.R
+makeSeqLogo.R
+GG_bgr.R
+
+library(foreach)
+library(doParallel)
+library(itertools)
+library(Biostrings)
+library(compiler)
+library(RColorBrewer)
+library(gplots)
+library(ggplot2)
+library(ggpubr)
+library(ggseqlogo) # geom_logo
+library(ggrepel) # geom_text_repel
+################################################################################
+################################################################################
+# K-meric composition of contacting bins per Cp compared to the overall 
+# k-meric composition of all Hi-C contacting bins.
+################################################################################
+1. Make control matrix containing k-mer fraction of all unique HiC bins (strand 
+invariant) using BINKMER.MX.
+
+BINKMER7.MX[1:5, 1:10]
+     bins startpos  endpos AAAAAAA AAAAAAC AAAAAAG AAAAAAT AAAAACA AAAAACC AAAAACG
+[1,]  236  9400001 9440000      NA      NA      NA      NA      NA      NA      NA
+[2,]  237  9440001 9480000     112       8      20      35      10       3       1
+[3,]  238  9480001 9520000      51      16      19      25      19      13       2
+[4,]  239  9520001 9560000      51       9      22      29      17       5       1
+[5,]  240  9560001 9600000      NA      NA      NA      NA      NA      NA      NA
+
+Convert BINKMER.MX to strand invariant version. Then divide each k-mer count
+by the sum of all k-mer counts per bin (sum should be constant per bin and should be
+HiC.res-(k-1)*2, multiplying by 2 to account for both strands).
+
+Output: KMERfrBIN.HiCAll (k-mer X ubins)
+KMERfrBIN.HiCAll[1:5,1:5]
+                17_1         17_2         17_3         17_4         17_5
+AAAAAAA 1.325199e-03 1.500225e-03 0.0012126819 0.0008251238 0.0011126669
+AAAAAAC 1.250188e-04 7.501125e-05 0.0002000300 0.0001500225 0.0001375206
+AAAAAAG 1.750263e-04 2.375356e-04 0.0002000300 0.0002000300 0.0001500225
+AAAAAAT 2.500375e-04 2.500375e-04 0.0001875281 0.0003000450 0.0003750563
+AAAAACA 8.751313e-05 1.500225e-04 0.0001750263 0.0001375206 0.0001875281
+
+17_1 means bin 1 of chr 17
+
+2. Using the (1) control matrix with all the HiC bins and (2) previously-generated 
+UNIQBIN.DF that contains data on unique bins per Cp per chr, obtain object KMERCP, 
+a list of 
+
+a. mean matrix (7mer X Cp) - mean of fractions per k-mer per Cp, NAs removed
+during calculation
+b. sd matrix (7mer X Cp) - sd of fractions per k-mer per Cp, NAs removed
+during calculation
+c. neglopg10pval matrix - from Mann–Whitney–Wilcoxon (MWW) (non-parametric, two independent 
+distributions) to compare, for each k-mer, its fraction values per Cp
+to that of the control. Non-parametric to better account for difference in
+number of bins contributing to the test and control set. 
+
+The MWW test is directional. If mean.test > mean.control, alternative hypothesis
+is greater. If mean.test < mean.control, alternative hypothesis is less.
+If mean.test = mean.control, alternative hypothesis is two.sided.
+
+When p-value=0, -log10(p-value)=+Inf. For plotting, this is converted to
+the maximum value of -log10(p-value). 
+
+KMERCP: List of 3
+
+KMERCP[["MEAN"]][1:5,1:5]
+              HiCAll            1            2            3            4
+AAAAAAA 2.322932e-06 2.322932e-06 2.311308e-06 2.282362e-06 2.266672e-06
+AAAAAAC 3.567512e-07 3.567512e-07 3.556055e-07 3.494905e-07 3.470683e-07
+AAAAAAG 5.029374e-07 5.029374e-07 5.009541e-07 4.908021e-07 4.864515e-07
+AAAAAAT 8.868482e-07 8.868482e-07 8.826791e-07 8.683971e-07 8.617967e-07
+AAAAACA 4.621157e-07 4.621157e-07 4.603596e-07 4.528065e-07 4.493060e-07
+
+KMERCP[["SD"]] - same format as KMERCP[["MEAN"]]
+
+KMERCP[["NEGLOG10PVAL"]][1:5,1:5]
+         1         2         3         4         5
+AAAAAAA NA 0.3412291 0.3976788 0.4590422 0.4900545
+AAAAAAC NA 0.3289101 0.3708768 0.4114973 0.4347230
+AAAAAAG NA 0.3284136 0.3625198 0.4095379 0.4385332
+AAAAAAT NA 0.3349596 0.3786622 0.4291273 0.4556356
+AAAAACA NA 0.3296936 0.3748772 0.4226349 0.4518529 
+
+3. Make volcano plots and sequence logos (all enriched/depleted kmers and also 
+top5% enriched/depleted kmers based on alpha)
+
+################################################################################
