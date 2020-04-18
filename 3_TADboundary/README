@@ -1,0 +1,49 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX
+Schmitt TAD boundary bed files (no header)
+
+GG_bgr.R
+UTL_doPar.R
+plotLengthDist.R
+
+library(data.table)   
+library(ggpubr)
+library(ggplot2)
+library(foreach)
+library(doParallel)
+library(itertools)
+library(reshape)
+library(RColorBrewer)
+################################################################################
+A. Characterize contacts using TAD boundary information from Schmitt et al. (2016)
+################################################################################
+Schmitt et al. (2016) provided a bedfile of TAD boundaries (all 21 samples)
+ordered per chromosome. They used insulation score method by Crane et al. 2015. 
+All boundaries correspond to a bin (40-kb).
+
+1. List down the minimum, maximum, mean lengths of TAD per and for all celltiss. 
+Density plot of distance between TAD boundaries (TAD sizes) called by Schmitt
+et al. 2016, per celltiss. TAD counting starts at 1st TAD boundary. Script also
+includes a check confirming that all lengths of borders are equal to Hi-C 
+resolution, 40 kb. 
+
+"To quantify TADs, we devised an approach of assigning an ‘insulation score’ to 
+genomic intervals along the chromosome. The score reflects the aggregate of 
+interactions occurring across each interval. Minima of the insulation profile
+denote areas of high insulation we classified as TAD boundaries"
+ 
+Mac, R/3.5.2
+
+2. Using the TAD boundary information, determine per cell/tissue the portion of
+long-range contacts that are: 
+a. contacts between TAD boundaries
+b. countacts between TAD boundary and non-TAD boundary
+c. contacts between non-TAD boundaries (either inter- or intra-TAD)
+
+################################################################################
+LOG
+
+31/01/2020 - updated
+28/08/2019 - written
