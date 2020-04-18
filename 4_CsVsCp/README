@@ -1,0 +1,86 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX
+MELT.MX
+Hsa_GRCh37_73_chr_info.txt
+CII.MX with grouping and rownumber
+
+GG_bgr.R
+multiplot.R"
+UTL_doPar.R
+makeHexbinggplot.R
+lib/hmplot.R
+lib/visualiseBinRegions.R
+
+library(reshape2)
+library(ggplot2)
+library(ggpubr)
+library(RColorBrewer)
+library(compiler)
+library(foreach)
+library(doParallel)
+library(itertools)
+library(hexbin)
+library(Hmisc)
+library(viridis)
+################################################################################
+################################################################################
+# Compare contact strength (Cs) with contact persistence (Cp)
+################################################################################
+1. Density plot of Cs (raw) per cell/tissue. 
+
+For the rest of the scripts, scaled option is kept just in case
+some form of Cs scaling/normalising will be done. 
+Note that all downstream analyses are done with raw Cs values.
+
+2. Hexbin plot of Cs vs. Cp per cell/tissue.
+cuts should be manually adjusted. 
+
+3. Find regions forming contacts of desired Cs to Cp correlation
+(e.g. directly/inversely proportional)
+
+4. Visualise Cs, Cp, CII (side by side) of contacts using
+PERSIST.MX for specific long-range contacts and MELT.MX for whole chromosome.
+
+For specific regions of interest, set bins.x and/or bins.y. If both bins.x and bins.y
+are not NULL, only contacts formed by bins in c(bins.x and bins.y) are included.
+If bins.x/bins.y is null, all contacts with bin/s in bins.y/bins.x are taken.
+
+Two formats: 
+a. square (x-axis contains bins.x, y-axis contains bins.y)
+Upper triangle for whole chromosome can obtained by format=square because only
+the upper triangle is plotted.
+b. symmetric (both axes contains bins.x and bins.y)
+Input should be the upper triangle. visualiseBinRegions() adds the diagonal and
+the lower matrix. 
+Note that can be symmetric or triangular (upper triangle, when format==square).
+
+Settings:
+a. type = kmer/align complementarity score?
+b. cutoff = cutoff used for grouping the complementarity-based score into
+high(1), middle(0), low(-1) value.
+c. scalebr.v = define corners of rectangle to be drawn as scalebar e.g. to mark
+2 Mb or 0.5 Mb distance in base pairs. Note that x and y axes of plot are in bins
+of 40Kb in length.
+
+Legend:
+black - diagonals (set as -2 in matrix)
+NA will be seen as absence so white as well as 0 in Cs which means that contact
+is not present in cell type.
+
+
+Ex.
+a. low Cs and Cp
+chr12:25,358,180-25,403,854 (KRAS, bins 634-636) with chr12:123720001-123960000
+(10 genes C12orf65, CDK2AP1, SBNO1/MIR8972, SERD8, RILPL2, SNRNP35, RILPL1, KMT5A, RILPL1
+including 1 miRNA, bins 3094-3099)
+
+b. low and high Cs with high Cp
+chr1:66,999,825-67,210,768 (SGIP1, bins 1675-1681) with chr1:69120001-69320000 
+(no genes, bins 1727-1733)
+
+c. low and high Cs with low Cp
+chr1:34,080,000-34,360,000 (CSMD2, HMGB4, bins 853-859) with bins c(1184, 1208, 
+1210, 1215, 1223, 1228, 1232)
+################################################################################
