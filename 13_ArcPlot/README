@@ -1,0 +1,55 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX
+Hsa_GRCh37_73_chr_info
+
+GG_bgr.R"
+makeHexbinggplot.R
+
+library(ggplot2)
+library(Hmisc)
+library(hexbin)
+library(viridis)
+library(ggpubr)
+library(R4RNA)
+library(RColorBrewer)
+library(yarrr)
+library(grDevices)
+################################################################################
+# A. Visualise contacts as connections
+################################################################################
+1. Plot gap (in terms of percentage relative to chr length) between each contact
+vs. Cp.
+Is it the case that longer LR contacts are more persistent across
+tissues due to this probable importance? To probe this idea, we thought of 
+plotting gap between contacting loci as % of chr length vs. Cp. We found that in 
+general gap decreases with increasing Cp.
+Gap distance between contact is equal to the length in bp of sequence between 
+the bin, not including any base from the bins forming the contact. This means 
+that the gap distance between bin 1 (1-40000) and bin 3 (80001-120000) is the
+length of sequence 40000 to 80000 which is equal to (3-1)*bin.len-bin.len, where
+bin.len in this case is 40000.
+Almost all of Cp=21 contacts have gap distance less than 20% of chromosome length.
+
+2. Visualise contacts as arcs using R4RNA package made to represent RNA structure.
+Top panel are min2Mb contacts colored by the unknottted groups. Color assignment
+starts from the most LR contact. 
+Bottom panel are min05Mb contacts colored by distance between contacting loci. 
+Red are contacts not present in min2Mb set (0,50] bins gap distance while gray
+are contacts common between the two sets (50,max()] bins gap distance. I did
+the comparison between these two to see that the shortest among the LR contacts
+are within the domains form by the longer LR contacts.  
+
+3. Arcplot of contacts based on specified Cp/s of interest. Top panel displays
+contacts above gap threshold, bottom panel displays contacts below or equal
+to that gap threshold. Gap threshold in percentage of chr length. Saved RData 
+contains data for botttom panel (df$A) and top panel (df$B). 
+When plotting, the extra row (i=xlim, j=xlim, length=0) is added to both df$A 
+and df$B, which will not be presented by an arc, but will set the max value of
+the x-axis. This is important to make x-axis of plots uniform. 
+
+If showSRij==FALSE, shorter-range (<=gap threshold) contacts in the bottom panel
+will not displayed. If not contacts satisfy the gap threshold, df$top is set to
+NULL and no contacts are displayed.
+################################################################################
