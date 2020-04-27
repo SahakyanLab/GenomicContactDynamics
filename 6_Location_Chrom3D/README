@@ -1,0 +1,378 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+Chrom3D gtrack file
+Chrom3D model cmm output file
+text file of loss scores
+PERSIST.MX
+
+GG_bgr.R
+getcmmXYZradi.R
+getCOM.R
+getRadDist.R
+loadRData.R
+BINorSLIDE.R
+TrantoR_liftOver/GEN_liftOveR.R
+TrantoR_liftOver/GEN_liftOverLoadChain.R
+TrantoRextr/GEN_WhichOverlap.R
+plotLengthDist.R
+/lib/mapToHiCcontactPersistBins.R
+/lib/LO_mapToHiCcontactPersistBins.R
+
+library(data.table)
+library(ggplot2)
+library(RColorBrewer)
+library(foreach)
+library(itertools)
+library(doParallel)
+library(compiler)
+library(data.table)
+library(reshape2)
+library(ggpubr)
+library(rtracklayer)
+################################################################################
+0. Chrom3D modelling of genome
+################################################################################
+################################################################################
+1. ./general contains scripts and files needed for the Chrom3D pipeline
+2. 3 cell lines were modelled, namely IMR90, H1-hESC and GM12878. GM12878's will
+not be used because there is no LAD data and the genome is not constrained inside
+the nuclues. Mostly, likely because --nucleus parameter was not used; however,
+we do want the LAD data itself to be the one constraining the genome to the
+nucleus as in the case of IMR90 and H1-hESC.
+
+Models
+a. IMR90 - hg19, inter intra Hi-C/LMNB1
+b. IMR90 - hg19, inter intra Hi-C/LMNA/C (tutorial)
+- in the tutorial, Paulsen used ChIP-seq LMNA/C from AD04DFs, only a related 
+cell line to IMR90 (although they called it IMR90)
+c. H1-hESC - hg38, inter intra Hi-C/LMNB1
+d. GM12878 - inter intra Hi-C
+* Refer to README in the folder of each cell line for more details
+- Resulting model had parts outside of the nucleus. We decided to abandon modelling
+without LAD data because the distance between the center and periphery of nucleus
+is important for our purpose.
+
+2. If you don't have LAD data (eg. GM12878) then please use the script 
+"add_inter_chrom_beads_wo_lads.sh" to add inter-chromosomal interactions.
+3. Chrom3D run for the three cell lines followed the tutorial given by Paulsen et al. 
+2018 Nat Prot. 
+
+3. Chrom3D run parameters
+
+DETAILS
+Settings to generate the IMR90 Chrom3D model.
+haploid/diploid
+3M iterations
+Log every 3750 for loss score graph
+Print model every 375000
+Seed: 1234 (default)
+Scaling of total bead volume to nucleus: 15 % of total nucleus volume (default)
+Nuclei radius = 5 (default)
+Domains = TADs + gaps
+If argument value not mentioned here, default was used. 
+
+--nucleus parameter (Add constraints such that all beads are pushed towards the 
+inside of the nucleus) not added. It's better because the nucleus is not fixed
+between cells anyway and the model did form a nice globular structure just with 
+the LAD constraint.
+
+Chromosomes Y and MT not included in all models. 
+
+4. Take note for Rao 2014 Hi-C datasets 
+Genome: b37 (slight differences with hg19). The Chrom3D Nat. Prot. paper though
+assumes it to be hg19 as well as other papers (e.g. doi:10.1186/s13059-015-0741-y)
+b37 is a term used by Broad Institute to refer to hg19. But the two have differences,
+see https://software.broadinstitute.org/gatk/documentation/article?id=23390#grch37.
+Differences are mainly on Chr 3, Y and MT. For the purpose of this Chrom3D modelling,
+I decide to not do liftover of b37 to hg19. 
+
+MAPQG0 subdirectory contains files associated with the contact matrices constructed 
+from all read pairs that uniquely align to the genome (MAPQ>0). The MAPQGE30 
+subdirectory contains files associated with the contact matrices constructed from 
+all read pairs that map to the genome with a MAPQ>=30. The Chrom3D paper used
+reads MAPQ>=30. TAKE NOTE FOR RAO 2014 Hi-C DATASETS
+
+Genome: b37 (slight differences with hg19). The Chrom3D Nat. Prot. paper though
+assumes it to be hg19 as well as other papers (e.g. doi:10.1186/s13059-015-0741-y)
+b37 is a term used by Broad Institute to refer to hg19. But the two have differences,
+see https://software.broadinstitute.org/gatk/documentation/article?id=23390#grch37.
+Differences are mainly on Chr 3, Y and MT. For the purpose of this Chrom3D modelling,
+I decide to not do liftover of b37 to hg19. 
+
+MAPQG0 subdirectory contains files associated with the contact matrices constructed 
+from all read pairs that uniquely align to the genome (MAPQ>0). The MAPQGE30 
+subdirectory contains files associated with the contact matrices constructed from 
+all read pairs that map to the genome with a MAPQ>=30. The Chrom3D paper used
+reads MAPQ>=30. 
+################################################################################
+A. Assess, characterize and modify generated model
+################################################################################
+1. Histogram of lengths of domains (represented as beads). Domains are TADs, LADs
+and the gaps between them. 
+
+binwidth=0.1
+The vertical line is 1og10(HiC.res)
+
+2. Illustrate optimisation process of model by plotting loss score.
+
+3. Customise the colour of the chromosomes in the model by altering the cmm file.
+Spectral colour was used with chromosome 1 starting as the short-wavelength colour.
+Parameters:
+# If TRUE, modify radius of linker and marker (bead)
+changeRadius = TRUE
+
+# Two options to modify radius:
+## If radiusConstant = TRUE, it will use the set linkerRadius and beadRadius below
+## If radiusConstant = FALSE, it will use the set linkerRadius and beadRadius as
+## multiplier to the original radii
+radiusConstant = TRUE
+linkerRadius = beadRadius = 0.03
+
+# Per chromosome
+changeColour <- TRUE
+chr.order <- c(1:22,"X") 
+
+To save as image,
+
+a. Open cmm file in chimera, edit model by
+Presets > Publication 2 (sillhouette, licorice)
+save as png, transparent background, width=10 in, res=500
+################################################################################
+B. 
+################################################################################
+1. Make a table of the domains with the x, y, z coordinates from the cmm file.
+Also add the radial distance of domains from center of mass (COM). In calculating
+COM, radius of beads were used as weights. (Both haploid and diploid)
+Output: DOMXYZR.DF, per row is a domain
+
+2. Plot the density of the DNA and domains at several sliding (overlapping) radial 
+windows of the model using DOMXYZR.DF.
+
+See D3 for the explanation how the windows were determined. dividingR=="SLIDE" in 
+this case.
+
+The following widths of radial window were tested: 
+c(0.01, 0.03, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7)
+
+Optimal radial window radius:
+H1-hESC: 0.7
+IMR90_LMNB1: 0.5 (we can stick with 0.7) to make them comparable
+################################################################################
+C. Assess if model is consistent with Hi-C contact data by determining the 
+i and j radial positions of contacts and testing if they are positively correlated 
+(which means that i and j of a contact are roughly in the same area in the model)
+################################################################################
+1. Use mapToHiCcontactPersistBins() to map DOMXYZR.DF to HiC contact bins.
+In other words, assign a radial distance value to a contact bin depending
+in which Chrom3D domain it is located.
+Output: FEATURE.BIN.MX
+
+Featurefile DOMXYZR.DF is zero-based and has combined data for all chr. 
+
+Note that the model for H1-hESC is hg38 so the Hi-C bins were lifted to hg38
+during mapping. 
+LO.out <- liftOveR(conversion=LOchain,
+                     space=rep(x=chr, times=len), 
+                     start=as.numeric(start),
+                     end=as.numeric(end),
+                     strand=rep(x="*", times=len),
+                     getchain=FALSE,
+                     rmchain=rmchain,
+                     returnGRangesList=FALSE) 
+Liftover of bin start and end coordinates done at the same time to take into account
+deletions and insertions. Note that after liftover, a bin can be converted to
+multiple ranges even from other chr. To be strict, these bins with ranges from
+other chr were removed and considered to be not successfully converted. This is 
+because technically, these bins may correspond to >1 radial distance value
+which is also disregarded later on. Also, overlapping of Chrom3D domains (feature)
+with contact bins are done per chr. In the final output FEATURE.BIN.MX, bins 
+not successfully lifted to hg38 as well as bins with no overlap with featurefile 
+are still included but marked with its bin number, chr, countPerBin=0 and the rest 
+of columns as NAs. They were appended as the bottom rows.  
+
+When liftover is required, the LO_mapToHiCcontactPersistBins() produces plots
+of the total length of converted ranges (divided 10000) per bin to see the deviation
+from the fixed bin length (Hi-C resolution). In the plot, the number of bins
+is the number of successfully lifted bins. 
+
+1.5 Transform diploid DOMXYZR.DF such that a domain/bead will have one radial
+distance value. (TO DO)
+
+2. Make a matrix of the contacts per chr with their corresponding radial positions.
+Output is IJ.FEAT.MX is cell/tissue-specific. Contacts found in IJ.FEAT.MX 
+are only those present in the cell/tissue.
+
+Output: IJ.FEAT.MX
+
+     i  j ntis iRadDist jRadDist
+[1,] 15 68    2 1.378539 1.784088
+[2,] 19 71    3 1.378539 1.784088
+[3,] 20 71    8 1.378539 1.784088
+[4,] 22 73    5 1.378539 1.784088
+[5,] 19 74    5       NA       NA <- contain promiscuous bins
+[6,] 21 74    5       NA       NA <- contain promiscuous bins
+
+Note that some bins overlapped with more than 1 domain (usually 2) so they have
+two radial distance values. For this step, these promiscuous bins were not considered
+by defining setCountPerBin to only include 1 (setCountPerBin = c(1,1) ). Percentage of
+contacts (NAs in IJ.FEAT.MX) not considered due to having promiscuous bins are noted in 
+dropOutPercent_ContactRadDist txt file. Contacts with 1 or 2 promiscuous bins have both
+NA iRadDist and jRadDist in IJ.FEAT.MX.
+
+Output: dropOutPercent_ContactRadDist txt file
+Columns: chr-gcb-totijctspecific-percijwithnoprombins(reltototijctspecific)-setCountPerBin 
+chr1,min2Mb,19.08%,1-1
+chr2,min2Mb,18.27%,1-1
+chr3,min2Mb,17.99%,1-1
+dropOutPercent is the percentage of invalid contacts in IJ.FEAT.MX relative to total
+number of contacts in IJ.FEAT.MX which is cell-type specific. 
+
+3. Merge IJ.FEAT.MX of all chromosomes. Get only valid contacts (those not formed
+by promiscous bins). 
+
+4. Plots: correlation, box, density
+################################################################################
+D. Map features to the model, calculating densities at each radial windows
+################################################################################
+1. Use IJ.FEAT.MX to make a Cp featurefile compatible for mapping to DOMXYZR.DF.
+Featurefile should have rows corresponding to features and columns for chr, start
+and end coordinates of bin and feature name (bin). To reflect the number of contacts
+per Cp, unique bins per Cp are not taken. Output is cell/tissue specific. 
+because IJ.FEAT.MX is cell/tissue specific. Also, only non-promiscous bins included.
+
+2. Map features to each domain in DOMXYZR.DF. Add every feature to DOMXYZR.DF as 
+an extra column with values corresponding to their count per domain (overlap type
+is any). Feature in our case is the contact bins, not unique to reflect number of
+contacts per Cp. 
+
+Note that in most cases two bins of a contact are not in one domain but based on
+the correlation plot of the radial distance of i and j, most contacting bins are 
+relatively close to each other. 
+
+Output: DOMXYZRFEAT.DF; same as DOMXYZR.DF but with additional
+columns for the counts of features per domain (row).
+
+Count column looks like this:
+ 1    2   3   4   5   6
+1821 1141 765 408 294 168
+Here it means that for domain 1 (sample is from first row), 1821 cp1 contacting bins
+overlap. Ideally, when contacting bins are in the same domain, contacts should be even.
+But since this is not the case meaning that some contact bins are in different bins
+but still close to each other based on correlation plot, you get odd numbers. Essentially, in the later part, we are measuring the density of the contacting bins
+per window. This can reflect the density of the contacts because the contacting bins
+are relatively close to each other anyway.  
+
+2.5. Make foi list of repeats compatible for calculating densities at radial windows
+
+3. Plot density of features at overlapping radial windows of the model using 
+DOMXYZRFEAT.DF. Counts of features are normalized to the amount of DNA at 
+each window.
+
+a. Split range of radial distance (min to max value of radial distance, referred 
+hereinafter as r) into non-overlapping (dividingR="BIN") or overlapping windows 
+(dividingR = "SLIDE"). Window is of length 2*dr. 
+
+Case 1: If dividingR="BIN", the points demarcating the non-overlapping windows are:
+rVal=c(min(r), min(r)+2*dr..., max(r)), because the range may not be divisible by
+dr, the length of the window spun by the second to the last point and the last point
+(max r) can be less than 2*dr.
+Code: rVal = unique( c( seq(from=rFirst, to=rLast, by=2*dr), rLast) )
+
+Case 2: If dividingR="SLIDE", the points demarcating the overlapping windows are 
+chosen by doing rVal=seq(from=0, to=max(r), length.out=numPoints). numPoints is 
+to be set. 
+
+For both cases, the window per point in rVal is formed by point±dr. That's why in 
+dividingR="SLIDE", there is a check to make sure that the distance between the 
+points are less than 2*dr because if not the windows won't overlap. 
+
+b. Given dividingR=="SLIDE", for each point in rVal, form the window (point±dr) then
+choose the beads that fall into that window. Those beads have r >= lower boundary of 
+window and r <= upper boundary. Then per feature of interest (foi) in foiNme.v, count 
+total number of foi in that window by summing foi count in beads in that window. So 
+there are two types of foi count, raw is the absolute number of foi in that window, 
+the norm the absolute number of foi divided by the totDNA in that window.
+
+Once all the counts are taken for all points in rVal, the norm counts are transformed 
+into integers by dividing them by their mininum value (excluding 0) and then multiply 
+by a set multiplier. Multiplier (consider vector limit when choosing multiplier) maximizes
+the number of decimal values converted to integers. If there are still decimals left, 
+they are made into integers by round(x, digits=0).
+This transformation is necessary to get the density later on.
+
+The raw and norm counts per foi per rVal are saved in RPCOUNT.DF. 
+
+> head(RPCOUNT.DF)
+  rVal foi  raw   norm
+1    0   1  579  41868
+2    0   2  996  72021
+3    0   3 1227  88725
+4    0   4 1328  96029
+5    0   5 1399 101163
+6    0   6 1299  93932
+
+c. Generate density plots for raw and normalized counts per foi. 
+
+Per foi, subset rows with RPCOUNT.DF==foi. Using this subset dataframe, make a
+long vector containing the rVals repeated as many times as indicated by the 
+corresponding raw/norm. Use hist() on this long vector:
+hst <- hist(vec, breaks=hist.breaks, plot=FALSE) 
+to get the density. hist.breaks is the partitioning of the range of rVal and the
+interval is equal to hist.breaks.res set. 
+hist.breaks <- unique(c(seq(from=0, to=rmax, by=hist.breaks.res), rmax))
+e.g  hist.breaks when hist.breaks.res=0.5
+ [1] 0.000000 0.500000 1.000000 1.500000 2.000000 2.500000 3.000000 3.500000 4.000000
+[10] 4.500000 5.000000 5.345514 
+
+In the hst object, density is given per range demarcated by the hist.breaks.
+The mid of the range (given by hst$mids) is used to denote the range and the 
+range's corresponding density is stored per foi in RPCOUNT.DF. 
+
+Data is saved in RPCOUNT.DENS
+> head(RPCOUNT.DENS)
+$norm
+           mid          1          2         3          4          5          6
+ [1,] 0.250000 0.08376928 0.07475622 0.0724016 0.07110325 0.06906369 0.06398873
+ [2,] 0.750000 0.12200816 0.11087887 0.1053899 0.10239730 0.09914571 0.09474003
+ [3,] 1.250000 0.18118804 0.16164770 0.1486081 0.14109127 0.13598914 0.13061647
+ [4,] 1.750000 0.20201962 0.18213113 0.1685826 0.15950981 0.15335005 0.14755214
+ [5,] 2.250000 0.21725101 0.20972856 0.2020436 0.19438595 0.18788935 0.18166089
+ [6,] 2.750000 0.21943675 0.22442900 0.2226026 0.21838676 0.21354837 0.20968930
+ 
+c. Plot
+On the x-axis are the mids, on the y-axis are the densities. Groups are based on 
+the foi. 
+
+In this project these are the parameters set:
+dividingR = "SLIDE"; numPoints=1000; dr = 0.5, multiplier=100
+#hist.breaks <- c(seq(from=0, to=max(r), by=hist.breaks.res), 
+#                   max(r))
+#hist.breaks.res = 0.5
+hist.breaks = c(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.6) 
+
+Final plots where generated for all beads and also
+individually for peripheral (Periphery=1) and non-peripheral ones (Periphery=0) to
+illustrate the contribution of each type to the combined trend. Note that 
+hist.breaks and hist.breaks.res were the same for all three cases to make
+the plots comparable. 
+
+Currently, the difference between rVal values ~0.005 (center of windows), I can
+decrease the radius of window to decrease the degree of overlap between windows. 
+################################################################################
+E. Model comparison
+################################################################################
+1. Heatmap of radial distances of beads on each chromosome.
+Equally spaced positions per chromsome is chosen based on a specified bin length.
+For instance, if bin length si 40kb, the positions are chosen by doing this:
+pos <- seq(from=1, to=2.5e8, by=bin.len)
+pos[pos==0] <- 1
+
+2.5e8 is the rounded off value of the maximum chr length, chr 1 >2.4e8. It does not
+have to be exact because areas beyond the chr length will not be colored in the 
+heatmap because it is not part of a Chrom3D domain and so there is no radial 
+distance data.
+
+The radial distance of a position is the radial distance of the domain where it 
+overlaps.
+################################################################################

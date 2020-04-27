@@ -1,0 +1,28 @@
+################################################################################
+Determining LADs
+################################################################################
+Nuclear lamins (A-type lamins, in particular) - nuclear periphery and interior
+Single-cell DamID data show that only ~30% of LADs are in the periphery in a 
+single cell. (Paulsen et al. 2018 Nat prot)
+
+1. DamID 
+Pickersgill, H. et al. Characterization of the Drosophila melanogaster genome at 
+the nuclear lamina. Nat. Genet. 38, 1005–1014 (2006).
+
+2. ChIP-seq
+LMNA (lamin A/C)
+LMNB1/2 (lamin B1/2)
+
+Relevant papers:
+Pascual-Reguant et al. 2018 Aug Nat Comm doi: https://doi.org/10.1038/s41467
+Lund et al. 2014 NAR doi: https://doi.org/10.1093/nar/gku324
+
+################################################################################
+Datasets
+################################################################################
+LMNA 
+HepG2 - ChIP-seq GSE119631
+IMR90 diploid human fibroblasts - ChIP-seq Lund et al. 2014 GSE54332
+
+LMNB1 - ChIP-seq Sadaie et al. Genes Dev GSE49341 (ref. a in LMNAB1_Lund2014.png),
+but mapped to hg18
