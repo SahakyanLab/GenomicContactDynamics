@@ -27,12 +27,37 @@ Overlaps tested: HiCAll_1, 1_2...1_21. Values are percent overlap. For example,
 1_21==10% for FC cell line means that 10% of all Cp=21 unique bins are also in
 Cp=1 unique bins. 
 Output: OLAPCP.MX (cell/tissue X overlap) 
-3.
+> head(OLAPCP.MX)
+   HiCAll_1      1_2      1_3      1_4      1_5      1_6      1_7      1_8
+Co      100 97.31299 97.13196 97.09402 97.08193 97.07453 97.06773 97.05840
+Hi      100 97.89475 97.76302 97.73922 97.72422 97.71995 97.71456 97.70630
+Lu      100 91.55557 90.55994 90.26122 90.10833 90.01916 89.96731 89.92151
+LV      100 98.74134 98.69147 98.68290 98.67755 98.67438 98.67379 98.66699
+RV      100 98.55757 98.48941 98.47381 98.46809 98.46558 98.46006 98.45623
+Ao      100 99.57811 99.57027 99.56797 99.56716 99.56612 99.56501 99.56380
+3. Determine percentage of unique contacting 40-kb bins per cell/tissue out 
+of all 40-kb bins of each chr. 
+Output: OLAPCHR.MX
+> head(OLAPCHR.MX)
+     nbins       Co       Hi       Lu       LV       RV       Ao       PM
+chr1  6232 90.35623 90.37227 90.32413 90.51669 90.53273 90.56483 90.38832
+chr2  6080 97.84539 97.84539 97.81250 97.89474 97.86184 97.89474 97.82895
+chr3  4951 98.40436 98.40436 98.42456 98.42456 98.42456 98.42456 98.42456
+chr4  4779 98.17954 98.17954 98.15861 98.22139 98.20046 98.24231 98.13769
+chr5  4523 98.03228 98.05439 97.87751 98.05439 98.05439 98.05439 97.94384
+chr6  4278 97.94296 97.91959 97.89621 97.94296 97.96634 97.96634 97.89621
+4. Comprehensive 40-kb contacting bin data information
+BIN.MX contains ALL 40-kb bins in a chr and then indicates if the bin is
+forming a contact in cell/tissue or forming a contact with a certain Cp.
+1-yes, 0-no
+
+> head(BIN.MX)
+   start    end Co Hi Lu LV RV Ao PM Pa Sp Li SB AG Ov Bl MesC MSC NPC TLC ESC FC LC 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
+1      1  40000  0  0  0  0  0  0  0  0  0  0  0  0  0  0    0   0   0   0   0  0  0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0
+2  40001  80000  0  0  0  0  0  0  0  0  0  0  0  0  0  0    0   0   0   0   0  0  0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0
+3  80001 120000  0  0  0  0  0  0  0  0  0  0  0  0  0  0    0   0   0   0   0  0  0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0
+4 120001 160000  0  0  0  0  0  0  0  0  0  0  0  0  0  0    0   0   0   0   0  0  0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0
+5 160001 200000  0  0  0  0  0  0  0  0  0  0  0  0  0  0    0   0   0   0   0  0  0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0
+6 200001 240000  0  0  0  0  0  0  0  0  0  0  0  0  0  0    0   0   0   0   0  0  0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0
+Output in /Users/ltamon/Database/HiC_features_GSE87112_RAWpc/binmx
 ################################################################################
-LOG
-
-31/01/2020 - written
-
-
-
-
