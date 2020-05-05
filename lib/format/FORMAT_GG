@@ -1,0 +1,35 @@
+#################### ANNOTATE
+## x and y can be vectors
+p + annotate("text", x = 4, y = 25, label = "Some text")
+
+
+#------------------ GGPLOT SAMPLE
+
+coul <- colorRampPalette( rev( brewer.pal(11, "Spectral") ) )(21)
+  
+  ggplot( data=CP.CLUSTER.DF, aes(x=cluster, fill=factor(cp)) ) +
+    geom_bar( aes(y=(..count..)/sum(..count..)) ) +
+    annotate(geom="text", x=1:numClusters, y=-0.05, size=8,
+             label=clust$size) + 
+    scale_y_continuous(labels=scales::percent) +
+    scale_x_continuous(breaks=1:numClusters) + 
+    labs( title=paste0("chrALL_", gcb, "kmeans", affix), 
+          y="%", x="Cluster", fill=expression( bold( "c"["p"]) ) ) +
+    scale_fill_manual(values=coul) + 
+    bgr2 +
+    guides(fill=guide_legend(ncol=1)) +
+    theme( legend.text=element_text(size=20, face="bold"),
+           legend.title=element_text(size=25, face="bold"))
+  ggsave(filename=paste0(out.dir, "/chrALL_", gcb, "kmeans_", affix, 
+                         "_bar.pdf"), units="in", width=10, height=8)
+  
+#------------------ GGPLOT SAMPLE
+
+
+#################### GGPLOT MULTIPLE PLOTS IN PDF
+
+library(ggpubr) or multiplot.R (R base function)
+
+p.arr <- ggarrange(plotlist=p.lst, nrow=1, ncol=1, common.legend=TRUE, legend="right")
+ggexport(p.arr, width=10, height=8, filename=paste0(out.dir, "/", .pdf)
+

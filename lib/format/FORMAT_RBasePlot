@@ -1,0 +1,31 @@
+############## R base plot 
+
+pdf(file=".pdf"), width=10, height=8)
+#Default values: par(oma=c(),                 # c(b, l, t, r)
+#                    mar=c(5, 4, 4, 2) + 0.1, # c(b, l, t, r)
+#                    mgp= c(3, 1, 0))         # c(axis title, axis labels, axis line)
+# Remove outer margings if not needed, par(oma=c(0,0,0,0))
+par(oma=c(0,0,0,0), mar=c(5, 5, 4, 2) + 0.1, mgp=c(3, 1.2, 0))
+plot(x=QEO[,"cp"], y=QEO[,"O.opti"], main="", cex.axis=2.2, xaxt="n",
+       xlab="", ylab="", type="p", pch=19, cex=2, col="gray80",
+       ylim=c( 0, ceiling( max(QEO[,-(1:2)]) ) )
+       #ylim=c( floor( min(QEO[,-(1:2)]) ), ceiling( max(QEO[,-(1:2)]) ) )
+  )
+  points(x=QEO[,"cp"], y=QEO[,"O.fin"], pch=19, cex=2, col="black")
+  axis(side=1, at=1:21, labels=1:21, cex.axis=2.2, mgp=c(3, 1.4, 0)) # cex.axis=1.2 for all 1:21
+  # X axis title
+  mtext(side=1, text=expression(bold( "c"["p"] )), line=3.4, cex=2)
+  # Y axis title
+  mtext(side=2, text=expression(bold( "% Error" )), line=3, cex=2)
+  # Y-axis title
+  mtext(side=2, text=bquote(bold( .(ylab.feat) )), line=3.2, cex=2)
+  # Plot title
+  mtext(side=3, text=paste0(affix1, affix, "_O.opti(with dupl)"), 
+        line=2, cex=1.5)
+  text(x=cp.v, y=0, labels=as.character(QEO[,"N"]), cex=0.5)
+  #legend("topright", legend=c("Opti", "Fin"), inset=.02,
+  #       col=c("gray80", "black"), pch=19, cex=1)
+  legend("topright", legend=c("Opti", "Fin"), col=c("gray80", "black"),
+         pch=19, bty="o", bg="white", pt.cex=2, cex=1.5, horiz=F, 
+         inset=c(0, -0.16), xpd=TRUE)
+  dev.off()
