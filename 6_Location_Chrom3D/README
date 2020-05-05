@@ -16,8 +16,8 @@ TrantoR_liftOver/GEN_liftOveR.R
 TrantoR_liftOver/GEN_liftOverLoadChain.R
 TrantoRextr/GEN_WhichOverlap.R
 plotLengthDist.R
-/lib/mapToHiCcontactPersistBins.R
-/lib/LO_mapToHiCcontactPersistBins.R
+mapToHiCcontactPersistBins.R
+LO_mapToHiCcontactPersistBins.R
 
 library(data.table)
 library(ggplot2)

@@ -59,8 +59,8 @@ source(paste0(lib, "/TrantoRextr/GEN_WhichOverlap.R"))
 source(paste0(lib, "/loadRData.R"))
 source(paste0(lib, "/plotLengthDist.R"))
 source(paste0(lib, "/GG_bgr.R"))
-source(paste0(wk.dir, "/lib/mapToHiCcontactPersistBins.R"))
-source(paste0(wk.dir, "/lib/LO_mapToHiCcontactPersistBins.R"))
+source(paste0(lib, "/mapToHiCcontactPersistBins.R"))
+source(paste0(lib, "/LO_mapToHiCcontactPersistBins.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
