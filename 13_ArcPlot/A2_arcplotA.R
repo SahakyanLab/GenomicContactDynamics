@@ -24,9 +24,7 @@ persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 out.dir = paste0(wk.dir, "/out_arcplotA")
 ### OTHER SETTINGS #############################################################
 chr.v = paste0("chr", c(22:1, "X"))
-# topCp = 3 would mean the top 3 Cps so 19:21
-topCP = 1
-cp.v = 21:1
+topCP = 1; cp.v = 1:21
 plotOnly = FALSE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
@@ -39,7 +37,8 @@ library(grDevices)
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-cp <- cp.v[1:topCP]
+cp <- rev(sort(cp.v, decreasing=FALSE))[1:topCP]
+cp <- sort(cp, decreasing=FALSE)
 for(chr in chr.v){
   if(plotOnly==FALSE){
     df <- list()

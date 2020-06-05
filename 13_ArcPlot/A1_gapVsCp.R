@@ -56,7 +56,8 @@ for(chr in chr.v){
   if(plotOnly==FALSE){
     load(file=paste0(persist.dir, "/", chr, "_Persist_", gcb, ".RData"))
     # Gap distance between contacting loci in bp
-    gap.bp <- ((PERSIST.MX$hits$j-PERSIST.MX$hits$i)*bin.len)-bin.len
+    #gap.bp <- ((PERSIST.MX$hits$j-PERSIST.MX$hits$i)*bin.len)-bin.len
+    gap.bp <- (PERSIST.MX$hits$j-PERSIST.MX$hits$i-1)*bin.len
     gap.perc <- 100*gap.bp/( chrLen.df[chrLen.df$chromosome==chr,"length.bp"] )
     df <- cbind.data.frame(chr=chr, gap.bp=gap.bp, gap.perc=gap.perc, Cp=PERSIST.MX$ntis)
     rm(PERSIST.MX, gap.perc, gap.bp); gc()
