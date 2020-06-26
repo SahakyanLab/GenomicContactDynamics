@@ -1,0 +1,101 @@
+Loading required package: statnet.common
+
+Attaching package: ‘statnet.common’
+
+The following object is masked from ‘package:base’:
+
+    order
+
+Loading required package: network
+network: Classes for Relational Data
+Version 1.16.0 created on 2019-11-30.
+copyright (c) 2005, Carter T. Butts, University of California-Irvine
+                    Mark S. Handcock, University of California -- Los Angeles
+                    David R. Hunter, Penn State University
+                    Martina Morris, University of Washington
+                    Skye Bender-deMoll, University of Washington
+ For citation information, type citation("network").
+ Type help("network-package") to get started.
+
+sna: Tools for Social Network Analysis
+Version 2.5 created on 2019-12-09.
+copyright (c) 2005, Carter T. Butts, University of California-Irvine
+ For citation information, type citation("sna").
+ Type help(package="sna") to get started.
+
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following object is masked from ‘package:statnet.common’:
+
+    order
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Loading required package: jpeg
+Loading required package: BayesFactor
+Loading required package: coda
+Loading required package: Matrix
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+************
+Welcome to BayesFactor 0.9.12-4.2. If you have questions, please contact Richard Morey (richarddmorey@gmail.com).
+
+Type BFManual() to open the manual.
+************
+Loading required package: circlize
+========================================
+circlize version 0.4.8
+CRAN page: https://cran.r-project.org/package=circlize
+Github page: https://github.com/jokergoo/circlize
+Documentation: http://jokergoo.github.io/circlize_book/book/
+
+If you use it in published research, please cite:
+Gu, Z. circlize implements and enhances circular visualization 
+  in R. Bioinformatics 2014.
+========================================
+
+
+Attaching package: ‘circlize’
+
+The following object is masked from ‘package:sna’:
+
+    degree
+
+yarrr v0.1.5. Citation info at citation('yarrr'). Package guide at yarrr.guide()
+Email me at Nathaniel.D.Phillips.is@gmail.com

@@ -1,0 +1,72 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX 
+feature bed files
+hub files
+
+library(expm)
+library(sna)
+library(GenomicRanges)
+library(yarrr)
+
+source(paste0(lib, "/MyMCL.R"))
+source(paste0(lib, "/TrantoRextr/GEN_WhichOverlap.R"))
+source(paste0(lib, "/finaliseFOI.R"))
+source(paste0(wk.dir, "/lib/makeClustgplot.R"))
+################################################################################
+# A. MCL clustering using Cs and Cp
+################################################################################
+1. MCL clustering of contacts using Cp and Cs values as weights. 
+
+a. MCL process:
+
+Weights can be raw Cs, raw Cp or single integer (which will be used for all
+contacts). The Cp range is from 1-21 and is constant across tissues. Meanwhile, 
+the Cs ranges from 1 to a few hundreds (differs among tissues). The Cs values are 
+greatly skewed to the right with most of the values being <20 (confirm). 
+Doing nothing to the raw values maintains the difference between the two
+types of weights, which should manifest in the results given that the MCL
+parameters are kept the same for both. 
+
+Self-loops were addded and valued as 1 in our case (is the lowest value for the
+raw Cp and Cs). Self-loops are important to make sure that centers of hubs 
+(attractors) are included in its cluster. I tried using the maximum of raw Cs/Cp 
+as self-loops but it yielded results where nodes prefer to be alone even at low 
+granularity. It's probably because the value for the self-loops is the highest 
+value of weight.
+
+Given a hub with center x, n members, y1,y2,...yn and z1 attached to y1, the 
+aforementioned way of making the adjacency matrix will detect y1 and z1 as
+a separate pair/cluster. To include the pair in the bigger cluster, one can adjust 
+the weights or self-loops can be removed too to reduce the paths going just between
+the pair. 
+
+b. Output
+MCLOUT and POS.MX. (containing coordinates of nodes in plot, for reproducibility)
+
+In the customise MyMCL() function, the allowVC asks whether we want a single node
+to be considered as a cluster. If allowVC=FALSE (as in our case), the function will 
+mark these lone vertices as cluster 0 in the output and this is not counted in MCLOUT$K,
+which is the number of identified clusters based on the adjacency matrix.  
+
+Besides from MCLOUT$K, the output also contains MCLOUT$cluster, which is the
+clustering of all the nodes (nodes with the same cluster number belong to the 
+same cluster). Note that the actual cluster number does not mean anything. There
+is also MCLOUT$converged.iter, the number of iterations that achieved the 
+equilibrium state. MCLOUT$equilibrium.state contains the equilibrium state matrix. 
+
+2. Colour MCL plots based on Cs cluster, hub and feature.
+Type of overlap: any and within (not much difference)
+
+Colouring by Cs cluster:
+In gray are lone nodes. 
+
+Colouring by feature:
+Red means node is overlapping, green means node overlaps with >1 feature range.
+
+3. Conclusion
+a. Cs-based clustering is different from Cp-based clustering suggesting that
+there is different information from Cp values.
+b. Cp-based contacts do not only overlap with B-compartments
+################################################################################
