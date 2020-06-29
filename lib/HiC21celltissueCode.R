@@ -23,4 +23,4 @@ CTCODE.MX <- rbind(c("Lymphoblast", "GM12878", "LC"),
                  c("Right_Ventricle", "RV", "RV"),
                  c("Small_Bowel", "SB", "SB"),
                  c("Spleen", "SX", "Sp") )
-dimnames(CTCODE.MX) <- list(NULL, c("Celltiss", "Orig.code", "New.code"))
+dimnames(CTCODE.MX) <- list(NULL, c("Celltiss", "Schmitt.code", "Persist.code"))

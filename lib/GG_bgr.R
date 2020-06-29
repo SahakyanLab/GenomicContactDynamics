@@ -5,7 +5,7 @@ bgr1 <- theme(# Plot panel
                                             size=1, fill=NA),
               # Main title
               plot.title=element_text(face="bold", colour="black", 
-                                      size=18, hjust=0.5,
+                                      size=10, hjust=0.5,
                                       margin=margin(b = 15, unit = "pt")),
               # X-axis title 
               axis.title.x=element_text(face="bold", size=20,

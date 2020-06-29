@@ -24,11 +24,11 @@ funxAnno <- function(input = list(foreground, background),
                      filePath = "lib/ekegg.txt"
 ){
   
-  approach <- gsub(x=approach, pattern="GO_", replacement="", fixed=TRUE)
+  appro <- gsub(x=approach, pattern="GO_", replacement="", fixed=TRUE)
   accepted.KEGG <- c("kegg", "ncbi-geneid", "ncbi-proteinid", "uniprot")
   accepted.BP <- accepted.CC <- accepted.MF <- accepted.ALL <- c("SYMBOL", "ncbi-geneid") 
   eval(parse(text=paste0(
-    "acceptedKeys <- accepted.", approach
+    "acceptedKeys <- accepted.", appro
   )))
  
   if(!inputKey%in%acceptedKeys){
@@ -59,18 +59,18 @@ funxAnno <- function(input = list(foreground, background),
                         minGSSize=10, maxGSSize=500, qvalueCutoff=0.2,
                         #If FALSE, download the latest KEGG data; If TRUE, use KEGG.db
                         use_internal_data=FALSE)
-   
-  } else if( approach%in%c("BP", "CC", "MF", "ALL") ){
+  
+  } else if( approach%in%c("GO_BP", "GO_CC", "GO_MF", "GO_ALL") ){
     
     e.out <- enrichGO(gene=input[[1]], OrgDb=org, 
                       keyType=ifelse(inputKey=="ncbi-geneid", "ENTREZID", inputKey), 
-                      ont=approach, pvalueCutoff=0.05, pAdjustMethod="BH", 
+                      ont=appro, pvalueCutoff=0.05, pAdjustMethod="BH", 
                       universe=input[[2]], minGSSize=10, maxGSSize=500,
                       # Whether mapping gene ID to gene Name
                       readable=ifelse(inputKey=="ncbi-geneid", TRUE, FALSE),
                       # If ont='ALL', whether pool 3 GO sub-ontologies
-                      pool=ifelse(approach=="ALL", TRUE, FALSE))
-    
+                      pool=ifelse(approach=="GO_ALL", TRUE, FALSE))
+  
   } else {
     stop("Invalid approach supplied. Choices are GO_BP, GO_CC, GO_MF, GO_ALL and KEGG.")
   }
@@ -79,8 +79,10 @@ funxAnno <- function(input = list(foreground, background),
   # To avoid separation of description names when opening the csv file.
   e.out$Description <- gsub(x=e.out$Description, pattern=",", replacement=" ",  
                             fixed=TRUE)
-  if(approach!="ALL" & nrow(e.out)>0){
+  if(approach!="GO_ALL" & nrow(e.out)>0){
     e.out <- cbind.data.frame(ONTOLOGY=approach, e.out, stringsAsFactors=FALSE)
+  } else if(approach=="GO_ALL" & nrow(e.out)>0){
+    e.out$ONTOLOGY <- paste("GO_", e.out$ONTOLOGY, sep="")
   }
  
   # Save table
