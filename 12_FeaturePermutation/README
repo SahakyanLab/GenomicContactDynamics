@@ -1,0 +1,228 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+Feature bed files (1-based, reduced to remove overlapping ranges)
+ - /Users/ltamon/Database/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced 
+BIN.MX
+Hsa_GRCh37_73_chr_info
+2011_hg19_blacklist_reduced
+
+library(ggplot2)
+library(ggpubr)
+finaliseFOI.R
+GG_bgr.R
+################################################################################
+# A. Association of contacting regions with chromatin features by permutation test
+################################################################################
+0. Generate foifile (list of features) for non-priority features (rest).
+
+0. Test the functions from regioneR to understand how they work.
+
+1. Perform the association via permutation test.
+Perform a permutation test to see if there is an association between the set of
+chromatin feature regions and the set of contacting regions of chosen Cp. If 
+applicable, contacting regions are filtered based on cell/tissue of chromatin 
+feature and also by chr.
+
+regioneR denotes the ranges it compares as A and B. A is the permuted range.
+A - feature ranges
+  - filtered based on chr.v which is set to paste("chr", c(1:22, "X"), sep=""),
+  when chr.v=NULL
+B - unique contacting regions
+  - filtered based on cell type of feature
+  - NO filtering against chr without features because it just means that there is
+  no feature there. But this is needed when feature is deliberately not 
+  measured on that chr.
+  - prepared using BIN.MX
+  
+a. Parameters:
+NTIMES - number of permutations
+MIN.PARALLEL - if length(A/feature ranges)<MIN.PARALLEL, single thread
+Cp.v - Cp of bins to be included
+
+b. Randomisation function to create random regions:
+regioneR::circularRandomizeRegions
+- Given a set of regions A and a genome, this function returns a new set of 
+regions created by applying a random spin to each chromosome.
+- The set of random regions per permutation will have the same lengths and
+inter-range distances as in the original set. 
+- Size ranges of most features are below the Hi-C resolution equal to the length
+of the contacting region. In answering the question, do these chromatin features
+lie on our contacting regions in the genome, we assign the features to be the A
+regions, the one to be randomised.
+- Randomisation set to be done per chromosome
+- Masking: the hg19 blacklist (unmappable sites) was used to mask the genome 
+meaning that random regions won't be taken in these areas. 
+- max.mask.overlap=1, meaning that a random region can only have at most 1 base
+overlap with the mask. Ideally, we set this to 0 but doing this makes it impossible
+for the program to generate required number of sets of random regions (equal to NTIMES).
+- non.overlapping=TRUE, because a set of random regions drawn per permutation should be 
+drawn without replacement. 
+-IMPORTAANT: Set of regions to be randomised should have not be overlapping (use
+reduce() from GRanges) because the number of random regions drawn per permutation
+is equal to the reduced number of the original set.
+
+c. Masking
+This was done because most sequencing analyses, where our chromatin feature bed
+files came from, also
+exclude sites in this blacklist. The blacklist used is the 2011 version ENCODE
+DAC (.mask/2011_hg19_blacklist_reduced), although there is a recent 2019 list. 
+This is because most of the datasets were from studies before 2019. Also the mask
+will be applied only to TF and histone modification data mostly from ChIP-seq 
+analyses. I tried doing one TF feature without mask and there is not much difference
+in results when masking is applied.
+
+Code written in such a way the all bed files in ./mask will be used (when masking=TRUE)
+unless it is put inside ./mask/ignore
+
+d. Genome
+Whole genome is prepared using Hsa_GRCh37_73_chr_info. Only chr in chr.v will be used.
+When chr.v=NULL, chr.v set to paste("chr", c(1:22, "X"), sep="").
+
+e. Custom evaluation functions:
+These functions give the metric to assess the degree of association between the 
+two sets. They can be categorised into three (1) numOlap: calculation of the 
+number of A/B regions overlapping (2) comOlap: calculation of the portion of 
+intersection (common overlapping regions) between A/B (3) meandist: mean closest 
+distance of A regions from the nearest B region. All functions give percentages
+except for meandist. 
+
+Hypothesis testing is set to auto meaning that the program itself will
+decide if which of less/greater is applicable. I did set the evaluation 
+functions to give values that show better association of the two sets of ranges
+with increasing value. I initially plannned to use "greater" but using auto
+would give preserve more information particularly those values that are 
+significantly less than what is expected by random chance.
+
+i. numOlapA - % of A regions overlapping with B
+Note that A regions that overlap with multiple B regions are set to be counted
+only once. The absolute number of overlaps is calculated using regioneR::numOverlaps.
+This function does not reduce any of the supplied set of regions so it uses the
+actual number of bins/regions in the cp bed file (B) despite having bins next to each
+other.
+ii. numOlapB - same with i. but for B regions
+iii. comOlap - intersection of A and B(given by regioneR::commonRegions. 
+Intersection means the total length of regions shared between A and B. This
+was originally in % percentage with the intersection reported relative to
+the total length of A and B. This idea was scrapped because of being
+dependent on the Hi-C resolution and this is not good because the real length of
+contact has nothing to do with the Hi-C resolution.
+iv. comOlapA - same with iii. but in % relative to total length of A ranges only.
+Values coming from different Hi-C resolution can be compared because dependence
+is only the feature.
+v. comOlapB - same with iii. but relative to total length of B ranges only.
+This was scrapped because of being dependent on Hi-C resolution.
+vi. meandist - length of intervening bases between end of B and start of A
+Value is given by regioneR::meanDistance but negated because the 
+alternative=greater. Greater value of -meanDistance means that the association
+is better. 
+vii. meanLenOlapA - mean length of A ranges overlapping with B. 
+
+f. local zscore
+
+Why do we need all these functions?
+numOlap gives the percentage of contacting regions overlapping with the chromatin
+features but do not give information of how well they overlap (the portion of bases
+overlapping). Overlap of 1 vs. 100 bases is treated the same. Hence, we need the
+comOlap which differentiates the degree of overlap between regions. Finally,
+meandist is important because it can assess proximity of contacting regions with
+chromatin features. Although they regions do not overlap, proximity might still
+suggest functional relationship. I did meanLenOlapA to check if long genes are 
+indeed enriched in Cp=21 regions. 
+
+How to interpret?
+For features that are significantly enriched at Cp=21 regions, their association
+should be tested on Cp=1 regions, which is identical to all Hi-C bins forming
+the long-range contacts. This way we can check if the association is specific
+to highly persistent contacts (in this case Cp=21) or to all LR contact bins.
+
+OUTPUT:
+PERMT - permutation test results (with plot)
+LZSCOR - local zscore results (with plot)
+For evalusation functions that gave zscore=NaN (e.g. when all permutation rounds
+gave same value), I set the local zscore to a high value (100) just to avoid
+error and termination of script. 
+
+2. Make a barplot of -log10pvalue of all features. 
+Indicated in each barplot is the actual observed value for each evaluation function.
+
+a. meanLenOlapA - the value in the bar is log10(meanLenOlapA)
+b. comOlap - divided by the total length of contacting regions (based on cell type)
+times 100
+to make values for each feature comparable
+- I used BIN.MX again to calculate total length of bins per Cp per cell/tissue
+################################################################################
+# Runs
+################################################################################
+1. out_associate_runA_cp21_b1b2
+A - feature (randomised)
+B - contact regions
+
+No masking except for histone modifications and transcription factors.
+Feature bed chr filtering for subcompartments (Rao and Xiong) because feature
+was deliberately not taken for chrX.
+
+Evaluation functions (common to all):
+eval.f.v <- c("numOlapA", "numOlapB", "comOlap", "comOlapA", "comOlapB", "meandist")
+
+nCPU = 7
+
+2. out_associate_runA_genesLTr
+Same with (1) but main goal is to test mean length of A regions overlapping.
+This is to test previous finding that persistent contacts colocalise with
+longer genes. 
+
+genesLTr means the features are the longest transcript per gene.
+No masking and chr filtering of contact regions.  
+ 
+3. out_associate_runB_cp21_b1b2
+A and B switched:
+A - contact regions (randomised)
+B - feature
+
+No masking applied.
+Feature bed chr filtering for all features. This is okay since only two of the
+b1 features will be affected. Most b1 features have chr1-22, X. 
+
+Evaluation functions (common to all):
+eval.f.v <- c("numOlapA", "numOlapB", "comOlap", "comOlapA", "comOlapB", "meandist")
+
+nCPU = 5
+
+################################################################################
+# RunA: Features significantly enriched (greater comOlap than expected)
+################################################################################
+-log10(0.05) ~ 1.301
+1. foifile_greater_runA
+a. GRB
+- ct_hg19_foi_GRB_lepOcu1_desc_binned_kurtosis_arl_370_0.7_pc_30_kb_windows.bed 
+greater but <1.301
+b. huCNE
+- ct_hg19_foi_huCNE_gorGor3_100pc_500col_desc_noncoding.bed 
+greater but <1.301
+c. repeat
+d. H3K9me3
+FC, ESC na/br signficantly enriched.
+LC na significantly depleted. LC br depleted but < 1.301
+e. H2BK120ac
+I did not include because only ESC_H2BK120ac_br_broadPeak is significantly
+enriched. 
+f. H2A.Z
+I did not include because only ESC H2A.Z br/na are significantly enriched.
+g. CHD7
+We only have data for ESC. 
+h. BCL11A
+I did not include because only ESC BCL11A is significantly enriched. 
+LC BCL11A is significantly depleted. 
+i. POU5F1
+Same with CHD7. We only have data for ESC.
+j. MAFK
+FC, ESC MAFK not significantly greater but very close to cut-off. LC depleted but
+not significant. I decided to include the two. 
+k. CBX5
+I did not include because ESC is significantly enriched but LC is significantly 
+depleted. 
+c. All B compartments, B2 and B3 subcompartments (pred and Rao), LMNB1 are 
+significantly enriched. 
+
+
