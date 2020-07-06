@@ -7,7 +7,7 @@
 # deva, R/3.6.0-newgcc, gcc/4.9.2
 
 # ERROR: missing points in plot, this is due to preset y-axis min and max limits 
-# in plotParam (i.e. -2, 2), change if necessary
+# in plotParam (i.e. -1, 1), change if necessary
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -31,6 +31,7 @@ if( !is.null(whorunsit[1]) ){
 # Chromatin features directory
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced_b1b2b3")
 foifile = paste0(wk.dir, "/foifile/foifile_priority_runA_numOlapBANDcomOlap_edited")
+#foifile = paste0(wk.dir, "/foifile/foifile_topo")
 # File of feature grouping
 featgrpfile = paste0(wk.dir, "/features_group")
 fetacp.dir = paste0(wk.dir, "/out_FETACP")
@@ -48,53 +49,6 @@ FCCP.order = 21 # Cp
 
 colourBy = "group" # "foi" | "group"
 base.pal <- yarrr::piratepal("basel")
-
-group.v <- c(
-  "Activation_HM",
-  "Enhancer_HM",
-  "Elongation_HM",
-  "Repression_HM",
-  "Heterochromatin_LAD",
-  "DNase_hotspot",
-  "Rest"
-)
-
-group.v <- c(
-  "Heterochromatin_LAD",
-  "PRC1",
-  "PRC2_H3K27me3",
-  "Histone_acetyltransferase",
-  "Histone_deacetylase_NuRD_complex",
-  "Histone_methyltransferase",
-  "Histone_demethylase",
-  "Chromatin_remodeller",
-  "CTCF",
-  "Other_TAD_boundary",
-  "Transcription_RNApolymerase",
-  "Super_elongation_complex",
-  "DNA_repair",
-  "Cohesin_complex",
-  "Homeodomain",
-  "GC-rich_motif_binder",
-  "Rest"
-)
-
-group.v <- c(
-  "Genes",
-  "CGI",
-  "G-quadruplex",
-  "GRB",
-  "huCNE",
-  "Repeat")
-
-group.v <- c("Compartment", "Sub-compartment")
-
-# For colourBy="group"
-coul.group <- colorRampPalette(base.pal)(length(group.v)-1)
-coul.group <- paste(coul.group, "B2", sep="")
-grayTr <- rgb(190, 190, 190, max=255, alpha=(100-50)*255/100)
-# "Rest should be always gray"
-coul.group <- c(coul.group, grayTr)
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -203,6 +157,7 @@ if(plotOnly==FALSE){
       # Add "_" to increase specificity
       grepl(x=paste0(foi.v[f], "_"), pattern=x)
     })
+    if(sum(grp)>1){ stop("Promiscous group for feature.") }
     grp <- ifelse(sum(grp)==0, "Rest", names(featgrp.v)[grp])
     
     # Add group
@@ -232,14 +187,22 @@ if(plotOnly==FALSE){
   load(file=paste0(out.dir, "/", id, "_metaPcomb.RData"))
 }
 
+
 if(colourBy=="foi"){
   coul <- colorRampPalette(base.pal)( length(unique(
                                                     METAPLOT[[1]][[colourBy]])
                                              ))
 } else if(colourBy=="group"){
-  coul <- coul.group[match( unique(METAPLOT[[1]][[colourBy]]), 
-                           group.v )
-                     ]
+  #coul <- coul.group[match( unique(METAPLOT[[1]][[colourBy]]), 
+  #                         group.v )
+  #                   ]
+  #coul <- coul.group[match( levels(METAPLOT[[1]][[colourBy]]), 
+  #                          group.v )
+  #                  ]
+  coul.group <- c(colorRampPalette(base.pal)(length(featgrp.v)), "gray")
+  coul.group <- adjustcolor(coul.group, alpha.f=0.5)
+  names(coul.group) <- c(names(featgrp.v), "Rest") 
+  coul <- coul.group[as.character(levels(METAPLOT$FCVSCP$group))]
 }
 
 foi.v.len <- length( unique(METAPLOT[[1]]$foi) )
@@ -259,7 +222,7 @@ if(foi.v.len < 15 | colourBy=="group"){
 plotParam <- list(geom_line(size=1, aes_string(colour=colourBy)
                             ),
                   geom_point(size=1.5, colour="black"),
-                  scale_y_continuous(limits=c(-2,2)),
+                  scale_y_continuous(limits=c(-1,1)),
                   guides(colour=guide_legend(ncol=num.col)
                          ),
                   labs(y=bquote(bold("log"["2"]~"FC")), colour="Feature"),
