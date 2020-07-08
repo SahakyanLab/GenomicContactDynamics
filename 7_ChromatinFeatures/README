@@ -1,0 +1,118 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+Feature bed files (1-based, reduced to remove overlapping ranges)
+ - /Users/ltamon/Database/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced 
+PERSIST.MX
+Hsa_GRCh37_73_chr_info.txt
+features_group file with the grouping of features
+
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(foreach)
+library(doParallel)
+library(itertools)
+library(reshape)
+library(ggplot2)
+library(RColorBrewer)
+library(yarrr)
+
+GG_bgr.R
+UTL_doPar.R
+./lib/olapPerGenomicPos.R
+./lib/finaliseFOI.R
+################################################################################
+A. Enrichment of genomic and chromatin features in the contacting bins and their
+neighboring bins
+################################################################################
+Note: Enrichment measured as the % of contacting bins (per cp) containing a 
+given feature.
+
+0. Plot distribution of feature lengths (log10 transformed). Blank plots mean that 
+data points are fewer than two. The values below the x-axes are the min(left) and 
+max(right). Most of the feature lengths are less than Hi-C res of 40kb 
+log10(40)=4.60205999133. 
+1. Per chr, measure number of overlaps (type=any) of a feature in bins and their
+neighbors.
+pos.v=-12:12 means that measurement would be done for actual contacting bin (pos=0)
+as well as for its 5 neighboring bins to the left (pos=-12:-1) and to the
+right (pos=1:12). Example when pos.v=-2:2 and bin=3, overlaps will be measured in the following bins:
+pos	bin	start	end
+-3	NA	NA	NA
+-2	1	1	40000
+-1	2	40001	80000
+0	3	80001	120000
+1	4	120001	160000
+2	5	160001	200000
+Output: FETA.MX per chr per feature
+head(FETA.MX)
+     bin -5 -4 -3 -2 -1  0  1  2  3  4  5
+[1,] 236  0  0  0  0  0  1  0  1  0  0  0
+[2,] 237  0  0  0  0  1  0  1  0  0  0  1
+[3,] 238  0  0  0  1  0  1  0  0  0  1  1
+[4,] 239  0  0  1  0  1  0  0  0  1  1  0
+[5,] 240  0  1  0  1  0  0  0  1  1  0  0
+[6,] 242  0  1  0  0  0  1  1  0  0  1  0
+FETA.MX contains all unique contacting bins per chr for a given gap threshold.
+Columns with NA in FETA.MX correspond to invalid bins (bins with at least 1 base
+outside the length of the chr)
+
+The only feature I did not do this for is ct_LC_foi_B4_desc_scompRaob37 because
+regions are only in chr19. 
+
+2. Merge FETA.MX per chr into FETA.MX all chr per feature. With this FETA.MX
+combining all chr data, make a boxplot of number of overlaps vs. pos/bin per 
+feature.
+Output (dataframe):
+> FETA.MX[1:3,]
+   chr bin -12 -11 -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0   1   2   3   4   5   6   7   8
+1 chr1   2  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA   0   0   0   0   0   1   0   0   0   0
+2 chr1   1  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA   0   0   0   0   0   1   0   0   0
+3 chr1   3  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA   0   0   0   0   0   1   0   0   0   0   0
+    9  10  11  12
+1   0   0   0   0
+2   0   0   0   0
+3   0   0   0   0
+3. Get percentage of bins per Cp (combining bins from all chr) containing 
+at least 1 feature. For cell/tissue-specific features, contacts were also
+filtered based on cell/tissue.
+Note that values in FETA.MX is the number of features overlapping with bin.
+This value is converted to 1 signifying only the presence of overlap (not the
+absolute number) because what we are interested in the % of bins overlapping with
+a feature. Percentage is relative to the number of bins for each Cp category
+which may vary from the expected because some bins are out of bounds of the chr
+(marked NA in FETA.MX). 
+The final %bins per Cp are in FETACP.MX (per feature). The bincount expected 
+and actual are contained in the object bincount. bincount$act corresponds to 
+FETACP.MX. Bincounts vary depending on cell/tissue or if all contacts are used
+hence there's bincount object for FC, ESC, LC and hg19 (all contacts). 
+> FETACP.MX[1:3,]
+        -5       -4       -3       -2       -1        0        1        2
+1 41.26984 40.92971 41.15646 41.26984 42.29025 42.51701 42.33825 42.04545
+2 41.26984 40.92971 41.15646 41.26984 42.29025 42.51701 42.33825 42.04545
+3 40.97616 40.74915 41.08967 41.31669 42.33825 42.56527 42.38636 41.97952
+         3        4        5
+1 41.97952 41.79954 41.50513
+2 41.97952 41.79954 41.50513
+3 42.02733 41.84721 41.55251
+> bincount$exp
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20 
+882 882 881 879 878 875 872 873 865 857 849 837 831 813 798 765 728 630 536 374 
+ 21 
+176 
+> bincount$act[1:3,]
+   -5  -4  -3  -2  -1   0   1   2   3   4   5
+1 882 882 882 882 882 882 881 880 879 878 877
+2 882 882 882 882 882 882 881 880 879 878 877
+3 881 881 881 881 881 881 880 879 878 877 876
+4. Scatter plot showing the %bins lost (per Cp, per bin position)
+due to being out of bounds of chr. %bins calculated as (exp-act number of bins)/exp*100.
+In the title are the expected number of bins per Cp for reference. 
+5. Make two kinds of plots:
+a. Fold change (FC) of %bin enrichment VS. BIN (position) 
+The order in the title shows the bin position whose value is used to order the plots. 
+b. Fold change (FC) of %bin enrichment VS. Cp
+Fold change is relative to Cp=1 value. The order in the title shows the Cp whose
+value is used to order the plots. 
+################################################################################
