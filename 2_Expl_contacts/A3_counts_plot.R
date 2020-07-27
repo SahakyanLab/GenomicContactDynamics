@@ -1,5 +1,6 @@
 ################################################################################
-# Bar plot of combined long-range contacts per Cp. 
+# Plot fraction of long-range contacts per Cp category for each cell/tissue and
+# combined
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -10,50 +11,67 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/1_Count_contacts"
-    data.dir = "/Users/ltamon/Database"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/2_Expl_contacts"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 # Count of long-range contacts
-data.dir = out.dir = paste0(wk.dir, "/out_count")
+csv.dir = paste0(wk.dir, "/out_countLRcontacts")
+out.dir = paste0(wk.dir, "/out_counts_plot")
 ### OTHER SETTINGS #############################################################
 gcb.v = c("min2Mb", "min05Mb")
-chr.v <- paste("chr", c(1:22, "X"), sep="") 
+chr.v = paste0("chr", c(1:22, "X", "ALL")) 
+Cp.v = 1:21
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
+library(reshape)
+library(RColorBrewer)
 library(ggplot2)
 source(paste0(lib, "/GG_bgr.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-for(gcb in gcb.v){
-  
-  LR <- read.csv(file=paste0(data.dir, "/", gcb, "_HiCLRcontactsCount.csv"),
-                 header=TRUE, row.names=c(chr.v, "chrALL"))
-  colnames(LR) <- c("chr", 1:21)
-  
-  df <- stack(LR[rownames(LR)=="chrALL",-1])
-  colnames(df) <- c("count", "Cp")
-  # Turn to percentages
-  df$count <- df$count/sum(df$count)*100
+Cp.v <- as.character(sort(Cp.v, decreasing=FALSE))
+coul <- colorRampPalette(rev(brewer.pal(n=11,name="Spectral")))(length(Cp.v))
+names(coul) <- Cp.v
 
-  ggplot(data=df, aes(x=Cp, y=count)) +
-    geom_col(fill="#55bde6", colour="#55bde6") +
-    geom_text(aes(label=round(count, digits=2)), vjust=-0.5, size=5) +
-    labs(title=paste0(gcb, "_count_LRcontacts_combinedcelltiss"),
-         x=expression(bold("c"["p"])),
-         y=expression(bold("% Long-range contacts")),
-         colour=expression(bold("c"["p"])),
-         fill=expression(bold("c"["p"]))
-         ) +
-    bgr2
-  
-  ggsave(filename=paste0(out.dir, "/", gcb, "_count_LRcontacts_allcelltiss.pdf"),
-         unit="in", width=12, height=12)
-  
+for(gcb in gcb.v){
+  print(paste0(gcb, "...."), quote=FALSE)
+  for(chr in chr.v){
+    
+    LR <- read.csv(file=paste0(csv.dir, "/", gcb, "_", chr, "_HiCLRcontactsCount.csv"),
+                   header=TRUE, row.names=1, stringsAsFactors=FALSE)
+    LR <- data.matrix(LR)
+    # Convert to fraction
+    denom.mx <- matrix(data=LR["allCp",], nrow=21, ncol=22, byrow=TRUE)
+    LR <- LR[rownames(LR)[rownames(LR)!="allCp"],]/denom.mx; rm(denom.mx)
+    if( any(colSums(LR)!=1) ){ stop("Fraction values don't add up to 1.") }
+    
+    LR <- melt.array(LR)
+    colnames(LR) <- c("Cp", "ct", "fr")
+    LR$ct <- as.character(LR$ct)
+    LR$ct[LR$ct=="allCT"] <- "All"
+    LR$ct <- factor( LR$ct, levels=unique(c("All", unique(LR$ct))) ) 
+    LR$Cp <- factor(LR$Cp, levels=Cp.v)
+    
+    ggplot(data=LR, aes(x=ct, y=fr, fill=Cp)) +
+      geom_col(position="fill") +
+      scale_fill_manual(values=coul) +
+      labs(title=paste0(gcb, "_", chr, "_LRcontacts"), 
+           x=expression(bold("c"["p"])),
+           y="Fraction of long-range contacts", fill=NULL) + 
+      bgr2 +
+      theme(axis.text.x=element_text(angle=90, size=18, hjust=1))
+
+    ggsave(filename=paste0(out.dir, "/", gcb, "_", chr, "_LRcontacts_frplot.pdf"),
+           unit="in", width=10, height=10)
+    
+    rm(LR); gc()
+    
+    print(paste0(chr, " done!"), quote=FALSE)
+  }
 }
 
-# rm(list=ls())
+# rm(list=ls()); gc()

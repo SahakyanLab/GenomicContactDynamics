@@ -22,7 +22,7 @@ if( !is.null(whorunsit[1]) ){
 }
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 out.dir = paste0(persist.dir, "/binmx")
-chrLenfile = paste0(wk.dir, "/Hsa_GRCh37_73_chr_info.txt")
+chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
 gcb.v = c("min2Mb", "min05Mb")
 chr.v = paste0("chr", c(1:22, "X"), sep="")
