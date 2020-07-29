@@ -1,5 +1,5 @@
 ################################################################################
-# Count selected long-range contacts per tissue per Cp. 
+# Fraction of unique long-range contact bins per Cp per tissue. 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -19,9 +19,9 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
-out.dir = paste0(wk.dir, "/out_countLRcontacts")
+out.dir = paste0(wk.dir, "/out_countUbins")
 ### OTHER SETTINGS #############################################################
-gcb  = "min2Mb"
+gcb  = "min05Mb"
 chr.v = paste0("chr", c(1:22, "X")) 
 Cp.v = 1:21
 ################################################################################
@@ -40,24 +40,30 @@ for(i in 1:chr.v.len){
   chr <- chr.v[i]
   load(paste0(persist.dir, "/", chr, "_Persist_", gcb, ".RData"))
   if(i==1){
-    ct.v <- setdiff(colnames(PERSIST.MX$hits), c("i", "j"))
+    ct.v <- c(setdiff(colnames(PERSIST.MX$hits), c("i", "j")))
     ct.v.len <- length(ct.v)
   }
-  mx <- matrix(data=0, nrow=Cp.v.len, ncol=ct.v.len, dimnames=list(Cp.v, ct.v))
+  mx <- matrix( data=0, nrow=Cp.v.len, ncol=ct.v.len+1L, 
+                dimnames=list(Cp.v, c(ct.v, "allCT")) )
   
-  for(ct in ct.v){
-    ct.TF <- PERSIST.MX$hits[[ct]]>0
-    countPCp <- table(PERSIST.MX$ntis[ct.TF])
+  for( ct in c(ct.v, "allCT") ){
+    if(ct%in%ct.v){
+      ct.TF <- PERSIST.MX$hits[[ct]]>0L
+    } else if(ct=="allCT"){
+      ct.TF <- rep(TRUE, times=length(PERSIST.MX$ntis))
+    }
+    countPCp <- by(data=PERSIST.MX$hits[ct.TF,c("i","j")], INDICES=PERSIST.MX$ntis[ct.TF], 
+                   FUN=function(df){
+                     return( length(unique(unlist(df))) )
+                   })
     countPCp <- countPCp[Cp.v]
     countPCp[is.na(countPCp)] <- 0 # For Cp catergory with no contacts
     mx[names(countPCp),ct] <- countPCp
     rm(countPCp, ct.TF)
   }
-
-  mx <- cbind(mx, allCT=table(PERSIST.MX$ntis)[Cp.v])
   rm(PERSIST.MX); gc()
   mx <- rbind(mx, allCp=colSums(x=mx, na.rm=FALSE))
-  write.csv(x=mx, file=paste0(out.dir, "/", gcb, "_", chr, "_HiCLRcontactsCount.csv"),
+  write.csv(x=mx, file=paste0(out.dir, "/", gcb, "_", chr, "_countUbins.csv"),
             row.names=TRUE, quote=FALSE) 
   
   if(i==1){
@@ -71,7 +77,7 @@ for(i in 1:chr.v.len){
   
 }
 
-write.csv(x=LRCOUNT, file=paste0(out.dir, "/", gcb, "_chrALL_HiCLRcontactsCount.csv"),
+write.csv(x=LRCOUNT, file=paste0(out.dir, "/", gcb, "_chrALL_countUbins.csv"),
           row.names=TRUE, quote=FALSE) 
 
 # rm(list=ls()); gc()

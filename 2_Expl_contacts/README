@@ -13,43 +13,20 @@ library(ggplot2)
 ################################################################################
 A. Count contacts
 ################################################################################
-1. Count all Hi-C contacts per cell line/tissue using MELT.MX.
-2. Csv files (for each chr and chrALL) of counts of long-range contacts per 
-Cp per cell/tissue. 
-3. Plot fraction of long-range contacts per Cp category for each cell/tissue.
-Do for each chr and chrALL.
+1. Count all Hi-C contacts (both short and long-range) per tissue per chr using 
+MELT.MX.
+2. Count selected long-range contacts per tissue per Cp. Csv file made per chr
+# and chrALL. 
+3.Plot fraction of long-range contacts per Cp per tissue. 
+Do for each chr and chrALL. Barplot ordered starting from allCT then highest
+to lowest fraction of Cp=21 contacts. 
 ################################################################################
-B. HiC Human 21 unique contacting 40-kb bins
+B. Useful unique contacting bins dataset
 ################################################################################
 1. Make a dataframe (per minimum distance between contacts) of unique bins with 
 their Cp and chromosome info. Note that a bin can have multiple Cps. 
 Output: UNIQBIN.DF (chr-Cp-bin)
-2. Determine and plot the percent overlap of unique contacting bins across Cps.
-Unique bins from all chromosomes were combined.   
-Overlaps tested: HiCAll_1, 1_2...1_21. Values are percent overlap. For example,
-1_21==10% for FC cell line means that 10% of all Cp=21 unique bins are also in
-Cp=1 unique bins. 
-Output: OLAPCP.MX (cell/tissue X overlap) 
-> head(OLAPCP.MX)
-   HiCAll_1      1_2      1_3      1_4      1_5      1_6      1_7      1_8
-Co      100 97.31299 97.13196 97.09402 97.08193 97.07453 97.06773 97.05840
-Hi      100 97.89475 97.76302 97.73922 97.72422 97.71995 97.71456 97.70630
-Lu      100 91.55557 90.55994 90.26122 90.10833 90.01916 89.96731 89.92151
-LV      100 98.74134 98.69147 98.68290 98.67755 98.67438 98.67379 98.66699
-RV      100 98.55757 98.48941 98.47381 98.46809 98.46558 98.46006 98.45623
-Ao      100 99.57811 99.57027 99.56797 99.56716 99.56612 99.56501 99.56380
-3. Determine percentage of unique contacting 40-kb bins per cell/tissue out 
-of all 40-kb bins of each chr. 
-Output: OLAPCHR.MX
-> head(OLAPCHR.MX)
-     nbins       Co       Hi       Lu       LV       RV       Ao       PM
-chr1  6232 90.35623 90.37227 90.32413 90.51669 90.53273 90.56483 90.38832
-chr2  6080 97.84539 97.84539 97.81250 97.89474 97.86184 97.89474 97.82895
-chr3  4951 98.40436 98.40436 98.42456 98.42456 98.42456 98.42456 98.42456
-chr4  4779 98.17954 98.17954 98.15861 98.22139 98.20046 98.24231 98.13769
-chr5  4523 98.03228 98.05439 97.87751 98.05439 98.05439 98.05439 97.94384
-chr6  4278 97.94296 97.91959 97.89621 97.94296 97.96634 97.96634 97.89621
-4. Comprehensive 40-kb contacting bin data information
+2. Comprehensive 40-kb contacting bin data information
 BIN.MX contains ALL 40-kb bins in a chr and then indicates if the bin is
 forming a contact in cell/tissue or forming a contact with a certain Cp.
 1-yes, 0-no
@@ -63,4 +40,33 @@ forming a contact in cell/tissue or forming a contact with a certain Cp.
 5 160001 200000  0  0  0  0  0  0  0  0  0  0  0  0  0  0    0   0   0   0   0  0  0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0
 6 200001 240000  0  0  0  0  0  0  0  0  0  0  0  0  0  0    0   0   0   0   0  0  0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0
 Output in /Users/ltamon/Database/HiC_features_GSE87112_RAWpc/binmx
+################################################################################
+C. Count unique contacting bins (selected long-range contacts only) including
+overlaps across categories
+################################################################################
+1. Count unique contacting bins (long-range contacts) per tissue per Cp.
+2. Determine percentage of unique contacting 40-kb bins per cell/tissue out 
+of all 40-kb bins of each chr. 
+Output: OLAPCHR.MX
+> head(OLAPCHR.MX)
+     nbins       Co       Hi       Lu       LV       RV       Ao       PM
+chr1  6232 90.35623 90.37227 90.32413 90.51669 90.53273 90.56483 90.38832
+chr2  6080 97.84539 97.84539 97.81250 97.89474 97.86184 97.89474 97.82895
+chr3  4951 98.40436 98.40436 98.42456 98.42456 98.42456 98.42456 98.42456
+chr4  4779 98.17954 98.17954 98.15861 98.22139 98.20046 98.24231 98.13769
+chr5  4523 98.03228 98.05439 97.87751 98.05439 98.05439 98.05439 97.94384
+chr6  4278 97.94296 97.91959 97.89621 97.94296 97.96634 97.96634 97.89621
+3. Determine fraction overlap of unique contacting bins between Cp category.
+Unique bins from all chromosomes were combined.   
+Format: query_ref, means that fraction will be calculated with respect to 
+count of ref. For example, HiCAll_Allbin=0.931 for FC cell line means that about 
+93% of all Cp=21 unique bins form long-range contacts.  
+Output: OLAPCP.MX and csv file version
+	NonHiC_Allbin	HiCAll_Allbin	1_HiCAll	2_HiCAll	3_HiCAll
+Co	0.068060276	0.931939724	0.970968608	0.993116705	0.993512459
+Hi	0.067928554	0.932071446	0.977374542	0.994163452	0.993739489
+Lu	0.069324798	0.930675202	0.900856273	0.971438681	0.985775954
+LV	0.067348982	0.932651018	0.986865334	0.996412683	0.995141586
+RV	0.067493875	0.932506125	0.98474447	0.995931859	0.994943074
+Ao	0.066993335	0.933006665	0.995679919	0.997204653	0.995454032
 ################################################################################

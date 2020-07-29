@@ -1,5 +1,5 @@
 ################################################################################
-# Count all Hi-C contacts (both short and long-range) per cell line/tissue using 
+# Count all Hi-C contacts (both short and long-range) per tissue per chr using 
 # MELT.MX.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
