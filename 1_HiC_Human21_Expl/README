@@ -1,0 +1,57 @@
+################################################################################
+Codes not described below were written by Alex. 
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+MELT.MX
+PERSIST.MX
+UTL_doPar.R
+GG_bgr.R
+/TrantoRextr/GEN_getMELTMXpersist.R
+
+library(foreach)
+library(doParallel)
+library(itertools)
+library(ggplot2)
+library(ggpubr)
+################################################################################
+# A
+################################################################################
+1. Using the .mat files, code generates MElT.MX containing contact data from
+all tissues. Code written by Alex and I just did a minor modification in the 
+subsetting of upper tri contacts not present in any tissue. Originally,
+the code would subset these contacts from the upper tri matrix but when there is 
+no such contacts the error is produced (subsetting a matrix by a vector of length 
+0 yields an empty matrix).
+3.  For each contact in a chromosome, get mean, median, sd of Hi-C values across 
+tissues as well as the number of tissues having that contact. Do this using 
+raw and the types of normalised matrices. Contacts consired are only those
+present in at least one tissue (those in MELT.MX$upper.tri). These set of 
+contacts the same for RAW_primary_cohort and HiCNorm_primary_cohort but not for
+HiCNorm_QQ_primary_cohort. The code also compares LR contacts before and
+after normalisation (within and across datasets). It checks whether the set of
+normalised LR contacts is the same with the raw, if the Cp of contacts is 
+consistent and if each contact is expressed in the same set of tissues.
+> head(IJSTAT.MX)
+         chr row.means row.medians  row.sds row.num0s
+284380 chr21  22.38095           7 28.17708         1
+285584 chr21  21.95238           4 27.94365         1
+285585 chr21  21.80952           8 25.07911         0
+286788 chr21  16.00000           7 21.05232         3
+286789 chr21  13.38095           6 15.30842         2
+286790 chr21  20.23810           7 24.03935         0
+4. Per chr, per norm type, generate plot of sd vs. mean/median Hi-Cs value of
+contact. Per stat (mean/median), 4 plots are generated based on the contacts included.
+If(num.0s<=0), only contacts present across tissues are included. If(num.0s<=21),
+all contacts present in at least one tissue are included. There should be no
+contacts considered not present in any tissue (since we took the upper.tri of 
+MELT.MX) so the equal to 21 part is unnecessary. Cutoffs for num.0s tested are
+0, 5, 10, and 21. 
+The code also saves an object R.MX, a list of matrices per norm type containing
+Pearson's R (sd~mean/median) for each plot generated. 
+################################################################################
+# B
+################################################################################
+1.5. Make PERSIST.MX using HiCNorm matrices and make sure that contacts present
+per tissue and corresponding Cp is identical with PERSIST.MX from raw values.
+################################################################################
