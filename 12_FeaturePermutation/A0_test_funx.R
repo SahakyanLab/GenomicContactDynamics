@@ -200,4 +200,29 @@ plot(pt2)
 lz2 <- localZScore(A=A, B=B, pt2)
 plot(lz2)
 
+
+#---------------------------------------
+# createFunctionsList
+f <- function(a, b) {
+  return(a+b)
+}
+
+funcs <- createFunctionsList(FUN=f, param.name="b", values=c(1,2,3), func.names=c("plusone", "plustwo", "plusthree"))
+
+funcs$plusone(2)
+funcs$plusone(10)
+funcs$plusthree(2)
+
+A <- createRandomRegions(nregions=20, length.mean=10000000, length.sd=0, mask=NA)
+B <- createRandomRegions(nregions=20, length.mean=10000000, length.sd=0, mask=NA)
+B1 <- createRandomRegions(nregions=20, length.mean=10000000, length.sd=1, mask=NA)
+
+lst <- GRangesList(gr1=toGRanges(B), gr2=toGRanges(B1))
+# NOT WORKING :((((
+overlapPermTest(A, B=lst)
+overlapsWith <- createFunctionsList(FUN=numOverlaps, param.name="B", values=list(a=A, b=B))
+
+
+overlapsWith$a(A=A) 
+overlapsWith$b(A=A) 
 # rm(list=ls())
