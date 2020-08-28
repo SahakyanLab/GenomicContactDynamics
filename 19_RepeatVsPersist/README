@@ -1,0 +1,185 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX
+~/Database/ucsc_tables/hsa_RepeatMasker/RepeatMasker_hg19
+
+library(foreach)
+library(doParallel) 
+library(itertools) 
+library(GenomicRanges)
+library(compiler)
+library(data.table)
+
+source(paste0(lib, "/TrantoRextr/GEN_WhichOverlap.R"))
+source(paste0(lib, "/TrantoRextr/GEN_getRepMaskSubset.R"))
+source(paste0(wk.dir, "/lib/GEN_getBinsOverlapRepMasker2.R"))
+################################################################################
+# A. Number of contacts with shared number of repeat families/subfamilies  vs. 
+# contact persistence
+################################################################################
+1. Count insertion sites of repeats in each contact region (any type of overlap).
+Output: bin X repeats
+
+> BINREP.MX[1:5,1:8]
+     bins startpos  endpos MIR L1 TcMar-Tigger Alu hAT-Charlie
+[1,]  236  9400001 9440000   1 12            0   7           0
+[2,]  237  9440001 9480000   0 25            2   9           2
+[3,]  238  9480001 9520000   5 12            2   0           4
+[4,]  239  9520001 9560000   6  8            0   6           3
+[5,]  240  9560001 9600000   0 18            1  22           2
+
+2. Using BINREP.MX, get shared number of each repeat per contact, per chr.
+The shared number is the minimum/smaller repeat count between the two
+contacting regions.
+
+> MINELM.MX[1005:1015,1:8]
+      ntis MIRb L1ME2 L1PA7 MIRc L1PB4 Tigger1 AluSc
+ [1,]    6    0     0     0    1     0       0     0
+ [2,]   11    0     0     0    0     0       0     0
+ [3,]   11    2     0     0    1     0       0     0
+ [4,]   15    2     0     0    0     0       0     0
+ [5,]   12    2     0     0    2     0       0     0
+ 
+Only repeat families/subfamilies relevant for the chr is included in its matrix.
+
+2.5. Boxplot of the minimum repeat count of contacts per Cp (combining all chromosomes)
+Output: MINREPCOUNT and plot
+> MINREPCOUNTS$MARNA
+$`1`
+       0        1        2        3        4 
+19665919    25555     1017       23        1 
+
+$`2`
+       0        1        2        3 
+19212334    27524     1080       38 
+
+$`3`
+       0        1        2        3 
+16378719    24805     1053       29 
+
+MINREPCOUNT is a list of data for 372 repeat subfamilies in the age rank. This data
+is a list from cp=1 to cp=21 of the occurrence of the minimum repeat count. 
+For example:
+MINREPCOUNTS$MARNA
+$`1`
+       0        1        2        3        4 
+19665919    25555     1017       23        1
+means that 19665919 cp=1 contacts have no minimum repeat count or shared number of 
+repeats, 25555 contacts have minimum repeat count of 1 and so on.
+
+Age ranking used is ./Repeat_rankingbyAge/plot_GiorPubl372rankrepFamilies.csv
+containing 372 repeat subfamilies.
+
+3. Identify repeat subfamilies not present in all chromosomes. There are 16
+of these subfamilies out of the 372 in the repeat age ranking. 
+At first I thought of removing these subfamilies but Alex suggested that it
+should not be the case because in this case, contacts should not be distinguished
+based on chr. We don't care whether contacts in a cp are not from all chr. 
+
+chr	number	agerankNotincl
+chr1	1	Charlie12
+chr2	0	
+chr3	1	Charlie12
+chr4	1	Charlie12
+chr5	0	
+chr6	0	
+chr7	0	
+chr8	1	Charlie12
+chr9	0	
+chr10	1	Charlie12
+chr11	2	Charlie11;Charlie12
+chr12	0	
+chr13	2	Charlie12;SVA_E
+chr14	2	MER6C;Charlie12
+chr15	4	Charlie11;Charlie6;L1P;Charlie12
+chr16	1	MER97b
+chr17	3	Charlie11;Charlie6;Charlie12
+chr18	1	Charlie12
+chr19	5	Charlie11;Charlie6;Ricksha;Charlie3;MER61A
+chr20	5	Charlie6;MER97b;Charlie12;MLT-int;AluYd8
+chr21	3	Charlie4;MER97b;Charlie12
+chr22	7	MER97c;MER97b;MSTD-int;Ricksha;L1P;Charlie12;LTR10F
+chrX	1	Charlie12
+
+agerankNotincl - repeats not in that chr
+number - number of repeat not in that chr
+
+4. Per chr, per cp, per repeat subfamily, count number of contacts with non0 shared
+number that repeat or non0 minimum repeat count. In other words, count the contact
+if it shares at least 1 site of that repeat. This is in contrast to calculating the
+total shared number (mininum repeat count) of contacts. Given that seq i has 2 L3
+sites while seq j has 3, the shared number of L3 between the two sequences is 2.
+With the first approach, the answer is 1 because we count the ij contact since they 
+have a non0 shared number of L3 which is 2. We don't care about the actual shared 
+number of L3 sites. In the second approach we total the shared number of sites 
+so the answer is 2. 
+
+Output: PREELMTISSDYN.MX
+
+PREELMTISSDYN.MX is set to contain data on all elements in agerank although some
+chr don't have data on some elements in agerank. If this is the case, value for
+all cps for this element is 0. 
+
+
+chr21 example
+> head(PREELMTISSDYN.MX)
+                 1     2     3     4     5     6     7     8
+num.contacts 24980 27129 27807 27864 27603 27015 25450 23933
+MARNA           12    18    20    31    32    25    27    39
+L1MEd           71   100   127   107   151   134   153   145
+L3            1225  1584  1739  1923  2183  2375  2333  2230
+L1ME4a        1160  1410  1584  1711  1836  1813  1758  1671
+L4             410   452   470   531   571   578   557   505
+
+Both approaches should be done to get more information about the enrichment
+of repeats in contacts. For instance having high number of contacts with
+non0 minimum repeat count may not mean that each contact have a lot of 
+common repeat sites. Also, a high total number of shared sites may be just
+due to a number of contacts. 
+
+Current data did the first approach. 
+
+4.5. Merge PREELMTISSDYN.MX of all chr.
+Sum matrices from all chr. They should have the same dimension since they contain
+data on elements in agerank arranged in the same order.
+
+5. Generate ELMTISSDYN.MX and generate final heatmap. This can be done from 
+individual PREELMTISSDYN.MX of chr or the combined PREELMTISSDYN.MX dataset. 
+Values here are the PREELMTISSDYN.MX values divided by num.contacts (in first 
+row of PREELMTISSDYN.MX) per cp. A bin which dictates how many consecutive 
+elements in the age rank can be combined. This decrease in resolution of data 
+makes the subsequent heatmap understable. Bin=12 means that PREELMTISSDYN.MX 
+values from every 12 consecutive elements starting from the top of the agerank 
+will be summed before dividing with the num.contacts. 
+
+Bin=1
+                    1           2           3
+MARNA     0.001404696 0.001548674 0.001645757
+Charlie11 0.000000000 0.000000000 0.000000000
+L1MEd     0.006480432 0.006490887 0.006528045
+L3        0.153715866 0.159759100 0.163123272
+L1ME4a    0.125408766 0.131207118 0.133568645
+L4        0.026963240 0.028958250 0.030045769
+
+Bin=12
+              1          2          3          4
+Bin1 0.61253928 0.63003374 0.63875798 0.64539313
+Bin2 2.42909654 2.48753530 2.51883026 2.54051876
+Bin3 1.36604989 1.39895206 1.41897196 1.43345564
+Bin4 0.12078295 0.12034857 0.11996710 0.11976682
+Bin5 0.09119881 0.09342582 0.09427438 0.09476821
+Bin6 0.02977431 0.02925538 0.02895138 0.02877237
+
+This ELMTISSDYN.MX is used for the raw and normalised version of the heatmap.
+The raw heatmap will use the values from ELMTISSDYN.MX. For the normalised ones,
+z-scores are calculated per element:
+ELMTISSDYN.MX.norm[i,] <- (ELMTISSDYN.MX[i,] - mean(ELMTISSDYN.MX[i,]))/
+                           sd(ELMTISSDYN.MX[i,])
+where i denotes a row (an element).	  
+
+6.
+################################################################################
+LOG
+
+28/08/2019 - Cleaned

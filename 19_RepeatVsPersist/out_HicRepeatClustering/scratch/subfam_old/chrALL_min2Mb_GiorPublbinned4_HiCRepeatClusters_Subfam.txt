@@ -1,0 +1,4 @@
+>Cluster1
+Bin1;Bin3;Bin4;Bin5;Bin7;Bin8;Bin9;Bin14;Bin15;Bin17;Bin19;Bin20;Bin21;Bin22;Bin23;Bin24;Bin25;Bin26;Bin29;Bin31;Bin32;Bin34;Bin35;Bin37;Bin39;Bin40;Bin41;Bin43;Bin44;Bin45;Bin46;Bin47;Bin48;Bin50;Bin51;Bin52;Bin54;Bin56;Bin57;Bin58;Bin59;Bin60;Bin61;Bin63;Bin64;Bin65;Bin66;Bin67;Bin68;Bin69;Bin72;Bin74;Bin75;Bin77;Bin78;Bin79;Bin80;Bin81;Bin82;Bin83;Bin87;Bin88;Bin92;Bin93
+>Cluster2
+Bin2;Bin6;Bin10;Bin11;Bin12;Bin13;Bin16;Bin18;Bin27;Bin28;Bin30;Bin33;Bin36;Bin38;Bin42;Bin49;Bin53;Bin55;Bin62;Bin70;Bin71;Bin73;Bin76;Bin84;Bin85;Bin86;Bin89;Bin90;Bin91
