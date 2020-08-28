@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/3_RepeatAge"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatAge"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
@@ -19,10 +19,10 @@ repFilePath = paste0(wk.dir, "/out_addToSummary/hg19repeats_repName.RData")
 out.dir = paste0(wk.dir, "/out_clusters")
 ### OTHER SETTINGS #############################################################
 rank.v = c("Giordano364rank", "GiorPubl372rank", "Publrank")
-plotOnly = FALSE
+plotOnly = TRUE
 agerankPlot = TRUE
-CNplot = TRUE
-RepTypeOriginPlot = TRUE
+CNplot = FALSE
+RepTypeOriginPlot = FALSE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -147,7 +147,7 @@ if(agerankPlot==TRUE){
       #geom_density( alpha=0.4, aes(fill=factor(cluster), y=..count..) ) +
       geom_density( alpha=0.4, aes(fill=factor(cluster)) ) +
       guides(fill=FALSE) + 
-      scale_x_continuous(limits=c(1, numTEs)) + 
+      scale_x_continuous(limits=c(1, numTEs), breaks=c(0,100,200,249,344,364)) + 
       labs(title=paste0("hg19repeats_", rank.v[k]),
            x=paste0(numTEs, " TEs in chronological order"),
            y="Density") + 
