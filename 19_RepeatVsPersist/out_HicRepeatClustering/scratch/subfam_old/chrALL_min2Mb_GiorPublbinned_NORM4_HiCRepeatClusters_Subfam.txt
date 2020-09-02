@@ -1,8 +1,0 @@
->Cluster1
-Bin2;Bin3;Bin4;Bin5;Bin8;Bin9;Bin13;Bin17;Bin18;Bin20;Bin21;Bin22;Bin23;Bin24;Bin25;Bin26;Bin27;Bin31;Bin32;Bin34;Bin35;Bin38;Bin39;Bin40;Bin41;Bin43;Bin44;Bin45;Bin46;Bin47;Bin48;Bin49;Bin50;Bin51;Bin52;Bin53;Bin56;Bin58;Bin60;Bin61;Bin62;Bin63;Bin64;Bin65;Bin66;Bin67;Bin68;Bin69;Bin72;Bin73;Bin74;Bin75;Bin77;Bin78;Bin79;Bin81;Bin82;Bin83;Bin88
->Cluster2
-Bin1;Bin6;Bin7;Bin10;Bin11;Bin12;Bin14;Bin15;Bin16;Bin19;Bin28;Bin29;Bin30;Bin33;Bin36;Bin37;Bin42;Bin54;Bin55;Bin57;Bin59;Bin70;Bin71;Bin76;Bin80;Bin84;Bin85;Bin86;Bin87;Bin89;Bin90;Bin91;Bin92;Bin93
->Cluster1
-Bin1;Bin2;Bin3;Bin4;Bin5;Bin8;Bin9;Bin17;Bin18;Bin20;Bin21;Bin22;Bin23;Bin24;Bin25;Bin26;Bin31;Bin32;Bin34;Bin35;Bin38;Bin39;Bin40;Bin41;Bin43;Bin44;Bin45;Bin46;Bin47;Bin48;Bin50;Bin51;Bin52;Bin53;Bin56;Bin58;Bin60;Bin61;Bin64;Bin66;Bin67;Bin68;Bin69;Bin72;Bin73;Bin74;Bin75;Bin77;Bin78;Bin79;Bin81;Bin82;Bin83;Bin88
->Cluster2
-Bin6;Bin7;Bin10;Bin11;Bin12;Bin13;Bin14;Bin15;Bin16;Bin19;Bin27;Bin28;Bin29;Bin30;Bin33;Bin36;Bin37;Bin42;Bin49;Bin54;Bin55;Bin57;Bin59;Bin62;Bin63;Bin65;Bin70;Bin71;Bin76;Bin80;Bin84;Bin85;Bin86;Bin87;Bin89;Bin90;Bin91;Bin92;Bin93

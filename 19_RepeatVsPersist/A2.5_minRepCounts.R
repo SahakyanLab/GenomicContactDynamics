@@ -17,7 +17,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-rep.group = "subfam12" # "fam" | "subfam"
+rep.group = "subfam31" # "fam" | "subfam"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group)
 out.dir = paste0(wk.dir, "/out_minRepCounts")

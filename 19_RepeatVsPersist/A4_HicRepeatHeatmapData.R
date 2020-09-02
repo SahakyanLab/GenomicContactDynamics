@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_RepeatVsPersist"
   } else if (whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
@@ -19,10 +19,10 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-rep.group = "subfam12" # "fam" | "subfam" | subfam6
+rep.group = "subfam24" # "fam" | "subfam" | subfam6
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group)
-out.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData/", rep.group)
+out.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData")
 ### OTHER SETTINGS #############################################################
 # Age rank identifier
 out.name = "GiorPubl"
@@ -53,6 +53,8 @@ HicRepeatHeatmapData <- function(
   out.name = "GiorPubl"
   #combineOut = FALSE
 ){
+  
+  agerank <-  as.character(agerank)
   agerank.len <- length(agerank)
   #if(combineOut==TRUE){
   # Initialize final matrix following ELMTISSDYN.MX format
@@ -120,9 +122,15 @@ HicRepeatHeatmapData <- cmpfun(HicRepeatHeatmapData, options=list(suppressUndefi
 ################################################################################
 print(paste0(gcb, "_", rep.group, "..."), quote=FALSE)
 
+out.dir <- paste0(out.dir, "/", rep.group)
+if( !dir.exists(out.dir) ){
+  dir.create(out.dir)
+}
+
 col.nme <- ifelse(rep.group=="fam", "repFamily", "repName")
 agerank <- read.csv(file=paste0(agerank.dir, "/rep", rep.group, ".csv"),
                     header=TRUE, stringsAsFactors=FALSE)[,col.nme]
+agerank <- as.character(agerank)
 
 for(chr in chr.v){
   

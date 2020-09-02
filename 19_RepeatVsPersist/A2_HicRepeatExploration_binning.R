@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_RepeatVsPersist"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
@@ -26,7 +26,7 @@ out.dir = paste0(wk.dir, "/out_HicRepeatExploration")
 gcb = "min2Mb"
 chr.v = paste0("chr", c(1:22, "X"))
 nCPU = 1L
-bin.size = 12L
+bin.size = 24L
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -84,6 +84,7 @@ foreach(itr=isplitVector(1:chr.v.len, chunks=nCPU),
     ntis <- MINELM.MX[,"ntis"]
     ij.len <- length(MINELM.MX[,1])
     min.el <- colnames(MINELM.MX)
+    min.el <- min.el[min.el!="ntis"]
    
     MINELM.MX <- foreach(el.nme=el.nme.v, .inorder=TRUE, .combine="cbind"
                          

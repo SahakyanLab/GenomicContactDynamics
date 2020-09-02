@@ -1,4 +1,0 @@
->Cluster1
-L2;L1;ERVL;TcMar-Mariner;ERVL-MaLR;MIR;hAT-Charlie;ERV1;CR1;RTE;Low_complexity;LTR;TcMar-Tigger;Gypsy?;Dong-R4;hAT-Tip100;hAT;Gypsy;Deu;centr;Unknown;ERVL?;MuDR;tRNA;DNA?;hAT-Blackjack;TcMar-Tc2;PiggyBac;DNA;TcMar?;Helitron;hAT?;SINE;SINE?;ERV;LTR?;Penelope?;acro
->Cluster2
-Alu;Other;Simple_repeat;ERVK;telo;snRNA;Satellite;srpRNA;TcMar;rRNA;RTE-BovB;L1?;scRNA;RNA;PiggyBac?;Helitron?;Merlin;Unknown?
