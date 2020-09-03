@@ -38,7 +38,6 @@ cluster.TF = TRUE
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
 library(viridis)
-library(gplots)
 library(data.table)
 library(ComplexHeatmap)
 

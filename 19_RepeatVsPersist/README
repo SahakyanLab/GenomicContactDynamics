@@ -10,10 +10,15 @@ library(itertools)
 library(GenomicRanges)
 library(compiler)
 library(data.table)
+library(viridis)
+library(ComplexHeatmap)
+library(factoextra)
+library(cluster)
 
 source(paste0(lib, "/TrantoRextr/GEN_WhichOverlap.R"))
 source(paste0(lib, "/TrantoRextr/GEN_getRepMaskSubset.R"))
 source(paste0(wk.dir, "/lib/GEN_getBinsOverlapRepMasker2.R"))
+source(paste0(lib, "/doVenn.R"))
 ################################################################################
 # A. Number of contacts with shared number of repeat families/subfamilies  vs. 
 # contact persistence
@@ -42,6 +47,14 @@ contacting regions.
  [5,]   12    2     0     0    2     0       0     0
  
 Only repeat families/subfamilies relevant for the chr is included in its matrix.
+
+2. (binning) Does the same thing as (2) but groups repeat elements to make the
+resulting heatmap cleaner. Uses MINELM.MX from (2) as starting point. For the
+example refer to MINELM.MX above. If bin=3, MIRb, LIME2 and L1PA7 will be grouped
+together and will be represented as 1 row in the heatmap. The code takes the
+sum of these three columns per contact and the value is the total number of pairs 
+of sites of MIRb/L1ME2/L1PA7 in the contact. Pairs of sites should be formed by the
+same repeat.
 
 2.5. Boxplot of the minimum repeat count of contacts per Cp (combining all chromosomes)
 Output: MINREPCOUNT and plot
@@ -121,7 +134,6 @@ PREELMTISSDYN.MX is set to contain data on all elements in agerank although some
 chr don't have data on some elements in agerank. If this is the case, value for
 all cps for this element is 0. 
 
-
 chr21 example
 > head(PREELMTISSDYN.MX)
                  1     2     3     4     5     6     7     8
@@ -147,13 +159,7 @@ data on elements in agerank arranged in the same order.
 5. Generate ELMTISSDYN.MX and generate final heatmap. This can be done from 
 individual PREELMTISSDYN.MX of chr or the combined PREELMTISSDYN.MX dataset. 
 Values here are the PREELMTISSDYN.MX values divided by num.contacts (in first 
-row of PREELMTISSDYN.MX) per cp. A bin which dictates how many consecutive 
-elements in the age rank can be combined. This decrease in resolution of data 
-makes the subsequent heatmap understable. Bin=12 means that PREELMTISSDYN.MX 
-values from every 12 consecutive elements starting from the top of the agerank 
-will be summed before dividing with the num.contacts. 
-
-Bin=1
+row of PREELMTISSDYN.MX) per cp. 
                     1           2           3
 MARNA     0.001404696 0.001548674 0.001645757
 Charlie11 0.000000000 0.000000000 0.000000000
@@ -162,24 +168,16 @@ L3        0.153715866 0.159759100 0.163123272
 L1ME4a    0.125408766 0.131207118 0.133568645
 L4        0.026963240 0.028958250 0.030045769
 
-Bin=12
-              1          2          3          4
-Bin1 0.61253928 0.63003374 0.63875798 0.64539313
-Bin2 2.42909654 2.48753530 2.51883026 2.54051876
-Bin3 1.36604989 1.39895206 1.41897196 1.43345564
-Bin4 0.12078295 0.12034857 0.11996710 0.11976682
-Bin5 0.09119881 0.09342582 0.09427438 0.09476821
-Bin6 0.02977431 0.02925538 0.02895138 0.02877237
-
-This ELMTISSDYN.MX is used for the raw and normalised version of the heatmap.
+This ELMTISSDYN.MX is used for the raw, normalised and fold change version of 
+the heatmap.
 The raw heatmap will use the values from ELMTISSDYN.MX. For the normalised ones,
 z-scores are calculated per element:
 ELMTISSDYN.MX.norm[i,] <- (ELMTISSDYN.MX[i,] - mean(ELMTISSDYN.MX[i,]))/
                            sd(ELMTISSDYN.MX[i,])
 where i denotes a row (an element).	  
+For the log2 fold change, the reference is raw Cp=1.
 
-6.
+6. Cluster repeats based on trend. Three clustering ways used:
+kmeans (euclidean), pam (euclidean), pam (manhattan). Venn is generated to
+compare differences in clustering across methods. 
 ################################################################################
-LOG
-
-28/08/2019 - Cleaned

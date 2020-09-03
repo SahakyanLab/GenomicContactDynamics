@@ -34,7 +34,6 @@ SEED = 438
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
 library(compiler)
-library(RColorBrewer)
 library(factoextra)
 library(cluster)
 source(paste0(lib, "/doVenn.R"))
