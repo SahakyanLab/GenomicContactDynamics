@@ -19,7 +19,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-rep.group = "fam" # "fam" | "subfam" | "subfam6"
+rep.group = "subfam31" # "fam" | "subfam" | "subfam6"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 PreElmTissDyn.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData/", rep.group)
 # hmclustPth = paste0(wk.dir, "/out_HicRepeatHeatmap/hm_famVssubfam_clust.csv")
@@ -33,7 +33,8 @@ chr = "chrALL"
 regenerateData = TRUE
 # Lineplot per repeat of average minimum repeat count per Cp
 lineplot = TRUE
-cluster.TF = TRUE
+cluster.TF = FALSE
+addLoess = TRUE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -41,41 +42,22 @@ library(viridis)
 library(data.table)
 library(ComplexHeatmap)
 
-
-myheatmap <- function(mx=ELMTISSDYN.MX, 
-                      colScheme=coul <- viridis::viridis(n=299),
-                      rep.group=rep.group, mx.nme="raw", cluster=FALSE
+myheatmap <- function(mx=ELMTISSDYN.MX, colScheme=viridis::viridis(n=10), 
+                      rep.group=rep.group, mx.nme="raw", cluster=FALSE, at.v=at.v
                       ){
-  if(mx.nme=="raw"){
-    at.v=seq(from=0, to=1, by=0.2)
-  } 
   
   if( grepl(x=rep.group, pattern="subfam", fixed=TRUE) ){
     h1 <- ComplexHeatmap::Heatmap(matrix=mx, col=colScheme, na_col="gray50", 
                                   cluster_columns=FALSE, cluster_rows=cluster,
                                   row_names_gp=gpar(fontsize=2),
-                                  heatmap_legend_param=list(title=mx.nme))
-    if(mx.nme=="raw"){
-      h1 <- ComplexHeatmap::Heatmap(matrix=mx, col=colScheme, na_col="gray50", 
-                                    cluster_columns=FALSE, cluster_rows=cluster,
-                                    row_names_gp=gpar(fontsize=2),
-                                    heatmap_legend_param=list(title=mx.nme, at=at.v))
-    }
+                                  heatmap_legend_param=list(title=mx.nme, at=at.v))
     return(h1)
   } else if(rep.group=="fam"){
-    
     h1 <- ComplexHeatmap::Heatmap(matrix=mx, col=colScheme, na_col="gray50",
                                   cluster_columns=FALSE, cluster_rows=cluster, 
                                   row_dend_width=unit(50,"mm"), 
                                   row_names_gp=gpar(fontsize=15),
-                                  heatmap_legend_param=list(title=mx.nme))
-    if(mx.nme=="raw"){
-      h1 <- ComplexHeatmap::Heatmap(matrix=mx, col=colScheme, na_col="gray50",
-                                    cluster_columns=FALSE, cluster_rows=cluster, 
-                                    row_dend_width=unit(50,"mm"), 
-                                    row_names_gp=gpar(fontsize=15),
-                                    heatmap_legend_param=list(title=mx.nme, at=at.v))
-    } 
+                                  heatmap_legend_param=list(title=mx.nme, at=at.v))
     return(h1)
   } else {
     stop("Invalid rep.group argument.")
@@ -91,7 +73,11 @@ if( !dir.exists(out.dir) ){
 linep.dir <- paste0(out.dir, "/lineplot")
 if( !dir.exists(linep.dir) ){ dir.create(linep.dir) }
 
-coul <- viridis::viridis(n=100)
+#coul <- c(viridis::viridis(n=20)[c(4,7,9,18,20)], viridis::magma(n=20)[c(20:16)])
+#coul <- viridis(n=10)
+coul <- c(viridis(n=5)[1:4], 
+          # From viridis::plasma
+          c("#F0F921FF", "#FDB130FF", "#FCA338FF", "#E56A5DFF", "#DE6065FF"))
 
 id <- paste0(chr, "_", gcb)
 ELMTISSDYN <- list()
@@ -164,30 +150,73 @@ if(regenerateData){
 mx.nme.v <- names(ELMTISSDYN)
 for(mx.nme in mx.nme.v){
   mx <- ELMTISSDYN[[mx.nme]]
-  
-  pdf(file=paste0(out.dir, "/", id, "_", mx.nme, "_heatmap.pdf"), 
-      width=10, height=10)
-  
+ 
   drp.rw <- apply( X=mx, MARGIN=1, FUN=function(rw) any(!is.finite(rw)) )
   mx[!is.finite(mx)] <- NA
+  
+  if(mx.nme=="raw"){
+    at.v <- seq(from=0, to=1, by=0.1)
+  } else if( mx.nme%in%c("norm", "fc") ){
+    
+    if(mx.nme=="fc" & rep.group=="fam"){
+      at.v <- c(-2, -1, -0.5, 0, 0.5, 1, 2, 3, 4, 6, 8)
+    }  else {
+      at.v <- seq(from=floor(min(as.vector(mx[!drp.rw]), na.rm=TRUE)), 
+                  to=ceiling(max(as.vector(mx[!drp.rw]), na.rm=TRUE)), 
+                  length.out=10)
+      at.v <- sort(unique(c(0, round(x=at.v, digits=1))))
+    }
+    
+  }
+  #-------------------Generate heatmap
+  pdf(file=paste0(out.dir, "/", id, "_", mx.nme, "_heatmap.pdf"), 
+      width=10, height=10)
   
   if(cluster.TF){
     # Rows with non-finite values; exclude in clustering then append later to
     # clustered heatmap.
     h <- myheatmap(mx=mx[!drp.rw,], colScheme=coul, rep.group=rep.group, 
-                   mx.nme=mx.nme, cluster=cluster.TF)
+                   mx.nme=mx.nme, cluster=cluster.TF, at.v=at.v)
     h2 <- myheatmap(mx=mx[drp.rw,], colScheme=coul, rep.group=rep.group, 
-                    mx.nme=mx.nme, cluster=FALSE)
+                    mx.nme=mx.nme, cluster=FALSE, at.v=at.v)
     h <- h %v% h2
     
   } else {
     h <- myheatmap(mx=mx, colScheme=coul, rep.group=rep.group, 
-                   mx.nme=mx.nme, cluster=cluster.TF)
+                   mx.nme=mx.nme, cluster=cluster.TF, at.v=at.v)
   }
- 
+  
   print(h)
   
   dev.off()
+  
+  rm(at.v, drp.rw)
+  #-------------------Version of heatmap with loess
+  if(addLoess & mx.nme=="norm"){
+    x.v <- as.numeric(colnames(mx))
+    x.v.len <- length(x.v)
+    loe <- apply(X=mx, MARGIN=1, FUN=function(rw){sum(x.v*rw)/x.v.len})
+    names(names(loe)) <- rownames(mx)
+    
+    row.loe <- rowAnnotation(
+      `Weighted (z-score) \n average Cp`=anno_lines(loe, smooth=TRUE, ylim=c(-8,8),
+                                                    gp=gpar(col="gray50", lwd=3), 
+                                                    pt_gp=gpar(col="black", cex=1.5),
+                                                    width=unit(2, "cm")),
+                                                
+      annotation_name_gp=gpar(cex=0.5)
+    )
+    
+    pdf(file=paste0(out.dir, "/", id, "_", mx.nme, "_loess_heatmap.pdf"), 
+        width=10, height=10)
+    print(h+row.loe)
+    dev.off()
+    
+    rm(row.loe)
+  }
+  
+  rm(mx)
+  
 }
 
 # rm(list=ls()); gc()

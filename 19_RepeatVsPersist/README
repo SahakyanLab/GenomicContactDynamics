@@ -180,4 +180,8 @@ For the log2 fold change, the reference is raw Cp=1.
 6. Cluster repeats based on trend. Three clustering ways used:
 kmeans (euclidean), pam (euclidean), pam (manhattan). Venn is generated to
 compare differences in clustering across methods. 
+
+7. Cluster trends of individual subfamilies in each bin for a given size.
+In the plot, the centers are in blue, the dominant subfamilies (>=10% raw fraction
+of contacts) are in red and the rest of the subfamilies are in grey. 
 ################################################################################

@@ -63,7 +63,7 @@ HicRepeatCluster <- function(
     drop <- paste0(chr, ":", paste(names(drp.rw==TRUE), collapse=";") )
     cat("These repeats were removed because of having NaN values.", drop)
     write(drop, file=paste0(out.dir, "/", chr, "_", gcb, "_", suffix, 
-                            "_removedRepeats.txt"))
+                            "_removedRepeats.txt"), append=FALSE)
   }
   
   CLUST <- list()
@@ -122,7 +122,7 @@ HicRepeatCluster <- function(
       
       pdf(file=paste0(out.dir, "/", out.id, "_CLUSTlineplot.pdf"), 
           height=20, width=20)
-      par( mfrow=c(2,2), mar=c(5.1, 7, 5, 2.1), mgp=c(4, 1.3, 0) )
+      par(mfrow=c(2,2), mar=c(5.1, 7, 5, 2.1), mgp=c(4, 1.3, 0))
       
       for(cl in 1:numClusters){
         
