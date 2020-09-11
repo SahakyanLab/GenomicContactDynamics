@@ -27,6 +27,7 @@ RepTypeOriginPlot = FALSE
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
 library(ggsci)
+library(viridis)
 library(ggplot2)
 source(paste0(lib, "/GG_bgr.R"))
 ################################################################################
@@ -148,6 +149,7 @@ if(agerankPlot==TRUE){
       geom_density( alpha=0.4, aes(fill=factor(cluster)) ) +
       guides(fill=FALSE) + 
       scale_x_continuous(limits=c(1, numTEs), breaks=c(0,100,200,249,344,364)) + 
+      scale_fill_manual(values=viridis(n=3)[1:2]) + 
       labs(title=paste0("hg19repeats_", rank.v[k]),
            x=paste0(numTEs, " TEs in chronological order"),
            y="Density") + 

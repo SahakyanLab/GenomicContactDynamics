@@ -11,12 +11,12 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/3_RepeatAge"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatAge"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-repFilePath = paste0(wk.dir, "/out_addToSummary/hg19repeats_repName.RData")
+repFilePath = paste0(wk.dir, "/z_ignore_git/out_addToSummary/hg19repeats_repName.RData")
 ### OTHER SETTINGS #############################################################
 out.dir = paste0(wk.dir, "/out_characterizeAgeRank")
 rank.v = c("Giordano364rank", "GiorPubl372rank", "Publrank")
@@ -25,7 +25,7 @@ plotOnly = FALSE
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
 library(data.table)
-library(RColorBrewer)
+library(viridis)
 library(ggplot2)
 source(paste0(lib, "/GG_bgr.R"))
 ################################################################################
@@ -63,10 +63,10 @@ for(k in 1:rank.v.len){
     guides(size=FALSE) +
     labs(colour=NULL, shape=NULL, main=rank.v[k], y="Repeat Family", 
          x="TE subfamilies in chronological order") +
-    #scale_color_manual(values=coul) + 
     scale_shape_manual(values=c(15,20)) +
     scale_size_manual(values=c(4,4)) + 
     scale_y_discrete(limits=unique(df$repFamily)) + 
+    scale_color_manual(values=viridis(n=3)[1:2]) +
     bgr2 + 
     theme(panel.grid.major.y=element_line(linetype="dashed",
                                           size=0.5, colour="grey80"),
