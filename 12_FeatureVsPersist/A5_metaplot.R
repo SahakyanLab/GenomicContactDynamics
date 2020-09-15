@@ -18,20 +18,16 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/12_FeatureVsPersist"
     data.dir = "/Users/ltamon/Database"
-  } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
-    data.dir = "/t1-data/user/ltamon/Database"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 # Chromatin features directory
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced_b1b2b3")
-#foifile = paste0(wk.dir, "/foifile/foifile_priority_runA_numOlapBANDcomOlap_edited")
-foifile = paste0(wk.dir, "/foifile/foifile_test")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
+#foifile = paste0(wk.dir, "/foifile/foifile_priority_runB_cp21_numOlapAANDcomOlap_acrossTissues")
+foifile = paste0(wk.dir, "/foifile/foifile_nonBDNA")
 # File of feature grouping
 featgrpfile = paste0(wk.dir, "/features_group")
 fetacp.dir = paste0(wk.dir, "/out_FETACP")
@@ -39,7 +35,7 @@ out.dir = paste0(wk.dir, "/out_metaplot")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 description = NULL
-out.id = "centromere" #"priority_runA_numOlapBANDcomOlap_edited"
+out.id = "nonBDNA"
 plotOnly = FALSE
 # What bin to plot for FC vs. bin position
 cp = 21
@@ -47,8 +43,7 @@ cp = 21
 FCBIN.order = 0 # pos 
 FCCP.order = 21 # Cp
 
-colourBy = "foi" # "foi" | "group"
-base.pal <- yarrr::piratepal("basel")
+colourBy = "group" # "foi" | "group"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -56,7 +51,7 @@ library(reshape)
 library(ggplot2)
 library(RColorBrewer)
 library(ggpubr)
-library(yarrr)
+library(yarrr); base.pal <- yarrr::piratepal("basel")
 source(paste0(lib, "/GG_bgr.R"))
 source(paste0(wk.dir, "/lib/finaliseFOI.R"))
 ################################################################################
@@ -73,7 +68,7 @@ header.ind.len <- length(header.ind)
 featgrp.v <- sapply(X=1:(header.ind.len-1), simplify=TRUE, FUN=function(x){
   v <- featgrp[(header.ind[x]+1):(header.ind[x+1]-1)]
   v <- paste("_", v, "_", sep="")
-  return( paste(v, collapse="|") )
+  #return( paste(v, collapse="|") )
 })
 names(featgrp.v) <- featgrp[header.ind[-header.ind.len]]
 #-------------------------------------------------------------------------------
@@ -104,17 +99,17 @@ if(plotOnly==FALSE){
   
   for(f in 1:foi.v.len){
     
-    foi <- tail(x=strsplit(x=foi.v[f], split="\\/")[[1]], n=1)
-    foi <- gsub(x=foi, pattern="_foi", replacement="", fixed=TRUE)
-    
+    foi.v[f] <- tail(x=strsplit(x=foi.v[f], split="\\/")[[1]], n=1)
+    foipat <- strsplit(x=foi.v[f], split="foi\\_|\\_desc")[[1]][2]
+   
     # Load FETACP.MX
     load(file=paste0(fetacp.dir, "/chrALL_", gcb, "_", 
-                     gsub(x=foi, pattern="ct\\_|desc\\_|\\.bed", replacement=""),
+                     gsub(x=foi.v[f], 
+                          pattern="ct\\_|foi\\_|desc\\_|\\.bed", replacement=""),
                      "_fetacp.RData"))
     
     # Foi name for output
-    foi <- strsplit(x=foi, split="ct\\_|\\_desc\\_|\\.bed")
-    foi.v[f] <- foi[[1]][2]; rm(foi); gc()
+    foi.v[f] <- strsplit(x=foi.v[f], split="foi\\_|\\_desc\\_|\\.bed")[[1]][2]
     
     if(f==1){
       pos.v <- as.numeric(colnames(FETACP.MX))
@@ -153,12 +148,15 @@ if(plotOnly==FALSE){
     FCVSCP[[ foi.v[f] ]] <- df
     
     # Determine the group of foi
-    grp <- sapply(X=featgrp.v, simplify=TRUE, FUN=function(x){
-      # Add "_" to increase specificity
-      grepl(x=paste0(foi.v[f], "_"), pattern=x)
-    })
-    if(sum(grp)>1){ stop("Promiscous group for feature.") }
-    grp <- ifelse(sum(grp)==0, "Rest", names(featgrp.v)[grp])
+    #grp <- sapply(X=featgrp.v, simplify=TRUE, FUN=function(x){
+    #  ## Add "_" to increase specificity
+    #  #grepl(x=paste0(foi.v[f], "_"), pattern=x)
+    #})
+    grp.TF <- unlist(lapply(X=featgrp.v, FUN=function(grp){
+      paste0("_", foipat, "_")%in%grp
+    }))
+    if(sum(grp.TF)>1){ stop( paste0(foi.v[f], ":Promiscous group for feature.")) }
+    grp <- ifelse(sum(grp.TF)==0, "Rest", names(featgrp.v)[grp.TF])
     
     # Add group
     FCVSBIN[[ foi.v[f] ]] <- cbind(group=rep(grp), FCVSBIN[[ foi.v[f] ]])
@@ -292,7 +290,7 @@ ggsave(filename=paste0(out.dir, "/", id, "_colBy", colourBy,
                        "_FCVSCP_metaPcomb.pdf"), 
        width=15, height=15, plot=p)
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 
 
 

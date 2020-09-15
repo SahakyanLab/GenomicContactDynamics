@@ -29,10 +29,6 @@ neighboring bins
 Note: Enrichment measured as the % of contacting bins (per cp) containing a 
 given feature.
 
-0. Plot distribution of feature lengths (log10 transformed). Blank plots mean that 
-data points are fewer than two. The values below the x-axes are the min(left) and 
-max(right). Most of the feature lengths are less than Hi-C res of 40kb 
-log10(40)=4.60205999133. 
 1. Per chr, measure number of overlaps (type=any) of a feature in bins and their
 neighbors.
 pos.v=-12:12 means that measurement would be done for actual contacting bin (pos=0)

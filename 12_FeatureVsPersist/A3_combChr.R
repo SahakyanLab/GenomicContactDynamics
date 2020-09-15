@@ -5,14 +5,14 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/12_FeatureVsPersist"
     data.dir = "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -25,12 +25,12 @@ if( !is.null(whorunsit[1]) ){
 # PERSIST.MX directory
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 # feta.dir is FETA.MX chrALL directory
-feta.dir = paste0(wk.dir, "/out_FETA_b2b3")
-out.dir = paste0(wk.dir, "/out_FETACP_b2b3")
+feta.dir = paste0(wk.dir, "/out_FETA_B4scomp")
+out.dir = paste0(wk.dir, "/out_FETACP_B4scomp")
 bincount.dir = paste0(wk.dir, "/out_bincount")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced_b2b3")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_ABscomp")
+foifile = paste0(wk.dir, "/foifile/foifile_B4scomp")
 nCPU = 2L # stick to 5 NCPU, ~300G
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
@@ -145,7 +145,7 @@ foreach(itr=isplitVector(1:foi.v.len, chunks=nCPU), .inorder=FALSE,
 }
 ### END OF PARALLEL EXECUTION ###
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 
 
 

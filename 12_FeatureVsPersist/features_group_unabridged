@@ -180,3 +180,14 @@ CTCF
 SP1
 SIX5
 YY1
+>non-B_DNA
+A_Phased_Repeat
+Cruciform_Motif
+Direct_Repeat
+G_Quadruplex_Motif
+Inverted_Repeat
+Mirror_Repeat
+Short_Tandem_Repeat
+Slipped_Motif
+Triplex_Motif
+Z_DNA_Motif

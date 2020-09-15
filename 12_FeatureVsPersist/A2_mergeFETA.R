@@ -5,14 +5,14 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/12_FeatureVsPersist"
     data.dir = "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -23,12 +23,12 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 # PERSIST.MX directory
-out.dir = paste0(wk.dir, "/out_FETA_b2b3")
+out.dir = paste0(wk.dir, "/out_FETA_B4scomp")
 # feta.dir is FETA.MX directory
 feta.dir = paste0(out.dir, "/temp")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced_b2b3")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_ABscomp")
+foifile = paste0(wk.dir, "/foifile/foifile_B4scomp")
 #foigroup = "topo" #"HMnp"
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
