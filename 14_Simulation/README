@@ -1,0 +1,13 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+library(data.table)
+################################################################################
+# A.
+################################################################################
+1. Inspect simulation maps from Zahra: dimension, symmetry, min and max values.
+a. cutoff=1.5 
+Contacts with distance (value in simulation map matrix) < 1.5 is considered
+as contact. Value is unitless. Size of bead is 1. 
+2. 
+
