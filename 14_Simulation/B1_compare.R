@@ -43,12 +43,15 @@ bin.len = 40000
 metric.v = c(subj="SIM.4.2.kmer.5", ref="Cs.norm")
 #metric.v = c(subj="Cs.raw", ref="Cs.norm")
 
-# compareContactMx() arguments
-# If list incl.ind is NULL, use whole chr. 
-incl.ind = list(1000:3200)
-mask.ind = NULL
+# Filtering contacts
+# If both incl.bin.x and incl.bin.y lists are NULL, use whole chr. 
+incl.bin.x = NULL
+incl.bin.y = NULL
+mask.bin.x = list(3200:6232)
+mask.bin.y = list(1:3200)
 # If vector gap.range is NULL, no filtering. 
-gap.range = c(50, 1900)
+gap.range = c(50, Inf)
+
 # Minimum value to be contact
 c.offsubj.v = c(-0.1, 
                 seq(from=0, to=0.005, by=0.0001),
@@ -56,9 +59,9 @@ c.offsubj.v = c(-0.1,
 c.offref.v = c(-0.1, seq(from=0, to=0.5, by=0.01), 
                seq(from=0.6, to=2, by=0.1),
                seq(from=3, to=10, by=1))
-nCPU = 7L
+nCPU = 1L
 
-out.id = "only_gap50To1900_inclu1000To3200_r2" #"whole_gap50To1900_inclu1150To3120"
+out.id = "whole_maskMidSquare_gap50up" #"whole_gap50To1900_inclu1150To3120"
 
 makeBoxplotValues = TRUE
 ################################################################################
@@ -72,6 +75,7 @@ library(itertools)
 source(paste0(lib, "/UTL_doPar.R"))
 source(paste0(wk.dir, "/lib/getContactDF.R"))
 source(paste0(wk.dir, "/lib/compareContactMx.R"))
+source(paste0(wk.dir, "/lib/filterContacts.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
@@ -82,9 +86,8 @@ print(paste0(out.name, "..."), quote=FALSE)
 genome <- read.table(file=chrLenfile, stringsAsFactors=FALSE, header=TRUE,
                      colClasses=c("character", "integer", "integer"))
 mx.len <- ceiling(genome$length.bp[genome$chromosome==chr]/bin.len)
-if(mx.len!=genome$bins.40kb[genome$chromosome==chr]){
-  stop("mx.len wrong")
-}; rm(genome)
+if(mx.len!=genome$bins.40kb[genome$chromosome==chr]){ stop("mx.len wrong") } 
+rm(genome)
 temp <- expand.grid(1:mx.len, 1:mx.len)
 temp <- temp[temp[,1]>temp[,2],]
 
@@ -101,15 +104,16 @@ for(m in c("subj", "ref")){
   )))
    
   # Upper triangle
-  incl.ind.v <- unique(unlist(incl.ind))
-  df <- getContactDF(metric.dir=metric.dir, metric=metric.v[m], gcb=gcb, chr=chr, 
-                     ct=ct, bins.i=incl.ind.v, bins.j=incl.ind.v, gap.range=gap.range)
-  rm(incl.ind.v)
+  df <- getContactDF(metric.dir=metric.dir, metric=metric.v[m], 
+                     gcb=gcb, chr=chr, ct=ct, gap.range=gap.range, 
+                     incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y, 
+                     mask.bin.x=mask.bin.x, mask.bin.y=mask.bin.y)
   if( nrow(df)!=((mx.len*mx.len)-mx.len)/2 ){
     stop("Wrong number of upper triangle contacts.") 
   }
   # Change value of unwanted contacts to NA
-  df[is.infinite(df$value),"value"] <- NA
+  df[df$include==0,"value"] <- NA
+ 
   # Reorder
   df <- df[order(df$i, df$j),]
   # Converted to lower matrix df
@@ -120,9 +124,9 @@ for(m in c("subj", "ref")){
       !identical(as.numeric(df$j), as.numeric(temp$Var2)) ){
     stop("Order of df wrong.")
   }
- 
+  
   MX[[m]][ lower.tri(MX[[m]], diag=FALSE) ] <- as.numeric(df$value)
-  # Fill upper triangle only
+  # Fill upper triangle only so transpose
   MX[[m]] <- t(MX[[m]])
   
   rm(df); gc()
@@ -138,9 +142,12 @@ for(m in c("subj", "ref")){
 if(makeBoxplotValues){ dev.off() }
 
 COMPIJMX <- compareContactMx(MXsubj=MX$subj, MXref=MX$ref, 
-                             c.offsubj.v, c.offref.v,  
-                             incl.ind=incl.ind, mask.ind=mask.ind, 
-                             nCPU=nCPU)
+                             c.offsubj.v=c.offsubj.v, 
+                             c.offref.v=c.offref.v,  
+                             incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y,
+                             mask.bin.x=mask.bin.x, mask.bin.y=mask.bin.y,
+                             gap.range=gap.range, nCPU=nCPU)
+
 rm(MX); gc()
 write.csv(COMPIJMX, file=paste0(out.dir, "/", out.name, ".csv"),
           row.names=FALSE)
@@ -149,3 +156,4 @@ end.time <- Sys.time()
 end.time-start.time 
 
 # rm(list=ls()); gc()
+

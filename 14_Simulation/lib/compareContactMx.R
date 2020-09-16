@@ -10,13 +10,16 @@
 # library(itertools)
 # lib = "/Users/ltamon/DPhil/lib"
 # source(paste0(lib, "/UTL_doPar.R"))
+# source(paste0(wk.dir, "/lib/filterContactsInMx.R"))
 ### FUNCTION ###################################################################
 compareContactMx <- function(MXsubj, MXref, c.offsubj.v, c.offref.v,
-                             incl.ind.x=NULL, # list, 
-                             incl.ind.y=NULL, # list, 
-                             mask.ind.x=list(3116:6232), # list
-                             mask.ind.y=list(1:3116), # list
-                             nCPU=1L){
+                             # Upper triangle as reference for list of indices
+                             incl.bin.x = NULL, # list, 
+                             incl.bin.y = NULL, # list, 
+                             mask.bin.x = NULL, # list
+                             mask.bin.y = NULL, # list
+                             gap.range = NULL,  # vector
+                             nCPU = 1L){
   
   #-------------------Check and process matrices
   if( ( !is.matrix(MXsubj) | !is.matrix(MXref) ) ){
@@ -37,14 +40,17 @@ compareContactMx <- function(MXsubj, MXref, c.offsubj.v, c.offref.v,
   MXsubj[lower.tri(MXsubj, diag=TRUE)] <- NA_integer_
   MXref[lower.tri(MXref, diag=TRUE)] <- NA_integer_
   
-  # Mask 
-  if( is.null(incl.ind) ){ incl.ind <- list(1:len) }; rm(len)
-  if( !is.null(mask.ind) ){
-    ind <- setdiff( unique(unlist(incl.ind)), unique(unlist(mask.ind)) )
-    ind <- as.numeric(ind)
-    MXsubj <- MXsubj[ind,ind]; MXref <- MXref[ind,ind]
-    rm(ind, incl.ind, mask.ind); gc()
-  }
+  # Choose and mask contacts
+  ij.df <- expand.grid(1:len, 1:len)
+  colnames(ij.df) <- c("i", "j")
+  ij.df <- ij.df[ij.df$j>ij.df$i,]
+  incl.TF <- filterContacts(ij.df=ij.df, gap.range=gap.range,
+                            incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y,  
+                            mask.bin.x=mask.bin.x, mask.bin.y=mask.bin.y)   
+  
+  ij.df <- ij.df[!incl.TF,]; rm(incl.TF)
+  MXsubj[as.numeric(ij.df$i), as.numeric(ij.df$j)] <- NA
+  rm(ij.df); gc()
   
   # Check for contacts NA in ref but not in subj. Nothing to compare to.
   nonNA.subj.NA.ref.ij <- !is.na(MXsubj) & is.na(MXref) 

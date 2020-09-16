@@ -16,6 +16,12 @@ makeMatrixMap <- function(df = data.frame(x, y, value), # lower/upper triangle o
                           plot.title = NULL
 ){
   
+  if( !is.null(scalebr.v) ){
+    plot.title <- paste0(plot.title, "_scaleXbyY:", (scalebr.v["xmax"]-scalebr.v["xmin"]),
+                         "by", (scalebr.v["ymax"]-scalebr.v["ymin"])
+                         )
+  }
+  
   if(check.dup){
     notdup.TF <- !duplicated(df)
     if( !all(notdup.TF) ){
@@ -44,8 +50,8 @@ makeMatrixMap <- function(df = data.frame(x, y, value), # lower/upper triangle o
   brk.x <- sort(unique(df$i))
   brk.y <- sort(unique(df$j))
   len <- length(brk.x)
-  if( (nrow(df)/2)>100 ){
-    seq.v <- ceiling(seq.int(from=1, to=len, length.out=4))
+  if( (nrow(df)/2)>50 ){
+    seq.v <- ceiling(seq.int(from=1, to=len, length.out=3))
     brk.x <- brk.x[seq.v]
     brk.y <- brk.y[seq.v]
     rm(seq.v)

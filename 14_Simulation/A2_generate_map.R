@@ -30,6 +30,7 @@ out.dir = paste0(wk.dir, "/out_generate_map")
 gcb = "min2Mb"
 chr = "chr1"
 ct = "FC"
+
 # Metric name should match source directory name.
 # 5 in "CII.disc.kmer.5" is the cutoff percentage for categorisation. disc means
 # discrete (categorised CII), cont means continuouos (orig CII). 
@@ -38,14 +39,24 @@ ct = "FC"
 #             "Cp", "Cs.raw", "Cs.norm", 
 #             "SIM.disc.kmer.5", "SIM.cont.kmer.5") 
 metric.v = c("SIM.4.2.kmer.5", "Cs.norm") 
+#metric.v = "Cs.norm"
 format = "symmetric" # "symmetric" | "square"
-bins.i = 1000:3200
-bins.j = 1000:3200
+
+# Filtering contacts
+# If list incl.ind is NULL, use whole chr. 
+incl.bin.x = NULL
+incl.bin.y = NULL
+mask.bin.x = list(3200:6232)
+mask.bin.y = list(1:3200)
+# Closed interval. If vector gap.range is NULL, no filtering. 
+gap.range = c(50, Inf)
+
 # If scalebr.v==NULL, no scale bar
-scalebr.v = c(xmin=1030, xmax=1060, ymin=1030, ymax=1060)
-gap.range = c(50,1900)
+scalebr.v = c(xmin=10, xmax=210, ymin=6180, ymax=6230)
+
 # Useful in case not whole chr is to be plotted
-out.id = "whole_gap50To1900_inclu1000To3200"
+out.id = "whole_maskMidSquare_gap50up" #"whole_gap50To1900_inclu1000To3200"
+
 res = 300
 
 dropUnwantedContacts = FALSE
@@ -61,6 +72,7 @@ source(paste0(lib, "/GG_bgr.R"))
 source(paste0(wk.dir, "/lib/getContactDF.R"))
 source(paste0(wk.dir, "/lib/processForMap.R"))
 source(paste0(wk.dir, "/lib/makeMatrixMap.R"))
+source(paste0(wk.dir, "/lib/filterContacts.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
@@ -74,13 +86,16 @@ for(metric in metric.v){
     'metric.dir <- ', metric, '.dir'
   )))
     
-  df <- getContactDF(metric.dir=metric.dir, metric=metric, gcb=gcb, chr=chr, 
-                     ct=ct, bins.i=bins.i, bins.j=bins.j, gap.range=gap.range)
+  df <- getContactDF(metric.dir=metric.dir, metric=metric, 
+                     gcb=gcb, chr=chr, ct=ct, gap.range=gap.range, 
+                     incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y, 
+                     mask.bin.x=mask.bin.x, mask.bin.y=mask.bin.y)
   if(dropUnwantedContacts){
-    df <- df[!is.infinite(df$value),]
+    df <- df[df$include==1,]
   } else{
-    df[is.infinite(df$value),"value"] <- NA 
+    df[df$include==0,"value"] <- NA  
   }
+  df$include <- NULL
 
   p.lst[[metric]] <- makeMatrixMap(df=df, format=format, check.dup=FALSE, metric=metric,
                                    plot.title=paste0(out.name, "_", metric, "_scale=", 

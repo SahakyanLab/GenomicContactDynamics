@@ -1,5 +1,5 @@
 ################################################################################
-# Get contact dataframe based on metric
+# Get contact dataframe (upper triangle) based on metric
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -7,8 +7,9 @@
 # library(reshape)
 ### FUNCTION ###################################################################
 getContactDF <- function(metric.dir=metric.dir, metric="Cp", gcb = "min2Mb", 
-                         chr = "chr1", ct = "FC", gap.range=NULL, 
-                         bins.i = NULL, bins.j = NULL
+                         chr = "chr1", ct = "FC", gap.range=gap.range,
+                         incl.bin.x = NULL, incl.bin.y = NULL, # list, 
+                         mask.bin.x = NULL, mask.bin.y = NULL  # list 
                          ){
   
   p.lst <- list()
@@ -68,23 +69,13 @@ getContactDF <- function(metric.dir=metric.dir, metric="Cp", gcb = "min2Mb",
   if( any(df$i>=df$j) ){ stop("df not from upper triangle.") }
   
   # Filter contacts based on specificed i and j bins; marked with -Inf value
-  TFi <- TFj <- rep(TRUE, times=nrow(df))
-  if( !is.null(bins.i) ){
-    TFi <- df$i%in%bins.i
-  }
-  if( !is.null(bins.j) ){
-    TFj <- df$j%in%bins.j
-  }
-  df[!(TFi & TFj),"value"] <- -Inf
-  rm(TFi, TFj); gc()
-  
-  # Filter contacts based on specificed contact gap range; marked with -Inf value
-  if( !is.null(gap.range) & !identical(gap.range, c(0,Inf)) ){
-    gap.v <- df$j-df$i-1
-    df[ gap.v<gap.range[1] | gap.v>gap.range[2], "value"] <- -Inf
-  }
+  incl.TF <- filterContacts(ij.df=df[,c("i","j")], gap.range=gap.range,
+                            incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y,  
+                            mask.bin.x=mask.bin.x, mask.bin.y=mask.bin.y)
+  df$include <- as.numeric(incl.TF)
   
   print(paste0(metric, " done!"), quote=FALSE)
+  
   return(df)
   
 }

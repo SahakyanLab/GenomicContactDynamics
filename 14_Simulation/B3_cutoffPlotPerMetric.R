@@ -1,5 +1,5 @@
 ################################################################################
-# ROC 
+# Calculate confusion matrix-derived metrics
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -51,8 +51,14 @@ id <- paste(paste(names(metric.v), metric.v, sep="_"), collapse="_")
 out.name <- paste(gcb, chr, ct, out.id, id, sep="_"); rm(id)
 print(paste0(out.name, "..."), quote=FALSE)
 
-COMPIJMX <- read.csv(file=paste0(csv.dir, "/", out.name, ".csv"),
-                     header=TRUE, stringsAsFactors=FALSE)
+COMPIJMX <- read.csv(file=paste0(csv.dir, "/", out.name, ".csv"), header=TRUE, 
+                     stringsAsFactors=FALSE)
+if( !is.null(subj.TF ) ){
+  subj.range <- c( min(COMPIJMX$c.offsubj), max(COMPIJMX$c.offsubj) )
+}
+if( !is.null(ref.TF) ){
+  ref.range <- c( min(COMPIJMX$c.offref), max(COMPIJMX$c.offref) )
+}
 
 out.range <- (COMPIJMX$c.offsubj<subj.range[1] | COMPIJMX$c.offsubj>subj.range[2]) |
   (COMPIJMX$c.offref<ref.range[1] | COMPIJMX$c.offref>ref.range[2])
