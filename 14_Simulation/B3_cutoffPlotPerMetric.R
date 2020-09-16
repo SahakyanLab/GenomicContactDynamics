@@ -12,10 +12,6 @@ if( !is.null(whorunsit[1]) ){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
     wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
-  } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    data.dir = "/t1-data/user/ltamon/Database"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
@@ -30,10 +26,10 @@ metric.v = c(subj="SIM.4.2.kmer.5", ref="Cs.norm")
 out.id = "only_gap50To1900_inclu1000To3200_r2" 
 
 # Closed ranges where most contacts belong; to colour points differently
-subj.range = c(0,0.0015)
-ref.range = c(0,0.4)
+subj.range = NULL #c(0,0.0015)
+ref.range = NULL #c(0,0.4)
 
-confMxMetric.v = c("TPR", "FPR", "PPV")
+#confMxMetric.v = c("TPR", "FPR", "PPV")
 confMxMetric.v = c("TPR", "TNR", "PPV", "NPV",  "FNR", "FPR", "FDR", "FOR", "PT",
                    "TS", "ACC", "BA", "F1", "MCC", "FM", "BM", "MK")
 ################################################################################
@@ -53,10 +49,12 @@ print(paste0(out.name, "..."), quote=FALSE)
 
 COMPIJMX <- read.csv(file=paste0(csv.dir, "/", out.name, ".csv"), header=TRUE, 
                      stringsAsFactors=FALSE)
-if( !is.null(subj.TF ) ){
+
+# Filter based on subj and ref cut-off ranges
+if( is.null(subj.range ) ){
   subj.range <- c( min(COMPIJMX$c.offsubj), max(COMPIJMX$c.offsubj) )
 }
-if( !is.null(ref.TF) ){
+if( is.null(ref.range) ){
   ref.range <- c( min(COMPIJMX$c.offref), max(COMPIJMX$c.offref) )
 }
 
@@ -68,6 +66,7 @@ group[group==FALSE] <- "in-range"
 
 COMPIJMX <- COMPIJMX[group=="in-range",]
 
+# Plot
 p.lst <- list()
 for(metric in confMxMetric.v){
   
