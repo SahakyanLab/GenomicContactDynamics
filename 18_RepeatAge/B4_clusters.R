@@ -19,10 +19,10 @@ repFilePath = paste0(wk.dir, "/out_addToSummary/hg19repeats_repName.RData")
 out.dir = paste0(wk.dir, "/out_clusters")
 ### OTHER SETTINGS #############################################################
 rank.v = c("Giordano364rank", "GiorPubl372rank", "Publrank")
-plotOnly = TRUE
-agerankPlot = TRUE
+plotOnly = FALSE
+agerankPlot = FALSE
 CNplot = FALSE
-RepTypeOriginPlot = FALSE
+RepTypeOriginPlot = TRUE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -91,7 +91,7 @@ if(RepTypeOriginPlot==TRUE){
   # Removed 301 rows containing non-finite values (stat_sum).
   # Cause: no cluster contain Euteleostemi
   # No NAs for repType
-  for(col in c("repType", "origin")){
+  for(col in c("repType", "origin", "repClass")){
     
     if(plotOnly==FALSE){
       df <- REPEAT.MX[,c("cluster", col, "copyNumber")]
