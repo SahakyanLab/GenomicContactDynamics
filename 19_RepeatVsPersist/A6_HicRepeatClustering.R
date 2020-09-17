@@ -18,8 +18,12 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 rep.group = "fam" # "fam" | "subfam" | "subfam6"
-elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/", rep.group)
+elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/viridis/", rep.group)
 out.dir = paste0(wk.dir, "/out_HicRepeatClustering")
+# Repeats to mark with red line in final plot. Intended for those repeats with 
+# high raw fraction.  
+red.v = c("CR1", "TcMar-Tigger", "ERV1", "ERVL", "hAT-Charlie", "ERVL-MaLR", "L2",
+          "Low_complexity", "MIR", "Simple_repeat", "L1", "Alu")
 ### OTHER SETTINGS #############################################################
 # Age rank, ELMTISSDYN identifier
 elm.id = "GiorPubl" 
@@ -141,19 +145,26 @@ HicRepeatCluster <- function(
         axis(side=1, at=unique.ntis, cex.axis=1, cex.lab=2.5)
         mtext(side=1, text=expression("c"["p"]), line=5, cex=2.5)
         for(i in 1:21){abline(v=i, col="grey", lty="dotted")}
+        y.v <- list()
         for(elm in elements.inclust){
-          lines(x=unique.ntis, y=MX[elm,], col="grey", lwd=3)
+          col <- ifelse(elm%in%red.v, adjustcolor("darkred", alpha=0.5),
+                        adjustcolor("grey", alpha=0.5))
+          if(elm%in%red.v){ y.v[[elm]] <- MX[elm,ncol(MX)] }
+          lines(x=unique.ntis, y=MX[elm,], col=col, lwd=3)
         }
-        lines(x=unique.ntis, y=clust$centers[cl,], col="navy", lwd=4)
+        text(x=21, y=unlist(y.v), labels=names(y.v), cex=0.5, col="darkred")
+        lines(x=unique.ntis, y=clust$centers[cl,], col=adjustcolor("navy", alpha=0.7), lwd=4)
+        rm(y.v)
         
-      }
+      } 
+    
       dev.off()
       
       print(paste0(m, ": HicRepeatClustering is DONE!"), quote=FALSE)
       
     } # Clustering end
     
-  }
+  } # Clustering method for loop end
   
   out.id <- paste0("seed_", seed, "_", chr, "_", gcb, "_", suff)
   doVenn(vennlist=CLUST, filename=paste0(out.dir, "/", out.id), saveVenndata=TRUE)

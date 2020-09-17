@@ -19,7 +19,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-rep.group = "subfam31" # "fam" | "subfam" | "subfam6"
+rep.group = "fam" # "fam" | "subfam" | "subfam6"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 PreElmTissDyn.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData/", rep.group)
 # hmclustPth = paste0(wk.dir, "/out_HicRepeatHeatmap/hm_famVssubfam_clust.csv")
@@ -32,9 +32,9 @@ chr = "chrALL"
 # Regenerate ELMTISSDYN?
 regenerateData = TRUE
 # Lineplot per repeat of average minimum repeat count per Cp
-lineplot = TRUE
+lineplot = FALSE
 cluster.TF = FALSE
-addLoess = TRUE
+addLoess = FALSE # Only works if cluster.TF=FALSE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -74,10 +74,10 @@ linep.dir <- paste0(out.dir, "/lineplot")
 if( !dir.exists(linep.dir) ){ dir.create(linep.dir) }
 
 #coul <- c(viridis::viridis(n=20)[c(4,7,9,18,20)], viridis::magma(n=20)[c(20:16)])
-#coul <- viridis(n=10)
-coul <- c(viridis(n=5)[1:4], 
-          # From viridis::plasma
-          c("#F0F921FF", "#FDB130FF", "#FCA338FF", "#E56A5DFF", "#DE6065FF"))
+coul <- viridis(n=299)
+#coul <- c(viridis(n=5)[1:4], 
+#          # From viridis::plasma
+#          c("#F0F921FF", "#FDB130FF", "#FCA338FF", "#E56A5DFF", "#DE6065FF"))
 
 id <- paste0(chr, "_", gcb)
 ELMTISSDYN <- list()
@@ -220,4 +220,5 @@ for(mx.nme in mx.nme.v){
 }
 
 # rm(list=ls()); gc()
+
 

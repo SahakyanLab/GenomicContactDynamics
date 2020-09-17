@@ -18,7 +18,7 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 rep.group = "subfam" # "fam" | "subfam" | "subfam6"
-elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/", rep.group)
+elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/viridis/", rep.group)
 out.dir = paste0(wk.dir, "/out_AverageBinTrend")
 ### OTHER SETTINGS #############################################################
 # Age rank, ELMTISSDYN identifier
@@ -34,8 +34,8 @@ SEED = 438
 hmaptype.v = "norm" # c("raw", "norm", "fc")
 # Raw >= 0.1; arrange from lowest to highest; only c("MIRb", "MIR") > 0.5;
 # marked red in the plot
-domsf.v = c("MER5A", "L3", "L1M5", "AluJo", "L2", "AluJb", "AluSx", "MIR3", 
-            "AluY", "MIR", "MIRb")
+red.v = c("MER5A", "L3", "L1M5", "AluJo", "L2", "AluJb", "AluSx", "MIR3", "AluY", 
+          "MIR", "MIRb")
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -147,13 +147,16 @@ HicRepeatCluster <- function(
           axis(side=1, at=unique.ntis, cex.axis=1, cex.lab=2.5)
           mtext(side=1, text=expression("c"["p"]), line=5, cex=2.5)
           for(i in 1:21){abline(v=i, col="grey", lty="dotted")}
+          y.v <- list()
           for(elm in elements.inclust){
-            col <- ifelse(elm%in%domsf.v, adjustcolor("darkred", alpha=0.5),
+            col <- ifelse(elm%in%red.v, adjustcolor("darkred", alpha=0.5),
                           adjustcolor("grey", alpha=0.5))
+            if(elm%in%red.v){ y.v[[elm]] <- MX[elm,ncol(MX)] }
             lines(x=unique.ntis, y=MX[elm,], col=col, lwd=3)
           }
+          text(x=21, y=unlist(y.v), labels=names(y.v), cex=0.7, col="darkred")
           lines(x=unique.ntis, y=clust$centers[cl,], col=adjustcolor("navy", alpha=0.7), lwd=4)
-          
+          rm(y.v)
         }
         
         print(paste0("Cluster ",b, " ", m, ": HicRepeatClustering is DONE!"), quote=FALSE)
