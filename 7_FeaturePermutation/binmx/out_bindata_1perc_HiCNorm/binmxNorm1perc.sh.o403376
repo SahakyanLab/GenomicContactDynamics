@@ -1,0 +1,1003 @@
+[1] Running with 4 cores.
+[1] min2Mb...
+[1] chr19_AG Target: 838 Actual: 837 Difference: 1
+[1] AG done!
+[1] chr19_Ao Target: 2536 Actual: 2535 Difference: 1
+[1] chr13_AG Target: 4652 Actual: 4646 Difference: 6
+[1] Ao done!
+[1] chr19_Bl Target: 1241 Actual: 1240 Difference: 1
+[1] Bl done!
+[1] chr19_Co Target: 1308 Actual: 1306 Difference: 2
+[1] chr7_AG Target: 8215 Actual: 8213 Difference: 2
+[1] Co done!
+[1] AG done!
+[1] chr19_ESC Target: 1227 Actual: 1226 Difference: 1
+[1] chr13_Ao Target: 11219 Actual: 11216 Difference: 3
+[1] ESC done!
+[1] chr19_FC Target: 3415 Actual: 3414 Difference: 1
+[1] FC done!
+[1] chr19_Hi Target: 1447 Actual: 1445 Difference: 2
+[1] Hi done!
+[1] chr19_LC Target: 3688 Actual: 3687 Difference: 1
+[1] chr1_AG Target: 11825 Actual: 11817 Difference: 8
+[1] LC done!
+[1] chr19_Li Target: 3276 Actual: 3275 Difference: 1
+[1] Ao done!
+[1] chr13_Bl Target: 5926 Actual: 5925 Difference: 1
+[1] AG done!
+[1] chr7_Ao Target: 22076 Actual: 22068 Difference: 8
+[1] Li done!
+[1] chr19_Lu Target: 470 Actual: 469 Difference: 1
+[1] Lu done!
+[1] chr19_LV Target: 1884 Actual: 1883 Difference: 1
+[1] Bl done!
+[1] LV done!
+[1] chr19_MesC Target: 2094 Actual: 2093 Difference: 1
+[1] chr13_Co Target: 5398 Actual: 5397 Difference: 1
+[1] MesC done!
+[1] chr19_MSC Target: 2220 Actual: 2217 Difference: 3
+[1] MSC done!
+[1] chr19_NPC Target: 905 Actual: 904 Difference: 1
+[1] Co done!
+[1] chr13_ESC Target: 7526 Actual: 7525 Difference: 1
+[1] NPC done!
+[1] chr19_Ov Target: 651 Actual: 650 Difference: 1
+[1] Ov done!
+[1] chr19_Pa Target: 1362 Actual: 1361 Difference: 1
+[1] Pa done!
+[1] chr19_PM Target: 712 Actual: 711 Difference: 1
+[1] PM done!
+[1] chr19_RV Target: 1704 Actual: 1703 Difference: 1
+[1] ESC done!
+[1] RV done!
+[1] chr19_SB Target: 931 Actual: 930 Difference: 1
+[1] chr13_FC Target: 17196 Actual: 17194 Difference: 2
+[1] SB done!
+[1] chr19_Sp Target: 1545 Actual: 1544 Difference: 1
+[1] Ao done!
+[1] chr7_Bl Target: 10968 Actual: 10962 Difference: 6
+[1] AG done!
+[1] Sp done!
+[1] chr19_TLC Target: 1606 Actual: 1605 Difference: 1
+[1] TLC done!
+[1] chr19 done!
+[1] chr1_Ao Target: 32932 Actual: 32923 Difference: 9
+[1] chr20_AG Target: 1487 Actual: 1486 Difference: 1
+[1] AG done!
+[1] chr20_Ao Target: 4200 Actual: 4199 Difference: 1
+[1] Ao done!
+[1] chr20_Bl Target: 2051 Actual: 2050 Difference: 1
+[1] FC done!
+[1] chr13_Hi Target: 6022 Actual: 6021 Difference: 1
+[1] Bl done!
+[1] chr20_Co Target: 1868 Actual: 1867 Difference: 1
+[1] Co done!
+[1] chr20_ESC Target: 2534 Actual: 2532 Difference: 2
+[1] Bl done!
+[1] chr7_Co Target: 9134 Actual: 9132 Difference: 2
+[1] ESC done!
+[1] chr20_FC Target: 6135 Actual: 6133 Difference: 2
+[1] Hi done!
+[1] chr13_LC Target: 13881 Actual: 13877 Difference: 4
+[1] FC done!
+[1] chr20_Hi Target: 2024 Actual: 2023 Difference: 1
+[1] Hi done!
+[1] chr20_LC Target: 5205 Actual: 5203 Difference: 2
+[1] LC done!
+[1] chr20_Li Target: 4842 Actual: 4838 Difference: 4
+[1] LC done!
+[1] Co done!
+[1] chr13_Li Target: 14236 Actual: 14235 Difference: 1
+[1] chr7_ESC Target: 11945 Actual: 11941 Difference: 4
+[1] Li done!
+[1] chr20_Lu Target: 808 Actual: 807 Difference: 1
+[1] Lu done!
+[1] chr20_LV Target: 2665 Actual: 2664 Difference: 1
+[1] Ao done!
+[1] chr1_Bl Target: 16637 Actual: 16626 Difference: 11
+[1] LV done!
+[1] chr20_MesC Target: 3655 Actual: 3651 Difference: 4
+[1] MesC done!
+[1] chr20_MSC Target: 4381 Actual: 4379 Difference: 2
+[1] Li done!
+[1] chr13_Lu Target: 1758 Actual: 1756 Difference: 2
+[1] MSC done!
+[1] chr20_NPC Target: 1455 Actual: 1452 Difference: 3
+[1] NPC done!
+[1] chr20_Ov Target: 1385 Actual: 1383 Difference: 2
+[1] Lu done!
+[1] chr13_LV Target: 7521 Actual: 7520 Difference: 1
+[1] ESC done!
+[1] Ov done!
+[1] chr20_Pa Target: 1849 Actual: 1847 Difference: 2
+[1] chr7_FC Target: 31434 Actual: 31433 Difference: 1
+[1] Pa done!
+[1] chr20_PM Target: 1234 Actual: 1233 Difference: 1
+[1] PM done!
+[1] chr20_RV Target: 2474 Actual: 2472 Difference: 2
+[1] RV done!
+[1] LV done!
+[1] chr20_SB Target: 1543 Actual: 1541 Difference: 2
+[1] chr13_MesC Target: 9909 Actual: 9907 Difference: 2
+[1] SB done!
+[1] chr20_Sp Target: 1813 Actual: 1806 Difference: 7
+[1] Bl done!
+[1] Sp done!
+[1] chr1_Co Target: 13685 Actual: 13681 Difference: 4
+[1] chr20_TLC Target: 3067 Actual: 3066 Difference: 1
+[1] TLC done!
+[1] chr20 done!
+[1] chr21_AG Target: 733 Actual: 731 Difference: 2
+[1] MesC done!
+[1] AG done!
+[1] chr21_Ao Target: 1653 Actual: 1652 Difference: 1
+[1] chr13_MSC Target: 11314 Actual: 11310 Difference: 4
+[1] Ao done!
+[1] chr21_Bl Target: 867 Actual: 866 Difference: 1
+[1] Bl done!
+[1] chr21_Co Target: 846 Actual: 844 Difference: 2
+[1] Co done!
+[1] chr21_ESC Target: 1287 Actual: 1286 Difference: 1
+[1] ESC done!
+[1] chr21_FC Target: 2368 Actual: 2367 Difference: 1
+[1] FC done!
+[1] chr21_Hi Target: 916 Actual: 915 Difference: 1
+[1] Hi done!
+[1] chr21_LC Target: 2080 Actual: 2079 Difference: 1
+[1] LC done!
+[1] chr21_Li Target: 1886 Actual: 1885 Difference: 1
+[1] MSC done!
+[1] chr13_NPC Target: 4910 Actual: 4906 Difference: 4
+[1] Li done!
+[1] chr21_Lu Target: 271 Actual: 270 Difference: 1
+[1] FC done!
+[1] Lu done!
+[1] chr21_LV Target: 1113 Actual: 1112 Difference: 1
+[1] chr7_Hi Target: 10351 Actual: 10350 Difference: 1
+[1] LV done!
+[1] chr21_MesC Target: 1547 Actual: 1546 Difference: 1
+[1] MesC done!
+[1] chr21_MSC Target: 1889 Actual: 1879 Difference: 10
+[1] MSC done!
+[1] chr21_NPC Target: 701 Actual: 700 Difference: 1
+[1] NPC done!
+[1] chr13_Ov Target: 4501 Actual: 4495 Difference: 6
+[1] NPC done!
+[1] chr21_Ov Target: 678 Actual: 676 Difference: 2
+[1] Ov done!
+[1] chr21_Pa Target: 580 Actual: 579 Difference: 1
+[1] Pa done!
+[1] chr21_PM Target: 478 Actual: 477 Difference: 1
+[1] Co done!
+[1] PM done!
+[1] chr21_RV Target: 1031 Actual: 1030 Difference: 1
+[1] RV done!
+[1] chr1_ESC Target: 20022 Actual: 20008 Difference: 14
+[1] chr21_SB Target: 613 Actual: 612 Difference: 1
+[1] Ov done!
+[1] SB done!
+[1] chr21_Sp Target: 580 Actual: 578 Difference: 2
+[1] chr13_Pa Target: 4084 Actual: 4081 Difference: 3
+[1] Sp done!
+[1] chr21_TLC Target: 1249 Actual: 1248 Difference: 1
+[1] TLC done!
+[1] chr21 done!
+[1] chr22_AG Target: 432 Actual: 431 Difference: 1
+[1] AG done!
+[1] chr22_Ao Target: 1226 Actual: 1225 Difference: 1
+[1] Hi done!
+[1] Ao done!
+[1] chr22_Bl Target: 604 Actual: 603 Difference: 1
+[1] Pa done!
+[1] chr13_PM Target: 3075 Actual: 3074 Difference: 1
+[1] chr7_LC Target: 26807 Actual: 26799 Difference: 8
+[1] Bl done!
+[1] chr22_Co Target: 645 Actual: 591 Difference: 54
+[1] Co done!
+[1] chr22_ESC Target: 725 Actual: 724 Difference: 1
+[1] ESC done!
+[1] chr22_FC Target: 1789 Actual: 1788 Difference: 1
+[1] FC done!
+[1] chr22_Hi Target: 692 Actual: 691 Difference: 1
+[1] PM done!
+[1] Hi done!
+[1] chr22_LC Target: 1652 Actual: 1650 Difference: 2
+[1] chr13_RV Target: 6905 Actual: 6904 Difference: 1
+[1] LC done!
+[1] chr22_Li Target: 1490 Actual: 1489 Difference: 1
+[1] Li done!
+[1] chr22_Lu Target: 274 Actual: 273 Difference: 1
+[1] Lu done!
+[1] chr22_LV Target: 862 Actual: 861 Difference: 1
+[1] LV done!
+[1] chr22_MesC Target: 1135 Actual: 1134 Difference: 1
+[1] MesC done!
+[1] chr22_MSC Target: 1214 Actual: 1213 Difference: 1
+[1] MSC done!
+[1] chr22_NPC Target: 405 Actual: 404 Difference: 1
+[1] RV done!
+[1] chr13_SB Target: 4793 Actual: 4785 Difference: 8
+[1] NPC done!
+[1] chr22_Ov Target: 327 Actual: 326 Difference: 1
+[1] Ov done!
+[1] chr22_Pa Target: 688 Actual: 686 Difference: 2
+[1] Pa done!
+[1] chr22_PM Target: 354 Actual: 353 Difference: 1
+[1] PM done!
+[1] chr22_RV Target: 776 Actual: 774 Difference: 2
+[1] RV done!
+[1] chr22_SB Target: 431 Actual: 430 Difference: 1
+[1] SB done!
+[1] chr22_Sp Target: 679 Actual: 678 Difference: 1
+[1] SB done!
+[1] chr13_Sp Target: 3838 Actual: 3837 Difference: 1
+[1] Sp done!
+[1] chr22_TLC Target: 975 Actual: 974 Difference: 1
+[1] ESC done!
+[1] TLC done!
+[1] chr22 done!
+[1] LC done!
+[1] chr1_FC Target: 53512 Actual: 53511 Difference: 1
+[1] Sp done!
+[1] chr7_Li Target: 27782 Actual: 27775 Difference: 7
+[1] chr13_TLC Target: 8186 Actual: 8185 Difference: 1
+[1] chrX_AG Target: 8902 Actual: 8898 Difference: 4
+[1] TLC done!
+[1] chr13 done!
+[1] chr14_AG Target: 3664 Actual: 3660 Difference: 4
+[1] AG done!
+[1] AG done!
+[1] chr14_Ao Target: 9948 Actual: 9947 Difference: 1
+[1] chrX_Ao Target: 23125 Actual: 23122 Difference: 3
+[1] Ao done!
+[1] chr14_Bl Target: 4948 Actual: 4359 Difference: 589
+[1] Li done!
+[1] chr7_Lu Target: 3664 Actual: 3663 Difference: 1
+[1] Bl done!
+[1] chr14_Co Target: 4298 Actual: 4297 Difference: 1
+[1] Co done!
+[1] chr14_ESC Target: 5656 Actual: 5650 Difference: 6
+[1] Ao done!
+[1] chrX_Bl Target: 5708 Actual: 5705 Difference: 3
+[1] Lu done!
+[1] ESC done!
+[1] chr7_LV Target: 15613 Actual: 15612 Difference: 1
+[1] chr14_FC Target: 13950 Actual: 13949 Difference: 1
+[1] Bl done!
+[1] chrX_Co Target: 4643 Actual: 4640 Difference: 3
+[1] FC done!
+[1] chr14_Hi Target: 4811 Actual: 4810 Difference: 1
+[1] FC done!
+[1] chr1_Hi Target: 15558 Actual: 15541 Difference: 17
+[1] Hi done!
+[1] chr14_LC Target: 10850 Actual: 10847 Difference: 3
+[1] Co done!
+[1] chrX_ESC Target: 6389 Actual: 6383 Difference: 6
+[1] LV done!
+[1] chr7_MesC Target: 17051 Actual: 17043 Difference: 8
+[1] LC done!
+[1] chr14_Li Target: 11673 Actual: 11672 Difference: 1
+[1] ESC done!
+[1] chrX_FC Target: 37352 Actual: 37351 Difference: 1
+[1] Li done!
+[1] chr14_Lu Target: 1703 Actual: 1701 Difference: 2
+[1] MesC done!
+[1] Lu done!
+[1] chr14_LV Target: 6725 Actual: 6721 Difference: 4
+[1] chr7_MSC Target: 19025 Actual: 19019 Difference: 6
+[1] Hi done!
+[1] LV done!
+[1] chr14_MesC Target: 7699 Actual: 7697 Difference: 2
+[1] chr1_LC Target: 45222 Actual: 45212 Difference: 10
+[1] MesC done!
+[1] chr14_MSC Target: 9387 Actual: 9386 Difference: 1
+[1] FC done!
+[1] chrX_Hi Target: 5270 Actual: 5269 Difference: 1
+[1] MSC done!
+[1] chr14_NPC Target: 3348 Actual: 3346 Difference: 2
+[1] MSC done!
+[1] chr7_NPC Target: 8730 Actual: 8725 Difference: 5
+[1] NPC done!
+[1] chr14_Ov Target: 3625 Actual: 3481 Difference: 144
+[1] Ov done!
+[1] chr14_Pa Target: 3647 Actual: 3645 Difference: 2
+[1] Hi done!
+[1] chrX_LC Target: 26909 Actual: 26908 Difference: 1
+[1] Pa done!
+[1] chr14_PM Target: 2851 Actual: 2849 Difference: 2
+[1] NPC done!
+[1] chr7_Ov Target: 8194 Actual: 8184 Difference: 10
+[1] PM done!
+[1] chr14_RV Target: 6227 Actual: 6226 Difference: 1
+[1] RV done!
+[1] chr14_SB Target: 3475 Actual: 3469 Difference: 6
+[1] SB done!
+[1] chr14_Sp Target: 3382 Actual: 3378 Difference: 4
+[1] Ov done!
+[1] chr7_Pa Target: 7703 Actual: 7692 Difference: 11
+[1] Sp done!
+[1] chr14_TLC Target: 6459 Actual: 6458 Difference: 1
+[1] LC done!
+[1] LC done!
+[1] chrX_Li Target: 16238 Actual: 16235 Difference: 3
+[1] chr1_Li Target: 41016 Actual: 41014 Difference: 2
+[1] TLC done!
+[1] chr14 done!
+[1] chr15_AG Target: 2644 Actual: 2642 Difference: 2
+[1] AG done!
+[1] chr15_Ao Target: 7739 Actual: 7734 Difference: 5
+[1] Pa done!
+[1] chr7_PM Target: 6102 Actual: 6097 Difference: 5
+[1] Li done!
+[1] chrX_Lu Target: 1859 Actual: 1857 Difference: 2
+[1] Ao done!
+[1] chr15_Bl Target: 3480 Actual: 3479 Difference: 1
+[1] Bl done!
+[1] chr15_Co Target: 3486 Actual: 3485 Difference: 1
+[1] PM done!
+[1] chr7_RV Target: 14187 Actual: 14178 Difference: 9
+[1] Lu done!
+[1] chrX_LV Target: 9664 Actual: 9661 Difference: 3
+[1] Co done!
+[1] chr15_ESC Target: 4354 Actual: 4352 Difference: 2
+[1] ESC done!
+[1] chr15_FC Target: 10430 Actual: 10429 Difference: 1
+[1] RV done!
+[1] LV done!
+[1] chr7_SB Target: 8461 Actual: 8459 Difference: 2
+[1] chrX_MesC Target: 9336 Actual: 9331 Difference: 5
+[1] FC done!
+[1] chr15_Hi Target: 3832 Actual: 3828 Difference: 4
+[1] Hi done!
+[1] chr15_LC Target: 8645 Actual: 8644 Difference: 1
+[1] Li done!
+[1] chr1_Lu Target: 6166 Actual: 6161 Difference: 5
+[1] SB done!
+[1] chr7_Sp Target: 7961 Actual: 7960 Difference: 1
+[1] MesC done!
+[1] chrX_MSC Target: 12480 Actual: 12476 Difference: 4
+[1] LC done!
+[1] chr15_Li Target: 8581 Actual: 8578 Difference: 3
+[1] Li done!
+[1] chr15_Lu Target: 1385 Actual: 1384 Difference: 1
+[1] Sp done!
+[1] Lu done!
+[1] chr7_TLC Target: 13603 Actual: 13602 Difference: 1
+[1] chr15_LV Target: 5232 Actual: 5229 Difference: 3
+[1] MSC done!
+[1] chrX_NPC Target: 4067 Actual: 4066 Difference: 1
+[1] LV done!
+[1] chr15_MesC Target: 6169 Actual: 6168 Difference: 1
+[1] Lu done!
+[1] chr1_LV Target: 23789 Actual: 23787 Difference: 2
+[1] MesC done!
+[1] chr15_MSC Target: 6646 Actual: 6645 Difference: 1
+[1] NPC done!
+[1] chrX_Ov Target: 8801 Actual: 8798 Difference: 3
+[1] MSC done!
+[1] chr15_NPC Target: 2370 Actual: 2367 Difference: 3
+[1] TLC done!
+[1] chr7 done!
+[1] NPC done!
+[1] chr15_Ov Target: 2470 Actual: 2240 Difference: 230
+[1] chr8_AG Target: 8616 Actual: 8614 Difference: 2
+[1] Ov done!
+[1] chr15_Pa Target: 2966 Actual: 2965 Difference: 1
+[1] Ov done!
+[1] Pa done!
+[1] chr15_PM Target: 2106 Actual: 2101 Difference: 5
+[1] chrX_Pa Target: 8165 Actual: 8156 Difference: 9
+[1] PM done!
+[1] chr15_RV Target: 4626 Actual: 4623 Difference: 3
+[1] AG done!
+[1] RV done!
+[1] chr8_Ao Target: 21537 Actual: 21535 Difference: 2
+[1] chr15_SB Target: 2568 Actual: 2566 Difference: 2
+[1] Pa done!
+[1] chrX_PM Target: 3043 Actual: 3037 Difference: 6
+[1] SB done!
+[1] chr15_Sp Target: 3010 Actual: 3007 Difference: 3
+[1] LV done!
+[1] chr1_MesC Target: 28958 Actual: 28949 Difference: 9
+[1] Sp done!
+[1] chr15_TLC Target: 4862 Actual: 4861 Difference: 1
+[1] PM done!
+[1] chrX_RV Target: 8663 Actual: 8659 Difference: 4
+[1] TLC done!
+[1] chr15 done!
+[1] chr16_AG Target: 2087 Actual: 1619 Difference: 468
+[1] AG done!
+[1] chr16_Ao Target: 5266 Actual: 5264 Difference: 2
+[1] Ao done!
+[1] chr8_Bl Target: 11044 Actual: 11041 Difference: 3
+[1] Ao done!
+[1] chr16_Bl Target: 2771 Actual: 2478 Difference: 293
+[1] RV done!
+[1] chrX_SB Target: 8673 Actual: 8665 Difference: 8
+[1] Bl done!
+[1] chr16_Co Target: 2314 Actual: 1822 Difference: 492
+[1] Co done!
+[1] chr16_ESC Target: 3045 Actual: 3044 Difference: 1
+[1] ESC done!
+[1] chr16_FC Target: 8046 Actual: 8044 Difference: 2
+[1] Bl done!
+[1] chr8_Co Target: 9351 Actual: 9348 Difference: 3
+[1] FC done!
+[1] chr16_Hi Target: 2560 Actual: 2543 Difference: 17
+[1] SB done!
+[1] chrX_Sp Target: 4019 Actual: 4012 Difference: 7
+[1] Hi done!
+[1] MesC done!
+[1] chr16_LC Target: 7204 Actual: 7203 Difference: 1
+[1] chr1_MSC Target: 30773 Actual: 30764 Difference: 9
+[1] LC done!
+[1] chr16_Li Target: 6671 Actual: 6669 Difference: 2
+[1] Co done!
+[1] chr8_ESC Target: 12464 Actual: 12459 Difference: 5
+[1] Sp done!
+[1] chrX_TLC Target: 6965 Actual: 6964 Difference: 1
+[1] Li done!
+[1] chr16_Lu Target: 974 Actual: 973 Difference: 1
+[1] Lu done!
+[1] chr16_LV Target: 3484 Actual: 3483 Difference: 1
+[1] LV done!
+[1] chr16_MesC Target: 4576 Actual: 4575 Difference: 1
+[1] MesC done!
+[1] chr16_MSC Target: 5452 Actual: 5451 Difference: 1
+[1] TLC done!
+[1] chrX done!
+[1] ESC done!
+[1] MSC done!
+[1] chr16_NPC Target: 1804 Actual: 1803 Difference: 1
+[1] chr8_FC Target: 30874 Actual: 30863 Difference: 11
+[1] NPC done!
+[1] chr16_Ov Target: 1833 Actual: 1832 Difference: 1
+[1] Ov done!
+[1] chr16_Pa Target: 2470 Actual: 2469 Difference: 1
+[1] Pa done!
+[1] chr16_PM Target: 1490 Actual: 1489 Difference: 1
+[1] PM done!
+[1] chr16_RV Target: 3250 Actual: 3248 Difference: 2
+[1] MSC done!
+[1] chr1_NPC Target: 15007 Actual: 14997 Difference: 10
+[1] RV done!
+[1] chr16_SB Target: 2031 Actual: 2029 Difference: 2
+[1] SB done!
+[1] chr16_Sp Target: 2553 Actual: 2552 Difference: 1
+[1] Sp done!
+[1] chr16_TLC Target: 3769 Actual: 3767 Difference: 2
+[1] TLC done!
+[1] chr16 done!
+[1] FC done!
+[1] chr17_AG Target: 1804 Actual: 1803 Difference: 1
+[1] chr8_Hi Target: 10538 Actual: 10535 Difference: 3
+[1] AG done!
+[1] chr17_Ao Target: 5855 Actual: 5854 Difference: 1
+[1] Ao done!
+[1] chr17_Bl Target: 2579 Actual: 2578 Difference: 1
+[1] Bl done!
+[1] chr17_Co Target: 2611 Actual: 2607 Difference: 4
+[1] Co done!
+[1] chr17_ESC Target: 2811 Actual: 2810 Difference: 1
+[1] Hi done!
+[1] NPC done!
+[1] chr8_LC Target: 25195 Actual: 25192 Difference: 3
+[1] ESC done!
+[1] chr1_Ov Target: 12342 Actual: 12340 Difference: 2
+[1] chr17_FC Target: 7467 Actual: 7465 Difference: 2
+[1] FC done!
+[1] chr17_Hi Target: 2860 Actual: 2855 Difference: 5
+[1] Hi done!
+[1] chr17_LC Target: 6803 Actual: 6799 Difference: 4
+[1] LC done!
+[1] chr17_Li Target: 6819 Actual: 6815 Difference: 4
+[1] Li done!
+[1] chr17_Lu Target: 1071 Actual: 1070 Difference: 1
+[1] Lu done!
+[1] chr17_LV Target: 3891 Actual: 3889 Difference: 2
+[1] LC done!
+[1] chr8_Li Target: 26244 Actual: 26234 Difference: 10
+[1] LV done!
+[1] chr17_MesC Target: 4243 Actual: 4242 Difference: 1
+[1] Ov done!
+[1] chr1_Pa Target: 12775 Actual: 12768 Difference: 7
+[1] MesC done!
+[1] chr17_MSC Target: 4574 Actual: 4573 Difference: 1
+[1] MSC done!
+[1] chr17_NPC Target: 1716 Actual: 1713 Difference: 3
+[1] NPC done!
+[1] chr17_Ov Target: 1613 Actual: 1611 Difference: 2
+[1] Ov done!
+[1] chr17_Pa Target: 2435 Actual: 2434 Difference: 1
+[1] Pa done!
+[1] chr17_PM Target: 1440 Actual: 1439 Difference: 1
+[1] Li done!
+[1] chr8_Lu Target: 3788 Actual: 3784 Difference: 4
+[1] PM done!
+[1] chr17_RV Target: 3443 Actual: 3442 Difference: 1
+[1] RV done!
+[1] chr17_SB Target: 1714 Actual: 1713 Difference: 1
+[1] Pa done!
+[1] SB done!
+[1] chr17_Sp Target: 2461 Actual: 2458 Difference: 3
+[1] chr1_PM Target: 9132 Actual: 9128 Difference: 4
+[1] Lu done!
+[1] chr8_LV Target: 15803 Actual: 15801 Difference: 2
+[1] Sp done!
+[1] chr17_TLC Target: 3443 Actual: 3442 Difference: 1
+[1] TLC done!
+[1] chr17 done!
+[1] chr18_AG Target: 3576 Actual: 3572 Difference: 4
+[1] AG done!
+[1] chr18_Ao Target: 8524 Actual: 8523 Difference: 1
+[1] LV done!
+[1] chr8_MesC Target: 17670 Actual: 17668 Difference: 2
+[1] Ao done!
+[1] chr18_Bl Target: 4411 Actual: 4410 Difference: 1
+[1] Bl done!
+[1] chr18_Co Target: 3821 Actual: 3820 Difference: 1
+[1] PM done!
+[1] chr1_RV Target: 21009 Actual: 20998 Difference: 11
+[1] Co done!
+[1] chr18_ESC Target: 4997 Actual: 4996 Difference: 1
+[1] ESC done!
+[1] chr18_FC Target: 11289 Actual: 11288 Difference: 1
+[1] MesC done!
+[1] chr8_MSC Target: 18630 Actual: 18629 Difference: 1
+[1] FC done!
+[1] chr18_Hi Target: 4244 Actual: 4243 Difference: 1
+[1] Hi done!
+[1] chr18_LC Target: 9317 Actual: 9315 Difference: 2
+[1] LC done!
+[1] chr18_Li Target: 9882 Actual: 9880 Difference: 2
+[1] Li done!
+[1] chr18_Lu Target: 1531 Actual: 1528 Difference: 3
+[1] MSC done!
+[1] chr8_NPC Target: 8699 Actual: 8691 Difference: 8
+[1] RV done!
+[1] chr1_SB Target: 12656 Actual: 12655 Difference: 1
+[1] Lu done!
+[1] chr18_LV Target: 6154 Actual: 6153 Difference: 1
+[1] LV done!
+[1] chr18_MesC Target: 6804 Actual: 6803 Difference: 1
+[1] MesC done!
+[1] chr18_MSC Target: 7932 Actual: 7928 Difference: 4
+[1] NPC done!
+[1] chr8_Ov Target: 8484 Actual: 8483 Difference: 1
+[1] MSC done!
+[1] chr18_NPC Target: 3114 Actual: 3113 Difference: 1
+[1] NPC done!
+[1] chr18_Ov Target: 3194 Actual: 3193 Difference: 1
+[1] Ov done!
+[1] chr18_Pa Target: 3260 Actual: 3257 Difference: 3
+[1] Ov done!
+[1] chr8_Pa Target: 8232 Actual: 8227 Difference: 5
+[1] Pa done!
+[1] chr18_PM Target: 2450 Actual: 2449 Difference: 1
+[1] SB done!
+[1] chr1_Sp Target: 13392 Actual: 13388 Difference: 4
+[1] PM done!
+[1] chr18_RV Target: 5693 Actual: 5690 Difference: 3
+[1] RV done!
+[1] chr18_SB Target: 3413 Actual: 3411 Difference: 2
+[1] SB done!
+[1] chr18_Sp Target: 3018 Actual: 3014 Difference: 4
+[1] Pa done!
+[1] chr8_PM Target: 6218 Actual: 6215 Difference: 3
+[1] Sp done!
+[1] chr18_TLC Target: 5641 Actual: 5639 Difference: 2
+[1] TLC done!
+[1] chr18 done!
+[1] PM done!
+[1] chr8_RV Target: 14616 Actual: 14610 Difference: 6
+[1] Sp done!
+[1] chr1_TLC Target: 22229 Actual: 22226 Difference: 3
+[1] RV done!
+[1] chr8_SB Target: 8799 Actual: 8783 Difference: 16
+[1] SB done!
+[1] chr8_Sp Target: 7808 Actual: 7803 Difference: 5
+[1] TLC done!
+[1] chr1 done!
+[1] Sp done!
+[1] chr8_TLC Target: 14068 Actual: 14062 Difference: 6
+[1] chr2_AG Target: 16159 Actual: 16156 Difference: 3
+[1] TLC done!
+[1] chr8 done!
+[1] chr9_AG Target: 4306 Actual: 4305 Difference: 1
+[1] AG done!
+[1] chr9_Ao Target: 11462 Actual: 11458 Difference: 4
+[1] Ao done!
+[1] chr9_Bl Target: 5722 Actual: 5477 Difference: 245
+[1] AG done!
+[1] chr2_Ao Target: 39872 Actual: 39857 Difference: 15
+[1] Bl done!
+[1] chr9_Co Target: 4768 Actual: 2845 Difference: 1923
+[1] Co done!
+[1] chr9_ESC Target: 7560 Actual: 7556 Difference: 4
+[1] ESC done!
+[1] chr9_FC Target: 16917 Actual: 16912 Difference: 5
+[1] Ao done!
+[1] FC done!
+[1] chr9_Hi Target: 5323 Actual: 4813 Difference: 510
+[1] chr2_Bl Target: 21546 Actual: 21528 Difference: 18
+[1] Hi done!
+[1] chr9_LC Target: 14417 Actual: 14416 Difference: 1
+[1] LC done!
+[1] chr9_Li Target: 13717 Actual: 13716 Difference: 1
+[1] Li done!
+[1] chr9_Lu Target: 1920 Actual: 1918 Difference: 2
+[1] Bl done!
+[1] chr2_Co Target: 18034 Actual: 18030 Difference: 4
+[1] Lu done!
+[1] chr9_LV Target: 7634 Actual: 7632 Difference: 2
+[1] LV done!
+[1] chr9_MesC Target: 9999 Actual: 9998 Difference: 1
+[1] MesC done!
+[1] chr9_MSC Target: 10609 Actual: 10605 Difference: 4
+[1] Co done!
+[1] chr2_ESC Target: 24842 Actual: 24831 Difference: 11
+[1] MSC done!
+[1] chr9_NPC Target: 4576 Actual: 4575 Difference: 1
+[1] NPC done!
+[1] chr9_Ov Target: 4125 Actual: 4124 Difference: 1
+[1] Ov done!
+[1] chr9_Pa Target: 4315 Actual: 4314 Difference: 1
+[1] ESC done!
+[1] Pa done!
+[1] chr9_PM Target: 3084 Actual: 3082 Difference: 2
+[1] chr2_FC Target: 66207 Actual: 66204 Difference: 3
+[1] PM done!
+[1] chr9_RV Target: 6943 Actual: 6941 Difference: 2
+[1] RV done!
+[1] chr9_SB Target: 4322 Actual: 4321 Difference: 1
+[1] SB done!
+[1] chr9_Sp Target: 4050 Actual: 4047 Difference: 3
+[1] Sp done!
+[1] chr9_TLC Target: 7697 Actual: 7694 Difference: 3
+[1] TLC done!
+[1] chr9 done!
+[1] chr10_AG Target: 6350 Actual: 6348 Difference: 2
+[1] FC done!
+[1] chr2_Hi Target: 20672 Actual: 20654 Difference: 18
+[1] AG done!
+[1] chr10_Ao Target: 17465 Actual: 17463 Difference: 2
+[1] Ao done!
+[1] chr10_Bl Target: 8476 Actual: 8471 Difference: 5
+[1] Bl done!
+[1] chr10_Co Target: 7526 Actual: 7522 Difference: 4
+[1] Hi done!
+[1] chr2_LC Target: 56088 Actual: 56068 Difference: 20
+[1] Co done!
+[1] chr10_ESC Target: 9479 Actual: 9476 Difference: 3
+[1] ESC done!
+[1] chr10_FC Target: 24637 Actual: 24636 Difference: 1
+[1] FC done!
+[1] chr10_Hi Target: 8400 Actual: 8393 Difference: 7
+[1] Hi done!
+[1] chr10_LC Target: 20592 Actual: 20591 Difference: 1
+[1] LC done!
+[1] chr2_Li Target: 54384 Actual: 54372 Difference: 12
+[1] LC done!
+[1] chr10_Li Target: 20504 Actual: 20497 Difference: 7
+[1] Li done!
+[1] chr10_Lu Target: 3274 Actual: 3271 Difference: 3
+[1] Lu done!
+[1] chr10_LV Target: 12418 Actual: 12413 Difference: 5
+[1] LV done!
+[1] chr10_MesC Target: 13715 Actual: 13711 Difference: 4
+[1] Li done!
+[1] chr2_Lu Target: 7695 Actual: 7691 Difference: 4
+[1] MesC done!
+[1] chr10_MSC Target: 14644 Actual: 14642 Difference: 2
+[1] Lu done!
+[1] MSC done!
+[1] chr10_NPC Target: 6079 Actual: 6076 Difference: 3
+[1] chr2_LV Target: 32058 Actual: 32052 Difference: 6
+[1] NPC done!
+[1] chr10_Ov Target: 6135 Actual: 6133 Difference: 2
+[1] Ov done!
+[1] chr10_Pa Target: 6654 Actual: 6653 Difference: 1
+[1] Pa done!
+[1] chr10_PM Target: 4965 Actual: 4961 Difference: 4
+[1] PM done!
+[1] chr10_RV Target: 11324 Actual: 11316 Difference: 8
+[1] LV done!
+[1] chr2_MesC Target: 36111 Actual: 36107 Difference: 4
+[1] RV done!
+[1] chr10_SB Target: 6476 Actual: 6469 Difference: 7
+[1] SB done!
+[1] chr10_Sp Target: 6858 Actual: 6855 Difference: 3
+[1] Sp done!
+[1] chr10_TLC Target: 10918 Actual: 10917 Difference: 1
+[1] TLC done!
+[1] chr10 done!
+[1] MesC done!
+[1] chr2_MSC Target: 36126 Actual: 36112 Difference: 14
+[1] chr11_AG Target: 6767 Actual: 6765 Difference: 2
+[1] AG done!
+[1] chr11_Ao Target: 17698 Actual: 17692 Difference: 6
+[1] Ao done!
+[1] chr11_Bl Target: 8897 Actual: 8896 Difference: 1
+[1] MSC done!
+[1] chr2_NPC Target: 19511 Actual: 19502 Difference: 9
+[1] Bl done!
+[1] chr11_Co Target: 7437 Actual: 7436 Difference: 1
+[1] Co done!
+[1] chr11_ESC Target: 9576 Actual: 9573 Difference: 3
+[1] ESC done!
+[1] chr11_FC Target: 24620 Actual: 24617 Difference: 3
+[1] NPC done!
+[1] chr2_Ov Target: 16667 Actual: 16655 Difference: 12
+[1] FC done!
+[1] chr11_Hi Target: 8375 Actual: 8365 Difference: 10
+[1] Ov done!
+[1] chr2_Pa Target: 15875 Actual: 15868 Difference: 7
+[1] Hi done!
+[1] chr11_LC Target: 20452 Actual: 20446 Difference: 6
+[1] LC done!
+[1] chr11_Li Target: 21065 Actual: 21061 Difference: 4
+[1] Pa done!
+[1] chr2_PM Target: 12033 Actual: 12032 Difference: 1
+[1] Li done!
+[1] chr11_Lu Target: 3077 Actual: 3075 Difference: 2
+[1] Lu done!
+[1] chr11_LV Target: 12553 Actual: 12551 Difference: 2
+[1] PM done!
+[1] chr2_RV Target: 28956 Actual: 28955 Difference: 1
+[1] LV done!
+[1] chr11_MesC Target: 13469 Actual: 13468 Difference: 1
+[1] MesC done!
+[1] chr11_MSC Target: 15646 Actual: 15644 Difference: 2
+[1] MSC done!
+[1] chr11_NPC Target: 6510 Actual: 6506 Difference: 4
+[1] RV done!
+[1] chr2_SB Target: 17236 Actual: 17227 Difference: 9
+[1] NPC done!
+[1] chr11_Ov Target: 6442 Actual: 6434 Difference: 8
+[1] Ov done!
+[1] chr11_Pa Target: 6581 Actual: 6574 Difference: 7
+[1] SB done!
+[1] chr2_Sp Target: 16166 Actual: 16162 Difference: 4
+[1] Pa done!
+[1] chr11_PM Target: 4850 Actual: 4849 Difference: 1
+[1] PM done!
+[1] chr11_RV Target: 11541 Actual: 11538 Difference: 3
+[1] RV done!
+[1] chr11_SB Target: 6640 Actual: 6630 Difference: 10
+[1] Sp done!
+[1] chr2_TLC Target: 28272 Actual: 28262 Difference: 10
+[1] SB done!
+[1] chr11_Sp Target: 6618 Actual: 6607 Difference: 11
+[1] Sp done!
+[1] chr11_TLC Target: 11130 Actual: 11125 Difference: 5
+[1] TLC done!
+[1] chr11 done!
+[1] chr12_AG Target: 6623 Actual: 6618 Difference: 5
+[1] TLC done!
+[1] chr2 done!
+[1] AG done!
+[1] chr12_Ao Target: 17888 Actual: 17886 Difference: 2
+[1] chr3_AG Target: 12520 Actual: 12507 Difference: 13
+[1] Ao done!
+[1] chr12_Bl Target: 8801 Actual: 8794 Difference: 7
+[1] AG done!
+[1] chr3_Ao Target: 33472 Actual: 33469 Difference: 3
+[1] Bl done!
+[1] chr12_Co Target: 7557 Actual: 7554 Difference: 3
+[1] Co done!
+[1] chr12_ESC Target: 9614 Actual: 9612 Difference: 2
+[1] ESC done!
+[1] chr12_FC Target: 24575 Actual: 24574 Difference: 1
+[1] Ao done!
+[1] chr3_Bl Target: 16648 Actual: 16632 Difference: 16
+[1] FC done!
+[1] chr12_Hi Target: 8569 Actual: 8562 Difference: 7
+[1] Bl done!
+[1] chr3_Co Target: 14093 Actual: 14081 Difference: 12
+[1] Hi done!
+[1] chr12_LC Target: 20405 Actual: 20401 Difference: 4
+[1] Co done!
+[1] chr3_ESC Target: 19798 Actual: 19797 Difference: 1
+[1] LC done!
+[1] chr12_Li Target: 21183 Actual: 21176 Difference: 7
+[1] Li done!
+[1] chr12_Lu Target: 3005 Actual: 3002 Difference: 3
+[1] ESC done!
+[1] chr3_FC Target: 51508 Actual: 51502 Difference: 6
+[1] Lu done!
+[1] chr12_LV Target: 12446 Actual: 12444 Difference: 2
+[1] LV done!
+[1] chr12_MesC Target: 13304 Actual: 13296 Difference: 8
+[1] MesC done!
+[1] chr12_MSC Target: 15229 Actual: 15228 Difference: 1
+[1] FC done!
+[1] chr3_Hi Target: 16044 Actual: 16042 Difference: 2
+[1] MSC done!
+[1] chr12_NPC Target: 6452 Actual: 6448 Difference: 4
+[1] NPC done!
+[1] chr12_Ov Target: 6731 Actual: 6728 Difference: 3
+[1] Hi done!
+[1] chr3_LC Target: 42764 Actual: 42743 Difference: 21
+[1] Ov done!
+[1] chr12_Pa Target: 6492 Actual: 6488 Difference: 4
+[1] Pa done!
+[1] chr12_PM Target: 4937 Actual: 4935 Difference: 2
+[1] PM done!
+[1] chr12_RV Target: 11458 Actual: 11452 Difference: 6
+[1] LC done!
+[1] RV done!
+[1] chr12_SB Target: 6667 Actual: 6660 Difference: 7
+[1] chr3_Li Target: 39589 Actual: 39588 Difference: 1
+[1] SB done!
+[1] chr12_Sp Target: 6187 Actual: 6186 Difference: 1
+[1] Sp done!
+[1] chr12_TLC Target: 11132 Actual: 11131 Difference: 1
+[1] TLC done!
+[1] Li done!
+[1] chr12 done!
+[1] chr3_Lu Target: 5541 Actual: 5535 Difference: 6
+[1] Lu done!
+[1] chr3_LV Target: 23661 Actual: 23659 Difference: 2
+[1] LV done!
+[1] chr3_MesC Target: 27517 Actual: 27507 Difference: 10
+[1] MesC done!
+[1] chr3_MSC Target: 30582 Actual: 30575 Difference: 7
+[1] MSC done!
+[1] chr3_NPC Target: 14562 Actual: 14550 Difference: 12
+[1] NPC done!
+[1] chr3_Ov Target: 13187 Actual: 13174 Difference: 13
+[1] Ov done!
+[1] chr3_Pa Target: 11796 Actual: 11793 Difference: 3
+[1] Pa done!
+[1] chr3_PM Target: 9166 Actual: 9165 Difference: 1
+[1] PM done!
+[1] chr3_RV Target: 21313 Actual: 21305 Difference: 8
+[1] RV done!
+[1] chr3_SB Target: 13493 Actual: 13489 Difference: 4
+[1] SB done!
+[1] chr3_Sp Target: 11480 Actual: 11477 Difference: 3
+[1] Sp done!
+[1] chr3_TLC Target: 22033 Actual: 22023 Difference: 10
+[1] TLC done!
+[1] chr3 done!
+[1] chr4_AG Target: 12055 Actual: 12044 Difference: 11
+[1] AG done!
+[1] chr4_Ao Target: 33269 Actual: 33259 Difference: 10
+[1] Ao done!
+[1] chr4_Bl Target: 16438 Actual: 16426 Difference: 12
+[1] Bl done!
+[1] chr4_Co Target: 13395 Actual: 13391 Difference: 4
+[1] Co done!
+[1] chr4_ESC Target: 19274 Actual: 19262 Difference: 12
+[1] ESC done!
+[1] chr4_FC Target: 49319 Actual: 49315 Difference: 4
+[1] FC done!
+[1] chr4_Hi Target: 15187 Actual: 15181 Difference: 6
+[1] Hi done!
+[1] chr4_LC Target: 39937 Actual: 39932 Difference: 5
+[1] LC done!
+[1] chr4_Li Target: 40246 Actual: 40239 Difference: 7
+[1] Li done!
+[1] chr4_Lu Target: 5542 Actual: 5536 Difference: 6
+[1] Lu done!
+[1] chr4_LV Target: 26249 Actual: 26245 Difference: 4
+[1] LV done!
+[1] chr4_MesC Target: 26154 Actual: 26151 Difference: 3
+[1] MesC done!
+[1] chr4_MSC Target: 28972 Actual: 28962 Difference: 10
+[1] MSC done!
+[1] chr4_NPC Target: 15004 Actual: 15003 Difference: 1
+[1] NPC done!
+[1] chr4_Ov Target: 13206 Actual: 13191 Difference: 15
+[1] Ov done!
+[1] chr4_Pa Target: 9755 Actual: 9753 Difference: 2
+[1] Pa done!
+[1] chr4_PM Target: 8430 Actual: 8429 Difference: 1
+[1] PM done!
+[1] chr4_RV Target: 23251 Actual: 23249 Difference: 2
+[1] RV done!
+[1] chr4_SB Target: 12785 Actual: 12779 Difference: 6
+[1] SB done!
+[1] chr4_Sp Target: 10257 Actual: 10255 Difference: 2
+[1] Sp done!
+[1] chr4_TLC Target: 21354 Actual: 21351 Difference: 3
+[1] TLC done!
+[1] chr4 done!
+[1] chr5_AG Target: 11285 Actual: 11278 Difference: 7
+[1] AG done!
+[1] chr5_Ao Target: 29545 Actual: 29540 Difference: 5
+[1] Ao done!
+[1] chr5_Bl Target: 14927 Actual: 14924 Difference: 3
+[1] Bl done!
+[1] chr5_Co Target: 12471 Actual: 12465 Difference: 6
+[1] Co done!
+[1] chr5_ESC Target: 16719 Actual: 16714 Difference: 5
+[1] ESC done!
+[1] chr5_FC Target: 42085 Actual: 42082 Difference: 3
+[1] FC done!
+[1] chr5_Hi Target: 14208 Actual: 14204 Difference: 4
+[1] Hi done!
+[1] chr5_LC Target: 35144 Actual: 35143 Difference: 1
+[1] LC done!
+[1] chr5_Li Target: 36730 Actual: 36729 Difference: 1
+[1] Li done!
+[1] chr5_Lu Target: 5019 Actual: 5018 Difference: 1
+[1] Lu done!
+[1] chr5_LV Target: 21705 Actual: 21704 Difference: 1
+[1] LV done!
+[1] chr5_MesC Target: 23114 Actual: 23106 Difference: 8
+[1] MesC done!
+[1] chr5_MSC Target: 24727 Actual: 24726 Difference: 1
+[1] MSC done!
+[1] chr5_NPC Target: 12181 Actual: 12177 Difference: 4
+[1] NPC done!
+[1] chr5_Ov Target: 11555 Actual: 11550 Difference: 5
+[1] Ov done!
+[1] chr5_Pa Target: 10283 Actual: 10277 Difference: 6
+[1] Pa done!
+[1] chr5_PM Target: 8117 Actual: 8115 Difference: 2
+[1] PM done!
+[1] chr5_RV Target: 19776 Actual: 19767 Difference: 9
+[1] RV done!
+[1] chr5_SB Target: 11495 Actual: 11482 Difference: 13
+[1] SB done!
+[1] chr5_Sp Target: 10214 Actual: 10212 Difference: 2
+[1] Sp done!
+[1] chr5_TLC Target: 18562 Actual: 18558 Difference: 4
+[1] TLC done!
+[1] chr5 done!
+[1] chr6_AG Target: 10188 Actual: 10176 Difference: 12
+[1] AG done!
+[1] chr6_Ao Target: 25988 Actual: 25986 Difference: 2
+[1] Ao done!
+[1] chr6_Bl Target: 13584 Actual: 13577 Difference: 7
+[1] Bl done!
+[1] chr6_Co Target: 11528 Actual: 11520 Difference: 8
+[1] Co done!
+[1] chr6_ESC Target: 16015 Actual: 16014 Difference: 1
+[1] ESC done!
+[1] chr6_FC Target: 39969 Actual: 39963 Difference: 6
+[1] FC done!
+[1] chr6_Hi Target: 13145 Actual: 13139 Difference: 6
+[1] Hi done!
+[1] chr6_LC Target: 33582 Actual: 33570 Difference: 12
+[1] LC done!
+[1] chr6_Li Target: 33900 Actual: 33890 Difference: 10
+[1] Li done!
+[1] chr6_Lu Target: 4334 Actual: 4332 Difference: 2
+[1] Lu done!
+[1] chr6_LV Target: 18491 Actual: 18490 Difference: 1
+[1] LV done!
+[1] chr6_MesC Target: 22286 Actual: 22279 Difference: 7
+[1] MesC done!
+[1] chr6_MSC Target: 24154 Actual: 24147 Difference: 7
+[1] MSC done!
+[1] chr6_NPC Target: 11168 Actual: 11166 Difference: 2
+[1] NPC done!
+[1] chr6_Ov Target: 10359 Actual: 10350 Difference: 9
+[1] Ov done!
+[1] chr6_Pa Target: 9402 Actual: 9400 Difference: 2
+[1] Pa done!
+[1] chr6_PM Target: 7349 Actual: 7347 Difference: 2
+[1] PM done!
+[1] chr6_RV Target: 16902 Actual: 16890 Difference: 12
+[1] RV done!
+[1] chr6_SB Target: 10633 Actual: 10625 Difference: 8
+[1] SB done!
+[1] chr6_Sp Target: 9222 Actual: 9221 Difference: 1
+[1] Sp done!
+[1] chr6_TLC Target: 17682 Actual: 17681 Difference: 1
+[1] TLC done!
+[1] chr6 done!
+[[1]]
+NULL
+
+[[2]]
+NULL
+
+[[3]]
+NULL
+
+[[4]]
+NULL
+

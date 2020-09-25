@@ -1,0 +1,272 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+Database/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced
+Database/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw
+PERSIST.MX raw and HiCNorm version
+Database/genome_info/Hsa_GRCh37_73_chr_info.txt
+
+library(ggplot2)
+library(ggpubr)
+library(foreach)
+library(doParallel)
+library(itertools)
+
+source(paste0(lib, "/GG_bgr.R"))
+source(paste0(lib, "/finaliseFOI.R"))
+source(paste0(lib, "/UTL_doPar.R"))
+################################################################################
+# A. Initial prep
+################################################################################
+0. Test the functions from regioneR to understand how they work.
+
+1. Plot distribution of feature lengths (log10 transformed). Blank plots mean that 
+data points are fewer than two. The values below the x-axes are the min(left) and 
+max(right). Most of the feature lengths are less than Hi-C res of 40kb ()
+log10(40)=4.60205999133 (marked by dotted line). 
+
+2. Generate BIN.MX per chr. Each row is a 40-kb bin and values indicate
+whether bin forms a contact in given cell/tissue and Cp. 0 means absent and
+>0 means present. 
+Arguments:
+a. Cs.cutoff = 0.01; Regions forming top 1% contacts with highest Cs per chr per
+tissue will be marked 0.01. The rest of contact-forming regions will be 1. 
+b. matchMaxCpN = TRUE or FALSE
+If matchMaxCpN=TRUE, override Cs.cutoff and the code will match number of 
+contacts with highest Cs to number of Cp=max(Cp.v) contacts per chr.
+The regions forming these contacts will be marked 2 and the rest will be 1. 
+
+> head(BIN.MX[,1:6])
+   start    end s_Cp_1_ct_AG_e s_Cp_1_ct_Ao_e s_Cp_1_ct_Bl_e s_Cp_1_ct_Co_e
+1      1  40000              0              0              0              0
+2  40001  80000              0              0              0              0
+3  80001 120000              0              0              0              0
+4 120001 160000              0              0              0              0
+5 160001 200000              0              0              0              0
+6 200001 240000              0              0              0              0
+
+./binmx/
+a. out_bindata_1perc 
+- regions forming top 1% highest raw Cs 
+b. out_bindata_1perc_HiCNorm 
+- regions forming top 1% highest HiCNorm Cs 
+c. out_bindata_Csmatch_HiCNorm
+- matchMaxCpN=TRUE
+d. out_bindata_Csmatch_HiCNorm_neg1
+- same as c. but regions are marked as -1 (not 2). This turned out to be 
+problematic so I changed -1 to 2.
+
+For a-d, what I actually did is to determine N (based on percentage or matching),
+then used the Cs value of the Nth contact as threshold. I did it this way to make
+sure contacts are included or excluded based on Cs value but not on their rank in 
+the dataframe. This was okay because the target percentage contacts is not far 
+from actual except for some tissues in some chr. Good thing the difference is not 
+big for tissues with the most features: FC, LC and ESC. 
+
+2.5. Check if bin data from HiCNorm values is consistent with bin data from raw 
+values in terms of regions per Cp. 
+################################################################################
+# B. Overlap of region sets (unique contacting regions) across tisses and amongst
+# themselves
+################################################################################
+1. Use UpSetR plot to visualise overlap of each region set across tissues. 
+Plot is generated per region set. 
+Plots useful to see differences between the set of RS per tissue compared to when 
+taking the union of RS from all tissues. Relevant when making association of cell-type 
+independent features (whether to associate them to a particular tissue or to the 
+union of all tissues). 
+
+a. Line/dot plot
+- This indicates the combination sets. From left, highest to lowest combination 
+degree (number of tissues forming combination).
+
+b. Top bar plot
+- This shows number of regions per combination. Distinct mode means that regions
+per combination are mutually exclusive. Numbers on top of the bar are the 
+region counts in terms of fraction relative to the total union of regions (see
+title). Note that all regions considered is expected to be present in at least
+one tissue. This means that there is no complement set composed of elements not 
+in any combination. Also in the make_comb_mat(), I set removal of empty combination
+to TRUE while removing of complement set to FALSE (although as mentioned this
+should not exist). 
+                                       
+c. Right bar plot
+- This shows the number of regions per tissue. From the top, highest to lowest
+set size.
+a. Title
+- filtercombsize>X%: Bars on top with fraction values <= X/100 are not displayed
+for clarity. 
+
+Note that when using all tissues, total union region of CpAllCs1perc is also 
+70917, same with Cp1 and CpAll.
+
+2. Use UpSetR plot to visualise overlap of region sets amongst themselves. Plot
+is generated per tissue. For this I decided, to take the union of all region
+sets as reference for the fraction values, then per tissue, the complement set 
+(region not in any set per tissue) is indicated. 
+
+I saved the fraction values so I can consolidate the data into one plot in D2.5.
+I also saved the UpSet plot of allCT to be used for D2.5. 
+
+2.5. Consolidate plots from D2 per tissue into one plot. The plot is the same as 
+in D2 but I added the fraction values for each tissue as boxplots. The one shown
+in barplots are the fraction values for the allCT case. All fraction values are 
+relative again to total union region.
+################################################################################
+# C. Association of region sets to features 
+################################################################################
+1. Using the package regioneR, quantify signficance of association of a Cp- or 
+Cs-based region set (from BIN.MX) to different chromatin and genomic features.
+Do the regions in set A overlap with the regions in B more than expected?
+For example: Are my ChIP-seq peaks on the promoters of active genes? or Are the 
+break points in repetitive regions? 
+
+a. Cp-/Cs-based unique region set (A) and feature ranges (B). regioneR denotes
+the ranges it compares as A and B. A is the permuted range and was prepared
+using BIN.MX (./binmx/out_bindata_1perc_HiCNorm).
+
+b. Arguments:
+i. Cp.v - included Cp values
+ii. CT.v - included cell/tissue 
+iii. allCT.ref - Cell line to be used for cell-type independent features. 
+I used c for all the runs. This means that the union of unique
+regions from all cell lines will be used for those features e.g. GC ranges.
+If allCT.ref=FC, the regions from FC will be used for those features.
+Note that I also did CpAllCs1perc runs for cell-type independent features using
+FC, LC and ESC as alllCT.ref just in case. I did this because the union of
+unique regions when allCT.ref="allCT" is almost equivalent to the bgr that is
+HiCAll.
+iv. Cs.v - included Cs value (refer to BIN.MX)
+v. supplyMask - take union of ranges in ./mask and then use output to mask genome.
+Random regions won't be taken from masked areas. I did not need to supply mask
+for the run.
+vi. maxmaskOlapFr - allowable number of overlaps of the random regions with the
+mask. In circularRandomizeRegions2.R, which is a modified version of
+regioneR::circularRandomizeRegions, the percentage of length of overlap relative
+to total length of a set of random regions is reported instead of the number of 
+overlapping ranges. maxmaskOlapFr set to 0 during the run but only for the filename. The argument is actually not applicable for the randomisation method used. 
+vii. bgr - can be "HiCAll" or "genome". If genome, the whole length of chromosomes
+are supplied as GRanges object. HiCAll refers to all 40-kb bins that formed a 
+contact in our dataset. How it is used depends on the randomisation function.
+I used HiCAll as background.
+viii. randomfunx - can be "circular2" or "random" or "resample". See ./randomisation for explanation. I used regioneR::reSampleRegions for
+randomisation. The HiCAll were sampled without replacement.
+ix. eval.f.v - I used all functions except numOlapA and meanLenOlapA.
+
+-->Custom evaluation functions:
+These functions give the metric to assess the degree of association between the 
+two sets. They can be categorised into three (1) numOlap: calculation of the 
+number of A/B regions overlapping (2) comOlap: calculation of the portion of 
+intersection (common overlapping regions) between A/B (3) meandist: mean closest 
+distance of A regions from the nearest B region. All functions give percentages
+except for meandist. 
+
+i. numOlapA - number of A regions overlapping with B
+Note that A regions that overlap with multiple B regions are set to be counted
+only once. The absolute number of overlaps is calculated using regioneR::numOverlaps.
+This function does not reduce any of the supplied set of regions so it uses the
+actual number of bins/regions in the cp bed file (B) despite having bins next to each
+other.
+-ii. numOlapB - same with i. but for B regions
+-iii. comOlap - intersection of A and B(given by regioneR::commonRegions. 
+Intersection means the total length of regions shared between A and B. This
+was originally in % percentage with the intersection reported relative to
+the total length of A and B. This idea was scrapped because of being
+dependent on the Hi-C resolution and this is not good because the real length of
+contact has nothing to do with the Hi-C resolution.
+-iv. meandist - length of intervening bases between end of B and start of A
+Value is given by regioneR::meanDistance but negated because the 
+alternative=greater. Greater value of -meanDistance means that the association
+is better. 
+-v. meanLenOlapA - mean length of A ranges overlapping with B. 
+-vi. meanLenOlapB - mean length of B ranges overlapping with A. 
+
+Why do we need all these functions?
+numOlap gives the number of contacting regions overlapping with the chromatin
+features but do not give information of how well they overlap (the portion of bases
+overlapping). Overlap of 1 vs. 100 bases is treated the same. Hence, we need the
+comOlap which differentiates the degree of overlap between regions. Finally,
+meandist is important because it can assess proximity of contacting regions with
+chromatin features. Although they regions do not overlap, proximity might still
+suggest functional relationship. I did meanLenOlapA to check if long genes are 
+indeed enriched in Cp=21 regions. 
+
+x. Local z-score calculation parameters
+Zscore set to be calculated at a window 2e6 from both sides of A every 2e4 (step).
+The zscore plot is flattish the association is regional, if there is a peak
+at the actual position of the region, the association of the feature is dependent
+on the exact location of A. This is important to characterise the association of
+A with larger B regions. I also used a large window because several cp regions
+are consecutive with at most 30 40-kb bins being next to each other (in total
+1.2 Mb)
+
+xi. CpBedFoiChrfilter - If CpBedFoiChrfilter=TRUE, take out Cp regions for chr not in foi bed, this should be done if the feature was deliberately not measured in that chr. Since most of the features have ranges from chr1-22 and X (only the
+subcomparment and one GRB dataset don't have chr X ranges), setting CpBedFoiChrfilter=TRUE was the easiest option. 
+
+xii. CpBedReduce - will reduce the region set combinining consecutive regions into one region. This is useful for properly determining the local z-score.
+I set this to FALSE. 
+xiii. switchAB - allows one to switch A to feature ranges and B to region set therefore you go back to the runA setup. I set this to FALSE. 
+
+xiv. Other permutation test parameters
+For reproducibility mc.set.seed=FALSE. 
+
+Also, Hypothesis testing is set to auto meaning that the program itself will decide if which of less/greater is applicable. I did set the evaluation 
+functions to give values that show better association of the two sets of ranges
+with increasing value. I initially plannned to use "greater" but using auto
+would give preserve more information particularly those values that are 
+significantly less than what is expected by random chance.
+
+NTIMES = 10000
+SEED = 662
+nCPU = 3L
+
+c. Region sets:
+i. Cp21 - Cp.v=21; Cs.v=c(1,0.01)
+ii. CptopCP3 - Cp.v=19:21; Cs.v=c(1,0.01)
+iii. CpAllCs1perc - Cp.v=1:21; Cs.v=0.01
+
+d. OUTPUT:
+PERMT - permutation test results (with plot); object also includes length and 
+number of A and B ranges.
+LZSCOR - local zscore results (with plot)
+For evaluation functions that gave zscore=NaN (e.g. when all permutation rounds
+gave same value), I set the local zscore to a high value (100) just to avoid
+error and termination of script.
+
+2. Make a barplot of -log10pvalue of all features per evaluation function.
+Indicated in inside the barplot is the actual observed value for each evaluation function.
+
+a. meanLenOlap - the value in the bar is log10 transformed
+b. comOlap - divided by the total length of contacting regions (based on cell type)
+times 100
+to make values for each feature comparable
+c. numOlap - divided by total number of bin/foi regions based on cell/tissue and Cp
+
+3. Make:
+a. Csv file of the association results.
+b. List of B (foi) that are enrich in A (contact regions) based on specified
+functions. 
+In my case pr.eval.v = c("numOlapA", "comOlap"), meaning
+chosen features should be enriched based on both comOlap AND numOlap. 
+pval.cutoff used is 0.05. 
+4. Heatmap of features vs. Cp21, CptopCp3 and CpAllCs1perc for each tissue plus hg19. Same feature from different tissue are written in separate rows. 
+################################################################################
+# D. Feature vs. contacts
+################################################################################
+1. The results from above shows association of UNIQUE contact regions to different
+features. However, we do not know how this translates to contacts.
+
+Contact-centric (foiVsij_ij.pdf):
+-Plot is fraction of contact vs. Cp distinguished by different ways the contact regions
+overlap with given feature (any or within type of overlap as indicated). Promisc means 
+the region overlaps with more than 1 feature. none means region does not overlap with 
+any feature. 
+
+Feature-centric (foiVsij_foi.pdf):
+-Plot is fraction of contact per different contact types based on feature grouped
+by Cp. 
+
+2. Taking a foicentric view of feature overlaps with unique contacting
+regions. Plot shows fraction of total feature bp per Cp. Since contact regions
+can be in multiple Cp category, the maximum Cp is taken.
+################################################################################
