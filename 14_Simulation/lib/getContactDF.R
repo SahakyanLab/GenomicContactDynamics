@@ -21,9 +21,17 @@ getContactDF <- function(metric.dir=metric.dir, metric="Cp", gcb = "min2Mb",
     if(metric=="Cp"){
       value <- apply(X=MELT.MX$upper.tri[,-(1:2)], MARGIN=1, 
                      FUN=function(rw)sum(rw!=0))
+      if( ct%in%colnames(MELT.MX$upper.tri[,-(1:2)]) ){
+        drop.TF <- MELT.MX$upper.tri[[ct]]==0
+        value[drop.TF] <- 0; rm(drop.TF)
+        print("Cp per cell/tissue...", quote=FALSE)
+      } else if(ct=="hg19"){
+        print("Cp all cell/tissue...", quote=FALSE)
+      } else {
+        stop("Invalid ct.")
+      }
       MELT.MX$upper.tri <- cbind.data.frame(MELT.MX$upper.tri[,c("i","j")], 
-                                            value=value)
-      rm(value)
+                                            value=value); rm(value)
     } else{
       MELT.MX$upper.tri <- MELT.MX$upper.tri[,c("i", "j", ct)]
       colnames(MELT.MX$upper.tri) <- colnames(MELT.MX$upper.tri.nocontact)

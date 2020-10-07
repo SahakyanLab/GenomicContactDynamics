@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -23,7 +23,7 @@ if( !is.null(whorunsit[1]) ){
 Cs.raw.dir = paste0(data.dir, "/GSE87112/combined_contacts/RAW_primary_cohort")
 Cs.norm.dir = Cp.dir = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_primary_cohort")
 CII.disc.kmer.5.dir = CII.cont.kmer.5.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/polished/11_Constraints/out_group"
-SIM.3.2.kmer.5.5.dir = paste0(wk.dir, "/sim_3.2")
+SIM.3.2.kmer.5.dir = paste0(wk.dir, "/sim_3.2")
 SIM.4.2.kmer.5.dir = paste0(wk.dir, "/sim_4.2")
 out.dir = paste0(wk.dir, "/out_generate_map")
 ### OTHER SETTINGS #############################################################
@@ -37,19 +37,19 @@ ct = "FC"
 # <CII/SIM>.<disc/cont>.<kmer/align>.<(0,100)>
 #metric.v = c("CII.disc.kmer.5", "CII.cont.kmer.5", 
 #             "Cp", "Cs.raw", "Cs.norm", 
-#             "SIM.disc.kmer.5", "SIM.cont.kmer.5") 
-metric.v = c("SIM.4.2.kmer.5", "Cs.norm") 
-#metric.v = "Cs.norm"
+#             "SIM.3.2.kmer.5", "SIM.4.2.kmer.5") 
+metric.v = c("SIM.4.2.kmer.5", "Cp")
 format = "symmetric" # "symmetric" | "square"
 
 # Filtering contacts
 # If list incl.ind is NULL, use whole chr. 
-incl.bin.x = NULL
-incl.bin.y = NULL
-mask.bin.x = list(3200:6232)
-mask.bin.y = list(1:3200)
+# Upper triangle perspective. i is along y-axis, j is along x-axis.
+incl.x = 'incl.bin.x = NULL'
+incl.y = 'incl.bin.y = NULL'
+mask.x = 'mask.bin.x = list(3039:6232)'
+mask.y = 'mask.bin.y = list(1:3563)' 
 # Closed interval. If vector gap.range is NULL, no filtering. 
-gap.range = c(50, Inf)
+gap.v = 'gap.range = c(50, Inf)'
 
 # If scalebr.v==NULL, no scale bar
 scalebr.v = c(xmin=10, xmax=210, ymin=6180, ymax=6230)
@@ -78,6 +78,18 @@ source(paste0(wk.dir, "/lib/filterContacts.R"))
 ################################################################################
 out.name <- paste(gcb, chr, ct, format, out.id, sep="_")
 print(paste0(out.name, "..."), quote=FALSE)
+
+print(incl.x, quote=FALSE) 
+print(incl.y, quote=FALSE) 
+print(mask.x, quote=FALSE) 
+print(mask.y, quote=FALSE) 
+print(gap.v, quote=FALSE) 
+
+eval(parse(text=incl.x))
+eval(parse(text=incl.y))
+eval(parse(text=mask.x))
+eval(parse(text=mask.y))
+eval(parse(text=gap.v))
 
 p.lst <- list()
 for(metric in metric.v){
@@ -113,7 +125,7 @@ p.arr <- ggarrange(plotlist=p.lst, nrow=1, ncol=m.v.len,
                    legend=NULL)
 ggexport(p.arr, height=5*res, width=5*m.v.len*res, res=res,
          filename=paste0(out.dir, "/", out.name, ".png"))
-ggexport(p.arr, height=10, width=10*m.v.len, 
+ggexport(p.arr, height=10, width=20*m.v.len, 
          filename=paste0(out.dir, "/", out.name, ".pdf"))
 
 # rm(list=ls()); gc()

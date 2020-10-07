@@ -37,8 +37,8 @@ compareContactMx <- function(MXsubj, MXref, c.offsubj.v, c.offref.v,
   dimnames(MXsubj) <- dimnames(MXref) <- list(1:len, 1:len)
   
   # Retain only upper triangle
-  MXsubj[lower.tri(MXsubj, diag=TRUE)] <- NA_integer_
-  MXref[lower.tri(MXref, diag=TRUE)] <- NA_integer_
+  MXsubj[lower.tri(MXsubj, diag=TRUE)] <- NA
+  MXref[lower.tri(MXref, diag=TRUE)] <- NA
   
   # Choose and mask contacts
   ij.df <- expand.grid(1:len, 1:len)
@@ -47,29 +47,55 @@ compareContactMx <- function(MXsubj, MXref, c.offsubj.v, c.offref.v,
   incl.TF <- filterContacts(ij.df=ij.df, gap.range=gap.range,
                             incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y,  
                             mask.bin.x=mask.bin.x, mask.bin.y=mask.bin.y)   
-  
+  # Contacts not included, to be marked NA
   ij.df <- ij.df[!incl.TF,]; rm(incl.TF)
-  MXsubj[as.numeric(ij.df$i), as.numeric(ij.df$j)] <- NA
+  if(nrow(ij.df)>0){
+    MXsubj[as.numeric(ij.df$i), as.numeric(ij.df$j)] <- NA
+    MXref[as.numeric(ij.df$i), as.numeric(ij.df$j)] <- NA
+  }
   rm(ij.df); gc()
-  
-  # Check for contacts NA in ref but not in subj. Nothing to compare to.
-  nonNA.subj.NA.ref.ij <- !is.na(MXsubj) & is.na(MXref) 
-  MXsubj[nonNA.subj.NA.ref.ij] <- NA_integer_
-  nonNA.subj.NA.ref.ij <- sum(nonNA.subj.NA.ref.ij)
-  
-  # Other important numbers
-  nonNA.subj.TF <- !is.na( MXsubj[upper.tri(MXsubj, diag=FALSE)] )
-  final.subj.tot.ij <- sum(nonNA.subj.TF)
-  NA.subj.ij <- sum(!nonNA.subj.TF)
-  rm(nonNA.subj.TF)
-  
+
+  tot.ij.v <- NA.ij.v <- nonNA.inc.v <- c(subj=NA, ref=NA) 
+  for( mx.id in c("subj", "ref") ){
+    
+    # Check for contacts NA in ref but not in subj and vice versa.
+    # Ideally, there should be none.
+    if(mx.id=="subj"){
+      inc.TF <- !is.na(MXsubj) & is.na(MXref) 
+    } else if(mx.id=="ref"){
+      inc.TF <- is.na(MXsubj) & !is.na(MXref) 
+    }
+    eval(parse(text=paste0(
+      "MX", mx.id, "[inc.TF] <- NA"
+    )))
+    nonNA.inc.v[mx.id] <- sum(inc.TF)
+    rm(inc.TF)
+    
+    # Calculate final ij total
+    eval(parse(text=paste0(
+      "nonNA.TF <- !is.na( MX", mx.id, "[upper.tri(MX", mx.id, ", diag=FALSE)] )"
+    )))
+    tot.ij.v[mx.id] <- sum(nonNA.TF)
+    # Should be 0, except for complementarity matrices
+    NA.ij.v[mx.id] <- sum(!nonNA.TF)
+    rm(nonNA.TF)
+    
+  }
+  if( (tot.ij.v[1]!=tot.ij.v[2]) | (NA.ij.v[1]!=NA.ij.v[2]) ){
+    stop("Total nonNA ij different for subject and matrices.")
+  }
+  tot.ij.v <- unique(tot.ij.v)
+  NA.ij.v <- unique(NA.ij.v)
+  if( (tot.ij.v+NA.ij.v)!=((len*len-len)/2) ){
+    stop("Final ij and NA count dont add up to length of upper matrix.")
+  }
   #-------------------Make cut-off matrix for grid search
   c.off.mx <- data.matrix(expand.grid(x=c.offsubj.v, y=c.offref.v))
   dimnames(c.off.mx)[[2]] <- c("c.offsubj", "c.offref")
   c.off.mx.len <- nrow(c.off.mx)
   rm(c.offsubj.v, c.offref.v)
   
-  toExport <- c("c.off.mx", "MXsubj", "MXref", "final.subj.tot.ij")
+  toExport <- c("c.off.mx", "MXsubj", "MXref", "tot.ij.v")
   #### PARALLEL EXECUTION #########
   out <- foreach(itr=isplitVector(1:c.off.mx.len, chunks=nCPU), 
                  .inorder=TRUE, .combine="rbind",
@@ -88,8 +114,12 @@ compareContactMx <- function(MXsubj, MXref, c.offsubj.v, c.offref.v,
       mxref[MXref<=c.offref] <- "n"; mxref[mxref!="n"] <- "y"
       
       #-------------------Calculate
-      P <- sum(mxsubj=="y", na.rm=TRUE)
-      N <- sum(mxsubj=="n", na.rm=TRUE)
+      # Ref positive and negative
+      RP <- sum(mxref=="y", na.rm=TRUE)
+      RN <- sum(mxref=="n", na.rm=TRUE)
+      # Subj positive and negative
+      SP <- sum(mxsubj=="y", na.rm=TRUE)
+      SN <- sum(mxsubj=="n", na.rm=TRUE)
       
       # True positive
       TP <- sum(mxsubj=="y" & mxref=="y", na.rm=TRUE)
@@ -101,12 +131,15 @@ compareContactMx <- function(MXsubj, MXref, c.offsubj.v, c.offref.v,
       FN <- sum(mxsubj=="n" & mxref=="y", na.rm=TRUE)
       rm(mxsubj, mxref); gc()
       
-      if( (TP+FP)!=P | (TN+FN)!=N | (P+N)!=final.subj.tot.ij ){
-        stop("Important numbers don't add up.")
+      if( (TP+FP)!=SP | (TN+FN)!=SN | 
+          (TP+FN)!=RP | (TN+FP)!=RN |
+          (SP+SN)!=tot.ij.v | (RP+RN)!=tot.ij.v ){
+        stop("Important confusion matrix numbers don't add up.")
       }
       
       v <- c(c.offsubj=c.offsubj, c.offref=c.offref, 
-             P=P, TP=TP, FP=FP, N=N, TN=TN, FN=FN)
+             SP=SP, RP=RP, TP=TP, FP=FP, 
+             SN=SN, RN=RN, TN=TN, FN=FN)
       return(v)
       
     }) # chunk sapply end
@@ -116,8 +149,9 @@ compareContactMx <- function(MXsubj, MXref, c.offsubj.v, c.offref.v,
   }
   ### END OF PARALLEL EXECUTION ###
   
-  out <- cbind(NA.subj.ij=NA.subj.ij, nonNA.subj.NA.ref.ij=nonNA.subj.NA.ref.ij, 
-               final.subj.tot.ij=final.subj.tot.ij, out)
+  out <- cbind(nonNA.subj.NA.ref.ij=nonNA.inc.v["subj"],
+               nonNA.ref.NA.subj.ij=nonNA.inc.v["ref"],
+               final.NA.ij=NA.ij.v, final.nonNA.ij=tot.ij.v, out)
   return(out)
   
 }

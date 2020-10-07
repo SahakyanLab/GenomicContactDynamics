@@ -51,7 +51,8 @@ makeMatrixMap <- function(df = data.frame(x, y, value), # lower/upper triangle o
   brk.y <- sort(unique(df$j))
   len <- length(brk.x)
   if( (nrow(df)/2)>50 ){
-    seq.v <- ceiling(seq.int(from=1, to=len, length.out=3))
+    #seq.v <- ceiling(seq.int(from=1, to=len, length.out=3))
+    seq.v <- c(1, len/2, len)
     brk.x <- brk.x[seq.v]
     brk.y <- brk.y[seq.v]
     rm(seq.v)
@@ -72,9 +73,9 @@ makeMatrixMap <- function(df = data.frame(x, y, value), # lower/upper triangle o
       plot.title=element_text(size=2),
       axis.text.x=element_text(face="bold", size=10, angle=360, colour="black"),
       axis.text.y=element_text(face="bold", size=10, angle=360, colour="black"),
-      axis.ticks.y=element_blank(),
-      axis.ticks.x=element_blank(),
-      legend.text=element_text(size=10, face="bold"),
+      #axis.ticks.y=element_blank(),
+      #axis.ticks.x=element_blank(),
+      legend.text=element_text(size=5, face="bold"),
       legend.title=element_text(size=10, face="bold"),
       legend.position="bottom",
       legend.direction="horizontal", 
