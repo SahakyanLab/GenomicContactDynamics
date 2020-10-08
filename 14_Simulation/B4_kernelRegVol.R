@@ -23,42 +23,73 @@ gcb = "min2Mb"
 chr = "chr1" 
 src.id = "whole_maskMidSquare_gap50up"
 out.id = "SIMvsCsnormCp_test"
-confMxMetric.v = c("MCC", "FDR", "TPR", "TNR", "PPV", "NPV")
+confMxMetric.v = "MCC" #c("MCC", "FDR", "TPR", "TNR", "PPV", "NPV")
+
+# Cut-off range to consider
+s.range = 'subj.range = c(-0.0001,0.004)'
+r.range = 'ref.range = c(0,5)' 
 
 # Kernel regression estimate parameters
-x.grid=seq(0,1,0.01)
-y.grid=seq(0,1,0.01)
-# Fixed bandwith for x and y
-bws.v=c(0.05,0.05)
+step = 'step.v=c(x.grid=0.01, y.grid=0.01)'
+bws = 'bws.v=c(0.05, 0.05)' # Fixed bandwith for x and y
+
+# Bootstrapping of grid estimates based on kernel regression estimate error
+NBOOT=10
+SEED=3412
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
 library(np)
 library(plotly)
 library(RColorBrewer)
+library(reshape2) # For acast() in getVUS.R
 source(paste0(wk.dir, "/lib/confusionMxMetric.R"))
 source(paste0(wk.dir, "/lib/doMvKernelReg.R"))
+source(paste0(wk.dir, "/lib/drawGridEst.R"))
+source(paste0(wk.dir, "/lib/getVUS.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
 setwd(out.dir)
 
+#print(paste(gcb, chr, src.id, out.id, sep="_"), quote=FALSE)
+out.name <- paste0(paste(gcb, chr, src.id, out.id, sep="_"), "_seed", SEED, "_nboot", NBOOT)
+print(paste0(out.name, "..."), quote=FALSE)
+print(step, quote=FALSE)
+print(bws, quote=FALSE)
+print(s.range, quote=FALSE)
+print(r.range, quote=FALSE)
+
+eval(parse(text=step))
+eval(parse(text=bws))
+eval(parse(text=s.range))
+eval(parse(text=r.range))
+
 csv.v <- list.files(path=csv.dir, full.names=FALSE)
 csv.len <- length(csv.v)
-
 dta <- list()
 for(c in 1:csv.len){
   
   csv <- csv.v[c]
   x <- read.csv(file=paste0(csv.dir, "/", csv), header=TRUE, stringsAsFactors=FALSE)
 
-  # Find cut-off ranges for subject and referencec
-  x$c.offsubj <- x$c.offsubj/max(x$c.offsubj)
-  x$c.offref  <- x$c.offref/max(x$c.offref)
+  # Filter based on subj and ref cut-off ranges
+  if( is.null(subj.range ) ){
+    subj.range <- c( min(x$c.offsubj), max(x$c.offsubj) )
+  }
+  if( is.null(ref.range) ){
+    ref.range <- c( min(x$c.offref), max(x$c.offref) )
+  }
+  out.range <- (x$c.offsubj<subj.range[1] | x$c.offsubj>subj.range[2]) |
+    (x$c.offref<ref.range[1] | x$c.offref>ref.range[2])
+  x <- x[out.range==FALSE,]
+  rm(out.range)
   
-  # Filter based on cut-off ranges
-  x <- x[x$c.offsubj>=0 & x$c.offref>=0,]
+  # Min-max normalisation of cut-off ranges -> [0,1]
+  x$c.offsubj <- (x$c.offsubj-min(x$c.offsubj))/(max(x$c.offsubj)-min(x$c.offsubj))
+  x$c.offref  <- (x$c.offref-min(x$c.offref))/(max(x$c.offref)-min(x$c.offref))
   
+  # Calculate scores
   dta[[c]] <- mapply(metric=confMxMetric.v, FUN=confMxMetric, MoreArgs=list(CONFMX=x))
   dta[[c]] <- cbind(subj=x$c.offsubj, ref=x$c.offref, dta[[c]])
   rm(x)
@@ -67,17 +98,24 @@ for(c in 1:csv.len){
 csv.v <- unlist(strsplit(x=csv.v, split=".csv", fixed=TRUE))
 names(dta) <- csv.v
 
-surf.v <- gsub(x=csv.v, pattern=paste0(gcb, "_", chr, "_"), replacement="", fixed=TRUE)
-out.name <- paste(gcb, chr, out.id, sep="_")
-KERREG <- list()
+#out.name <- paste0(paste(gcb, chr, out.id, sep="_"), "_seed", SEED, "_nboot", NBOOT)
 
+# Plot parameters
+coul <- colorRampPalette(brewer.pal(11, "Spectral"))(csv.len)
+surf.v <- gsub(x=csv.v, pattern=paste0(gcb, "_", chr, "_"), replacement="", fixed=TRUE)
+
+# Make common grid
+x.grid <- seq(0, 1, step.v["x.grid"])
+y.grid <- seq(0, 1, step.v["y.grid"])
 x.len <- length(x.grid)
 y.len <- length(y.grid)
-coul <- colorRampPalette(brewer.pal(11, "Spectral"))(csv.len)
+grid.mx <- as.matrix(expand.grid(x.grid, y.grid))
+
+KERREG <- list()
 for(metric in confMxMetric.v){
   
-  # Kernel regression estimate
-  x <- lapply(X=names(dta), FUN=function(nme){
+  # Get kernel regression estimate
+  KER <- lapply(X=names(dta), FUN=function(nme){
     mx <- dta[[nme]]
     doMvKernelReg(X=mx[,1:2], Y=mx[,metric], x.grid=x.grid, 
                   y.grid=y.grid, bws.v=bws.v, 
@@ -90,36 +128,46 @@ for(metric in confMxMetric.v){
   p <- plot_ly(showscale=TRUE)
   p <- layout(p, scene=list(xaxis=list(range=c(0,1)), yaxis=list(range=c(0,1))),
               title=paste0(out.name, "_", metric))
-  for( i in 1:length(x) ){
-    p <- add_trace(p=p, z=matrix(x[[i]][["mean"]], nrow=x.len, ncol=y.len),
+  for( i in 1:length(KER) ){
+    p <- add_trace(p=p, z=matrix(KER[[i]][["mean"]], nrow=x.len, ncol=y.len),
                    x=x.grid, y=y.grid, type="surface", opacity=0.8,
                    colorscale=list(c(0, 1), c("white", coul[i])), 
                    colorbar=list(title=surf.v[i], len=0.2)
                    )
   }
   htmlwidgets::saveWidget(widget=as_widget(p), 
-                          file=paste0(out.dir, "/", gcb, "_", chr, "_", metric, "_",  
-                                      out.id, "_kernelReg.html"))
+                          file=paste0(out.dir, "/", out.name, "_", metric, 
+                                      "_surfCombined.html"))
+  rm(p)
   
-  # Calculate sum of estimate and save data
-  y <- lapply(X=x, FUN=function(obj){
-    len <- length(obj[["mean"]])
-    est <- sum(obj[["mean"]])/len
-    err <- sum(obj[["merr"]])/len
-    c(lower.b=est-err, reg.est=est, upper.b=est+err)
+  # Get NBOOT samples of kernel estimates at common grid
+  BOOT <- lapply(X=KER, FUN=function(obj){
+    drawGridEst(est.v=obj$mean, err.v=obj$merr, nboot=NBOOT, SEED=SEED)
   })
-  y <- do.call("rbind", y)
+  rm(KER)
   
-  KERREG[[metric]] <- cbind.data.frame(id=csv.v, metric=metric, y, 
-                                       rank.est=rank(-y[,"reg.est"], 
+  # Approximate VUS for all NBOOT samples
+  VUS <- lapply(X=BOOT, FUN=function(boot){
+    x <- lapply(X=boot, FUN=function(est){
+      getVUS( X=grid.mx, Y=est, step.v=unname(step.v[c("x.grid", "y.grid")]) )
+    })
+    unlist(x)
+  })
+  rm(BOOT)
+ 
+  meanVUS <- unlist(lapply(X=VUS, FUN=mean))
+  sdVUS <- unlist(lapply(X=VUS, FUN=sd))
+  KERREG[[metric]] <- cbind.data.frame(id=csv.v, metric=metric, nboot=NBOOT, 
+                                       mean=meanVUS, sd=sdVUS,
+                                       rank.est=rank(-meanVUS, 
                                                      ties.method="average"),
                                        stringsAsFactors=FALSE)
+  rm(meanVUS, sdVUS, VUS)
   
 }
 
 KERREG <- do.call("rbind.data.frame", c(KERREG, stringsAsFactors=FALSE))
-write.csv(KERREG, file=paste0(out.dir, "/", out.name, ".csv"),
-          row.names=FALSE) 
+write.csv(KERREG, file=paste0(out.dir, "/", out.name, ".csv"), row.names=FALSE) 
 
 # rm(list=ls()); gc()
 

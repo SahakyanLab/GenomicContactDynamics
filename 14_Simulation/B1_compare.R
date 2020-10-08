@@ -52,11 +52,14 @@ gap.v = 'gap.range = c(50, Inf)'
 out.id = "whole_maskMidSquare_gap50up"
 
 # Minimum value to be contact, input as string so I can print it out
+c.subj = 'c.offsubj.v = c( -0.0001, seq(0,0.004,0.0001), seq(0.005,0.01,0.001), seq(0.02,0.06, 0.01) )'
+c.ref  = 'c.offref.v = c( -0.05, seq(0,5,0.05) )'
+
 #c.subj = 'c.offsubj.v = c( -0.0001, seq(0,0.004,0.0001), seq(0.005,0.01,0.001), seq(0.02,0.06, 0.01) )'
 #c.ref  = 'c.offref.v = c( -0.02, seq(0,1,0.02), seq(1.2,1.8,0.2), seq(2,20,2) )'
 nCPU = 5L #~8G per core
 
-boxplotOnly = TRUE
+boxplotOnly = FALSE
 makeBoxplotValues = TRUE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
@@ -132,10 +135,10 @@ for(m in c("subj", "ref")){
   # Change value of unwanted contacts to NA
   df$value[df$include==0] <- NA
   
-  # If specified, scale values
+  # Scale sd by values
   if( metric%in%c("Cs.raw", "Cs.norm") ){
     df$value <- (df$value)/sd(x=df$value, na.rm=TRUE)
-    print("Scaling Cs values...", quote=FALSE)
+    print("Scaling Cs values by sd...", quote=FALSE)
   }
   
   # Reorder
@@ -165,7 +168,7 @@ for(m in c("subj", "ref")){
   min.v <- min(v[v!=0], na.rm=TRUE)
   
   if( (sum(v%in%max.v)!=2) & metric%in%c("Cs.norm", "Cs.raw") ){
-    stop("Cut-off max checkpoint.")
+    print("Cut-off max checkpoint.")
   }
   
   if(metric!="Cp"){

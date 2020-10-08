@@ -19,23 +19,23 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-csv.dir = paste0(wk.dir, "/out_compare/csv_chr1_whole_maskMidSquare_gap50up_refCp")
+csv.dir = paste0(wk.dir, "/out_compare/sdScaled")
 out.dir = paste0(wk.dir, "/out_cutoffPlotPerMetric")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chr1" 
-ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
-         "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
-metric.v = c(subj="SIM.3.2.kmer.5", ref="Cp")
+ct.v = c("Hi", "Lu", "Co") #c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
+      #   "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
+metric.v = c(subj="SIM.4.2.kmer.5", ref="Cs.norm")
 src.id = "whole_maskMidSquare_gap50up" 
-out.id = "partRange"
+out.id = "partRange_test"
 
 # Closed ranges where most contacts belong; to colour points differently
 s.range = 'subj.range = c(-0.0001,0.004)'
-r.range = 'ref.range = NULL' #c(-0.02,1)'
+r.range = 'ref.range = c(-0.05,5)'
 
-confMxMetric.v = c("SPN", "RPN", "TPR", "TNR", "PPV", "NPV",  "FNR", "FPR", "FDR",
-                   "FOR", "PT", "TS", "ACC", "BA", "F1", "MCC", "FM", "BM", "MK")
+confMxMetric.v = "MCC"#c("SPN", "RPN", "TPR", "TNR", "PPV", "NPV",  "FNR", "FPR", "FDR",
+                  # "FOR", "PT", "TS", "ACC", "BA", "F1", "MCC", "FM", "BM", "MK")
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
