@@ -16,8 +16,8 @@ confMxMetric <- function(CONFMX=COMPIJMX[,c("TP","FP", "TN", "FN",
   RN <- CONFMX[,"RN"]
   rm(CONFMX); gc()
   
-  SPN =function(TP, FP, TN, FN, SP, SN, RP, RN){ SP/SN }
-  RPN =function(TP, FP, TN, FN, SP, SN, RP, RN){ RP/RN }
+  SPN=function(TP, FP, TN, FN, SP, SN, RP, RN){ SP/SN }
+  RPN=function(TP, FP, TN, FN, SP, SN, RP, RN){ RP/RN }
   TPR=function(TP, FP, TN, FN, SP, SN, RP, RN){ TP/(TP+FN) }
   TNR=function(TP, FP, TN, FN, SP, SN, RP, RN){ TN/(TN+FP) }
   PPV=function(TP, FP, TN, FN, SP, SN, RP, RN){ TP/(TP+FP) }
@@ -42,7 +42,7 @@ confMxMetric <- function(CONFMX=COMPIJMX[,c("TP","FP", "TN", "FN",
     (2*TP)/((2*TP)+FP+FN)
   }
   MCC=function(TP, FP, TN, FN, SP, SN, RP, RN){
-    # To bypass integer limit and avoid integer overflow
+    # as.numeric() to bypass integer limit and avoid integer overflow
     TP <- as.numeric(TP)
     FP <- as.numeric(FP)
     TN <- as.numeric(TN)

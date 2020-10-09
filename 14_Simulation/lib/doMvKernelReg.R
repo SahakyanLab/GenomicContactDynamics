@@ -16,12 +16,11 @@ doMvKernelReg <- function(X, Y, x.grid, y.grid, plotTitle, bws.v=c(0.01,0.25),
   grid.mx <- as.matrix(expand.grid(x.grid, y.grid))
   dimnames(grid.mx)[[2]] <- c("x", "y")
   
-  #BW <- np::npregbw(xdat=X, ydat=Y, regtype="lc")
   BW <- np::npregbw(xdat=X, ydat=Y, bws=bws.v, bwtype="fixed", regtype="lc",
                     # bwscaling=FALSE means bws are interpreted as raw bandwidths
-                    bwscaling=FALSE, bandwidth.compute=FALSE, ckertype="gaussian")
+                    bwscaling=FALSE, bandwidth.compute=FALSE, ckertype="gaussian",
+                    na.action=na.omit)
   print(paste0("Bandwidths: ", BW$bw), quote=FALSE)
-  #NPREG <- np::npreg(bws=BW, exdat=grid.mx)
   NPREG <- np::npreg(bws=BW, exdat=grid.mx, gradients=TRUE)
   
   # Save individual surface plots

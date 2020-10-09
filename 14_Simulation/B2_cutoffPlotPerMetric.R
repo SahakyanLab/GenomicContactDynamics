@@ -1,5 +1,6 @@
 ################################################################################
-# Calculate confusion matrix-derived metrics
+#  Calculate and plot confusion-matrix-derived scores. Plots also show fraction
+# of contacts per subject and reference cut-off value.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -13,7 +14,6 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    data.dir = "/Users/ltamon/Database"
     wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
@@ -24,13 +24,13 @@ out.dir = paste0(wk.dir, "/out_cutoffPlotPerMetric")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chr1" 
-ct.v = c("Hi", "Lu", "Co") #c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
+ct.v = "Co" #c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
       #   "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
 metric.v = c(subj="SIM.4.2.kmer.5", ref="Cs.norm")
 src.id = "whole_maskMidSquare_gap50up" 
 out.id = "partRange_test"
 
-# Closed ranges where most contacts belong; to colour points differently
+# Cut-off range to consider
 s.range = 'subj.range = c(-0.0001,0.004)'
 r.range = 'ref.range = c(-0.05,5)'
 
@@ -78,7 +78,8 @@ for(i in 1:ct.v.len){
   COMPIJMX <- read.csv(file=paste0(csv.dir, "/", out.name, ".csv"), header=TRUE, 
                        stringsAsFactors=FALSE)
   
-  # Percentage of contacts considered during comparison
+  # Percentage of contacts considered during comparison out of all possible contacts
+  # (all contacts in upper/lower matrix)
   percij <- COMPIJMX$final.nonNA.ij/(COMPIJMX$final.NA.ij+COMPIJMX$final.nonNA.ij)
   percij <- format(unique(percij)*100, digits=4) 
   
@@ -92,9 +93,10 @@ for(i in 1:ct.v.len){
   
   out.range <- (COMPIJMX$c.offsubj<subj.range[1] | COMPIJMX$c.offsubj>subj.range[2]) |
     (COMPIJMX$c.offref<ref.range[1] | COMPIJMX$c.offref>ref.range[2])
-  COMPIJMX <- COMPIJMX[out.range==FALSE,]
+  COMPIJMX <- COMPIJMX[!out.range,]
   rm(out.range)
   
+  # Calculate fraction of subj and ref contacts per cut-off value
   frSUBJ[[ct]] <- cbind.data.frame(ct=ct, cutoff=COMPIJMX$c.offsubj, 
                                    fr=COMPIJMX$SP/COMPIJMX$final.nonNA.ij)
   frREF[[ct]] <- cbind.data.frame(ct=ct, cutoff=COMPIJMX$c.offref, 
@@ -115,8 +117,8 @@ for(i in 1:ct.v.len){
       geom_tile(aes(fill=densval)) +
       geom_contour(color="cyan") +
       scale_fill_viridis() + 
-      labs(x="Cut-off subj", y="Cut-off ref", fill=metric) +
-      
+      labs(x="Cut-off subj", y="Cut-off ref", fill=metric, 
+           title=paste0(out.name, "_", percij, "%possibleij_", metric)) +
       theme(panel.background=element_rect(colour="gray22", size=1, fill=NA),
             panel.grid.major=element_blank(),       
             panel.grid.minor=element_blank())
@@ -143,14 +145,14 @@ for(i in 1:ct.v.len){
   
   p.arr <- ggarrange(plotlist=p.lst, nrow=5, ncol=5)
   ggexport(p.arr, height=50, width=50,
-           filename=paste0(out.dir, "/", out.name, "_", out.id, ".pdf" ))
+           filename=paste0(out.dir, "/", out.name, "_", out.id, "_tileCont.pdf" ))
   
   rm(p.arr, p.lst, out.name, COMPIJMX)
 }
 
 out.name <- run.name
 p.arr <- ggarrange(plotlist=p1.lst, nrow=5, ncol=5)
-ggexport(p.arr, height=50, width=50, filename=paste0(out.dir, "/", out.name, "_fr.pdf" ))
+ggexport(p.arr, height=50, width=50, filename=paste0(out.dir, "/", out.name, "_tileContWithFr.pdf" ))
 
 # Plot fraction of contacts
 frSUBJ <- do.call("rbind.data.frame", frSUBJ)
@@ -164,7 +166,7 @@ for(x in c("SUBJ", "REF")){
   p.lst[[x]] <- p.lst[[x]] +
     geom_point(aes(col=ct), alpha=0.5, size=2.5, shape=1) +
     scale_colour_manual(values=coul) +
-    labs(title=paste0(out.name, "_", x), 
+    labs(title=paste0(out.name, "_", percij, "%possibleij_", x), 
          x="Cut-off", y="Fraction of contacts") +
     bgr2
 }

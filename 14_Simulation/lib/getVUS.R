@@ -12,6 +12,7 @@ getVUS <- function(X, Y, step.v=c(0.01,0.01)){
   Y <- Y-min(Y)
   
   # Checks
+  if( any(!is.finite(Y)) ){ stop("Not finite estimate.") }
   if( nrow(X)!=length(Y) ){
     stop("Lengths of argument vectors not equal")
   }
@@ -24,10 +25,6 @@ getVUS <- function(X, Y, step.v=c(0.01,0.01)){
   # Edge and corner weights
   w.mx[,1] <- w.mx[,w.dim[2]]  <- c(1, rep(2, times=w.dim[1]-2), 1)
   w.mx[1,] <- w.mx[w.dim[1],]  <- c(1, rep(2, times=w.dim[2]-2), 1)
-  
-  # Calculate step size for each dimension
-  #d <- dimnames(mx)
-  #d <- lapply(X=d, FUN=function(x) unique(diff(as.numeric(x))) )
   
   # Calculate VUS estimate
   sm <- sum(w.mx*mx)
