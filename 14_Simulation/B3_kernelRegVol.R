@@ -17,14 +17,14 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-csv.dir = paste0(wk.dir, "/out_compare/test")
+csv.dir = paste0(wk.dir, "/out_compare_sd_csv")
 out.dir = paste0(wk.dir, "/out_kernelRegVol")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chr1" 
 src.id = "whole_maskMidSquare_gap50up"
-out.id = "SIMvsCsnormCp_test"
-confMxMetric.v = c("MCC") #c("MCC", "FDR", "TPR", "TNR", "PPV", "NPV")
+out.id = "SIMvsCsnorm"
+confMxMetric.v = "MCC" #c("MCC", "FDR", "TPR", "TNR", "PPV", "NPV")
 
 # Cut-off range to consider
 s.range = 'subj.range = c(-0.0001,0.004)'
@@ -32,12 +32,12 @@ r.range = 'ref.range = c(0,5)'
 
 # Kernel regression estimate parameters
 step = 'step.v=c(xgrid=0.01, ygrid=0.01)'
-bws = 'bws.v=c(0.01, 0.01)' # Fixed bandwidth for each dimension
+bws = 'bws.v=c(subj=0.05, ref=0.05)' # Fixed bandwidth for each dimension
 
 # Bootstrapping of grid estimates based on kernel regression estimate error
 NBOOT = 10
-nCPU = 2
-SEED = 3412
+nCPU = 1
+SEED = 902
 
 # Get optimal bandwidth only?
 getBWonly = FALSE
@@ -83,8 +83,8 @@ eval(parse(text=s.range))
 eval(parse(text=r.range))
 
 step <- paste( paste(names(step.v), step.v, sep=""), collapse="_") 
-out.name <- paste0(paste(gcb, chr, src.id, out.id, sep="_"), 
-                   "_seed", SEED, "_nboot", NBOOT, "_step", step); rm(step)
+param.id <- paste0("seed", SEED, "_nboot", NBOOT, "_step", step)
+out.name <- paste0(paste(gcb, chr, src.id, out.id, sep="_"), "_", param.id); rm(step)
 print(paste0(out.name, "..."), quote=FALSE)
 
 # Make common grid for kernel regression estimation of score and VUS calculation
@@ -142,70 +142,81 @@ names(dta) <- csv.v
 write.csv(do.call("rbind.data.frame", BW), 
           file=paste0(out.dir, "/", out.name, "_minBW.csv"), row.names=FALSE)
 rm(BW)
-if(getBWonly){ stop("Only determine optimal bandwidth.") }
 
-# Plot parameters
-coul <- colorRampPalette(brewer.pal(11, "Spectral"))(csv.len)
-surf.v <- gsub(x=csv.v, pattern=paste0(gcb, "_", chr, "_"), replacement="", fixed=TRUE)
-
-KERREG <- list()
-for(metric in confMxMetric.v){
+if(getBWonly){
   
-  # Get kernel regression estimate
-  KER <- lapply(X=names(dta), FUN=function(nme){
-    mx <- dta[[nme]]
-    doMvKernelReg(X=mx[,1:2], Y=mx[,metric], x.grid=x.grid, 
-                  y.grid=y.grid, bws.v=bws.v, 
-                  plotTitle=paste0(nme, "_", metric, "_", out.id), 
-                  plotPath=paste0(out.dir, "/", nme, "_", metric, "_",  
-                                  out.id, "_kernelReg.html"))
-  })
- 
-  # Plot surfaces together
-  p <- plot_ly(showscale=TRUE)
-  p <- layout(p, scene=list(xaxis=list(range=c(0,1)), yaxis=list(range=c(0,1))),
-              title=paste0(out.name, "_", metric))
-  for( i in 1:length(KER) ){
-    p <- add_trace(p=p, z=matrix(KER[[i]][["mean"]], nrow=x.len, ncol=y.len),
-                   x=x.grid, y=y.grid, type="surface", opacity=0.8,
-                   colorscale=list(c(0, 1), c("white", coul[i])), 
-                   colorbar=list(title=surf.v[i], len=0.2)
-                   )
-  }
-  htmlwidgets::saveWidget(widget=as_widget(p), 
-                          file=paste0(out.dir, "/", out.name, "_", metric, 
-                                      "_surfCombined.html"))
-  rm(p)
+  print("Only determine optimal bandwidth.", quote=FALSE)
   
-  # Get NBOOT samples of kernel estimates at common grid
-  BOOT <- lapply(X=KER, FUN=function(obj){
-    drawGridEst(est.v=obj$mean, err.v=obj$merr, nboot=NBOOT, SEED=SEED, nCPU=nCPU)
-  })
-  rm(KER)
+} else {
   
-  # Approximate VUS for all NBOOT samples
-  VUS <- lapply(X=BOOT, FUN=function(boot.mx){
-    x <- apply(X=boot.mx, MARGIN=2, FUN=function(est){
-      getVUS(X=grid.mx, Y=est, step.v=step.v)
+  bws <- paste( paste(names(bws.v), bws.v, sep=""), collapse="_") 
+  param.id <- paste0(param.id, "_bws", bws)
+  out.name <- paste0(out.name, "_bws", bws); rm(bws)
+  
+  # Plot parameters
+  coul <- colorRampPalette(brewer.pal(11, "Spectral"))(csv.len)
+  surf.v <- gsub(x=csv.v, pattern=paste0(gcb, "_", chr, "_"), replacement="", fixed=TRUE)
+  
+  KERREG <- list()
+  for(metric in confMxMetric.v){
+    
+    # Get kernel regression estimate
+    KER <- lapply(X=names(dta), FUN=function(nme){
+      mx <- dta[[nme]]
+      doMvKernelReg(X=mx[,1:2], Y=mx[,metric], x.grid=x.grid, 
+                    y.grid=y.grid, bws.v=unname(bws.v[c("subj", "ref")]), 
+                    plotTitle=paste0(nme, "_", param.id, "_", metric, "_", out.id), 
+                    plotPath=paste0(out.dir, "/", nme, "_", param.id, "_", 
+                                    metric, "_", out.id, "_kernRegSurf.html"))
     })
-    return(x)
-  })
-  rm(BOOT)
-  VUS <- do.call("cbind", VUS)
- 
-  meanVUS <- colMeans(x=VUS)
-  sdVUS <- apply(X=VUS, MARGIN=2, FUN=sd)
-  KERREG[[metric]] <- cbind.data.frame(id=csv.v, metric=metric, nboot=NBOOT, 
-                                       mean=meanVUS, sd=sdVUS,
-                                       rank.est=rank(-meanVUS, 
-                                                     ties.method="average"),
-                                       stringsAsFactors=FALSE)
-  rm(meanVUS, sdVUS, VUS); gc()
+    
+    # Plot surfaces together
+    p <- plot_ly(showscale=TRUE)
+    p <- layout(p, scene=list(xaxis=list(range=c(0,1)), yaxis=list(range=c(0,1))),
+                title=paste0(out.name, "_", metric))
+    for( i in 1:length(KER) ){
+      p <- add_trace(p=p, z=matrix(KER[[i]][["mean"]], nrow=x.len, ncol=y.len),
+                     x=x.grid, y=y.grid, type="surface", opacity=0.8,
+                     colorscale=list(c(0, 1), c("white", coul[i])), 
+                     colorbar=list(title=surf.v[i], len=0.2)
+      )
+    }
+    htmlwidgets::saveWidget(widget=as_widget(p), 
+                            file=paste0(out.dir, "/", out.name, "_", metric, 
+                                        "_surfCombined.html"))
+    rm(p)
+    
+    # Get NBOOT samples of kernel estimates at common grid
+    BOOT <- lapply(X=KER, FUN=function(obj){
+      drawGridEst(est.v=obj$mean, err.v=obj$merr, nboot=NBOOT, SEED=SEED, nCPU=nCPU)
+    })
+    rm(KER)
+    
+    # Approximate VUS for all NBOOT samples
+    VUS <- lapply(X=BOOT, FUN=function(boot.mx){
+      x <- apply(X=boot.mx, MARGIN=2, FUN=function(est){
+        getVUS(X=grid.mx, Y=est, step.v=step.v)
+      })
+      return(x)
+    })
+    rm(BOOT)
+    VUS <- do.call("cbind", VUS)
+    
+    meanVUS <- colMeans(x=VUS)
+    sdVUS <- apply(X=VUS, MARGIN=2, FUN=sd)
+    KERREG[[metric]] <- cbind.data.frame(id=csv.v, metric=metric, nboot=NBOOT, 
+                                         mean=meanVUS, sd=sdVUS,
+                                         rank.est=rank(-meanVUS, 
+                                                       ties.method="average"),
+                                         stringsAsFactors=FALSE)
+    rm(meanVUS, sdVUS, VUS); gc()
+    
+  }
+  
+  KERREG <- do.call("rbind.data.frame", c(KERREG, stringsAsFactors=FALSE))
+  write.csv(KERREG, file=paste0(out.dir, "/", out.name, "_VUS.csv"), row.names=FALSE) 
   
 }
-
-KERREG <- do.call("rbind.data.frame", c(KERREG, stringsAsFactors=FALSE))
-write.csv(KERREG, file=paste0(out.dir, "/", out.name, "_VUS.csv"), row.names=FALSE) 
 
 # rm(list=ls()); gc()
 

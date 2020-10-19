@@ -23,7 +23,6 @@ col.v <- c("blueviolet", "darkred", "darkblue", "darkgreen", "darkgoldenrod",
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
-### FUNCTION ###################################################################
 library(data.table)
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *

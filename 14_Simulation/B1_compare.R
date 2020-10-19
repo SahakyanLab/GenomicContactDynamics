@@ -187,12 +187,14 @@ for(m in c("subj", "ref")){
   if(makeBoxplotValues){
     
     p.title <- paste0(out.name, "_", metric.v[m], "_min=", min.v, "_max=", max.v[2])
-    v.nZero <- v[v!=0 & !is.na(v)]
     
-    boxplot(x=v.nZero, outline=FALSE, ylab="Value",
-            main=paste0(p.title, "_no0sNoOutliers"), cex.main=0.5)
-    boxplot(x=v.nZero, outline=TRUE, ylab="Value",
-            main=paste0(p.title, "_no0sWithOutliers"), cex.main=0.5)
+    if( !grepl(x=metric, pattern="CII.") ){
+      v.nZero <- v[v!=0 & !is.na(v)]
+      boxplot(x=v.nZero, outline=FALSE, ylab="Value",
+              main=paste0(p.title, "_no0sNoOutliers"), cex.main=0.5)
+      boxplot(x=v.nZero, outline=TRUE, ylab="Value",
+              main=paste0(p.title, "_no0sWithOutliers"), cex.main=0.5)
+    }
     boxplot(x=v, outline=FALSE, ylab="Value",
             main=paste0(p.title, "_AllNoOutliers"), cex.main=0.5)
     boxplot(x=v, outline=TRUE, ylab="Value",

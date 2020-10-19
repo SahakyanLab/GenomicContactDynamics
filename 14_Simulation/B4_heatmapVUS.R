@@ -16,16 +16,19 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-VUScsvPath = paste0(wk.dir, "/out_kernelRegVol/min2Mb_chr1_whole_maskMidSquare_gap50up_SIMvsCsnormCp_test_seed3412_nboot10_stepxgrid0.02_ygrid0.02_VUS.csv")
+VUScsvPath = paste0(wk.dir, "/out_kernelRegVol/min2Mb_chr1_whole_maskMidSquare_gap50up_SIMvsCsnorm_seed902_nboot10_stepxgrid0.01_ygrid0.01_bwssubj0.05_ref0.05_VUS.csv")
 out.dir = paste0(wk.dir, "/out_heatmapVUS")
 ### OTHER SETTINGS #############################################################
-out.id = "min2Mb_chr1_whole_maskMidSquare_gap50up_SIMvsCsnormCp_test_seed3412_nboot10_stepxgrid0.02_ygrid0.02"
+out.id = "min2Mb_chr1_whole_maskMidSquare_gap50up_SIMvsCsnorm_seed902_nboot10_stepxgrid0.01_ygrid0.01_bwssubj0.05_ref0.05_VUS"
 # Which to append cell/tissue as id?
 addCTIdTo = "ref" # "subj" | "ref"
 
 # Matrix orientation; note that Z-score is calculated per row
 row = "subj"
 col = "ref"
+
+# Reference for calculating fold change
+fc.ref = "Cs.norm.Li"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -85,9 +88,9 @@ for(metric in metric.v){
   rm(mean.rw, sd.rw, z.mx)
   
   # Fold change heatmap, calculate per row, relative to first col value
-  f.mx <- log2(mx/mx[,1])
+  f.mx <- log2(mx/mx[,fc.ref])
   pdf(file=paste0(out.dir, "/", out.name, "_FChmap.pdf"), height=10, width=10)
-  print( makeHMAP(mx=f.mx, mx.nme="Fold-change", clust.cl=FALSE) )
+  print( makeHMAP(mx=f.mx, mx.nme="Fold-change") )
   dev.off()
   rm(f.mx)
   

@@ -1,13 +1,213 @@
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
+simulation contact matrices
+MELT.MX (Raw and HiCNorm)
+CII.MX (complementarity scores)
+
 library(data.table)
+library(reshape)
+library(RColorBrewer)
+library(ggplot2)
+library(ggpubr)
+library(foreach)
+library(doParallel)
+library(itertools)
+library(GenomicRanges)
+
+source(paste0(lib, "/GG_bgr.R"))
+source(paste0(wk.dir, "/lib/getContactDF.R"))
+source(paste0(wk.dir, "/lib/processForMap.R"))
+source(paste0(wk.dir, "/lib/makeMatrixMap.R"))
+source(paste0(wk.dir, "/lib/filterContacts.R"))
+source(paste0(lib, "/UTL_doPar.R"))
+################################################################################
+# Simulation
+################################################################################
+The values in the simulation matrices represent frequency of contact
+within a given timeframe. Two beads are in contact if the distance (unitless in
+the simulation) between them is less than a certain cut-off (1.5 for the matrices 
+Zahra sent). 1.5 is a reasonable cut-off based on the bead size that is 1. 
+The chr are truncated (last bead removed) in the simulation because the last bead 
+is less than the Hi-C resolution of 40-kb for all chr. 
+Different simulation types are on the same scale because frequency was measured
+on the same timeframe. 
 ################################################################################
 # A.
 ################################################################################
-1. Inspect simulation maps from Zahra: dimension, symmetry, min and max values.
-a. cutoff=1.5 
-Contacts with distance (value in simulation map matrix) < 1.5 is considered
-as contact. Value is unitless. Size of bead is 1. 
-2. 
+1. Inspect simulation maps from Zahra: symmetry, min and max values.
+Matrices are not symmetrical for some reason. Zahra's reply regarding this:
 
+"I have checked the matrices and the code that I used to calculate them. I am 
+using the MDA package in Python to calculate the contact maps, more specifically 
+I am using the following function: mda.analysis.distances.contact_matrix. Sometimes 
+the output of this function is not symmetric, which is very strange. The non-symmetric
+elements only differ by one, i.e. abs(A(i, j) - A(j, i)) equals 1, therefore, they 
+would not be very much problematic. However, I will try to find a solution to this 
+and will let you know. "
+
+2. Get average frequency of replicates per simulation type. Put replicates of 
+a simulation type in one directory then loop over directories to get average
+simulation matrix per type. Name of directory is used to name average matrix.
+
+3. Visualise contact matrices as maps
+Custom functions used:
+
+a. getContactDF() - gets dataframe of upper triangle contacts (i-j column) 
+including a column for values based on metric and a column specifying whether 
+the contact will be included or not based on specified bins to be included/masked.
+
+ct - Specify tissue using this parameter. For metric=Cp, specifying a specific
+tissue willl only return contacts present in that tissue. If ct="hg19", this
+will return all contacts with Cp value. 
+
+filterContacts() is used to filter contacts based on specified bins and based on
+gap between contacts. Gap is the number of bins between two contacting bins (actual
+bins in contact are not counted in gap). 
+
+> head(df)
+metric=Cs.raw
+         i   j value include
+516168 402 403     0       0
+517451 402 404     2       0
+517452 403 404     2       0
+518734 402 405     0       0
+518735 403 405     1       0
+518736 404 405     3       0
+
+This dataframe is then inputted to makeMatrixMap(), and the contact map is 
+generated using the upper triangle matrix values.
+
+b. makeMatrixMap() - makes a matrix map, either symmetrical or square format from 
+dataframe of i, j and value. Function checks and removes duplicates of contacts
+and checks if the contacts are from one triangle. Values equal to 0 are converted
+to NA because the value means no contact. This is done for all metrics except for 
+complementarity scores (CII.MX values). In the map, NA will appear as white. 
+################################################################################
+# B. Comparison of matrices
+################################################################################
+0. Identify gaps (white areas) in contact matrices so contacts can be masked 
+appropriately and consistently across tissues. This is useful to accurately
+and consistenly exclude regions with no Hi-C signal (e.g. centromeric areas)
+across tissues. 
+Good thing that the areas to be masked are the same across tisues in the case of chr1.
+
+Output gives 1-based ranges of white areas (cross-shaped for chr1).
+
+1. Compare two contact matrices, treating one as a predicted contact matrix (subject) 
+and the other as the actual/real matrix (reference). Get confusion-matrix 
+quantities namely the number of true and false positives and negatives. Do this 
+for each pair (one cut-off each for subject and reference matrix) of cut-off values 
+determining what a contact is. A cut-off value of 0 means that all contacts with 
+value greater than 0 are counted as a contact. 
+
+Considerations:
+a. Uses getContactDF() and filterContacts() to retrieve contacts and values based on
+metric. See description of functions in A3. 
+
+b. compareContactMx() - function to calculate confusion matrix values
+- Operates only on upper triangle contacts. 
+- It makes sure that only contacts with non-NA values in both subj and ref are compared
+therefore the number of contacts considered for both matrices is always the same. 
+
+c. Cut-off range
+c.subj aand c.ref arguments specify the set of cut-off values for the subj and ref. The
+code adds values to this set to make sure that both set ends with the two largest
+values in the matrix. In particular, the code adds 10 values in between the maximum 
+specified cut-off and the second largest value. With this addition, I only need
+to specify the cut-offs spanning most of the values. This addition is not done
+for Cp because i can just specify cut-offs to be 1:21. This is useful especially
+for Cs values across tissues which mainly differ in the large values. 
+
+d. Values for Cs (raw and norm) from cell/tissues are not on the same scale
+so the code scales them by dividing by the sd. This is a better option than
+min-max scaling because resulting value is least affected by the maximum value
+which is very different across cell/tissues. 
+
+Output:
+a. Boxplot of values (according to specified bins/contacts to be included or masked)
+Gives boxplot of values for subj (top panel) and reference (bottom panel) in this order
+from left to right:
+i. Values with 0 removed (except for complementarity score metric), without outliers shown
+ii. Values with 0 removed (except for complementarity score metric), with outliers
+iii. All values, without outliers shown
+iv. All values, with outliers shown
+
+i. and ii. are generated for all metrics except for complementarity scores. 
+
+b. .csv
+nonNA.subj.NA.ref.ij	nonNA.ref.NA.subj.ij	final.NA.ij	final.nonNA.ij	c.offsubj	c.offref	SP	RP	TP	FP	SN	RN	TN	FN
+0	2618	11527565	7888231	-1.00E-04	-0.05	7888231	7888231	7888231	0	0	0	0	0
+0	2618	11527565	7888231	0	-0.05	1390854	7888231	1390854	0	6497377	0	0	6497377
+0	2618	11527565	7888231	1.00E-04	-0.05	1390854	7888231	1390854	0	6497377	0	0	6497377
+0	2618	11527565	7888231	2.00E-04	-0.05	1390854	7888231	1390854	0	6497377	0	0	6497377
+
+nonNA.subj.NA.ref.ij - number of non-NA contacts in subj but NA in ref
+nonNA.ref.NA.subj.ij - number of NA contacts in subj but non-NA in ref
+These contacts are converted to NA and then final.NA.ij is counted which should
+now be the same for subj and ref. Consequently, final.nonNA.ij should be the same
+for both matrices.
+c.offsubj - cut-off values for subject
+c.offref - cut-off values for reference
+
+SP/RP - number of contacts (positive) in subject/reference for given cut-off
+TP - true positives in subject based on reference
+FP - false positives in subject based on reference
+SN/RN - number of non-contacts (negative) in subject/reference for given cut-off
+TN - true negatives in subject based on reference
+FN - false negatives in subject based on reference
+
+2. Calculate and plot confusion-matrix-derived scores. The code generates 3 plots:
+a. _tileCont.pdf - Tile plot (with contour) of the scores; 1 pdf per matrix pair.
+b. _tileContWithFr.pdf - Same tile plot from (a) but added with side plots 
+showing fraction of contacts per subj and ref cut-off value. The code only 
+generates it for MCC. 
+Note that fraction of contacts per cut-off value is relative to the number of
+contacs being compared for that chromosome (so to that percentage of contacts
+in the title of plot.)
+c. _frCombined.pdf - plot fraction of contacts per cut-off value. 
+
+For all plots, percentage in title is the number of contacts compared out of
+all possible contacts in the chromosome (all contacts in upper/lower matrix). 
+Contacts masked and those NA only in either ref or subj are excluded. 
+
+3. Convert tile plot from B2 into a 3D surface via kernel regression to compare
+different subj-ref pairs. Estimate volume of surface to serve as performance 
+measure (similar to AUC of ROC) via trapezoidal rule for double integration.
+ 
+Before fitting surface, filter cut-off values and normalise them by min-max
+scaling. 
+ 
+a. Fit surface via kernel regression
+i. Define a common grid at which estimates will be obtained for each subj-ref
+pairs to be compared. Surface is built based on this grid.
+ii. Kernel regression parameters: guassian kernel function; kernel function 
+bandwidth is fixed per dimension. Optimal bandwidth to be used for all
+subj-ref pairs is the minimum value ensuring that kernel function at each
+grid point will cover at least one neighbor. The type of kernel regression
+estimator is the default, regtype="lc" pertaining to a local-constant estimator 
+(Nadaraya-Watson). 
+
+b. drawGridEst: Bootstrapping grid estimates based on kernel regression estimate 
+errors
+The function np::npreg gives kernel reg estimates at gridpoints along with
+standard errors. To quantify the error in the final VUS calculation, I 
+bootstrapped grid estimates and calculated VUS. The sd of the VUS of the
+bootstrapped sample is treated later on as the standard error of the mean of
+the VUS. 
+
+c. getVUS():Estimating VUS using trapezoidal rule for double integration
+I chose the trapezoid rule for double integration to estimate VUS. The code is 
+the simplified version for cases wherein the grid points are equidistant along
+each dimension. 
+Note that when Y (score) has negative values, the values are shifted to the
+positive y-axis by subtracting the minimum value.
+Reference: http://www.ohiouniversityfaculty.com/youngt/IntNumMeth/lecture24.pdf
+
+Output:
+a. Plotly surface plots, individual and combined.
+b. _minBW.csv, optimal bandwidths for the kernel estimation
+c. _VUS.csv, contains calculated VUS and ranking
+
+4. Heatmap summarising VUS of subj-ref comparisons. 
+################################################################################

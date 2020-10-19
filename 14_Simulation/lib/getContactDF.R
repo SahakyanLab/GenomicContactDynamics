@@ -1,5 +1,7 @@
 ################################################################################
-# Get contact dataframe (upper triangle) based on metric
+# Get dataframe of upper triangle contacts (i-j column) including a column for 
+# values based on metric and a column specifying whether the contact will be 
+# included or not based on specified bins to be included/masked
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
