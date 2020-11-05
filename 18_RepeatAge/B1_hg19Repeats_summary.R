@@ -1,5 +1,5 @@
 ################################################################################
-#Summary table of hg19 repeats
+# Convert repeat masker file to .RData for subsequent analyses.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################

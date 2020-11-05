@@ -1,0 +1,142 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+library(data.table)
+################################################################################
+# Age ranking of subfamilies
+################################################################################
+The age ranking used for the analyses is adapted from the ranking published by 
+Giordano et al. 2007. The paper gives two rankings (see
+./archive/Giordano2007_ChronOrderHumanTEs_405.xls): (1) 360 retrotransposons 
+(2) 405 transposons (360 retro + 15 DNA). The ranking of retrotransposons
+is not the same in the two rankings but is pretty consistent. 
+Most published data I’ve checked (see ./archive/PublAges_ref.csv) came before 2007 
+and Giordano et al. cited them.
+
+I had to rename some of the repeat subfamilies in the ranking to match the repeat
+masker (files marked with _renamed). 
+
+For the processing below, I used 2 starting age ranks:
+a. Giordano 405 transposon ranking
+b. Ranking of 136 subfamilies based on published data with actual age or age range. 
+./archive/publishedAges_sorted.xlsx contains 136 sub-families with age info:
+repNameRenamed	ageMyrMin	ageMyrMax	ageMyrConsensus	ConsensusMethod	Reference
+L1HS	2.3	3.9	3.1	mean	14
+L1PA2	5.6	9.6	7.6	mean	14
+L1PA3	9.2	15.8	12.5	mean	14
+L1PA4	13.2	22.8	18	mean	14
+L1PA5	15	25.9	20.45	mean	14
+See ./archive/PublAges_ref.csv for the paper per reference number. 
+################################################################################
+# A. Finalising age ranks
+################################################################################
+1. I processed the two starting age ranks and combined them to come up with the 
+final age rank. 
+
+a. Subfamilies in the rankings that are not in the repeat masker were removed.
+Giordano rank 405 -> 364 (Giordano2007_364HumanTEs_renamed.txt)
+Published rank 136 -> 105 (Published_105HumanTEs_renamed.txt)
+Subfamilies that were removed are in ./intermediatefiles/
+Giordano2007_41HumanTEs_renamed_REMOVED.txt
+Published_31HumanTEs_renamed_REMOVED.txt
+
+b. Compare the two rankings. 
+Output file is orderPublished_basedonGiordano.txt with list of  published
+ranking and the rank of the 105 subfamily based on the Giordano ranking. 
+Then, I manually incorporated 8 subfamilies from the published ranking to
+the 364 Giordano rank (GiordanoANDPublished_372HumanTEs_renamed.txt).
+See agerank_summary.xlsx for the process of comparison.
+
+Giordano2007: Older elements interrepted by Younger ones
+In contrast younger elements rarely interrupted by older one 
+
+Modifications:
+8 subfamilies added from published ranking (highlighted in yellow in the 
+excel file):
+SVA_A
+SVA_B
+SVA_C
+SVA_D
+SVA_E
+SVA_F
+AluYb9
+AluYa8
+
+In blue are L1PA2 and L1HS, which were switched as per advice in the Giordano 
+paper. The error is because of the method they used. So I thought it's safer 
+to add at the end. Only 4 repNames in published data (that appear in Repeat 
+Masker) were not added. 
+
+Final rank: 364 Giordano 2007 + 8 repeat sub-families from 105 subfamilies based 
+on published data. I added them at the young portion of the Giordano ranking 
+because age is more accurately determined for younger transposons than older ones. 
+GiordanoANDPublished_372HumanTEs_renamed.txt
+
+2. File with origin of repeats
+Kapusta et al. 2017 has data on clade origin of some repeats. 
+(./intermediatefiles/Kapusta2017_537TEsandFamilyorigin_unique529.csv)
+
+I incorporated this to data to the final ranking but before that, I removed 
+repeats in Kapusta data that are not in repeat masker even after renaming. 
+(./intermediatefiles/Kapusta2017_57TEsandFamilyorigin_unique_REMOVED.txt).
+472 out of 529 remain (Kapusta2017_472TEsandFamilyorigin_unique.txt).
+
+3. File with final age ranking and additional information:
+GiordanoANDPublished_372HumanTEs_renamed_withAges.csv
+
+Output:
+repName	ageMyrMin	ageMyrMax	ageMyrConsensus	ConsensusMethod	Reference	Giordano360RetroRank
+MARNA	NA	NA	NA	NA	NA	NA
+Charlie11	NA	NA	NA	NA	NA	NA
+L1MEd	NA	NA	NA	NA	NA	1
+L3	NA	NA	NA	NA	NA	3
+L1ME4a	NA	NA	NA	NA	NA	5
+L4	NA	NA	NA	NA	NA	6
+Tigger8	NA	NA	NA	NA	NA	NA
+L1MEe	NA	NA	NA	NA	NA	7
+
+The Giordano360RetroRank column indicates the rank of the retrotransposon in the
+360 retro only ranking by Giordano. The repeats are not consecutiive but switches
+mainly happen among subfamilies already close to each other in the DNA + retro
+final ranking. 
+################################################################################
+# B. Repeat family vs. Cp
+################################################################################
+1. Convert repeat masker file to .RData for subsequent analyses. Additional
+info (columns) were added in this object in (2).
+Output: REPEAT.MX
+Each row is for a repeat subfamily with unique combination of class and family.
+(N=1397 subfamilies with different class and family but N=1395 unique subfamily
+names):
+# repClass repFamily repName
+# Simple_repeat	Simple_repeat	(CATTC)n
+# Satellite	Satellite	(CATTC)n
+# Simple_repeat	Simple_repeat	(GAATG)n
+# Satellite	Satellite	(GAATG)n
+
+2. Add the following columns to REPEAT.MX:
+a. cluster - Repeat-family-based clustering
+b. Giordano364rank - ranking in Giordano 364 ranking (without the 8 subfamilies from
+published ranking)
+c. GiorPubl372rank - rank in final ranking
+d. origin - Kapusta 2017 data on clade origin
+e. Publrank, ageMyrMin, ageMyrMax, ageMyrConsensus, ConsensusMethod - for repeats 
+from pulished ranking
+f. Reference     
+
+3. Plot showing the type (DNA/retrotransposon), family and cluster of repeat
+subfamilies in the age ranks (GiorPubl372, Giordano364 and Publrank)
+
+4. Characterise the clusters from the repeat family vs. Cp analysis (repeat-
+faamily-based clusters). 
+Plots:
+a. Boxplot of copy numbers of subfamilies in each cluster. Number below box 
+indicates number of subfamilies and the percentage of insertion sites in cluster
+relative to total number of sites in the genome. 
+b. Barplots showing fraction of sites in each cluster based on repeat class,
+type and clade origin. 
+c. Density of sites of repeat subfamilies represented in the age ranking for each 
+cluster. Transposon subfamily 249 (L1PA16), 344 (L1PA5) and 364 (SVA_E) serve as 
+time anchor points. For instance, age range of subfamilies younger than SVA_E 
+(position 364) are below 5 million years. 
+################################################################################

@@ -1,5 +1,5 @@
 ################################################################################
-# Add data to hg19 repeats summary table
+# Add additional ranking, origin, age, reference data to REPEAT.MX
 # merge() heavily used here, note that merge does not keep original order of tables
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS

@@ -1,0 +1,50 @@
+Repeats to be mapped in the Chrom3D Structure
+Aim: See where old and young repeats position in the nucleus
+
+Another layer:
+Pick young repeats depleted with higher persistence (Clusters 4, 6 and 7)
+Pick old repeats enriched with higher persistence (Cluster 1, 5)
+
+OLD
+
+CR1:
+L3
+
+hAT-Charlie:
+Charlie11
+Charlie7
+MER113
+MER102b
+Charlie8
+Charlie2b
+Charlie2a
+
+RTE:
+L4
+
+TcMar-Tigger:
+Tigger8
+
+L2:
+L2
+
+MIR:
+MIR3
+MIRb
+
+hAT-Tip100
+Zaphod2
+
+
+YOUNG
+
+Alu, L1, Other, ERVK
+
+c("L1PA4", "L1HS", "L1PA3", #L1
+                   #ERVK
+                   "MER11C", "MER11B", "LTR5_Hs", 
+                   #Other
+                   "SVA_A", "SVA_B", "SVA_C", "SVA_D", "SVA_E", "SVA_F",
+                   #Alu
+                   "AluY", "FRAM", "AluYd8", "AluYg6", "AluYa5", "AluYb8",
+                   "AluYb9", "AluYa8")

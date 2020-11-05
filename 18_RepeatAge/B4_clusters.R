@@ -1,5 +1,5 @@
 ################################################################################
-# Characterize the repeat clusters from the RepeatsVsPersist analyses 
+#  Characterize the clusters from the repeat family vs. Cp analysis 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################

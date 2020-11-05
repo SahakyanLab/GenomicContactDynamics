@@ -9,7 +9,7 @@ whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/3_RepeatAge"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/17_RepeatAge"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
@@ -22,7 +22,7 @@ library(data.table)
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-# all list have unique repNames
+# All list have unique repNames
 Giordano <- fread(file=paste0(data.dir, "/Giordano2007_405HumanTEs_renamed.txt"),
                      header=FALSE, data.table=FALSE, stringsAsFactors=FALSE)[[1]]
 Published.df <- fread(file=paste0(data.dir, "/publishedAges_136sorted.csv"), sep=",",
@@ -33,9 +33,8 @@ repmasker <- unique( fread(file=paste0(data.dir, "/hg19Rep_classfamsubfam_unique
                            header=TRUE, data.table=FALSE, stringsAsFactors=FALSE)[["repName"]]
                      )
 
-# remove repNames not in repmasker
-# order kept
-
+# Remove repNames not in repmasker
+# Order kept
 #----------------------------------------
 Giordano.get <- intersect(Giordano, repmasker)
 write(x=Giordano.get, file=paste0(data.dir, "/Giordano2007_", length(Giordano.get), 
@@ -43,7 +42,6 @@ write(x=Giordano.get, file=paste0(data.dir, "/Giordano2007_", length(Giordano.ge
 Giordano.rm <- setdiff(Giordano, Giordano.get)
 write(x=Giordano.rm, file=paste0(data.dir, "/Giordano2007_", length(Giordano.rm), 
                                   "HumanTEs_renamed_REMOVED.txt"))
-
 #----------------------------------------
 Published.df <- Published.df[order(Published.df$ageMyrConsensus, decreasing=TRUE),]
 Published.get.df <- Published.df[Published.df$repNameRenamed %in% repmasker, ]
@@ -60,12 +58,11 @@ write(x=Published.rm,
 
 orderPbasedonG <- match(Published.get.df$repNameRenamed, Giordano.get)
 mx <- cbind(repName = Published.get.df$repNameRenamed, orderOnGiordano=orderPbasedonG )
-# orderPbasedonG <- orderPbasedonG[!is.na(orderPbasedonG)]
+# OrderPbasedonG <- orderPbasedonG[!is.na(orderPbasedonG)]
 write.table(mx, file=paste0(data.dir, "/orderPublished_basedonGiordano.txt"),
             col.names=TRUE, row.names=FALSE, quote=FALSE)
-
 #----------------------------------------
-# overlap Repeat masker and Kapusta2017 data
+# Overlap Repeat masker and Kapusta2017 data
 Kapusta.get <- Kapusta[!is.na( match(Kapusta$Repeat_Name, repmasker) ),]
 write.table(Kapusta.get, file=paste0(data.dir, "/Kapusta2017_", nrow(Kapusta.get), 
                                  "TEsandFamilyorigin_unique.txt"),
@@ -73,9 +70,8 @@ write.table(Kapusta.get, file=paste0(data.dir, "/Kapusta2017_", nrow(Kapusta.get
 Kapusta.rm <- setdiff(Kapusta$Repeat_Name, Kapusta.get$Repeat_Name)
 write(Kapusta.rm, file=paste0(data.dir, "/Kapusta2017_", length(Kapusta.rm), 
                               "TEsandFamilyorigin_unique_REMOVED.txt"))
-
 #----------------------------------------
-# add published ages and Giordano360retro ranking to GiorPubl ranking
+# Add published ages and Giordano360retro ranking to GiorPubl ranking
 Published.get.df <- fread(file=paste0(data.dir, "/Published_105HumanTEs_renamed.csv"),
                           header=TRUE, data.table=FALSE, stringsAsFactors=FALSE)
 GiorPubl372 <- fread(file=paste0(data.dir, "/GiordanoANDPublished_372HumanTEs_renamed.txt"),
