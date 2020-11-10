@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/13_CsVsCp"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/4_CsVsCp"
     data.dir = "/Users/ltamon/Database"
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
@@ -22,23 +22,22 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
-out.dir = paste0(wk.dir, "/out_hexbin")
+persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
+out.dir = paste0(wk.dir, "/out_hexbin_HiCNormCs")
 ### OTHER SETTINGS #############################################################
 # Expands warnings
 options(warn=1)
 ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
          "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "LC", "FC")
-gcb = "min05Mb"
-#chr.v = paste("chr", c(1:22, "X"), sep="")
-chr.v = "chrALL"
+gcb = "min2Mb"
+chr.v = paste("chr", c(1:22, "X"), sep="") # "chrALL"
 nCPU = 1L #~15G
 # Scaled Cs values?
 scaled = FALSE
 approach = "gghexbin" # "hexbin" "gghexbin"
 # If approach = "gghexbin"
 cuts = 8
-plotOnly = TRUE
+plotOnly = FALSE
 # Combine plots?
 combine = FALSE
 ################################################################################
@@ -200,4 +199,4 @@ if(combine){
 }
 
 
-# rm(list=ls())
+# rm(list=ls()); gc()
