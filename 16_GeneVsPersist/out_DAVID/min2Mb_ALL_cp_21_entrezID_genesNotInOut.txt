@@ -1,0 +1,597 @@
+ID	Gene Name	Species
+100287722	AP4B1 antisense RNA 1(AP4B1-AS1)	Homo sapiens	
+84837	ARHGAP5 antisense RNA 1 (head to head)(ARHGAP5-AS1)	Homo sapiens	
+100874374	ARHGEF38 intronic transcript 1(ARHGEF38-IT1)	Homo sapiens	
+101929716	ARMC2 antisense RNA 1(ARMC2-AS1)	Homo sapiens	
+100129716	ARRDC3 antisense RNA 1(ARRDC3-AS1)	Homo sapiens	
+100507117	ASAP1 intronic transcript 2(ASAP1-IT2)	Homo sapiens	
+100874322	BACH1 intronic transcript 2(BACH1-IT2)	Homo sapiens	
+497258	BDNF antisense RNA(BDNF-AS)	Homo sapiens	
+100885775	BRAF-activated non-protein coding RNA(BANCR)	Homo sapiens	
+100506769	C10orf71 antisense RNA 1(C10orf71-AS1)	Homo sapiens	
+554201	CCDC148 antisense RNA 1(CCDC148-AS1)	Homo sapiens	
+348249	CCL15-CCL14 readthrough (NMD candidate)(CCL15-CCL14)	Homo sapiens	
+100048912	CDKN2B antisense RNA 1(CDKN2B-AS1)	Homo sapiens	
+439950	CELF2 antisense RNA 2(CELF2-AS2)	Homo sapiens	
+54075	CHODL antisense RNA 1(CHODL-AS1)	Homo sapiens	
+100873984	CHRM3 antisense RNA 1(CHRM3-AS1)	Homo sapiens	
+100874203	COL4A2 antisense RNA 1(COL4A2-AS1)	Homo sapiens	
+29034	CPS1 intronic transcript 1(CPS1-IT1)	Homo sapiens	
+647288	CTAGE family member 11, pseudogene(CTAGE11P)	Homo sapiens	
+266917	D21S2088E(D21S2088E)	Homo sapiens	
+282706	DAOA antisense RNA 1(DAOA-AS1)	Homo sapiens	
+100506660	DDX11 antisense RNA 1(DDX11-AS1)	Homo sapiens	
+646813	DEAH-box helicase 9 pseudogene(LOC646813)	Homo sapiens	
+100874195	DIAPH3 antisense RNA 1(DIAPH3-AS1)	Homo sapiens	
+100874196	DIAPH3 antisense RNA 2(DIAPH3-AS2)	Homo sapiens	
+101929222	DISC1 fusion partner 1 (non-protein coding)(DISC1FP1)	Homo sapiens	
+201477	DLGAP1 antisense RNA 3(DLGAP1-AS3)	Homo sapiens	
+284215	DLGAP1 antisense RNA 5(DLGAP1-AS5)	Homo sapiens	
+285987	DLX6 antisense RNA 1(DLX6-AS1)	Homo sapiens	
+100873933	DPYD antisense RNA 2(DPYD-AS2)	Homo sapiens	
+100505518	EDNRB antisense RNA 1(EDNRB-AS1)	Homo sapiens	
+100526837	EEF1E1-BLOC1S5 readthrough (NMD candidate)(EEF1E1-BLOC1S5)	Homo sapiens	
+100506475	EGFLAM antisense RNA 2(EGFLAM-AS2)	Homo sapiens	
+100852408	EGFLAM antisense RNA 4(EGFLAM-AS4)	Homo sapiens	
+440952	EIF1B antisense RNA 1(EIF1B-AS1)	Homo sapiens	
+100861514	ELMO1 antisense RNA 1(ELMO1-AS1)	Homo sapiens	
+100506409	ELOVL2 antisense RNA 1(ELOVL2-AS1)	Homo sapiens	
+728558	ENTPD1 antisense RNA 1(ENTPD1-AS1)	Homo sapiens	
+285266	ENTPD3 antisense RNA 1(ENTPD3-AS1)	Homo sapiens	
+254170	F-box protein 33(FBXO33)	Homo sapiens	
+285441	F11 antisense RNA 1(F11-AS1)	Homo sapiens	
+100874375	FAM155A intronic transcript 1(FAM155A-IT1)	Homo sapiens	
+283480	FGF14 intronic transcript 1(FGF14-IT1)	Homo sapiens	
+100131561	FKSG29(FKSG29)	Homo sapiens	
+100507099	FRY antisense RNA 1(FRY-AS1)	Homo sapiens	
+100505692	FTO intronic transcript 1(FTO-IT1)	Homo sapiens	
+388965	FUN14 domain containing 2 pseudogene 2(FUNDC2P2)	Homo sapiens	
+100289178	GNG12 antisense RNA 1(GNG12-AS1)	Homo sapiens	
+100873969	GPC5 antisense RNA 1(GPC5-AS1)	Homo sapiens	
+100873972	GPC6 antisense RNA 1(GPC6-AS1)	Homo sapiens	
+100873973	GPC6 antisense RNA 2(GPC6-AS2)	Homo sapiens	
+100507470	GRID1 antisense RNA 1(GRID1-AS1)	Homo sapiens	
+100873989	GRM5 antisense RNA 1(GRM5-AS1)	Homo sapiens	
+414760	HLA complex group 14 (non-protein coding)(HCG14)	Homo sapiens	
+93668	Helicobacter pylori responsive 1 (non-protein coding)(HPYR1)	Homo sapiens	
+100507475	IDH1 antisense RNA 1(IDH1-AS1)	Homo sapiens	
+100885789	IFNG antisense RNA 1(IFNG-AS1)	Homo sapiens	
+255130	IGFBP7 antisense RNA 1(IGFBP7-AS1)	Homo sapiens	
+100506765	IGSF11 antisense RNA 1(IGSF11-AS1)	Homo sapiens	
+100996941	IL21 antisense RNA 1(IL21-AS1)	Homo sapiens	
+101180901	IPO11-LRRC70 readthrough(IPO11-LRRC70)	Homo sapiens	
+100506686	IQCH antisense RNA 1(IQCH-AS1)	Homo sapiens	
+100505536	ISM1 antisense RNA 1(ISM1-AS1)	Homo sapiens	
+100874053	JRKL antisense RNA 1(JRKL-AS1)	Homo sapiens	
+100874084	KCNAB1 antisense RNA 1(KCNAB1-AS1)	Homo sapiens	
+359822	KCNIP4 intronic transcript 1(KCNIP4-IT1)	Homo sapiens	
+283165	KIRREL3 antisense RNA 3(KIRREL3-AS3)	Homo sapiens	
+100422556	LEO1 homolog, Paf1/RNA polymerase II complex component pseudogene(LOC100422556)	Homo sapiens	
+100506495	LIFR antisense RNA 1(LIFR-AS1)	Homo sapiens	
+100288428	LMCD1 antisense RNA 1 (head to head)(LMCD1-AS1)	Homo sapiens	
+339929	LPP antisense RNA 2(LPP-AS2)	Homo sapiens	
+285780	LY86 antisense RNA 1(LY86-AS1)	Homo sapiens	
+100379174	MACROD2 antisense RNA 1(MACROD2-AS1)	Homo sapiens	
+140848	MACROD2 intronic transcript 1(MACROD2-IT1)	Homo sapiens	
+100507244	MAMDC2 antisense RNA 1(MAMDC2-AS1)	Homo sapiens	
+728012	MCHR2 antisense RNA 1(MCHR2-AS1)	Homo sapiens	
+100073347	MER1 repeat containing imprinted transcript 1 (non-protein coding)(MIMT1)	Homo sapiens	
+400765	MIR137 host gene(MIR137HG)	Homo sapiens	
+554202	MIR31 host gene(MIR31HG)	Homo sapiens	
+642345	MIR4500 host gene(MIR4500HG)	Homo sapiens	
+81571	MIR600 host gene(MIR600HG)	Homo sapiens	
+100129827	MRVI1 antisense RNA 1(MRVI1-AS1)	Homo sapiens	
+93622	Morf4 family associated protein 1 like 1 pseudogene(LOC93622)	Homo sapiens	
+116828	N4BPL2 intronic transcript 2(N4BP2L2-IT2)	Homo sapiens	
+100862679	NAALADL2 antisense RNA 3(NAALADL2-AS3)	Homo sapiens	
+100885778	NALCN antisense RNA 1(NALCN-AS1)	Homo sapiens	
+399876	NAV2 antisense RNA 4(NAV2-AS4)	Homo sapiens	
+100874012	NAV2 antisense RNA 5(NAV2-AS5)	Homo sapiens	
+100852409	NEGR1 intronic transcript 1(NEGR1-IT1)	Homo sapiens	
+100130557	NFYC antisense RNA 1(NFYC-AS1)	Homo sapiens	
+100506237	NKX2-1 antisense RNA 1(NKX2-1-AS1)	Homo sapiens	
+100652772	NNT antisense RNA 1(NNT-AS1)	Homo sapiens	
+404744	NPSR1 antisense RNA 1(NPSR1-AS1)	Homo sapiens	
+441094	NR2F1 antisense RNA 1(NR2F1-AS1)	Homo sapiens	
+644192	NR2F2 antisense RNA 1(NR2F2-AS1)	Homo sapiens	
+100873948	NREP antisense RNA 1(NREP-AS1)	Homo sapiens	
+100856811	NRG1 intronic transcript 1(NRG1-IT1)	Homo sapiens	
+100874286	NRG1 intronic transcript 3(NRG1-IT3)	Homo sapiens	
+283738	NTRK3 antisense RNA 1(NTRK3-AS1)	Homo sapiens	
+390858	O-acyltransferase like, pseudogene(OACYLP)	Homo sapiens	
+100874002	OXCT1 antisense RNA 1(OXCT1-AS1)	Homo sapiens	
+100874064	PCDH9 antisense RNA 2(PCDH9-AS2)	Homo sapiens	
+100874086	PCDH9 antisense RNA 3(PCDH9-AS3)	Homo sapiens	
+100874087	PCDH9 antisense RNA 4(PCDH9-AS4)	Homo sapiens	
+64002	PCGEM1, prostate-specific transcript (non-protein coding)(PCGEM1)	Homo sapiens	
+282997	PDCD4 antisense RNA 1(PDCD4-AS1)	Homo sapiens	
+100507034	PITRM1 antisense RNA 1(PITRM1-AS1)	Homo sapiens	
+94026	POM121 transmembrane nucleoporin like 2(POM121L2)	Homo sapiens	
+134187	POU domain class 5, transcription factor 2(POU5F2)	Homo sapiens	
+100874361	PPP2R2B intronic transcript 1(PPP2R2B-IT1)	Homo sapiens	
+100533464	PRH1-PRR4 readthrough(PRH1-PRR4)	Homo sapiens	
+100874243	PRICKLE2 antisense RNA 3(PRICKLE2-AS3)	Homo sapiens	
+100507062	PSMD6 antisense RNA 2(PSMD6-AS2)	Homo sapiens	
+442421	PTGER4P2-CDK2AP2P2 readthrough, transcribed pseudogene(PTGER4P2-CDK2AP2P2)	Homo sapiens	
+100506994	PTPRG antisense RNA 1(PTPRG-AS1)	Homo sapiens	
+791114	Prader-Willi region non-protein coding RNA 1(PWRN1)	Homo sapiens	
+5820	Pvt1 oncogene (non-protein coding)(PVT1)	Homo sapiens	
+100529207	RAD51L3-RFFL readthrough(RAD51L3-RFFL)	Homo sapiens	
+100873979	RBMS3 antisense RNA 3(RBMS3-AS3)	Homo sapiens	
+6086	RNA, Ro-associated Y4(RNY4)	Homo sapiens	
+6090	RNA, Ro-associated Y5(RNY5)	Homo sapiens	
+26830	RNA, U5D small nuclear 1(RNU5D-1)	Homo sapiens	
+26829	RNA, U5E small nuclear 1(RNU5E-1)	Homo sapiens	
+100873753	RNA, U6 small nuclear 16, pseudogene(RNU6-16P)	Homo sapiens	
+100873754	RNA, U6 small nuclear 19, pseudogene(RNU6-19P)	Homo sapiens	
+100873762	RNA, U6 small nuclear 53, pseudogene(RNU6-53P)	Homo sapiens	
+100873771	RNA, U6 small nuclear 67, pseudogene(RNU6-67P)	Homo sapiens	
+100873774	RNA, U6 small nuclear 71, pseudogene(RNU6-71P)	Homo sapiens	
+100873775	RNA, U6 small nuclear 72, pseudogene(RNU6-72P)	Homo sapiens	
+100874222	RNF219 antisense RNA 1(RNF219-AS1)	Homo sapiens	
+100505845	ROPN1L antisense RNA 1(ROPN1L-AS1)	Homo sapiens	
+100133308	Ras suppressor protein 1 pseudogene 2(RSU1P2)	Homo sapiens	
+552860	SAMD12 antisense RNA 1(SAMD12-AS1)	Homo sapiens	
+283104	SBF2 antisense RNA 1(SBF2-AS1)	Homo sapiens	
+100533182	SEC24B antisense RNA 1(SEC24B-AS1)	Homo sapiens	
+641364	SLC7A11 antisense RNA 1(SLC7A11-AS1)	Homo sapiens	
+100128590	SLC8A1 antisense RNA 1(SLC8A1-AS1)	Homo sapiens	
+100996712	SLIT-ROBO Rho GTPase activating protein 2D (pseudogene)(SRGAP2D)	Homo sapiens	
+100131208	SNAP25 antisense RNA 1(SNAP25-AS1)	Homo sapiens	
+100507533	SOX21 antisense RNA 1 (head to head)(SOX21-AS1)	Homo sapiens	
+400618	SOX9 antisense RNA 1(SOX9-AS1)	Homo sapiens	
+100652749	SPATA8 antisense RNA 1 (head to head)(SPATA8-AS1)	Homo sapiens	
+51188	SS18 like 2(SS18L2)	Homo sapiens	
+93654	ST7 antisense RNA 2(ST7-AS2)	Homo sapiens	
+100505826	STK4 antisense RNA 1 (head to head)(STK4-AS1)	Homo sapiens	
+101410545	STPG2 antisense RNA 1(STPG2-AS1)	Homo sapiens	
+100507266	STX18 antisense RNA 1 (head to head)(STX18-AS1)	Homo sapiens	
+391257	SUMO1 pseudogene 1(SUMO1P1)	Homo sapiens	
+101669767	SWI/SNF complex antagonist associated with prostate cancer 1 (non-protein coding)(SCHLAP1)	Homo sapiens	
+100874016	SYNPR antisense RNA 1(SYNPR-AS1)	Homo sapiens	
+100507064	TEX26 antisense RNA 1(TEX26-AS1)	Homo sapiens	
+100505894	TMEM161B antisense RNA 1(TMEM161B-AS1)	Homo sapiens	
+220980	TMEM72 antisense RNA 1(TMEM72-AS1)	Homo sapiens	
+79626	TNF alpha induced protein 8 like 2(TNFAIP8L2)	Homo sapiens	
+643749	TRAF3IP2 antisense RNA 1(TRAF3IP2-AS1)	Homo sapiens	
+283392	TRHDE antisense RNA 1(TRHDE-AS1)	Homo sapiens	
+100329135	TRPC5 opposite strand(TRPC5OS)	Homo sapiens	
+100303453	TSNAX-DISC1 readthrough (NMD candidate)(TSNAX-DISC1)	Homo sapiens	
+100506866	TTN antisense RNA 1(TTN-AS1)	Homo sapiens	
+7302	TYRO3P protein tyrosine kinase pseudogene(TYRO3P)	Homo sapiens	
+100873946	VAV3 antisense RNA 1(VAV3-AS1)	Homo sapiens	
+100885780	VWC2L intronic transcript 1(VWC2L-IT1)	Homo sapiens	
+100288077	Wilms tumor 1 associated protein pseudogene 1(WTAPP1)	Homo sapiens	
+100874011	XIRP2 antisense RNA 1(XIRP2-AS1)	Homo sapiens	
+728723	ZBED3 antisense RNA 1(ZBED3-AS1)	Homo sapiens	
+729013	ZBED5 antisense RNA 1(ZBED5-AS1)	Homo sapiens	
+100131213	ZNF503 antisense RNA 2(ZNF503-AS2)	Homo sapiens	
+100507433	ZNF571 antisense RNA 1(ZNF571-AS1)	Homo sapiens	
+100128252	ZNF667 antisense RNA 1 (head to head)(ZNF667-AS1)	Homo sapiens	
+100852410	ZRANB2 antisense RNA 2 (head to head)(ZRANB2-AS2)	Homo sapiens	
+100129195	ZSCAN16 antisense RNA 1(ZSCAN16-AS1)	Homo sapiens	
+23782	adaptor related protein complex 1 beta 1 subunit pseudogene 1(AP1B1P1)	Homo sapiens	
+221442	adenylate cyclase 10, soluble pseudogene 1(ADCY10P1)	Homo sapiens	
+344454	aldehyde oxidase 2 pseudogene(AOX2P)	Homo sapiens	
+100506747	alpha-1,3-mannosyl-glycoprotein 4-beta-N-acetylglucosaminyltransferase-like protein LOC641515 homolog(LOC100506747)	Homo sapiens	
+338579	ankyrin repeat domain 30B pseudogene 3(ANKRD30BP3)	Homo sapiens	
+100996567	anthrax toxin receptor-like pseudogene 1(ANTXRLP1)	Homo sapiens	
+401237	cancer susceptibility candidate 15 (non-protein coding)(CASC15)	Homo sapiens	
+643714	cancer susceptibility candidate 16 (non-protein coding)(CASC16)	Homo sapiens	
+101929110	cancer susceptibility candidate 18 (non-protein coding)(CASC18)	Homo sapiens	
+101929244	cancer susceptibility candidate 20 (non-protein coding)(CASC20)	Homo sapiens	
+727677	cancer susceptibility candidate 8 (non-protein coding)(CASC8)	Homo sapiens	
+101805492	cancer susceptibility candidate 9 (non-protein coding)(CASC9)	Homo sapiens	
+390732	carboxylesterase 1 pseudogene 2(CES1P2)	Homo sapiens	
+729338	centrin 4, pseudogene(CETN4P)	Homo sapiens	
+729930	chromosome 11 open reading frame 74 pseudogene(LOC729930)	Homo sapiens	
+283403	chromosome 12 open reading frame 80(C12orf80)	Homo sapiens	
+644041	chromosome 18 open reading frame 63(C18orf63)	Homo sapiens	
+100128496	chromosome 20 open reading frame 78(C20orf78)	Homo sapiens	
+57415	chromosome 3 open reading frame 14(C3orf14)	Homo sapiens	
+389705	chromosome 4 open reading frame 27 pseudogene(LOC389705)	Homo sapiens	
+389676	chromosome 8 open reading frame 87(C8orf87)	Homo sapiens	
+728024	chromosome X open reading frame 56 pseudogene(LOC728024)	Homo sapiens	
+29080	coiled-coil domain containing 59(CCDC59)	Homo sapiens	
+100526820	colon adenocarcinoma hypermethylated (non-protein coding)(CAHM)	Homo sapiens	
+100507056	colon cancer associated transcript 1 (non-protein coding)(CCAT1)	Homo sapiens	
+101805488	colon cancer associated transcript 2 (non-protein coding)(CCAT2)	Homo sapiens	
+643911	colorectal neoplasia differentially expressed (non-protein coding)(CRNDE)	Homo sapiens	
+100129055	cyclin Y like 1 pseudogene(LOC100129055)	Homo sapiens	
+57291	differentiation antagonizing non-protein coding RNA(DANCR)	Homo sapiens	
+728410	double homeobox 4 like 2(DUX4L2)	Homo sapiens	
+653548	double homeobox 4 like 3(DUX4L3)	Homo sapiens	
+441056	double homeobox 4 like 4(DUX4L4)	Homo sapiens	
+653545	double homeobox 4 like 5(DUX4L5)	Homo sapiens	
+653544	double homeobox 4 like 6(DUX4L6)	Homo sapiens	
+196549	eukaryotic translation elongation factor 1 delta pseudogene 3(EEF1DP3)	Homo sapiens	
+729830	family with sequence similarity 160 member A1(FAM160A1)	Homo sapiens	
+285550	family with sequence similarity 200 member B(FAM200B)	Homo sapiens	
+286333	family with sequence similarity 225 member A (non-protein coding)(FAM225A)	Homo sapiens	
+619208	family with sequence similarity 229 member B(FAM229B)	Homo sapiens	
+100128164	four and a half LIM domains 1 pseudogene(LOC100128164)	Homo sapiens	
+492303	gem nuclear organelle associated protein 8 pseudogene 4(GEMIN8P4)	Homo sapiens	
+642006	glucuronidase, beta pseudogene 10(GUSBP10)	Homo sapiens	
+390003	guanylate cyclase 2G, pseudogene(GUCY2GP)	Homo sapiens	
+100131635	hCG1645011-like(LOC100131635)	Homo sapiens	
+100130298	hCG1816373-like(LOC100130298)	Homo sapiens	
+100101266	hepatitis A virus cellular receptor 1 pseudogene 1(HAVCR1P1)	Homo sapiens	
+128102	hydroxy-delta-5-steroid dehydrogenase, 3 beta, pseudogene 4(HSD3BP4)	Homo sapiens	
+79190	iroquois homeobox 6(IRX6)	Homo sapiens	
+643803	keratin associated protein 24-1(KRTAP24-1)	Homo sapiens	
+641516	keratoconus gene 6(KC6)	Homo sapiens	
+55891	lens epithelial protein(LENEP)	Homo sapiens	
+100216546	long intergenic non-protein coding RNA 1004(LINC01004)	Homo sapiens	
+100874330	long intergenic non-protein coding RNA 1014(LINC01014)	Homo sapiens	
+100507362	long intergenic non-protein coding RNA 1015(LINC01015)	Homo sapiens	
+340094	long intergenic non-protein coding RNA 1020(LINC01020)	Homo sapiens	
+101937451	long intergenic non-protein coding RNA 1030(LINC01030)	Homo sapiens	
+401164	long intergenic non-protein coding RNA 1060(LINC01060)	Homo sapiens	
+401149	long intergenic non-protein coding RNA 1061(LINC01061)	Homo sapiens	
+101927176	long intergenic non-protein coding RNA 1069(LINC01069)	Homo sapiens	
+100505875	long intergenic non-protein coding RNA 1088(LINC01088)	Homo sapiens	
+285419	long intergenic non-protein coding RNA 1091(LINC01091)	Homo sapiens	
+100505702	long intergenic non-protein coding RNA 1094(LINC01094)	Homo sapiens	
+285548	long intergenic non-protein coding RNA 1096(LINC01096)	Homo sapiens	
+285547	long intergenic non-protein coding RNA 1097(LINC01097)	Homo sapiens	
+285501	long intergenic non-protein coding RNA 1098(LINC01098)	Homo sapiens	
+101926978	long intergenic non-protein coding RNA 1111(LINC01111)	Homo sapiens	
+375295	long intergenic non-protein coding RNA 1116(LINC01116)	Homo sapiens	
+400955	long intergenic non-protein coding RNA 1122(LINC01122)	Homo sapiens	
+100133612	long intergenic non-protein coding RNA 1134(LINC01134)	Homo sapiens	
+100131060	long intergenic non-protein coding RNA 1135(LINC01135)	Homo sapiens	
+339535	long intergenic non-protein coding RNA 1139(LINC01139)	Homo sapiens	
+283587	long intergenic non-protein coding RNA 1146(LINC01146)	Homo sapiens	
+102606463	long intergenic non-protein coding RNA 1152(LINC01152)	Homo sapiens	
+100129269	long intergenic non-protein coding RNA 1160(LINC01160)	Homo sapiens	
+404663	long intergenic non-protein coding RNA 1194(LINC01194)	Homo sapiens	
+400456	long intergenic non-protein coding RNA 1197(LINC01197)	Homo sapiens	
+100505547	long intergenic non-protein coding RNA 1208(LINC01208)	Homo sapiens	
+54072	long intergenic non-protein coding RNA 158(LINC00158)	Homo sapiens	
+193629	long intergenic non-protein coding RNA 189(LINC00189)	Homo sapiens	
+100885798	long intergenic non-protein coding RNA 210(LINC00210)	Homo sapiens	
+100499171	long intergenic non-protein coding RNA 276(LINC00276)	Homo sapiens	
+54143	long intergenic non-protein coding RNA 308(LINC00308)	Homo sapiens	
+378828	long intergenic non-protein coding RNA 317(LINC00317)	Homo sapiens	
+387486	long intergenic non-protein coding RNA 320(LINC00320)	Homo sapiens	
+100874126	long intergenic non-protein coding RNA 331(LINC00331)	Homo sapiens	
+100874128	long intergenic non-protein coding RNA 333(LINC00333)	Homo sapiens	
+144920	long intergenic non-protein coding RNA 343(LINC00343)	Homo sapiens	
+100885781	long intergenic non-protein coding RNA 348(LINC00348)	Homo sapiens	
+100874139	long intergenic non-protein coding RNA 353(LINC00353)	Homo sapiens	
+100874147	long intergenic non-protein coding RNA 366(LINC00366)	Homo sapiens	
+101926930	long intergenic non-protein coding RNA 378(LINC00378)	Homo sapiens	
+100874150	long intergenic non-protein coding RNA 379(LINC00379)	Homo sapiens	
+101930747	long intergenic non-protein coding RNA 380(LINC00380)	Homo sapiens	
+100874157	long intergenic non-protein coding RNA 395(LINC00395)	Homo sapiens	
+144776	long intergenic non-protein coding RNA 410(LINC00410)	Homo sapiens	
+100287114	long intergenic non-protein coding RNA 421(LINC00421)	Homo sapiens	
+100874167	long intergenic non-protein coding RNA 423(LINC00423)	Homo sapiens	
+100874168	long intergenic non-protein coding RNA 433(LINC00433)	Homo sapiens	
+100874173	long intergenic non-protein coding RNA 443(LINC00443)	Homo sapiens	
+100874175	long intergenic non-protein coding RNA 446(LINC00446)	Homo sapiens	
+728192	long intergenic non-protein coding RNA 460(LINC00460)	Homo sapiens	
+645323	long intergenic non-protein coding RNA 461(LINC00461)	Homo sapiens	
+90632	long intergenic non-protein coding RNA 473(LINC00473)	Homo sapiens	
+58483	long intergenic non-protein coding RNA 474(LINC00474)	Homo sapiens	
+400941	long intergenic non-protein coding RNA 487(LINC00487)	Homo sapiens	
+677779	long intergenic non-protein coding RNA 488(LINC00488)	Homo sapiens	
+100874047	long intergenic non-protein coding RNA 499(LINC00499)	Homo sapiens	
+100820709	long intergenic non-protein coding RNA 501(LINC00501)	Homo sapiens	
+100846978	long intergenic non-protein coding RNA 506(LINC00506)	Homo sapiens	
+100862680	long intergenic non-protein coding RNA 507(LINC00507)	Homo sapiens	
+400619	long intergenic non-protein coding RNA 511(LINC00511)	Homo sapiens	
+645687	long intergenic non-protein coding RNA 520(LINC00520)	Homo sapiens	
+100874052	long intergenic non-protein coding RNA 534(LINC00534)	Homo sapiens	
+642924	long intergenic non-protein coding RNA 535(LINC00535)	Homo sapiens	
+100859921	long intergenic non-protein coding RNA 536(LINC00536)	Homo sapiens	
+100506622	long intergenic non-protein coding RNA 540(LINC00540)	Homo sapiens	
+440131	long intergenic non-protein coding RNA 544(LINC00544)	Homo sapiens	
+400121	long intergenic non-protein coding RNA 547(LINC00547)	Homo sapiens	
+283483	long intergenic non-protein coding RNA 551(LINC00551)	Homo sapiens	
+100861552	long intergenic non-protein coding RNA 558(LINC00558)	Homo sapiens	
+100874187	long intergenic non-protein coding RNA 559(LINC00559)	Homo sapiens	
+100874531	long intergenic non-protein coding RNA 581(LINC00581)	Homo sapiens	
+414319	long intergenic non-protein coding RNA 587(LINC00587)	Homo sapiens	
+26138	long intergenic non-protein coding RNA 588(LINC00588)	Homo sapiens	
+283404	long intergenic non-protein coding RNA 592(LINC00592)	Homo sapiens	
+646324	long intergenic non-protein coding RNA 607(LINC00607)	Homo sapiens	
+100507528	long intergenic non-protein coding RNA 613(LINC00613)	Homo sapiens	
+145249	long intergenic non-protein coding RNA 618(LINC00618)	Homo sapiens	
+644242	long intergenic non-protein coding RNA 622(LINC00622)	Homo sapiens	
+285205	long intergenic non-protein coding RNA 636(LINC00636)	Homo sapiens	
+283547	long intergenic non-protein coding RNA 639(LINC00639)	Homo sapiens	
+100506334	long intergenic non-protein coding RNA 649(LINC00649)	Homo sapiens	
+29075	long intergenic non-protein coding RNA 652(LINC00652)	Homo sapiens	
+200261	long intergenic non-protein coding RNA 656(LINC00656)	Homo sapiens	
+100499467	long intergenic non-protein coding RNA 673(LINC00673)	Homo sapiens	
+101410541	long intergenic non-protein coding RNA 678(LINC00678)	Homo sapiens	
+645206	long intergenic non-protein coding RNA 693(LINC00693)	Homo sapiens	
+100652997	long intergenic non-protein coding RNA 706(LINC00706)	Homo sapiens	
+100507127	long intergenic non-protein coding RNA 707(LINC00707)	Homo sapiens	
+100507143	long intergenic non-protein coding RNA 708(LINC00708)	Homo sapiens	
+100507163	long intergenic non-protein coding RNA 709(LINC00709)	Homo sapiens	
+643650	long intergenic non-protein coding RNA 842(LINC00842)	Homo sapiens	
+100130231	long intergenic non-protein coding RNA 861(LINC00861)	Homo sapiens	
+100506412	long intergenic non-protein coding RNA 871(LINC00871)	Homo sapiens	
+285286	long intergenic non-protein coding RNA 877(LINC00877)	Homo sapiens	
+255025	long intergenic non-protein coding RNA 879(LINC00879)	Homo sapiens	
+100302640	long intergenic non-protein coding RNA 882(LINC00882)	Homo sapiens	
+284260	long intergenic non-protein coding RNA 907(LINC00907)	Homo sapiens	
+400657	long intergenic non-protein coding RNA 909(LINC00909)	Homo sapiens	
+100996280	long intergenic non-protein coding RNA 911(LINC00911)	Homo sapiens	
+91948	long intergenic non-protein coding RNA 923(LINC00923)	Homo sapiens	
+145820	long intergenic non-protein coding RNA 924(LINC00924)	Homo sapiens	
+100287314	long intergenic non-protein coding RNA 941(LINC00941)	Homo sapiens	
+100507206	long intergenic non-protein coding RNA 943(LINC00943)	Homo sapiens	
+387895	long intergenic non-protein coding RNA 944(LINC00944)	Homo sapiens	
+400946	long intergenic non-protein coding RNA 954(LINC00954)	Homo sapiens	
+157381	long intergenic non-protein coding RNA 964(LINC00964)	Homo sapiens	
+440970	long intergenic non-protein coding RNA 971(LINC00971)	Homo sapiens	
+728724	long intergenic non-protein coding RNA 977(LINC00977)	Homo sapiens	
+100506035	long intergenic non-protein coding RNA 989(LINC00989)	Homo sapiens	
+101929520	long intergenic non-protein coding RNA 993(LINC00993)	Homo sapiens	
+378805	long intergenic non-protein coding RNA, p53 induced transcript(LINC-PINT)	Homo sapiens	
+100505994	lung cancer associated transcript 1 (non-protein coding)(LUCAT1)	Homo sapiens	
+406893	microRNA 101-1(MIR101-1)	Homo sapiens	
+406901	microRNA 107(MIR107)	Homo sapiens	
+100302113	microRNA 1200(MIR1200)	Homo sapiens	
+100302185	microRNA 1204(MIR1204)	Homo sapiens	
+100302161	microRNA 1205(MIR1205)	Homo sapiens	
+100302281	microRNA 1208(MIR1208)	Homo sapiens	
+100302136	microRNA 1252(MIR1252)	Homo sapiens	
+100302172	microRNA 1258(MIR1258)	Homo sapiens	
+442890	microRNA 133b(MIR133B)	Homo sapiens	
+406928	microRNA 137(MIR137)	Homo sapiens	
+100302258	microRNA 1469(MIR1469)	Homo sapiens	
+406940	microRNA 148a(MIR148A)	Homo sapiens	
+406952	microRNA 17(MIR17)	Homo sapiens	
+100302217	microRNA 1827(MIR1827)	Homo sapiens	
+406960	microRNA 184(MIR184)	Homo sapiens	
+406953	microRNA 18a(MIR18A)	Homo sapiens	
+406979	microRNA 19a(MIR19A)	Homo sapiens	
+406980	microRNA 19b-1(MIR19B1)	Homo sapiens	
+100302260	microRNA 2052(MIR2052)	Homo sapiens	
+100302267	microRNA 2054(MIR2054)	Homo sapiens	
+406989	microRNA 206(MIR206)	Homo sapiens	
+406982	microRNA 20a(MIR20A)	Homo sapiens	
+100313886	microRNA 2116(MIR2116)	Homo sapiens	
+406998	microRNA 216a(MIR216A)	Homo sapiens	
+100126319	microRNA 216b(MIR216B)	Homo sapiens	
+406999	microRNA 217(MIR217)	Homo sapiens	
+100616452	microRNA 2682(MIR2682)	Homo sapiens	
+100616387	microRNA 3064(MIR3064)	Homo sapiens	
+407029	microRNA 30a(MIR30A)	Homo sapiens	
+407032	microRNA 30c-2(MIR30C2)	Homo sapiens	
+100422986	microRNA 3125(MIR3125)	Homo sapiens	
+100422824	microRNA 3128(MIR3128)	Homo sapiens	
+100422990	microRNA 3134(MIR3134)	Homo sapiens	
+100422859	microRNA 3136(MIR3136)	Homo sapiens	
+100423011	microRNA 3138(MIR3138)	Homo sapiens	
+100422936	microRNA 3153(MIR3153)	Homo sapiens	
+100422988	microRNA 3156-1(MIR3156-1)	Homo sapiens	
+100422918	microRNA 3167(MIR3167)	Homo sapiens	
+100422973	microRNA 3169(MIR3169)	Homo sapiens	
+100500852	microRNA 3180-4(MIR3180-4)	Homo sapiens	
+100500825	microRNA 3660(MIR3660)	Homo sapiens	
+100500854	microRNA 3671(MIR3671)	Homo sapiens	
+100616169	microRNA 378d-2(MIR378D2)	Homo sapiens	
+102465136	microRNA 378j(MIR378J)	Homo sapiens	
+100500903	microRNA 3913-1(MIR3913-1)	Homo sapiens	
+100500868	microRNA 3913-2(MIR3913-2)	Homo sapiens	
+100500803	microRNA 3919(MIR3919)	Homo sapiens	
+100500834	microRNA 3924(MIR3924)	Homo sapiens	
+100500891	microRNA 3935(MIR3935)	Homo sapiens	
+100500904	microRNA 3942(MIR3942)	Homo sapiens	
+100616257	microRNA 3975(MIR3975)	Homo sapiens	
+100422894	microRNA 4260(MIR4260)	Homo sapiens	
+100422888	microRNA 4264(MIR4264)	Homo sapiens	
+100422959	microRNA 4268(MIR4268)	Homo sapiens	
+100422887	microRNA 4280(MIR4280)	Homo sapiens	
+100423005	microRNA 4282(MIR4282)	Homo sapiens	
+100422903	microRNA 4288(MIR4288)	Homo sapiens	
+100422895	microRNA 4294(MIR4294)	Homo sapiens	
+100422897	microRNA 4302(MIR4302)	Homo sapiens	
+100422924	microRNA 4303(MIR4303)	Homo sapiens	
+100422883	microRNA 4325(MIR4325)	Homo sapiens	
+100616272	microRNA 4422(MIR4422)	Homo sapiens	
+100616481	microRNA 4423(MIR4423)	Homo sapiens	
+100616473	microRNA 4432(MIR4432)	Homo sapiens	
+100616207	microRNA 4439(MIR4439)	Homo sapiens	
+100616436	microRNA 4449(MIR4449)	Homo sapiens	
+100616451	microRNA 4471(MIR4471)	Homo sapiens	
+100616327	microRNA 4484(MIR4484)	Homo sapiens	
+100616179	microRNA 4498(MIR4498)	Homo sapiens	
+100616182	microRNA 4500(MIR4500)	Homo sapiens	
+100616275	microRNA 4508(MIR4508)	Homo sapiens	
+100616379	microRNA 4511(MIR4511)	Homo sapiens	
+100616326	microRNA 4636(MIR4636)	Homo sapiens	
+100616352	microRNA 4642(MIR4642)	Homo sapiens	
+100616206	microRNA 4652(MIR4652)	Homo sapiens	
+100616350	microRNA 4660(MIR4660)	Homo sapiens	
+100616245	microRNA 4661(MIR4661)	Homo sapiens	
+100616113	microRNA 4680(MIR4680)	Homo sapiens	
+100616457	microRNA 4693(MIR4693)	Homo sapiens	
+100616239	microRNA 4705(MIR4705)	Homo sapiens	
+100616369	microRNA 4713(MIR4713)	Homo sapiens	
+100616243	microRNA 4759(MIR4759)	Homo sapiens	
+100616373	microRNA 4770(MIR4770)	Homo sapiens	
+100616361	microRNA 4775(MIR4775)	Homo sapiens	
+100616267	microRNA 4776-1(MIR4776-1)	Homo sapiens	
+100616472	microRNA 4776-2(MIR4776-2)	Homo sapiens	
+100616334	microRNA 4790(MIR4790)	Homo sapiens	
+100616291	microRNA 4791(MIR4791)	Homo sapiens	
+100616246	microRNA 4799(MIR4799)	Homo sapiens	
+100616435	microRNA 4801(MIR4801)	Homo sapiens	
+100616408	microRNA 5047(MIR5047)	Homo sapiens	
+100847023	microRNA 5091(MIR5091)	Homo sapiens	
+693127	microRNA 548a-3(MIR548A3)	Homo sapiens	
+100500895	microRNA 548aa-2(MIR548AA2)	Homo sapiens	
+100616384	microRNA 548ac(MIR548AC)	Homo sapiens	
+100616347	microRNA 548ai(MIR548AI)	Homo sapiens	
+100616252	microRNA 548aj-2(MIR548AJ2)	Homo sapiens	
+100616215	microRNA 548al(MIR548AL)	Homo sapiens	
+100616144	microRNA 548an(MIR548AN)	Homo sapiens	
+100847084	microRNA 548ap(MIR548AP)	Homo sapiens	
+100847092	microRNA 548as(MIR548AS)	Homo sapiens	
+100847083	microRNA 548av(MIR548AV)	Homo sapiens	
+102466162	microRNA 548az(MIR548AZ)	Homo sapiens	
+102465854	microRNA 548ba(MIR548BA)	Homo sapiens	
+693131	microRNA 548d-2(MIR548D2)	Homo sapiens	
+100302192	microRNA 548f-1(MIR548F1)	Homo sapiens	
+100302159	microRNA 548f-3(MIR548F3)	Homo sapiens	
+100313895	microRNA 548f-4(MIR548F4)	Homo sapiens	
+100302239	microRNA 548f-5(MIR548F5)	Homo sapiens	
+100313938	microRNA 548g(MIR548G)	Homo sapiens	
+100302287	microRNA 548h-3(MIR548H3)	Homo sapiens	
+100313884	microRNA 548h-4(MIR548H4)	Homo sapiens	
+100302191	microRNA 548i-4(MIR548I4)	Homo sapiens	
+100302152	microRNA 548n(MIR548N)	Homo sapiens	
+100616190	microRNA 548o-2(MIR548O2)	Homo sapiens	
+100313841	microRNA 548q(MIR548Q)	Homo sapiens	
+100422849	microRNA 548t(MIR548T)	Homo sapiens	
+100847025	microRNA 5583-1(MIR5583-1)	Homo sapiens	
+100846997	microRNA 5583-2(MIR5583-2)	Homo sapiens	
+100847071	microRNA 5684(MIR5684)	Homo sapiens	
+100847077	microRNA 5688(MIR5688)	Homo sapiens	
+100847064	microRNA 5694(MIR5694)	Homo sapiens	
+100847081	microRNA 5703(MIR5703)	Homo sapiens	
+693176	microRNA 591(MIR591)	Homo sapiens	
+693185	microRNA 600(MIR600)	Homo sapiens	
+102466104	microRNA 6090(MIR6090)	Homo sapiens	
+102466967	microRNA 6130(MIR6130)	Homo sapiens	
+102465138	microRNA 6131(MIR6131)	Homo sapiens	
+693205	microRNA 620(MIR620)	Homo sapiens	
+693208	microRNA 623(MIR623)	Homo sapiens	
+693213	microRNA 628(MIR628)	Homo sapiens	
+102465254	microRNA 6509(MIR6509)	Homo sapiens	
+102465255	microRNA 6512(MIR6512)	Homo sapiens	
+102466189	microRNA 6715a(MIR6715A)	Homo sapiens	
+102465427	microRNA 6715b(MIR6715B)	Homo sapiens	
+102465430	microRNA 6718(MIR6718)	Homo sapiens	
+102466200	microRNA 6844(MIR6844)	Homo sapiens	
+102465525	microRNA 6870(MIR6870)	Homo sapiens	
+102466912	microRNA 6871(MIR6871)	Homo sapiens	
+102466235	microRNA 7515(MIR7515)	Homo sapiens	
+102466865	microRNA 7848(MIR7848)	Homo sapiens	
+102466866	microRNA 7853(MIR7853)	Homo sapiens	
+102465842	microRNA 7856(MIR7856)	Homo sapiens	
+102465857	microRNA 7976(MIR7976)	Homo sapiens	
+102466874	microRNA 8057(MIR8057)	Homo sapiens	
+102465864	microRNA 8060(MIR8060)	Homo sapiens	
+102466875	microRNA 8063(MIR8063)	Homo sapiens	
+102465877	microRNA 8080(MIR8080)	Homo sapiens	
+407047	microRNA 9-2(MIR9-2)	Homo sapiens	
+407048	microRNA 92a-1(MIR92A1)	Homo sapiens	
+406891	microRNA let-7i(MIRLET7I)	Homo sapiens	
+63931	mitochondrial ribosomal protein S14(MRPS14)	Homo sapiens	
+151325	myeloid associated differentiation marker like (pseudogene)(MYADML)	Homo sapiens	
+100302746	non-protein coding RNA, upstream of F2R/PAR1(NCRUPAR)	Homo sapiens	
+170688	nudix hydrolase 4 pseudogene 2(NUDT4P2)	Homo sapiens	
+119369	nudix hydrolase 9 pseudogene 1(NUDT9P1)	Homo sapiens	
+26343	olfactory receptor family 5 subfamily E member 1 pseudogene(OR5E1P)	Homo sapiens	
+100192204	peptidylprolyl isomerase A pseudogene 30(PPIAP30)	Homo sapiens	
+51054	pleckstrin homology domain containing A8 pseudogene 1(PLEKHA8P1)	Homo sapiens	
+728773	poly(A) binding protein cytoplasmic 1 pseudogene 2(PABPC1P2)	Homo sapiens	
+101867536	prostate cancer associated non-coding RNA 1(PRNCR1)	Homo sapiens	
+100750225	prostate cancer associated transcript 1 (non-protein coding)(PCAT1)	Homo sapiens	
+100506696	prostate cancer associated transcript 6 (non-protein coding)(PCAT6)	Homo sapiens	
+100506422	putative deoxyuridine 5'-triphosphate nucleotidohydrolase-like protein FLJ16323(LOC100506422)	Homo sapiens	
+283922	pyruvate dehydrogenase phosphatase regulatory subunit pseudogene(LOC283922)	Homo sapiens	
+645884	ribosomal protein S7 pseudogene 5(RPS7P5)	Homo sapiens	
+414927	sepiapterin reductase (7,8-dihydrobiopterin:NADP+ oxidoreductase) pseudogene(MGC34796)	Homo sapiens	
+677765	small Cajal body-specific RNA 18(SCARNA18)	Homo sapiens	
+100124533	small Cajal body-specific RNA 27(SCARNA27)	Homo sapiens	
+677767	small Cajal body-specific RNA 7(SCARNA7)	Homo sapiens	
+283596	small nucleolar RNA host gene 10(SNHG10)	Homo sapiens	
+100505806	small nucleolar RNA host gene 18(SNHG18)	Homo sapiens	
+692234	small nucleolar RNA, C/D box 103A(SNORD103A)	Homo sapiens	
+692235	small nucleolar RNA, C/D box 103B(SNORD103B)	Homo sapiens	
+100113384	small nucleolar RNA, C/D box 123(SNORD123)	Homo sapiens	
+692086	small nucleolar RNA, C/D box 17(SNORD17)	Homo sapiens	
+26796	small nucleolar RNA, C/D box 53(SNORD53)	Homo sapiens	
+619564	small nucleolar RNA, C/D box 72(SNORD72)	Homo sapiens	
+8944	small nucleolar RNA, C/D box 73A(SNORD73A)	Homo sapiens	
+692209	small nucleolar RNA, C/D box 92(SNORD92)	Homo sapiens	
+692210	small nucleolar RNA, C/D box 93(SNORD93)	Homo sapiens	
+692223	small nucleolar RNA, C/D box 97(SNORD97)	Homo sapiens	
+677810	small nucleolar RNA, H/ACA box 26(SNORA26)	Homo sapiens	
+677818	small nucleolar RNA, H/ACA box 36B(SNORA36B)	Homo sapiens	
+677828	small nucleolar RNA, H/ACA box 47(SNORA47)	Homo sapiens	
+100124537	small nucleolar RNA, H/ACA box 70B(SNORA70B)	Homo sapiens	
+100124538	small nucleolar RNA, H/ACA box 70C(SNORA70C)	Homo sapiens	
+353324	spermatogenesis associated 12(SPATA12)	Homo sapiens	
+56158	testis expressed 12(TEX12)	Homo sapiens	
+54957	thioredoxin like 4B(TXNL4B)	Homo sapiens	
+100124696	transient erythroblastopenia of childhood(TEC)	Homo sapiens	
+392232	transient receptor potential cation channel subfamily A member 1 pseudogene(LOC392232)	Homo sapiens	
+644962	trinucleotide repeat containing 18 pseudogene 1(TNRC18P1)	Homo sapiens	
+440041	tripartite motif-containing 51H, pseudogene(TRIM51HP)	Homo sapiens	
+285386	tumor protein p63 regulated 1(TPRG1)	Homo sapiens	
+286480	ubiquitin conjugating enzyme E2 E4 pseudogene(UBE2E4P)	Homo sapiens	
+285759	uncharacterized FLJ34503(FLJ34503)	Homo sapiens	
+286023	uncharacterized FLJ40288(FLJ40288)	Homo sapiens	
+100128006	uncharacterized LOC100128006(LOC100128006)	Homo sapiens	
+100128124	uncharacterized LOC100128124(HGC6.3)	Homo sapiens	
+100129034	uncharacterized LOC100129034(LOC100129034)	Homo sapiens	
+100129066	uncharacterized LOC100129066(UNQ6494)	Homo sapiens	
+100130460	uncharacterized LOC100130460(CAND1.11)	Homo sapiens	
+100130992	uncharacterized LOC100130992(LOC100130992)	Homo sapiens	
+100131289	uncharacterized LOC100131289(LOC100131289)	Homo sapiens	
+100289230	uncharacterized LOC100289230(LOC100289230)	Homo sapiens	
+100505912	uncharacterized LOC100505912(LOC100505912)	Homo sapiens	
+100506082	uncharacterized LOC100506082(LOC100506082)	Homo sapiens	
+100506124	uncharacterized LOC100506124(LOC100506124)	Homo sapiens	
+100506403	uncharacterized LOC100506403(LOC100506403)	Homo sapiens	
+100506474	uncharacterized LOC100506474(LOC100506474)	Homo sapiens	
+100506497	uncharacterized LOC100506497(LOC100506497)	Homo sapiens	
+100506858	uncharacterized LOC100506858(LOC100506858)	Homo sapiens	
+100507205	uncharacterized LOC100507205(LOC100507205)	Homo sapiens	
+100507634	uncharacterized LOC100507634(LOC100507634)	Homo sapiens	
+100996249	uncharacterized LOC100996249(LOC100996249)	Homo sapiens	
+101926960	uncharacterized LOC101926960(LOC101926960)	Homo sapiens	
+101927023	uncharacterized LOC101927023(LOC101927023)	Homo sapiens	
+101927045	uncharacterized LOC101927045(LOC101927045)	Homo sapiens	
+101927124	uncharacterized LOC101927124(LOC101927124)	Homo sapiens	
+101927159	uncharacterized LOC101927159(LOC101927159)	Homo sapiens	
+101927190	uncharacterized LOC101927190(LOC101927190)	Homo sapiens	
+101927446	uncharacterized LOC101927446(LOC101927446)	Homo sapiens	
+101927488	uncharacterized LOC101927488(LOC101927488)	Homo sapiens	
+101927709	uncharacterized LOC101927709(LOC101927709)	Homo sapiens	
+101927811	uncharacterized LOC101927811(LOC101927811)	Homo sapiens	
+101927967	uncharacterized LOC101927967(LOC101927967)	Homo sapiens	
+101928075	uncharacterized LOC101928075(LOC101928075)	Homo sapiens	
+101928436	uncharacterized LOC101928436(LOC101928436)	Homo sapiens	
+101928505	uncharacterized LOC101928505(LOC101928505)	Homo sapiens	
+101928523	uncharacterized LOC101928523(LOC101928523)	Homo sapiens	
+101928775	uncharacterized LOC101928775(LOC101928775)	Homo sapiens	
+101928882	uncharacterized LOC101928882(LOC101928882)	Homo sapiens	
+101929528	uncharacterized LOC101929528(LOC101929528)	Homo sapiens	
+102031319	uncharacterized LOC102031319(LOC102031319)	Homo sapiens	
+102467080	uncharacterized LOC102467080(LOC102467080)	Homo sapiens	
+102467081	uncharacterized LOC102467081(LOC102467081)	Homo sapiens	
+102467216	uncharacterized LOC102467216(LOC102467216)	Homo sapiens	
+102467217	uncharacterized LOC102467217(LOC102467217)	Homo sapiens	
+102546299	uncharacterized LOC102546299(LOC102546299)	Homo sapiens	
+102606466	uncharacterized LOC102606466(LOC102606466)	Homo sapiens	
+256880	uncharacterized LOC256880(LOC256880)	Homo sapiens	
+257396	uncharacterized LOC257396(LOC257396)	Homo sapiens	
+283045	uncharacterized LOC283045(LOC283045)	Homo sapiens	
+284395	uncharacterized LOC284395(LOC284395)	Homo sapiens	
+285762	uncharacterized LOC285762(LOC285762)	Homo sapiens	
+285819	uncharacterized LOC285819(LOC285819)	Homo sapiens	
+339298	uncharacterized LOC339298(LOC339298)	Homo sapiens	
+339862	uncharacterized LOC339862(LOC339862)	Homo sapiens	
+400221	uncharacterized LOC400221(FLJ22447)	Homo sapiens	
+441204	uncharacterized LOC441204(LOC441204)	Homo sapiens	
+441369	uncharacterized LOC441369(FLJ46284)	Homo sapiens	
+550113	uncharacterized LOC550113(LOC550113)	Homo sapiens	
+644554	uncharacterized LOC644554(LOC644554)	Homo sapiens	
+729467	uncharacterized LOC729467(HSD52)	Homo sapiens	
+729732	uncharacterized LOC729732(LOC729732)	Homo sapiens	
+731157	uncharacterized LOC731157(LOC731157)	Homo sapiens	
+149047	uncharacterized MGC27382(MGC27382)	Homo sapiens	
+391051	urate oxidase (pseudogene)(UOX)	Homo sapiens	
+100126299	vault RNA 2-1(VTRNA2-1)	Homo sapiens	
+100505841	zinc finger protein 474-like(LOC100505841)	Homo sapiens	
+100131257	zinc finger protein 655 pseudogene(LOC100131257)	Homo sapiens	

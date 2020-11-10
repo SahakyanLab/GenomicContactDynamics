@@ -1,0 +1,171 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+DATASET_Hsa_GRCh37_73_chr_info
+DATASET_ucsc_tables
+
+convertHGNCsymb.R
+RefSeqCat.R
+UCSCTableReadFilter.R
+funxAnno.R
+################################################################################
+################################################################################
+# A. Genes co-localising with contacts per Cp category
+################################################################################
+0. Examine UCSC annotation table
+
+1. Clean the annotation table by:
+a. Get only the relevant chromosomes in UCSC annotation tabe (chr1:22, "X", "Y")
+b. Add unique ID for each row in tables (for future analyses e.g. mapping to 
+persist bins). Note that unique ID is the row number of the transcript in the full
+annotation table (filtered for relevant chromosomes).
+c. Separate tables into reference sequence categories. Accession numbers beginning 
+with NM (coding) and NR (non-coding).
+d. Make HUGOsymbol-EntrezID conversion table for future analyses (e.g. KEGG 
+pathway analysis)
+
+2. Map transcripts to HiC contact bins (any type of overlap). Both the gene name 
+of transcript (name2 column) and the uniqueID were mapped.
+
+2.5 Plot distribution of HiC signal count (Cs) per tissue per chromosome. Determine
+fraction change of high and low Cs contacts for a given Cs break.
+Output: Fraction change of count (HIGH-LOW)/LOW X HiC signal count break
+
+Ex. If the break is Cs=10, how many contacts will fall into low Cs (=<10)
+and high Cs (>10) categories.
+
+3. Per chr, identify genes co-localising with contacts per Cp category
+Per chr, one text file with gene names, one text file with uniqueID. 
+In the output text files, name2 (genes) and uniqueID (transcript) are unique
+per category.
+
+4. Union of genes from all chr
+Note: Header with no genes still have an additional line containing "" not NULL 
+or NA, length==1. In the output text files, name2 (genes) and uniqueID (transcript) 
+are unique per category ( union() removes duplicates )
+
+5. GO term and KEGG pathway enrichment for genes per Cp. Output is a csv file. 
+Use HUGO symbols for GO analysis while Entrez gene IDs for KEGG analysis.  
+
+6. Make heatmap combining the gene enrichment analyses results for all Cps.
+
+7. Make simplified plot of GO/KEGG term enrichment results for a given set
+of genes and background using funxAnno(). 
+In the plot title, e.g. min2Mb_ALL_cp_cp21cpHiCall_KEGG, "cp21cpHiCall" means that 
+the foreground genes are cp21 genes and the background are genes overlapping with all 
+LR Hi-C contacts (foreback.combi = "cp_21;cp_HiC_all").
+
+Gene count in plot means the number of genes associated with the certain term.
+The gene count in the legend name (enclosed in parentheses) is the total number of
+foreground genes associated with at least one term. 
+
+8. Make a text file of genes colocalising with Cp of interest. This is for 
+DAVID.
+
+9. DAVID and code to generate samples (N=3000) of gene list.
+Functional term enrichment:
+This does not work for HUGO genes >3000. Therefore, I used entrezIDs.  
+Result is stored in ./out_DAVID. I also stored the entrezIDs that were not 
+mapped by DAVID. 
+
+Functional term clustering:
+This does not work for genes >3000. What I did is to remove from the entrezID
+list the unmapped IDs by DAVID and then sampled 3000 entrezIDs to be able to
+run the clustering. For cp=21 gene list, I got 3 samples (different seeds) and
+all of them yield comparable results. Result is stored in ./out_DAVID/sampleGeneList.
+################################################################################
+# B. Gene length vs. Cp
+################################################################################
+Only coding mRNA was used for these analyses. 
+
+1. UniqueIDs of longest transcripts per Cp. Same format as A4 but only uniqueIDs
+of longest transcript per category. For the rest of gene length studies, only
+coding mRNAs are considered but here, output files were also produced for NR
+and ALL (both NR and NM) transcripts. 
+
+2. Make table containing (complete and repeat-free versions for each length):
+TRANSCRIPT.L <- transcript length
+N.EXONS <- exon count
+N.INTRONS <- intron count
+EXONS.L <- summed exon lengths
+INTRONS.L <- summed intron lengths
+MEAN.EXON.L <- mean single exon length 
+MEAN.INTRON.L <- mean single intron length 
+INTRONS.dev.EXONS <- total intron to exon ratio
+
+This requires bedfiles of transcripts, exons and introns that are repeat-free.
+Obtain using subtractbed from bedtools to get Transcipt portions with no repeats
+  # Inputs are the beds for each length
+  # Output file = <genome.ver>anno_<refseq>_repFreeTr.bed
+  # -s force same strandedness, -f min overlap 1bp (default)
+  # Shell: subtractBed -s -f 1E-9 -a hg19anno_ALL_tr.bed -b hg19_repeat.bed > hg19anno_ALL_repFreeTr.bed
+  # Shell: subtractBed -s -f 1E-9 -a hg19anno_ALL_exon.bed -b hg19_repeat.bed > hg19anno_ALL_repFreeEx.bed
+  # Shell: subtractBed -s -f 1E-9 -a hg19anno_ALL_intron.bed -b hg19_repeat.bed > hg19anno_ALL_repFreeInt.bed
+} 
+
+Output: ANNOLENGTH.DF
+
+3. Plot lengths vs. Cp
+
+4. Make scatter plots showing the fold change of mean lengths in reference to
+Cp=1. Plot of log2(MeanCp=N/MeanCp=1) X Cp
+Plot data: LENCP (Cp-L), L is actual length/10^3
+################################################################################
+# C. Genecentric approach
+################################################################################
+1. 1-to-1 correspondence of gene with Cp (max Cp across transcript). Similar output
+as A4 but genes classifed based on its highest Cp. 
+################################################################################
+# D. Equalise length of transcript before doing Gene Vs. Cp
+################################################################################
+This to remove the bias of longer transcripts having more contacts overlapping
+(shown in plot from Step 2., wherein number of contacts overlapping is somehow
+directly proportional to transcript length)
+
+0. Identify longest transcript per gene. Output saved in 
+/Users/ltamon/Database/ucsc_tables/hsa_geneAnno
+
+1. Make a file of Cs (per tissue) and Cp values per minimum distance between
+contacting regions (min2Mb/min05Mb)
+
+2. # Equalise length of transcripts and make an annotation table of 
+# chr-unique ID-HUGO symbol-newTxStart-newTxEnd (saved in Database)
+# Equalise based on a reference length (Lref):
+# a. mean of trancript lengths (ave)
+# b. 2 SDs from mean of transcript lengths (m2sd)
+# Also make a plot of transcript lengths with the Lref indicated
+
+Output annotation table (ave and m2sd) in 
+/Users/ltamon/Database/ucsc_tables/hsa_geneAnno
+
+3. Map equalised transcripts (orig, ave, m2sd) to HiC contact bins. 
+
+4. Per transcript, count the number of its overlapping contacts having 
+Cs/Cp values per tissue.
+
+          0    1   2  3  4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32
+22080 21294 2276 367 74 19 6 1 0 1 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+22081 21294 2276 367 74 19 6 1 0 1 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+22082 23263 3153 401 71 26 7 3 1 0 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+22083 23378 2920 311 54 19 6 3 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+Output: TRCOUNT.MX (unique ID X CpCs values). Rownames are the unique ID. In the 
+example above, colnames are the possible Cs values for TLC tissue. Cp is treated 
+as tissue in the code. 
+
+5. Combine TRCOUNT.MX of all chr.
+
+6. Plot transcript's length vs. number of contacts overlapping with it. 
+Results show a somehow directly proportional relationship.
+
+7. Make files of genes for gene enrichment analysis, per tissue (including Cp)
+a. background - all genes co-localising with contact
+b. Top5percent - genes co-localising with contact within top 5% of extr
+
+8. Binary heatmap of GO/KEGG terms combining all tissues + cp (with and without
+equalisation of length). There is a checkpoint to make sure that all terms are
+called are significant (p.adjust < 0.05).
+################################################################################
+E. Fraction of coding/non-coding genes vs. Cp
+################################################################################
+1. Fraction of NM (coding genes) and NR (non-coding genes) vs. Cp

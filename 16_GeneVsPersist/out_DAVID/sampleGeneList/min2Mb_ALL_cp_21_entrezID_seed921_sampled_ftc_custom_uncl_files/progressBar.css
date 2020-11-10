@@ -1,0 +1,29 @@
+.prog-border {
+  height: 15px;
+  width: 980px;
+  background: #fff;
+  border: 1px solid silver;
+  margin: 0;
+  padding: 0;
+}
+
+
+.prog-bar {
+  height: 11px;
+  margin: 2px;
+  padding: 0;
+  width: 0px;
+  background: #C9DDEC;
+}
+
+
+.prog-text {
+height: 11px;
+margin: 2px;
+padding: 0;
+text-align: left;
+font-size: 10px;
+
+
+}
+

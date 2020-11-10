@@ -1,0 +1,57 @@
+GO_BP_terms,_Hi_count_1;all_genes,_Hi_count_1;_Hi_count_HiC_all,_Hi_count_2;_Hi_count_1,_Hi_count_3;_Hi_count_1,_Hi_count_4;_Hi_count_1,_Hi_count_5;_Hi_count_1,_Hi_count_grthan5;_Hi_count_1
+actomyosin structure organization,NA,NA,NA,NA,0.0424307487234448,NA,NA
+appendage development,NA,NA,NA,0.0124249454171693,0.0424307487234448,NA,NA
+appendage morphogenesis,NA,NA,NA,0.00911303100542594,0.0391344624945356,NA,NA
+axon development,NA,NA,NA,NA,NA,0.00782411272318375,0.0439625723291697
+axon guidance,NA,NA,NA,NA,NA,0.00633085967895922,0.0491236155025105
+axonogenesis,NA,NA,NA,NA,NA,0.00667687137766394,0.0244752317443365
+cardiac chamber development,NA,NA,NA,NA,0.0497762421723166,NA,NA
+cardiac septum development,NA,NA,NA,NA,0.0341912935185519,NA,NA
+cell-cell adhesion via plasma-membrane adhesion molecules,NA,NA,NA,NA,NA,0.00319952160041749,NA
+cell-substrate adhesion,NA,NA,NA,NA,NA,0.0400363604835339,NA
+cerebral cortex development,NA,NA,NA,NA,NA,0.0161610471108516,NA
+connective tissue development,NA,NA,NA,NA,0.0341912935185519,NA,NA
+dendrite development,NA,NA,NA,NA,NA,0.000164357788012291,0.00297660858466882
+dendrite morphogenesis,NA,NA,NA,NA,NA,0.000799073353994876,NA
+dendritic spine development,NA,NA,NA,NA,NA,0.0279558132621568,NA
+dephosphorylation,NA,NA,NA,NA,0.0424307487234448,0.00628320052540851,NA
+embryonic appendage morphogenesis,NA,NA,NA,0.0220517028332748,0.0499285878670182,NA,NA
+embryonic limb morphogenesis,NA,NA,NA,0.0220517028332748,0.0499285878670182,NA,NA
+embryonic organ morphogenesis,NA,NA,NA,0.0220517028332748,NA,NA,NA
+establishment of vesicle localization,NA,NA,NA,NA,NA,0.00633085967895922,NA
+forebrain development,NA,NA,NA,NA,0.0146969539613237,0.00829942795767501,NA
+gland development,NA,NA,NA,NA,0.0146969539613237,NA,NA
+homophilic cell adhesion via plasma membrane adhesion molecules,NA,NA,NA,NA,NA,0.000467011011316589,NA
+import across plasma membrane,NA,NA,NA,NA,NA,NA,0.0491236155025105
+kidney development,NA,NA,NA,0.00911303100542594,0.00106096196992382,0.00628320052540851,NA
+kidney epithelium development,NA,NA,NA,NA,0.0424307487234448,NA,NA
+limb development,NA,NA,NA,0.0124249454171693,0.0424307487234448,NA,NA
+limb morphogenesis,NA,NA,NA,0.00911303100542594,0.0391344624945356,NA,NA
+microtubule-based movement,NA,NA,NA,NA,0.0424307487234448,0.00382581526331415,NA
+morphogenesis of an epithelial fold,NA,NA,NA,NA,0.0499285878670182,NA,NA
+neuron projection guidance,NA,NA,NA,NA,NA,0.00832071283162156,NA
+organ growth,NA,NA,NA,NA,0.0262416503994374,NA,NA
+positive regulation of cell development,NA,NA,NA,NA,0.0262416503994374,0.00593997920275523,NA
+positive regulation of cell projection organization,NA,NA,NA,NA,NA,0.0148849507760441,NA
+positive regulation of nervous system development,NA,NA,NA,NA,NA,0.00319952160041749,NA
+positive regulation of neurogenesis,NA,NA,NA,NA,0.0497762421723166,0.00518198011551674,NA
+positive regulation of neuron differentiation,NA,NA,NA,NA,NA,0.00628320052540851,NA
+positive regulation of neuron projection development,NA,NA,NA,NA,NA,0.00832071283162156,NA
+protein tetramerization,NA,NA,NA,NA,NA,NA,0.0439625723291697
+regionalization,NA,NA,NA,0.0449360921932947,NA,NA,NA
+regulation of actomyosin structure organization,NA,NA,NA,NA,0.0497762421723166,NA,NA
+regulation of cell morphogenesis,NA,NA,NA,NA,NA,NA,0.00513604866377793
+regulation of dendrite development,NA,NA,NA,NA,NA,0.00999308877711944,NA
+regulation of developmental growth,NA,NA,NA,NA,0.0425577768872111,NA,NA
+regulation of GTPase activity,NA,NA,NA,NA,NA,NA,0.00388459322763489
+regulation of neuron projection development,NA,NA,NA,NA,NA,0.00628320052540851,0.00193189166197411
+regulation of organ growth,NA,NA,NA,NA,0.0146969539613237,NA,NA
+regulation of small GTPase mediated signal transduction,NA,NA,NA,NA,NA,NA,0.00193189166197411
+regulation of synapse assembly,NA,NA,NA,NA,NA,0.0215879330479561,NA
+regulation of synapse organization,NA,NA,NA,NA,NA,0.0400363604835339,NA
+regulation of synapse structure or activity,NA,NA,NA,NA,NA,0.0199772030349021,NA
+renal system development,NA,NA,NA,0.00911303100542594,0.000514925407336448,0.00628320052540851,NA
+signal release,NA,NA,NA,NA,0.0424307487234448,NA,NA
+synaptic transmission  glutamatergic,NA,NA,NA,NA,NA,0.0438471079480802,NA
+urogenital system development,NA,NA,NA,0.00911303100542594,0.000514925407336448,0.00593997920275523,NA
+vesicle localization,NA,NA,NA,NA,NA,0.00633085967895922,NA

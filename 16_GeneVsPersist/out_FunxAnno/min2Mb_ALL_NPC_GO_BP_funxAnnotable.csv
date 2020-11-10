@@ -1,0 +1,48 @@
+GO_BP_terms,_NPC_count_1;all_genes,_NPC_count_1;_NPC_count_HiC_all,_NPC_count_2;_NPC_count_1,_NPC_count_3;_NPC_count_1,_NPC_count_4;_NPC_count_1,_NPC_count_5;_NPC_count_1,_NPC_count_grthan5;_NPC_count_1
+axon development,NA,NA,NA,NA,0.0152681364064136,NA,NA
+axon guidance,NA,NA,NA,NA,0.00414796117090772,0.0464264381468702,NA
+axonogenesis,NA,NA,NA,NA,0.027423506485636,NA,NA
+cardiac muscle tissue development,NA,NA,NA,NA,0.041498630113541,0.00101944557503506,NA
+cardiocyte differentiation,NA,NA,NA,NA,NA,0.0275407584847991,NA
+cell proliferation involved in heart morphogenesis,NA,NA,NA,NA,0.0283982007394854,NA,NA
+cell-cell adhesion via plasma-membrane adhesion molecules,NA,NA,NA,NA,NA,NA,0.032781694468659
+chondrocyte differentiation,NA,NA,NA,NA,0.0334259514693892,NA,NA
+cytokine secretion,NA,NA,NA,NA,0.0334259514693892,NA,NA
+dendrite development,NA,NA,NA,NA,NA,0.00143202230585349,NA
+dendrite morphogenesis,NA,NA,NA,NA,NA,0.0145996433687136,NA
+development of primary sexual characteristics,NA,NA,NA,NA,0.0283982007394854,NA,NA
+epithelial cell proliferation,NA,NA,NA,NA,0.0297113809343629,NA,NA
+forebrain development,NA,NA,NA,NA,0.00252773919977404,0.0157963754991075,NA
+gonad development,NA,NA,NA,NA,0.049156848046404,NA,NA
+kidney development,NA,NA,NA,NA,0.011631343696082,0.00636292520207749,NA
+locomotory behavior,NA,NA,NA,NA,0.0334259514693892,NA,NA
+muscle organ development,NA,NA,NA,NA,NA,0.0464264381468702,NA
+muscle tissue development,NA,NA,NA,NA,0.00583988340147961,0.000247405540887604,NA
+neuron migration,NA,NA,NA,NA,NA,0.0496360264892886,0.000532149905334044
+neuron projection guidance,NA,NA,NA,NA,0.00414796117090772,NA,NA
+odontogenesis,NA,NA,NA,NA,0.0283982007394854,NA,NA
+organ growth,NA,NA,NA,NA,NA,0.0464264381468702,NA
+positive regulation of cell development,NA,NA,NA,NA,NA,0.0243562395352251,0.0411512096994801
+positive regulation of cellular component biogenesis,NA,NA,NA,NA,NA,NA,0.034285969276911
+positive regulation of nervous system development,NA,NA,NA,NA,NA,0.0415280269203445,0.00448246915435932
+positive regulation of neurogenesis,NA,NA,NA,NA,NA,0.0464264381468702,NA
+positive regulation of synapse assembly,NA,NA,NA,NA,NA,NA,2.49455749617523e-05
+regulation of cell-substrate adhesion,NA,NA,NA,NA,NA,0.0332447841061092,NA
+regulation of membrane potential,NA,NA,NA,NA,NA,NA,0.0358792374684175
+regulation of neuron migration,NA,NA,NA,NA,NA,NA,0.0358792374684175
+regulation of neuron projection development,NA,NA,NA,NA,NA,NA,0.0358792374684175
+regulation of peptide secretion,NA,NA,NA,NA,0.0401022064492717,NA,NA
+regulation of protein secretion,NA,NA,NA,NA,0.0342178168703382,NA,NA
+regulation of synapse assembly,NA,NA,NA,NA,NA,NA,2.49455749617523e-05
+regulation of synapse organization,NA,NA,NA,NA,NA,NA,0.00262643400082671
+regulation of synapse structure or activity,NA,NA,NA,NA,NA,NA,0.000640716752428094
+renal system development,NA,NA,NA,NA,0.011631343696082,0.00399146782288734,NA
+reproductive structure development,NA,NA,NA,NA,0.027423506485636,NA,NA
+reproductive system development,NA,NA,NA,NA,0.0172402651298358,NA,NA
+retinal ganglion cell axon guidance,NA,NA,NA,NA,NA,NA,0.0165170177389925
+striated muscle cell proliferation,NA,NA,NA,NA,0.0497547497827242,NA,NA
+striated muscle tissue development,NA,NA,NA,NA,0.0119847837342443,0.000773006240733608,NA
+synapse assembly,NA,NA,NA,NA,NA,0.0464264381468702,3.2602562665059e-05
+synapse organization,NA,NA,NA,NA,NA,0.0464264381468702,0.000544770166810255
+telencephalon development,NA,NA,NA,NA,0.0497547497827242,NA,NA
+urogenital system development,NA,NA,NA,NA,0.011631343696082,0.00446787018992708,NA

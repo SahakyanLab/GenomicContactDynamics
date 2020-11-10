@@ -1,0 +1,13 @@
+GO_MF_terms,_Hi_count_1;all_genes,_Hi_count_1;_Hi_count_HiC_all,_Hi_count_2;_Hi_count_1,_Hi_count_3;_Hi_count_1,_Hi_count_4;_Hi_count_1,_Hi_count_5;_Hi_count_1,_Hi_count_grthan5;_Hi_count_1
+glutamate receptor activity,NA,NA,NA,NA,NA,NA,0.0382676137261651
+GTPase activator activity,NA,NA,NA,NA,NA,NA,0.0382676137261651
+GTPase regulator activity,NA,NA,NA,NA,NA,NA,0.0424362971820064
+MAP kinase kinase kinase activity,NA,NA,NA,NA,NA,0.0342406118986657,NA
+metallopeptidase activity,NA,NA,NA,NA,NA,NA,0.0424362971820064
+phosphatase activity,NA,NA,NA,NA,NA,0.0263199239547112,NA
+phosphoprotein phosphatase activity,NA,NA,NA,NA,NA,0.0342406118986657,NA
+phosphoric ester hydrolase activity,NA,NA,NA,NA,NA,0.0263199239547112,NA
+protein serine/threonine kinase activity,NA,NA,NA,NA,NA,0.0263199239547112,0.0424362971820064
+signal transducer  downstream of receptor  with serine/threonine kinase activity,NA,NA,NA,NA,NA,0.034857287421673,NA
+signal transducer activity  downstream of receptor,NA,NA,NA,NA,NA,0.0342406118986657,NA
+transmembrane receptor protein kinase activity,NA,NA,NA,NA,NA,0.0342406118986657,NA

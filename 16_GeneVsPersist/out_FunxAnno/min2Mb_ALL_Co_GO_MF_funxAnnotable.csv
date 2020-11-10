@@ -1,0 +1,35 @@
+GO_MF_terms,_Co_count_1;all_genes,_Co_count_1;_Co_count_HiC_all,_Co_count_2;_Co_count_1,_Co_count_3;_Co_count_1,_Co_count_4;_Co_count_1,_Co_count_5;_Co_count_1,_Co_count_grthan5;_Co_count_1
+1-phosphatidylinositol binding,NA,NA,NA,NA,NA,NA,0.0421499403612172
+3' 5'-cyclic-AMP phosphodiesterase activity,NA,NA,NA,NA,NA,NA,0.0421499403612172
+cation channel activity,NA,NA,NA,NA,NA,0.0476897602848813,0.00793502566666187
+cell adhesion molecule binding,NA,NA,NA,NA,NA,NA,0.0421499403612172
+channel activity,NA,NA,NA,NA,NA,NA,0.0244428090991733
+chemorepellent activity,NA,NA,NA,NA,NA,NA,0.0196788308066874
+enzyme activator activity,NA,NA,NA,NA,NA,NA,0.0234996941994799
+extracellularly glutamate-gated ion channel activity,NA,NA,NA,NA,NA,NA,0.00793502566666187
+gamma-catenin binding,NA,NA,NA,NA,NA,NA,0.0196788308066874
+gated channel activity,NA,NA,NA,NA,NA,NA,0.0234996941994799
+glutamate receptor activity,NA,NA,NA,NA,NA,NA,0.00187988317721034
+glycosaminoglycan binding,NA,NA,NA,NA,NA,0.0476897602848813,NA
+GTPase activator activity,NA,NA,NA,NA,NA,NA,0.00440434058583355
+GTPase regulator activity,NA,NA,NA,NA,NA,NA,0.00440434058583355
+heparan sulfate sulfotransferase activity,NA,NA,NA,NA,NA,NA,0.0421499403612172
+ion channel activity,NA,NA,NA,NA,NA,0.0476897602848813,0.00793502566666187
+ion gated channel activity,NA,NA,NA,NA,NA,NA,0.0196788308066874
+ionotropic glutamate receptor activity,NA,NA,NA,NA,NA,NA,0.00793502566666187
+metal ion transmembrane transporter activity,NA,NA,NA,NA,NA,NA,0.00619786567005037
+metallopeptidase activity,NA,NA,NA,NA,NA,NA,0.0234996941994799
+neurotrophin receptor binding,NA,NA,NA,NA,NA,NA,0.0196788308066874
+nucleoside-triphosphatase regulator activity,NA,NA,NA,NA,NA,NA,0.00793502566666187
+passive transmembrane transporter activity,NA,NA,NA,NA,NA,NA,0.0254789704080438
+phosphatase activity,NA,NA,NA,NA,0.0114309360416767,NA,NA
+phospholipid-translocating ATPase activity,NA,NA,NA,NA,NA,NA,0.0120220561073391
+phosphoprotein phosphatase activity,NA,NA,NA,NA,0.0325226862946013,NA,NA
+phosphoric ester hydrolase activity,NA,NA,NA,NA,0.0114309360416767,NA,NA
+postsynaptic neurotransmitter receptor activity,NA,NA,NA,NA,NA,NA,0.04687685834652
+protein binding involved in heterotypic cell-cell adhesion,NA,NA,NA,NA,NA,NA,0.0428459166853255
+protein serine/threonine kinase activity,NA,NA,NA,NA,NA,0.0476897602848813,NA
+substrate-specific channel activity,NA,NA,NA,NA,NA,0.0476897602848813,0.00793502566666187
+transmembrane receptor protein kinase activity,NA,NA,NA,NA,NA,0.0476897602848813,NA
+transmitter-gated channel activity,NA,NA,NA,NA,NA,NA,0.04687685834652
+transmitter-gated ion channel activity,NA,NA,NA,NA,NA,NA,0.04687685834652

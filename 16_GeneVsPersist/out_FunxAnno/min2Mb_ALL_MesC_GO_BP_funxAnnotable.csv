@@ -1,0 +1,30 @@
+GO_BP_terms,_MesC_count_1;all_genes,_MesC_count_1;_MesC_count_HiC_all,_MesC_count_2;_MesC_count_1,_MesC_count_3;_MesC_count_1,_MesC_count_4;_MesC_count_1,_MesC_count_5;_MesC_count_1,_MesC_count_grthan5;_MesC_count_1
+ammonium transport,NA,NA,NA,NA,NA,NA,0.0485473811110926
+appendage development,NA,NA,NA,NA,NA,NA,0.000573962017838109
+appendage morphogenesis,NA,NA,NA,NA,NA,NA,0.000170891065078125
+axis specification,NA,NA,NA,NA,NA,NA,0.0294535573467823
+central nervous system neuron differentiation,NA,NA,NA,NA,NA,NA,0.0185067486372432
+dephosphorylation,NA,NA,NA,NA,NA,NA,0.0333101068327262
+diencephalon development,NA,NA,NA,NA,NA,0.0011633599223778,0.0293873933242113
+ear development,NA,NA,NA,NA,NA,NA,0.00173640275174879
+embryonic appendage morphogenesis,NA,NA,NA,NA,NA,NA,0.000415385482785773
+embryonic digit morphogenesis,NA,NA,NA,NA,NA,NA,0.0320452259512672
+embryonic limb morphogenesis,NA,NA,NA,NA,NA,NA,0.000415385482785773
+embryonic organ morphogenesis,NA,NA,NA,NA,NA,NA,0.0421200598893652
+forebrain development,NA,NA,NA,NA,NA,0.0011633599223778,0.000170891065078125
+gland development,NA,NA,NA,NA,NA,NA,0.0353228204552904
+homophilic cell adhesion via plasma membrane adhesion molecules,NA,NA,NA,NA,NA,0.0386259705291774,0.000415385482785773
+inner ear development,NA,NA,NA,NA,NA,NA,0.0179651172915813
+kidney development,NA,NA,NA,NA,NA,0.026647744081214,0.0303560797612186
+limb development,NA,NA,NA,NA,NA,NA,0.000573962017838109
+limb morphogenesis,NA,NA,NA,NA,NA,NA,0.000170891065078125
+nucleosome assembly,NA,NA,NA,NA,NA,NA,0.0421200598893652
+nucleosome organization,NA,NA,NA,NA,NA,NA,0.046344038531654
+pallium development,NA,NA,NA,NA,NA,NA,0.0388873808994383
+pattern specification process,NA,NA,NA,NA,NA,NA,0.0190341690642321
+regionalization,NA,NA,NA,NA,NA,NA,0.0133890127699677
+renal system development,NA,NA,NA,NA,NA,0.026647744081214,0.0190341690642321
+skeletal system development,NA,NA,NA,NA,NA,NA,0.0282167125219638
+telencephalon cell migration,NA,NA,NA,NA,NA,NA,0.0421200598893652
+telencephalon development,NA,NA,NA,NA,NA,NA,0.0190341690642321
+urogenital system development,NA,NA,NA,NA,NA,0.021061318178278,0.0237571570614862

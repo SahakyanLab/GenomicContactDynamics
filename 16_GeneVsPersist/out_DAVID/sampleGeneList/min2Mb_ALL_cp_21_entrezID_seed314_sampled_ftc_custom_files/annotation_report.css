@@ -1,0 +1,9 @@
+body{ background-color:white; } 
+table.annotation_report{border-style: none; border-spacing: 0;font-family: Verdana; font-size: 8pt;width: 100%;}
+tr.annotation_report_header{ border-style: solid;background-color:#D9D9F3; font-family: Verdana; font-size: 10; color: black; font-weight: bold;}
+tr.annotation_report_row{ border-style: solid;background-color:#F2F2F2 ; font-family: Verdana; font-size: 10; font-weight: bold;}
+td.annotation_report_data{background-color:white;}
+td.annotation_report_header{}
+td.easescore{text-align: left;white-space: nowrap;padding: 0px 10px 0px 10px}
+td.count{text-align: right;padding: 0px 10px 0px 10px}
+td.percent{text-align: right;padding: 0px 10px 0px 10px}

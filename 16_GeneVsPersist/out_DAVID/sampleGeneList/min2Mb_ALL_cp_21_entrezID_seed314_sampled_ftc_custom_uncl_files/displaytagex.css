@@ -1,0 +1,286 @@
+a.terms{
+	color: red;
+}
+div.error{
+	color: red;
+	font-family: arial, helvetica, sans-serif;
+	font-weight: bold;
+}
+.dataTable {
+	background-color: white;
+	border: 0px solid #000066;
+	font-size :	8pt;
+	margin:	5px;
+	width: 100%;
+	border-collapse: collapse;
+
+}
+
+.dataTable th {
+	border-right: 1px solid #c8c8ff;
+	padding: 3px;
+	font-family: arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: white;
+	background-color: #336699;
+
+}
+
+.dataTable  td {
+	font-family: verdana, arial, helvetica, sans-serif;
+	padding: 3px;
+}
+.dataTable  td.category {
+		padding: 3px;
+		font-family: arial, helvetica, sans-serif;
+		font-weight: bold;
+		vertical-align: baseline
+	
+	
+}
+
+.dataTable tr.total td {
+	white-space: nowrap;
+	vertical-align: top;
+	font-weight: bold;
+	padding-bottom: 10px;
+}
+
+.dataTable tr.total td.customer {
+	visibility: hidden;
+}
+
+.dataTable td.hidden {
+	display: none;
+}
+
+.dataTable th.hidden {
+	display: none;
+}
+
+.dataTable th.r {
+	text-align: right;
+	padding-right: 10px;
+}
+
+.dataTable th.c {
+	text-align: center;
+}
+
+.dataTable td.r {
+	text-align: right;
+	padding-right: 10px;
+}
+
+.dataTable td.c {
+	text-align: center;
+}
+
+.dataTable  tr.odd {
+	background-color: white;
+}
+
+.dataTable tr.even {
+	background-color: palegoldenrod;
+}
+
+.dataTable th a   ,.dataTable th a:visited {
+	text-align: left;
+	color: white;
+}
+
+.dataTable th a:hover {
+	color: #ffcc00;
+	background-color: transparent;
+}
+
+.dataTable .sortable {
+    background-image: url(../images/arrow_off.png);
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+.dataTable .order1 {
+	background-position: right;
+	background-image: url(../images/arrow_up.png);
+	background-repeat: no-repeat;
+}
+
+.dataTable .order2 {
+	background-position: right;
+	background-image: url(../images/arrow_down.png);
+	background-repeat: no-repeat;
+}
+
+.pagelinks {
+	color: #999999;
+	margin: 5px;
+}
+
+.pagelinks img {
+	vertical-align: middle;
+}
+
+span.export {
+	padding: 0 4px 1px 20px;
+	font-size: x-small;
+	text-align: center;
+}
+
+span.excel {
+	background-image: url(../images/ico_file_excel.png);
+	background-repeat: no-repeat;
+	width: 16px;
+}
+
+span.csv {
+	background-image: url(../images/ico_file_csv.png);
+	background-repeat: no-repeat;
+	width: 16px;
+}
+
+span.xml {
+	background-image: url(../images/ico_file_xml.png);
+	background-repeat: no-repeat;
+	width: 16px;
+}
+
+span.pdf {
+	background-image: url(../images/ico_file_pdf.png);
+	background-repeat: no-repeat;
+	width: 16px;
+}
+
+span.rtf {
+	background-image: url(../images/ico_file_rtf.png);
+	background-repeat: no-repeat;
+	width: 16px;
+}
+
+.dataTable tr.rowMouseOver {
+	background-image: url(../images/selected.gif);
+	background-repeat: repeat-x;
+	background-color: #ffff99;
+}
+
+html,body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 9pt;
+}
+
+.pageHeader {
+	height: 60px;
+	background-image: url(../images/header.gif);
+	background-repeat: repeat-x;
+}
+
+.pageHeaderText {
+	font-size: 30px;
+	margin-left: 5px;
+	color: whitesmoke;
+	font-family: "century gothic", verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+	text-align: left;
+	display:inline;
+	white-space: nowrap;
+}
+
+.leftMenu {
+	white-space: nowrap;
+	height: 100%;
+	background-color: #d6cfe6;
+	font-family: verdana, arial, helvetica, sans-serif;
+}
+
+.content {
+	width: 100%;
+	padding: 10px;
+}
+
+.rightColumn {
+	width: 3px;
+}
+
+.termName {
+	width: 200px;
+	text-align: left;
+}
+
+.customer {
+	width: 20%;
+	text-align: left;
+}
+
+.orderNumber {
+	width: 10%;
+	text-align: left;
+}
+
+.orderDate {
+	text-align: center;
+	width: 10%;
+}
+
+.productName {
+	width: 25%;
+}
+
+.quantity {
+	text-align: center;
+	width: 10%;
+}
+
+.lineItemTotal {
+	text-align: right;
+	width: 15%;
+	padding-right:10px;
+}
+
+.logo {
+	border-top: 1px solid #000066;
+	border-left: 1px solid #000066;
+	border-bottom: 1px solid #000066;
+	display:inline;
+	text-align: right;
+}
+
+.code {
+	font-family: verdana, arial, helvetica, "courier new", monospace;
+	font-size: 9pt;
+}
+
+.borderedInline {
+	display: inline;
+	border: 1px solid black;
+}
+
+a:link {
+	color: #000099;
+	text-decoration: underline;
+	background-color: transparent;
+}
+
+a:visited {
+	color: #000099;
+	text-decoration: underline;
+	background-color: transparent;
+}
+
+a:hover {
+	color: #d68000;
+	background-color: transparent;
+	
+}
+
+img {
+	border: 0px;
+}
+tr.pathway_list_gene{color:red !important; 
+	font-weight: bold;
+	font-style: italic;
+	font-family: verdana, arial, helvetica, "courier new", monospace;
+	font-size: 9pt;
+}

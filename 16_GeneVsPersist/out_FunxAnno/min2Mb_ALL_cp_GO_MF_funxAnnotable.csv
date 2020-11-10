@@ -1,0 +1,50 @@
+GO_MF_terms,_cp_1;all_genes,_cp_1;_cp_HiC_all,_cp_2;_cp_1,_cp_3;_cp_1,_cp_4;_cp_1,_cp_5;_cp_1,_cp_6;_cp_1,_cp_7;_cp_1,_cp_8;_cp_1,_cp_9;_cp_1,_cp_10;_cp_1,_cp_11;_cp_1,_cp_12;_cp_1,_cp_13;_cp_1,_cp_14;_cp_1,_cp_15;_cp_1,_cp_16;_cp_1,_cp_17;_cp_1,_cp_18;_cp_1,_cp_19;_cp_1,_cp_20;_cp_1,_cp_21;_cp_1
+1-phosphatidylinositol binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0450983517168749,NA
+calcium channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0250424275545844,NA
+calcium ion transmembrane transporter activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0370753541172191,NA
+cation channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0012621646604175,0.00648050920062085
+cation:cation antiporter activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.030818914253043
+channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00307571629434082,0.00864105086652571
+extracellular ligand-gated ion channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0247479554186241
+extracellularly glutamate-gated ion channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00667162200557423
+GABA receptor activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0448168531989361,NA
+GABA-gated chloride ion channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0169044239164781,NA
+gated channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00987232738417547,0.000831868194406186
+glutamate receptor activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0370753541172191,0.00159390900562127
+GTPase activator activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0206148237950331
+GTPase regulator activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.049742878217258
+inhibitory extracellular ligand-gated ion channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0325000470055982,0.0208627664096745
+ion channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0025314230386423,0.00294053004477082
+ion channel binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0171107633743538
+ion gated channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00962332537860244,0.000831868194406186
+ionotropic glutamate receptor activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00667162200557423
+ligand-gated anion channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0244364819806547,0.0208627664096745
+ligand-gated channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00159390900562127
+ligand-gated ion channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00159390900562127
+MAP kinase kinase kinase activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0423642841713296,0.00290888077986574,0.00159390900562127
+metal ion transmembrane transporter activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0012621646604175,0.00475847612467824
+mitogen-activated protein kinase kinase binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0157052574459748
+monovalent inorganic cation transmembrane transporter activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0157651425416946
+odorant binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0113301491738965,NA,NA,NA,NA,NA
+passive transmembrane transporter activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00290888077986574,0.00789701957308219
+phospholipid binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00842099614610877
+phospholipid transporter activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0496058663461572,NA
+phospholipid-translocating ATPase activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.039734673112188,NA
+phosphoric diester hydrolase activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0323533950495733
+potassium channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0175674140664402,0.00842099614610877
+potassium ion transmembrane transporter activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0143818322486961,0.0098427043115411
+protein heterodimerization activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0379074491335489,NA,NA,NA,NA
+protein serine/threonine kinase activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00928891660249187,0.00647833022607781,0.0265506489217627,NA
+signal transducer  downstream of receptor  with serine/threonine kinase activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00720626854829607,0.00406970962830702
+signal transducer activity  downstream of receptor,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0118678207936424,0.0247479554186241
+substrate-specific channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0025314230386423,0.00384601690387805
+transcription factor activity  RNA polymerase II proximal promoter sequence-specific DNA binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0370753541172191,NA
+transcriptional activator activity  RNA polymerase II proximal promoter sequence-specific DNA binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0450983517168749,NA
+transcriptional activator activity  RNA polymerase II transcription regulatory region sequence-specific DNA binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0488733795096358,NA
+transmembrane receptor protein kinase activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0423642841713296,0.0244364819806547,0.000831868194406186
+transmembrane receptor protein tyrosine kinase activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.00159390900562127
+transmitter-gated channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0370753541172191,0.00789701957308219
+transmitter-gated ion channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0370753541172191,0.00789701957308219
+voltage-gated cation channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0169044239164781,NA
+voltage-gated potassium channel activity,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0450983517168749,0.00789701957308219
+Wnt-protein binding,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.0370753541172191,NA

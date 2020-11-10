@@ -1,0 +1,103 @@
+GO_BP_terms,_AG_count_1;all_genes,_AG_count_1;_AG_count_HiC_all,_AG_count_2;_AG_count_1,_AG_count_3;_AG_count_1,_AG_count_4;_AG_count_1,_AG_count_5;_AG_count_1,_AG_count_grthan5;_AG_count_1
+action potential,NA,NA,NA,NA,NA,0.024626563813876,NA
+adherens junction organization,NA,NA,NA,NA,NA,0.0471441060613158,NA
+axon development,NA,NA,NA,NA,0.0411041214918157,0.00437548774157596,0.0274531693210538
+axon guidance,NA,NA,NA,NA,0.0146752827175269,0.00232160850958399,0.00136477732553092
+axonogenesis,NA,NA,NA,NA,0.0146752827175269,0.00507862705063826,0.016411767803127
+calcium ion transmembrane transport,NA,NA,NA,NA,NA,0.0277852296956468,NA
+camera-type eye development,NA,NA,NA,0.00949863396603091,NA,0.0262885683341759,NA
+cardiac muscle cell action potential,NA,NA,NA,NA,NA,0.0458484640145455,NA
+cardiac muscle cell contraction,NA,NA,NA,NA,NA,NA,0.0287533472705844
+cell communication involved in cardiac conduction,NA,NA,NA,NA,NA,NA,0.0220826061398218
+cell proliferation involved in heart morphogenesis,NA,NA,NA,NA,0.0482250731475801,NA,NA
+cell-cell adhesion mediated by cadherin,NA,NA,NA,NA,NA,0.00303283571880315,NA
+cell-cell adhesion via plasma-membrane adhesion molecules,NA,NA,NA,NA,0.0146752827175269,NA,0.0287533472705844
+cellular glucuronidation,NA,NA,NA,NA,NA,0.00648476195044574,NA
+cellular potassium ion transport,NA,NA,NA,NA,NA,0.0150708865859076,NA
+cerebral cortex development,NA,NA,NA,NA,NA,0.00648476195044574,NA
+chemical synaptic transmission  postsynaptic,NA,NA,NA,NA,NA,0.011516614430302,NA
+cyclic-nucleotide-mediated signaling,NA,NA,NA,NA,NA,NA,0.0287533472705844
+dendrite development,NA,NA,NA,0.0323851140849048,NA,1.53482351052983e-05,0.016411767803127
+dendrite morphogenesis,NA,NA,NA,NA,NA,0.00469028407489203,NA
+dendritic spine development,NA,NA,NA,NA,NA,0.00648476195044574,NA
+developmental pigmentation,NA,NA,NA,NA,NA,NA,0.00477889171195315
+extracellular matrix organization,NA,NA,NA,NA,NA,0.0456302275993712,NA
+eye development,NA,NA,NA,0.00994482318554729,NA,0.0127084883131085,NA
+flavonoid metabolic process,NA,NA,NA,NA,NA,0.00868077648112364,NA
+forebrain development,NA,NA,NA,0.0438559979500727,0.0397368032132019,0.00125066082859365,0.0287533472705844
+gamma-aminobutyric acid signaling pathway,NA,NA,NA,NA,0.0155513552658353,NA,NA
+glutamate receptor signaling pathway,NA,NA,NA,NA,NA,0.00114509725987397,0.00877487577044584
+heart morphogenesis,NA,NA,NA,0.0352140850088625,NA,NA,NA
+homophilic cell adhesion via plasma membrane adhesion molecules,NA,NA,NA,NA,0.0051574159285699,NA,NA
+ionotropic glutamate receptor signaling pathway,NA,NA,NA,NA,NA,0.0199385792340512,NA
+kidney development,NA,NA,NA,0.000901501033515976,NA,0.0132527423152552,NA
+kidney epithelium development,NA,NA,NA,0.00611033753815794,NA,NA,NA
+melanocyte differentiation,NA,NA,NA,NA,NA,0.0304155855974278,0.00118604832387722
+modulation of chemical synaptic transmission,NA,NA,NA,NA,NA,NA,0.0220826061398218
+monovalent inorganic cation transport,NA,NA,NA,NA,0.0482250731475801,0.0289536719960316,NA
+multicellular organismal signaling,NA,NA,NA,NA,NA,NA,0.016411767803127
+muscle organ development,NA,NA,NA,0.0218258443020737,NA,NA,NA
+muscle tissue development,NA,NA,NA,0.00611033753815794,NA,NA,NA
+negative chemotaxis,NA,NA,NA,NA,NA,NA,0.0332037980297229
+nephron development,NA,NA,NA,0.0191312299602368,NA,NA,NA
+nephron epithelium development,NA,NA,NA,0.0230350510914074,NA,NA,NA
+neuron cell-cell adhesion,NA,NA,NA,NA,NA,NA,0.0177229719168234
+neuron migration,NA,NA,NA,NA,0.0146752827175269,0.00303283571880315,0.00118604832387722
+neuron projection guidance,NA,NA,NA,NA,0.0146752827175269,0.00303283571880315,0.00136477732553092
+neuron recognition,NA,NA,NA,NA,NA,NA,0.0177830345307409
+ovulation cycle,NA,NA,NA,NA,NA,0.024626563813876,NA
+pallium development,NA,NA,NA,NA,NA,0.00791514709296041,NA
+pattern specification process,NA,NA,NA,0.000140423487541646,NA,NA,NA
+phosphatidylinositol dephosphorylation,NA,NA,NA,NA,NA,0.0496287691180621,NA
+pigment cell differentiation,NA,NA,NA,NA,NA,NA,0.00660689018465526
+positive regulation of cell development,NA,NA,NA,NA,NA,0.00316233038327481,NA
+positive regulation of cell projection organization,NA,NA,NA,NA,0.0449404815809478,0.0262885683341759,NA
+positive regulation of dendrite development,NA,NA,NA,NA,NA,0.024626563813876,NA
+positive regulation of GTPase activity,NA,NA,NA,NA,NA,0.0264164395046719,NA
+positive regulation of nervous system development,NA,NA,NA,NA,0.0411041214918157,0.000359861525137305,NA
+positive regulation of neurogenesis,NA,NA,NA,NA,0.047271816332008,0.00219173115555493,NA
+positive regulation of neuron differentiation,NA,NA,NA,NA,0.0146752827175269,0.00446149180860218,NA
+positive regulation of neuron projection development,NA,NA,NA,NA,0.0411041214918157,0.00829420395273384,NA
+positive regulation of synapse assembly,NA,NA,NA,NA,NA,0.00655219466409148,NA
+potassium ion transmembrane transport,NA,NA,NA,NA,NA,0.0150708865859076,NA
+potassium ion transport,NA,NA,NA,NA,NA,0.00652891887248959,NA
+regionalization,NA,NA,NA,0.000488938089773752,NA,NA,NA
+regulation of B cell receptor signaling pathway,NA,NA,NA,NA,0.0471890176417983,NA,NA
+regulation of blood circulation,NA,NA,NA,NA,NA,NA,0.0320757216378816
+regulation of cation transmembrane transport,NA,NA,NA,NA,NA,0.0152070372516442,NA
+regulation of dendrite development,NA,NA,NA,NA,NA,0.00232160850958399,NA
+regulation of dendritic spine development,NA,NA,NA,NA,NA,0.024626563813876,NA
+regulation of GTPase activity,NA,NA,NA,NA,NA,0.0339365427947288,NA
+regulation of high voltage-gated calcium channel activity,NA,NA,NA,NA,NA,NA,0.016411767803127
+regulation of ion transmembrane transport,NA,NA,NA,NA,NA,0.00213319431100337,0.0458463927207474
+regulation of ion transmembrane transporter activity,NA,NA,NA,NA,NA,0.0304155855974278,NA
+regulation of membrane potential,NA,NA,NA,NA,NA,0.000204612227186425,NA
+regulation of neuron projection development,NA,NA,NA,NA,NA,0.00307119732587282,NA
+regulation of postsynaptic membrane potential,NA,NA,NA,NA,NA,0.00307119732587282,NA
+regulation of small GTPase mediated signal transduction,NA,NA,NA,NA,NA,NA,0.0177229719168234
+regulation of synapse assembly,NA,NA,NA,NA,0.047271816332008,0.00213319431100337,NA
+regulation of synapse organization,NA,NA,NA,NA,NA,0.00446149180860218,0.0320757216378816
+regulation of synapse structure or activity,NA,NA,NA,NA,NA,0.00326729029674023,0.0287533472705844
+regulation of synaptic transmission  glutamatergic,NA,NA,NA,NA,NA,NA,0.0188014038342551
+regulation of trans-synaptic signaling,NA,NA,NA,NA,NA,NA,0.0220826061398218
+regulation of transmembrane transporter activity,NA,NA,NA,NA,NA,0.0415367465016259,NA
+renal system development,NA,NA,NA,0.00161325107508463,NA,0.00341832877928063,NA
+renal tubule development,NA,NA,NA,0.0487912511581133,NA,NA,NA
+retina development in camera-type eye,NA,NA,NA,NA,NA,0.0239232267357608,NA
+retina layer formation,NA,NA,NA,NA,0.0397368032132019,0.0304155855974278,NA
+retina morphogenesis in camera-type eye,NA,NA,NA,NA,0.0394077527537965,0.0304155855974278,NA
+retinal ganglion cell axon guidance,NA,NA,NA,NA,NA,0.0120322431770282,NA
+second-messenger-mediated signaling,NA,NA,NA,NA,NA,0.0456302275993712,NA
+sensory perception of mechanical stimulus,NA,NA,NA,NA,NA,0.00430737690563826,NA
+sensory perception of sound,NA,NA,NA,NA,NA,0.024626563813876,NA
+sialylation,NA,NA,NA,NA,NA,NA,0.0287533472705844
+sodium ion transmembrane transport,NA,NA,NA,NA,NA,0.0150708865859076,NA
+sodium ion transport,NA,NA,NA,NA,NA,0.0132527423152552,NA
+stem cell proliferation,NA,NA,NA,0.0195848886959976,NA,NA,NA
+striated muscle tissue development,NA,NA,NA,0.00759387840704548,NA,NA,NA
+synapse assembly,NA,NA,NA,NA,NA,0.00114509725987397,NA
+synapse organization,NA,NA,NA,NA,NA,0.000359861525137305,0.0220826061398218
+synaptic transmission  glutamatergic,NA,NA,NA,NA,NA,0.00493329200191404,0.00660689018465526
+telencephalon development,NA,NA,NA,NA,NA,0.00307119732587282,NA
+urogenital system development,NA,NA,NA,0.000901501033515976,NA,0.00193318900779858,NA
+xenobiotic glucuronidation,NA,NA,NA,NA,NA,0.00213319431100337,NA

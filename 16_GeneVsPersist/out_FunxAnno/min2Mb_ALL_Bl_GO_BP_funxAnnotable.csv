@@ -1,0 +1,97 @@
+GO_BP_terms,_Bl_count_1;all_genes,_Bl_count_1;_Bl_count_HiC_all,_Bl_count_2;_Bl_count_1,_Bl_count_3;_Bl_count_1,_Bl_count_4;_Bl_count_1,_Bl_count_5;_Bl_count_1,_Bl_count_grthan5;_Bl_count_1
+action potential,NA,NA,NA,NA,NA,0.0411379146678918,0.00816741271623448
+adherens junction organization,NA,NA,NA,NA,NA,0.0411379146678918,NA
+axon development,NA,NA,NA,NA,NA,0.0110082430150703,0.0234818626072268
+axon guidance,NA,NA,NA,NA,NA,0.0143709573878994,0.00145759285648172
+axonogenesis,NA,NA,NA,NA,NA,0.00962316041394196,0.00786746669712491
+bundle of His cell to Purkinje myocyte communication,NA,NA,NA,NA,NA,NA,0.0372630275064374
+camera-type eye development,NA,NA,NA,NA,NA,0.04986587252427,NA
+cardiac chamber development,NA,NA,NA,NA,NA,0.0137623677539285,NA
+cardiac chamber morphogenesis,NA,NA,NA,NA,NA,0.04986587252427,NA
+cardiac muscle cell action potential,NA,NA,NA,NA,NA,NA,0.00276286454749086
+cardiac muscle cell action potential involved in contraction,NA,NA,NA,NA,NA,NA,0.0437557680738796
+cardiac muscle cell contraction,NA,NA,NA,NA,NA,NA,0.0382022775182852
+cardiac septum development,NA,NA,NA,NA,NA,0.0148159749967208,NA
+cardiac septum morphogenesis,NA,NA,NA,NA,NA,0.0419983967059461,NA
+cardiac ventricle development,NA,NA,NA,NA,NA,0.0432135916109341,NA
+cell communication involved in cardiac conduction,NA,NA,NA,NA,NA,NA,0.0139252935777924
+cell-cell adhesion via plasma-membrane adhesion molecules,NA,NA,NA,NA,NA,0.000358769221602722,0.00480356248465791
+cell-cell junction assembly,NA,NA,NA,NA,NA,NA,0.0144276617460335
+cell-cell junction organization,NA,NA,NA,NA,NA,0.0411379146678918,NA
+cell-cell signaling by wnt,NA,NA,NA,NA,NA,0.0273763939452241,NA
+cell-substrate adhesion,NA,NA,NA,NA,NA,0.0379604190318766,NA
+chemical synaptic transmission  postsynaptic,NA,NA,NA,NA,NA,NA,0.0156461719995541
+dendrite development,NA,NA,NA,NA,NA,0.00962316041394196,0.0177608412751488
+dendrite extension,NA,NA,NA,NA,NA,0.0287335826285557,NA
+dendrite morphogenesis,NA,NA,NA,NA,NA,0.0189073889586732,NA
+dephosphorylation,NA,NA,NA,NA,NA,0.00962316041394196,NA
+developmental growth involved in morphogenesis,NA,NA,NA,NA,NA,0.022077750460537,0.0194914293894271
+embryonic organ morphogenesis,NA,NA,NA,0.0144122481786247,NA,NA,NA
+eye development,NA,NA,NA,NA,NA,0.0419983967059461,NA
+forebrain development,NA,NA,NA,0.000809200302788714,NA,0.00882873224525504,NA
+gamma-aminobutyric acid signaling pathway,NA,NA,NA,NA,NA,0.022077750460537,0.00117021913869829
+glutamate receptor signaling pathway,NA,NA,NA,NA,NA,0.010108697015125,0.0134368344076406
+heart trabecula morphogenesis,NA,NA,NA,NA,NA,0.0218045586675865,NA
+heterophilic cell-cell adhesion via plasma membrane cell adhesion molecules,NA,NA,NA,NA,NA,0.0327609289503614,NA
+homophilic cell adhesion via plasma membrane adhesion molecules,NA,NA,NA,NA,0.00027676029699187,0.000358769221602722,NA
+ionotropic glutamate receptor signaling pathway,NA,NA,NA,NA,NA,NA,0.00516555167791492
+kidney development,NA,NA,NA,NA,NA,0.00882873224525504,NA
+lipid translocation,NA,NA,NA,NA,NA,0.022077750460537,NA
+monovalent inorganic cation transport,NA,NA,NA,NA,NA,NA,0.00786746669712491
+multicellular organismal signaling,NA,NA,NA,NA,NA,0.0454198228623534,NA
+muscle tissue development,NA,NA,NA,NA,NA,0.0375679795373732,NA
+negative chemotaxis,NA,NA,NA,NA,NA,NA,0.00792051515305783
+negative regulation of stem cell differentiation,NA,NA,NA,NA,NA,0.04986587252427,NA
+neuron migration,NA,NA,NA,NA,NA,NA,0.0372630275064374
+neuron projection guidance,NA,NA,NA,NA,NA,0.0137623677539285,0.00127584869164045
+peptidyl-serine modification,NA,NA,NA,NA,NA,0.0102735198931019,NA
+phospholipid translocation,NA,NA,NA,NA,NA,0.0376365530579733,NA
+positive regulation of cell development,NA,NA,NA,NA,NA,0.0109199424456664,0.00637317395692665
+positive regulation of cell projection organization,NA,NA,NA,NA,NA,0.0148159749967208,0.0253164182368472
+positive regulation of interleukin-10 production,NA,NA,NA,NA,NA,0.0419983967059461,NA
+positive regulation of nervous system development,NA,NA,NA,NA,NA,0.00882873224525504,0.00151173009983264
+positive regulation of neurogenesis,NA,NA,NA,NA,NA,0.00882873224525504,0.00276286454749086
+positive regulation of neuron differentiation,NA,NA,NA,NA,NA,0.0105256337935883,0.00307421831856888
+positive regulation of neuron projection development,NA,NA,NA,NA,NA,0.00882873224525504,0.00666486280695798
+positive regulation of synapse assembly,NA,NA,NA,NA,NA,NA,0.00398382779327206
+reflex,NA,NA,NA,NA,NA,0.0283455004203919,NA
+regulation of action potential,NA,NA,NA,NA,NA,NA,0.00486135673592439
+regulation of canonical Wnt signaling pathway,NA,NA,NA,NA,NA,0.022077750460537,NA
+regulation of cardiac muscle cell action potential,NA,NA,NA,NA,NA,NA,0.0227570386837796
+regulation of cell morphogenesis,NA,NA,NA,NA,NA,0.00882873224525504,NA
+regulation of cell-substrate adhesion,NA,NA,NA,NA,NA,0.0382497638482852,NA
+regulation of GTPase activity,NA,NA,NA,NA,NA,NA,0.00534646653066185
+regulation of ion transmembrane transport,NA,NA,NA,NA,NA,NA,0.0344197165732812
+regulation of MAP kinase activity,NA,NA,NA,NA,NA,0.0419983967059461,NA
+regulation of membrane depolarization,NA,NA,NA,NA,NA,NA,0.0229732150263869
+regulation of membrane lipid distribution,NA,NA,NA,NA,NA,0.022077750460537,NA
+regulation of membrane potential,NA,NA,NA,NA,NA,0.00175671136314763,0.000169318429748329
+regulation of neuron projection development,NA,NA,NA,NA,NA,0.00175671136314763,0.00362766463822938
+regulation of postsynaptic membrane potential,NA,NA,NA,NA,NA,0.0375679795373732,0.00222345646325256
+regulation of protein secretion,NA,NA,NA,NA,NA,0.0398811787118131,NA
+regulation of synapse assembly,NA,NA,NA,NA,NA,0.0121131341498277,0.00205808375013048
+regulation of synapse organization,NA,NA,NA,NA,NA,0.022077750460537,0.0225159274669827
+regulation of synapse structure or activity,NA,NA,NA,NA,NA,0.0218045586675865,0.0194914293894271
+regulation of synaptic transmission  glutamatergic,NA,NA,NA,NA,NA,NA,0.0372630275064374
+regulation of Wnt signaling pathway,NA,NA,NA,NA,NA,0.00962316041394196,NA
+regulation of wound healing,NA,NA,NA,NA,NA,0.04986587252427,NA
+renal system development,NA,NA,NA,0.0451590302577494,NA,0.00882873224525504,NA
+response to exogenous dsRNA,NA,NA,NA,NA,NA,0.022077750460537,NA
+response to follicle-stimulating hormone,NA,NA,NA,NA,NA,0.022077750460537,NA
+retinal ganglion cell axon guidance,NA,NA,NA,NA,NA,0.0186409770527365,0.0139252935777924
+sensory perception of mechanical stimulus,NA,NA,NA,NA,NA,0.0111863011452116,0.0139252935777924
+sensory perception of sound,NA,NA,NA,NA,NA,0.00983055328780413,0.0420362301563958
+signal release,NA,NA,NA,NA,NA,0.0327609289503614,NA
+sodium ion transmembrane transport,NA,NA,NA,NA,NA,NA,0.0139252935777924
+sodium ion transport,NA,NA,NA,NA,NA,NA,0.00307421831856888
+synapse assembly,NA,NA,NA,NA,NA,0.0382497638482852,0.00205808375013048
+synapse organization,NA,NA,NA,NA,NA,0.0401979485116404,0.00205808375013048
+synaptic transmission  glutamatergic,NA,NA,NA,NA,NA,0.0108008611128438,0.00117021913869829
+trabecula formation,NA,NA,NA,NA,NA,0.0148159749967208,NA
+trabecula morphogenesis,NA,NA,NA,NA,NA,0.00962316041394196,NA
+transmission of nerve impulse,NA,NA,NA,NA,NA,0.0419983967059461,NA
+urogenital system development,NA,NA,NA,0.0451590302577494,NA,0.00461807962580735,NA
+vasoconstriction,NA,NA,NA,NA,NA,NA,0.0363986166940656
+ventricular septum development,NA,NA,NA,NA,NA,0.0111863011452116,NA
+ventricular septum morphogenesis,NA,NA,NA,NA,NA,0.022077750460537,NA
+Wnt signaling pathway,NA,NA,NA,NA,NA,0.0283455004203919,NA

@@ -1,0 +1,60 @@
+GO_MF_terms,_SB_count_1;all_genes,_SB_count_1;_SB_count_HiC_all,_SB_count_2;_SB_count_1,_SB_count_3;_SB_count_1,_SB_count_4;_SB_count_1,_SB_count_5;_SB_count_1,_SB_count_grthan5;_SB_count_1
+actinin binding,NA,NA,NA,NA,NA,0.0391610967094738,NA
+calcium channel activity,NA,NA,NA,NA,NA,0.000810812332135117,0.0152586510077118
+calcium ion transmembrane transporter activity,NA,NA,NA,NA,NA,0.000916326318897682,0.0253837656978562
+cation channel activity,NA,NA,NA,NA,0.000291306403895623,3.26332666004387e-06,0.0012703349716485
+cell adhesion molecule binding,NA,NA,NA,NA,NA,0.0197699110551093,0.0367412642280583
+channel activity,NA,NA,NA,NA,0.000641125069710232,7.06921952813719e-06,8.93494797239952e-05
+chemorepellent activity,NA,NA,NA,NA,NA,NA,0.0113489835672936
+collagen binding,NA,NA,NA,NA,NA,0.0202713599612291,NA
+extracellular ligand-gated ion channel activity,NA,NA,NA,NA,NA,0.000873624455484926,0.00738925114917933
+extracellularly glutamate-gated ion channel activity,NA,NA,NA,NA,NA,0.000202979930140637,0.0009474132205656
+GABA receptor activity,NA,NA,NA,NA,0.0347859021798915,NA,NA
+GABA-A receptor activity,NA,NA,NA,NA,NA,0.0206880128212561,0.0386758823791288
+GABA-gated chloride ion channel activity,NA,NA,NA,NA,0.0255886383208092,NA,0.0438902175492517
+gated channel activity,NA,NA,NA,NA,0.000179606735418495,1.50096885562988e-06,2.03752802722848e-05
+glutamate receptor activity,NA,NA,NA,NA,NA,1.2450221241075e-06,1.15259545120312e-05
+GTPase regulator activity,NA,NA,NA,NA,NA,0.0400607115658312,NA
+high voltage-gated calcium channel activity,NA,NA,NA,NA,NA,0.0197699110551093,NA
+inhibitory extracellular ligand-gated ion channel activity,NA,NA,NA,NA,0.0122057088643168,NA,NA
+ion channel activity,NA,NA,NA,NA,0.000179606735418495,1.2450221241075e-06,2.86724342470301e-05
+ion channel binding,NA,NA,NA,NA,NA,0.0447939238585394,NA
+ion gated channel activity,NA,NA,NA,NA,0.000179606735418495,1.50096885562988e-06,2.86724342470301e-05
+ionotropic glutamate receptor activity,NA,NA,NA,NA,NA,2.08565977776403e-05,0.0009474132205656
+ligand-gated anion channel activity,NA,NA,NA,NA,0.0107976390189761,NA,NA
+ligand-gated channel activity,NA,NA,NA,NA,0.0347859021798915,0.000687088572501601,0.0009474132205656
+ligand-gated ion channel activity,NA,NA,NA,NA,0.0347859021798915,0.000687088572501601,0.0009474132205656
+MAP kinase kinase kinase activity,NA,NA,NA,NA,0.0403649152175365,0.00820908970316655,NA
+metal ion transmembrane transporter activity,NA,NA,NA,NA,0.000179606735418495,0.00215015514625166,0.0367412642280583
+metalloendopeptidase activity,NA,NA,NA,NA,NA,0.0377797968435238,NA
+metallopeptidase activity,NA,NA,NA,NA,NA,0.0188557271341005,NA
+mitogen-activated protein kinase kinase binding,NA,NA,NA,NA,NA,0.0377797968435238,NA
+monovalent inorganic cation transmembrane transporter activity,NA,NA,NA,NA,0.0272564771700063,NA,NA
+neurotransmitter receptor activity,NA,NA,NA,NA,NA,0.0115183935979853,0.00302615490362813
+neurotransmitter receptor activity involved in regulation of postsynaptic membrane potential,NA,NA,NA,NA,NA,0.0197699110551093,0.0113489835672936
+odorant binding,NA,NA,NA,NA,NA,0.019842038329448,NA
+passive transmembrane transporter activity,NA,NA,NA,NA,0.000562293638074155,4.75824672958305e-06,8.93494797239952e-05
+peptide hormone binding,NA,NA,NA,NA,NA,0.0197699110551093,NA
+polypeptide N-acetylgalactosaminyltransferase activity,NA,NA,NA,NA,NA,NA,0.0386758823791288
+postsynaptic neurotransmitter receptor activity,NA,NA,NA,NA,NA,0.00435074327826707,0.00338665184618944
+potassium channel activity,NA,NA,NA,NA,0.000670835907637732,0.0318848576331991,NA
+potassium ion transmembrane transporter activity,NA,NA,NA,NA,0.000491391453949185,0.0477036370599569,NA
+protein serine/threonine kinase activity,NA,NA,NA,NA,0.000475641770714785,0.000985538359949624,0.0358189604913247
+protein tyrosine kinase activator activity,NA,NA,NA,NA,NA,NA,0.0210906852498072
+Rho GTPase binding,NA,NA,NA,NA,NA,0.0155390474627781,NA
+sialyltransferase activity,NA,NA,NA,NA,NA,0.0431817796583999,NA
+signal transducer  downstream of receptor  with serine/threonine kinase activity,NA,NA,NA,NA,0.00720795295455264,0.0171452612549674,NA
+signal transducer activity  downstream of receptor,NA,NA,NA,NA,0.0152345853710322,0.00528897659564294,NA
+substrate-specific channel activity,NA,NA,NA,NA,0.000179606735418495,1.50096885562988e-06,5.54586571332443e-05
+transmembrane receptor protein kinase activity,NA,NA,NA,NA,0.00785952987114599,0.0144723765948133,0.0358189604913247
+transmembrane receptor protein phosphatase activity,NA,NA,NA,NA,NA,NA,0.000337301094526974
+transmembrane receptor protein tyrosine kinase activity,NA,NA,NA,NA,NA,0.00740602421656318,NA
+transmembrane receptor protein tyrosine phosphatase activity,NA,NA,NA,NA,NA,NA,0.000337301094526974
+transmitter-gated channel activity,NA,NA,NA,NA,NA,0.000202979930140637,0.00282262925136135
+transmitter-gated ion channel activity,NA,NA,NA,NA,NA,0.000202979930140637,0.00282262925136135
+transmitter-gated ion channel activity involved in regulation of postsynaptic membrane potential,NA,NA,NA,NA,NA,0.0197699110551093,0.0113489835672936
+voltage-gated calcium channel activity,NA,NA,NA,NA,NA,0.0465505249351519,NA
+voltage-gated cation channel activity,NA,NA,NA,NA,0.00426812013130625,0.000301740222057646,NA
+voltage-gated channel activity,NA,NA,NA,NA,0.00720795295455264,0.00435074327826707,0.0479545878290869
+voltage-gated ion channel activity,NA,NA,NA,NA,0.00720795295455264,0.00435074327826707,0.0479545878290869
+voltage-gated potassium channel activity,NA,NA,NA,NA,0.00502887505778924,NA,NA

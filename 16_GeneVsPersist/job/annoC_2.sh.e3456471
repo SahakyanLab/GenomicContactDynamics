@@ -1,0 +1,4 @@
+Loading required package: iterators
+Loading required package: parallel
+Error: unexpected ')' in "t=ls())"
+Execution halted

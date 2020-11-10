@@ -1,0 +1,27 @@
+body.template{ background-color:F9F9F9;} 
+body{ background-color:F9F9F9;} 
+
+p { color: blue; } 
+h3{ color: white; } 
+table.main{background-color:F9F9F9;}
+table.sidebar_bg{ background-color:#336699;} 
+table.main{border-style: none; } 
+table.main{width:100%; }
+table.main_html{background-color:F9F9F9;}
+table.main_html{border-style: none } 
+table.main_html{width: 100%; }
+tr.header{vertical-align: top; }
+td.sidebar{float: left; width: 200px}
+td.sidebar3{float: left; visibility: hidden;width: 1px;}
+a.main_link{text-decoration:none; color: white;}
+td.sidebar_header{font-family: Verdana; font-size: 16; color: white; font-weight: bold;}
+td.sidebar_subheader{font-family: Verdana; font-size: 12; color: white; font-weight: bold;}
+td.sidebar_text{font-family: Verdana; font-size: 10; color: white; font-weight: bold;}
+a.sidebar_subheader{text-decoration:none;font-family: Verdana; font-size: 12; color: black; font-weight: bold;}
+
+
+
+ 
+
+
+

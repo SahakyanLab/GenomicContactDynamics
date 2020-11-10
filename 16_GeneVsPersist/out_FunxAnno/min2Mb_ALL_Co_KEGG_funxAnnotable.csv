@@ -1,0 +1,14 @@
+KEGG_terms,_Co_count_1;all_genes,_Co_count_1;_Co_count_HiC_all,_Co_count_2;_Co_count_1,_Co_count_3;_Co_count_1,_Co_count_4;_Co_count_1,_Co_count_5;_Co_count_1,_Co_count_grthan5;_Co_count_1
+Arrhythmogenic right ventricular cardiomyopathy (ARVC),NA,NA,NA,NA,NA,NA,0.0246508600216998
+Axon guidance,NA,NA,NA,NA,NA,0.0280592474725589,0.0216717910251715
+Calcium signaling pathway,NA,NA,NA,NA,NA,0.0443785458401807,NA
+Cell cycle,NA,NA,NA,NA,NA,0.0280592474725589,NA
+Dopaminergic synapse,NA,NA,NA,NA,NA,0.034840435261294,0.0246508600216998
+ECM-receptor interaction,NA,NA,NA,NA,NA,NA,0.0246508600216998
+Focal adhesion,NA,NA,NA,NA,NA,0.0280592474725589,NA
+Glutamatergic synapse,NA,NA,NA,NA,NA,0.0280592474725589,0.0134833945557317
+Long-term depression,NA,NA,NA,NA,NA,0.0443785458401807,0.0122164186070383
+Morphine addiction,NA,NA,NA,NA,NA,0.0280592474725589,NA
+Nicotine addiction,NA,NA,NA,NA,NA,NA,0.0122164186070383
+PI3K-Akt signaling pathway,NA,NA,NA,NA,NA,0.0280592474725589,NA
+Spinocerebellar ataxia,NA,NA,NA,NA,NA,NA,0.00128037779631882

@@ -1,0 +1,61 @@
+GO_BP_terms,_PM_count_1;all_genes,_PM_count_1;_PM_count_HiC_all,_PM_count_2;_PM_count_1,_PM_count_3;_PM_count_1,_PM_count_4;_PM_count_1,_PM_count_5;_PM_count_1,_PM_count_grthan5;_PM_count_1
+adherens junction organization,NA,NA,NA,NA,0.00605272312244297,NA,NA
+axon development,NA,NA,NA,NA,NA,5.78352005937421e-05,NA
+axon guidance,NA,NA,NA,NA,0.025469410194059,0.000191436413435743,0.010570949125032
+axonogenesis,NA,NA,NA,NA,NA,5.78352005937421e-05,0.0432256167200872
+cardiac muscle cell contraction,NA,NA,NA,NA,0.0418014732419582,NA,NA
+cell junction organization,NA,NA,NA,NA,0.0418014732419582,NA,NA
+cell-cell adhesion via plasma-membrane adhesion molecules,NA,NA,NA,NA,0.00605272312244297,1.63198324439178e-08,NA
+cell-cell junction organization,NA,NA,NA,NA,0.0121994660867394,NA,NA
+cell-substrate adhesion,NA,NA,NA,NA,0.0376038693761941,NA,NA
+cellular response to cAMP,NA,NA,NA,NA,0.0428094515303611,NA,NA
+chemical synaptic transmission  postsynaptic,NA,NA,NA,NA,NA,0.0256506156185146,0.048035584939165
+chloride transport,NA,NA,NA,NA,NA,0.0346737360662152,NA
+chondrocyte differentiation,NA,NA,NA,NA,0.0243411813340303,NA,NA
+dendrite development,NA,NA,NA,NA,0.0060640301681334,0.000263359671797833,NA
+dendrite extension,NA,NA,NA,NA,NA,0.0475820162562729,NA
+dendrite morphogenesis,NA,NA,NA,NA,NA,0.00910687787712704,NA
+dephosphorylation,NA,NA,NA,0.00776025509585949,0.0280236956825459,NA,NA
+determination of dorsal/ventral asymmetry,NA,NA,NA,NA,NA,0.0256506156185146,NA
+developmental growth involved in morphogenesis,NA,NA,NA,NA,NA,0.032443867634975,NA
+developmental pigmentation,NA,NA,NA,NA,NA,0.0336898864965351,NA
+establishment of synaptic vesicle localization,NA,NA,NA,NA,NA,0.0475820162562729,NA
+excitatory postsynaptic potential,NA,NA,NA,NA,NA,0.0388341496614386,NA
+forebrain development,NA,NA,NA,NA,NA,0.0167958338272813,0.0434358610275708
+glutamate receptor signaling pathway,NA,NA,NA,NA,NA,0.00667679052149481,NA
+heterophilic cell-cell adhesion via plasma membrane cell adhesion molecules,NA,NA,NA,NA,NA,0.0445648315581764,NA
+homophilic cell adhesion via plasma membrane adhesion molecules,NA,NA,NA,NA,0.0060640301681334,4.1308921662271e-08,NA
+ionotropic glutamate receptor signaling pathway,NA,NA,NA,NA,NA,0.0222438726052647,0.0454117045554186
+kidney development,NA,NA,NA,NA,0.00605272312244297,NA,NA
+modulation of chemical synaptic transmission,NA,NA,NA,NA,NA,0.013811324222892,NA
+negative chemotaxis,NA,NA,NA,NA,NA,0.0222438726052647,NA
+neuron cell-cell adhesion,NA,NA,NA,NA,NA,0.039420674822227,NA
+neuron migration,NA,NA,NA,NA,0.00605272312244297,NA,NA
+neuron projection extension,NA,NA,NA,NA,NA,0.0137526578658106,NA
+neuron projection guidance,NA,NA,NA,NA,0.0243411813340303,0.000213688773660685,0.010570949125032
+neuron recognition,NA,NA,NA,NA,NA,0.0259828523280307,NA
+pigmentation,NA,NA,NA,NA,NA,0.0392560377714655,NA
+positive regulation of cell projection organization,NA,NA,NA,NA,NA,NA,0.0196053920286564
+positive regulation of cell-substrate adhesion,NA,NA,NA,NA,0.00686024955793576,NA,NA
+positive regulation of nervous system development,NA,NA,NA,NA,NA,0.0150624733869582,0.0454117045554186
+positive regulation of neurogenesis,NA,NA,NA,NA,NA,0.042124145733449,NA
+positive regulation of neuron projection development,NA,NA,NA,NA,NA,NA,0.0282991033987484
+regulation of cell morphogenesis,NA,NA,NA,NA,0.025469410194059,0.0389260350281378,NA
+regulation of cell morphogenesis involved in differentiation,NA,NA,NA,NA,NA,0.0222438726052647,NA
+regulation of cell-substrate adhesion,NA,NA,NA,NA,0.0175420608301198,NA,NA
+regulation of heart rate,NA,NA,NA,NA,0.0469540234319141,NA,NA
+regulation of membrane potential,NA,NA,NA,NA,0.0060640301681334,0.013811324222892,NA
+regulation of neuron projection development,NA,NA,NA,NA,0.0060640301681334,0.00068689463356167,0.010570949125032
+regulation of postsynaptic membrane potential,NA,NA,NA,NA,NA,0.00237530350100668,0.0316685600064694
+regulation of small GTPase mediated signal transduction,NA,NA,NA,NA,0.0121994660867394,NA,NA
+regulation of trans-synaptic signaling,NA,NA,NA,NA,NA,0.013811324222892,NA
+renal system development,NA,NA,NA,NA,0.0060640301681334,NA,NA
+rhythmic process,NA,NA,NA,NA,0.0243411813340303,NA,NA
+sodium ion transport,NA,NA,NA,NA,0.0227803919694262,NA,NA
+synapse organization,NA,NA,NA,NA,NA,0.0139193188549349,0.010570949125032
+synaptic transmission  glutamatergic,NA,NA,NA,NA,0.00612484388806628,0.0001643064722296,NA
+synaptic vesicle cycle,NA,NA,NA,NA,NA,0.0256506156185146,NA
+synaptic vesicle localization,NA,NA,NA,NA,NA,0.0268784469000361,NA
+synaptic vesicle transport,NA,NA,NA,NA,NA,0.0475820162562729,NA
+urogenital system development,NA,NA,NA,NA,0.00605272312244297,NA,NA
+vesicle-mediated transport in synapse,NA,NA,NA,NA,NA,0.0222438726052647,NA

@@ -1,0 +1,19 @@
+KEGG_terms,_Sp_count_1;all_genes,_Sp_count_1;_Sp_count_HiC_all,_Sp_count_2;_Sp_count_1,_Sp_count_3;_Sp_count_1,_Sp_count_4;_Sp_count_1,_Sp_count_5;_Sp_count_1,_Sp_count_grthan5;_Sp_count_1
+Adrenergic signaling in cardiomyocytes,NA,NA,NA,NA,0.0389842510000227,NA,NA
+Amphetamine addiction,NA,NA,NA,NA,NA,0.029601834672246,NA
+Arrhythmogenic right ventricular cardiomyopathy (ARVC),NA,NA,NA,NA,0.048079972035219,0.00213403700892217,NA
+Axon guidance,NA,NA,NA,NA,0.048079972035219,0.00173204655269673,0.00210271336307917
+Calcium signaling pathway,NA,NA,NA,NA,0.0389842510000227,0.00800481128459647,NA
+Circadian entrainment,NA,NA,NA,NA,NA,NA,0.0207201701189024
+Dopaminergic synapse,NA,NA,NA,NA,0.0389842510000227,0.029635094853794,0.0145578718086518
+ECM-receptor interaction,NA,NA,NA,NA,0.0399504440743768,0.025597756899024,NA
+Gastric acid secretion,NA,NA,NA,NA,0.0300112663779522,NA,NA
+Glutamatergic synapse,NA,NA,NA,NA,0.0399504440743768,0.0394198411766178,0.00210271336307917
+Hedgehog signaling pathway,NA,NA,NA,NA,0.04569854744399,NA,NA
+Herpes simplex virus 1 infection,NA,NA,NA,NA,NA,1.52591748271968e-05,3.07805457681313e-13
+Insulin secretion,NA,NA,NA,NA,NA,0.0268507879414735,NA
+Long-term depression,NA,NA,NA,NA,0.048079972035219,0.025597756899024,4.27255158237323e-06
+Morphine addiction,NA,NA,NA,NA,0.0389842510000227,NA,NA
+Oxytocin signaling pathway,NA,NA,NA,NA,NA,NA,0.00591900061691574
+Transcriptional misregulation in cancer,NA,NA,NA,NA,0.0399504440743768,NA,NA
+Wnt signaling pathway,NA,NA,NA,NA,0.00377666195711026,NA,NA

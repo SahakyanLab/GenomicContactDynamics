@@ -1,0 +1,13 @@
+GO_BP_terms,_MSC_count_1;all_genes,_MSC_count_1;_MSC_count_HiC_all,_MSC_count_2;_MSC_count_1,_MSC_count_3;_MSC_count_1,_MSC_count_4;_MSC_count_1,_MSC_count_5;_MSC_count_1,_MSC_count_grthan5;_MSC_count_1
+appendage morphogenesis,NA,NA,NA,NA,0.0237007893256346,NA,NA
+central nervous system neuron differentiation,NA,NA,NA,NA,NA,NA,0.0274090479613203
+detection of chemical stimulus,NA,NA,NA,NA,NA,1.82882295299568e-05,1.01279604623893e-10
+detection of chemical stimulus involved in sensory perception,NA,NA,NA,NA,NA,3.95334489740477e-05,1.95049914121351e-10
+detection of chemical stimulus involved in sensory perception of smell,NA,NA,NA,NA,NA,0.000123153000463114,2.46979334164046e-09
+detection of stimulus involved in sensory perception,NA,NA,NA,NA,NA,0.000353365070709783,2.63090252000547e-08
+diencephalon development,NA,NA,NA,NA,NA,NA,0.0212849070190984
+forebrain development,NA,NA,NA,NA,NA,NA,3.6773518689141e-05
+homophilic cell adhesion via plasma membrane adhesion molecules,NA,NA,NA,NA,NA,NA,0.0370340203070587
+limb morphogenesis,NA,NA,NA,NA,0.0237007893256346,NA,NA
+sensory perception of chemical stimulus,NA,NA,NA,NA,NA,0.00734097628368502,3.14448527214849e-08
+sensory perception of smell,NA,NA,NA,NA,NA,0.00396922438421785,1.86314212694736e-08
