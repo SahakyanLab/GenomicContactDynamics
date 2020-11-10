@@ -1,0 +1,150 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX
+
+library(methods) #setRefClass()
+library(doParallel)
+library(compiler)
+
+Optimus.R
+OptimusSA.R
+TemperatureControlUnit.R
+################################################################################
+# A. Test if there is specific sequence complementarity between contacting sequences 
+# by making a fake set of contacts per Cp 
+################################################################################
+1. Per chr then per Cp, took contacting bins and shuffled them to make new, fake 
+contacts. Monte carlo optimisation procedure was used via Optimus R package. These 
+two criteria were imposed: (1) Fake contact should not be in original set (for a
+given Cp) (2) Fake contacts should also be between segments separated by > 2Mb. 
+
+Optimus procedure:
+I took i and j matrix of contacts, shuffled all the j's once and gave this data to
+Optimus. For each iteration, Optimus alters the data by randomly taking 2 j's and 
+exchanging them. The Q and E reported by the error metric function, u, is equal to
+observable object O given by m(). O is the fraction of contacts that do not satisfy 
+either of the two criteria described above. 
+
+# Final properly seeded run			
+Optimus(NCPU = 1,
+          SEED=657,
+          DATA=K.original,
+          LIVEPLOT = TRUE,
+          K.INITIAL=K,
+          rDEF=r,
+          mDEF=m,
+          uDEF=u,
+          OPT.TYPE = "SA",
+          OPTNAME=paste0(affix, "_cp", cp, "_", out.name),
+          NUMITER = 1.2e7,                                                   
+          CYCLES = 3,
+          DUMP.FREQ = 5e+05,
+          LONG = TRUE)
+
+Using 4G mem is enough for all chr except for chr2 (6G).
+
+2. Make PERSIST.MX object shuffled version. Make QEO plot showing the percent error
+based on the criteria aforementioned. Percentage is relative to the number of contacts
+per Cp in original set (below the QEO plot). 
+
+So if Norig=10 and %error=1, the shuffled set contains 9 contacts. The %error will
+be whichever is lower between O.opti (dataset straight from Optimus) or O.fin (dataset 
+after atttempting to reduce errors of the Optimus output by reversing pairs with 
+i > j).
+
+In the PERSIST.MX of shuffled set, contacts per Cp not satisfying mingap, i<j, 
+duplicated and those found in original set were removed. Note that this filtering 
+was done per Cp so if you look across Cps, there can be duplicates. Number of contacts
+removed per Cp is equal to %error multiplied by number of contacts per cp in original set. 
+################################################################################
+# B. Comparing its complementarity score distribution of shuffled to original's. 
+################################################################################
+1. Get kmer- and alignment-based complementarity scores. Output CII.MX same order
+as PERSIST.MX hence no need for rownames in CII.MX.
+2. Combine CII.MX of chromosomes and make the boxplots. Boxplots can be made for
+individual chromosome. 
+3. Compare the complementarity score distribution per Cp of fake contacts
+with that of the original contacts. 
+a. Make HYBCOMB.DF:
+> head(HYBCOMB.DF)
+       Gfree Discordance Sumabsdif cp set
+1         NA          NA        NA  1   1
+2 -0.7549881    8.782741     62532  4   1
+3         NA          NA        NA  1   1
+4 -0.8014332    6.971485     54844  2   1
+5 -0.8753030    5.591934     46920  3   1
+6         NA          NA        NA  2   1
+*set1=orig; set2=shuffled
+
+b. Boxplots of the values, orig (left) and shuff (right) side by side.
+c. A text file is generating counting the contacts in orig and shuff.
+tot - total contacts
+nonNA - contacts with complementarity score
+The tot and nonNA in percentages are relative to the total contacts of the orig set.
+The percentages each Cp of shuff is relative to that of the orig set.
+
+Sample from chr1 kmer min2Mb:
+              orig        shuff
+tot   1.228266e+07 89.741495693
+nonNA 9.917451e+01 89.007534037
+1     3.215792e+06 22.791052230
+2     2.510489e+06 18.418830843
+3     1.749042e+06 13.015578550
+4     1.196180e+06  8.826965629
+5     8.559260e+05  6.186600653
+6     6.444100e+05  4.669087098
+7     5.001060e+05  3.668082267
+8     3.911820e+05  2.905169223
+9     3.034220e+05  2.273799368
+10    2.321950e+05  1.753512961
+11    1.737830e+05  1.324827248
+12    1.278270e+05  0.981505795
+13    9.269100e+04  0.717572695
+14    6.608600e+04  0.515653859
+15    4.681800e+04  0.367599586
+16    3.159000e+04  0.248757232
+17    2.083100e+04  0.163905891
+18    1.264800e+04  0.099620131
+19    6.649000e+03  0.051829172
+20    2.867000e+03  0.022128761
+21    7.320000e+02  0.005454845
+d. Compare distribution of the two sets via Wilcoxon-Mann-Whitney test (non-parametric, unpaired/independent groups). The test assumes that the shape of the two distributions 
+are similar so check the boxplots.
+
+mw <- wilcox.test(as.formula(paste0(feat, "~set")), alternative="two-sided",
+                          data=HYBCOMB.DF[HYBCOMB.DF$Cp==cp, c(feat, "set")],
+                          paired=FALSE)
+If both x and y are given and paired is FALSE, a Wilcoxon rank sum test (which is the
+Mann-Whitney test we want) is carried out. (If only x is given, or if both x and y are 
+given and paired is TRUE, a Wilcoxon signed rank test of the null that the distribution 
+of x (in the one sample case) or of x - y (in the paired two sample case) is symmetric 
+about mu is performed.)
+
+Output is txt file of p-values.
+Sample from chr1 kmer min2Mb:
+CII	Gfree	sdDifference
+1	0	0	0
+2	0.880626162278204	5.81164249815995e-07	0.667930073586028
+3	0	0	0
+4	0	0	0
+5	0	0	0
+6	0	0	0
+7	0	0	0
+8	0	0	0
+9	0	0	0
+10	0	0	0
+11	0	0	0
+12	0	0	0
+13	0	0	0
+14	0	0	0
+15	0	0	0
+16	0	0	0
+17	3.51079938058668e-289	4.1230564321919e-287	3.63263133443846e-261
+18	1.01295819696027e-166	5.0981956448566e-165	6.55823609606458e-150
+19	1.01508224803182e-88	1.17260431652786e-90	5.36650589245462e-81
+20	2.53542524140207e-37	1.62962937940714e-32	1.36573726818311e-33
+21	0.000370496214079261	7.34134313785349e-06	0.000493393375210345
+
+
+

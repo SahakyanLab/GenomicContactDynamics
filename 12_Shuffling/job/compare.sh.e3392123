@@ -1,0 +1,9 @@
+Warning messages:
+1: In wilcox.test.default(x = c(-0.958, -0.9948, -0.9286, -0.9249,  :
+  cannot compute exact p-value with ties
+2: In wilcox.test.default(x = c(-2.30024219045e-05, -2.2655699883875e-05,  :
+  cannot compute exact p-value with ties
+3: In wilcox.test.default(x = c(9.43960198189056e-05, 0.000100920502435115,  :
+  cannot compute exact p-value with ties
+Error: unexpected ')' in ")"
+Execution halted
