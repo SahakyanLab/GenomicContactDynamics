@@ -1,0 +1,53 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+ViennaRNA-2.4.14
+################################################################################
+# ViennaRNA programs
+################################################################################
+Programs for two sequences (RNA-RNA Interactions)
+1. RNAcofold - works much like RNAfold but uses two RNA sequences as input which 
+are then allowed to form a dimer structure.
+- cannot work with 40kb sequences
+2. RNAduplex - works for long sequences but only predicts intermolecular base pairs
+- neglects the competition between intramolecular folding and hybridization. Thus,
+it is recommended to use RNAduplex as a pre-ﬁlter and analyse good RNAduplex hits 
+additionally with RNAcofold or RNAup
+
+Source: ViennaRNA tutorial https://www.tbi.univie.ac.at/RNA/tutorial/#sec6
+################################################################################
+# ViennaRNA-RNAduplex chosen parameters
+################################################################################
+−s, −−sorted				sort the printed output by free energy
+−−noconv					Do not automatically substitude nucleotide "T" with 
+							"U"
+−e, −−deltaEnergy=range		Compute suboptimal structures with energy in a certain 
+							range of the optimum (kcal/mol). Default is calculation
+							of mfe structure only.
+−d, −−dangles=INT			How to treat "dangling end" energies for bases adjacent 
+							to helices in free ends and multi−loops
+				  
+				 			−d2 this check is ignored, dangling energies will be 
+							added for the bases adjacent to a helix on both sides 
+							in any case; this is the default for mfe and partition 
+							function folding (−p)
+−−noLP 			  			Produce structures without lonely pairs (helices of 
+							length 1)
+
+							Note that the number of suboptimal structures grows
+							exponentially with sequence length and therefore this 
+							approach is only tractable for sequences with less 
+							than 100 nt. To keep the number of suboptimal structures 
+							manageable the option --noLP can be used, forcing 
+							RNAsubopt to produce only structures without isolated 
+							base pairs. 
+					 
+−P, −−paramFile=paramfile
+
+################################################################################
+
+
+
+LOG
+
+04/02/2020 - written

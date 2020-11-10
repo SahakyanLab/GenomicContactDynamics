@@ -1,0 +1,14 @@
+Loading required package: lattice
+Loading required package: survival
+Loading required package: Formula
+
+Attaching package: ‘Hmisc’
+
+The following objects are masked from ‘package:base’:
+
+    format.pval, units
+
+Loading required package: viridisLite
+Loading required package: magrittr
+file saved to /t1-data/user/ltamon/DPhil/GenomicContactDynamics/11_Constraints/out_compare/LR/chrALL_min2Mb_kmer_bins30_CsVsCII.pdf
+file saved to /t1-data/user/ltamon/DPhil/GenomicContactDynamics/11_Constraints/out_compare/LR/chrALL_min2Mb_align_bins30_CsVsCII.pdf

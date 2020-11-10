@@ -1,0 +1,200 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+edlib - Lightweight, super fast C/C++ (& Python) library for sequence alignment 
+using edit (Levenshtein) distance.
+- http://martinsos.github.io/edlib
+################################################################################
+# A. Distribution of Cp=21 contacts per chr
+################################################################################
+1. Histogram plot of the gap between Cp=21 contacting regions. Plots are in order 
+of decreasing number of Cp=21 contacts. This was done to identify first chr to be 
+used for molecular dynamic simulation. Chr with longer and varied range of gap 
+distances is prefered because it would be interesting to see the role of the 
+longest Cp=21 contacts. 
+
+Which chr to moodel? Candidates are chr1 and chr4 because:
+a. They are among the chromosomes with the most number of Cp=21 contacts. 
+b. Only these two contain the 2 contacts in the dataset with the longest gap
+between them (~200 Mb), 1 for each chromosome. There’s only 2 but as it would be 
+interesting to see their influence on the folding.
+c. chr1 over chr4 because (1) it has the most number of genes among the human 
+chromosomes (2) have started the masking of feature analysis with chr1
+
+Final: chromosome 1
+a. Total number of beads (40-kb sequence length): 6232
+The original binning of the Hi-C data (MELT.MX) also shows that 6232 is the max
+number of beads. 
+b. Total number of Cp=21 ij, where i<j: 734
+
+1.5 Zoomed in versions of the histograms to highlight specific ranges of 
+distances between contacting loci
+################################################################################
+# B. Get complementarity scores in terms of matching kmers and alignment
+################################################################################
+0. Given the Hi-C resolution, 40kb, the last bins of the chromosomes are less than
+40-kb. Find the last bins without N's in its sequence because the contacts formed
+by this bins will be a problem for the normalisation of alignment-based score 
+done by dividing by the Hi-C resolution. These contacts will be excluded. 
+Only chr17's last bin has no N in the sequence.
+
+1. Get kmer counts for all possible bins of defined length for each chromosome. 
+In this case kmer length is 7 and bin size is 40kb. 
+
+Output, BINKMER.MX:
+
+        bins startpos   endpos numUMChar AAAAAAA
+[1199,] 1199 47920001 47960000     40000      68
+[1200,] 1200 47960001 48000000     40000     106
+[1201,] 1201 48000001 48040000     40000      63
+[1202,] 1202 48040001 48080000     40000     114
+[1203,] 1203 48080001 48120000     40000      NA
+[1204,] 1204 48120001 48129895      9895      NA
+
+numUMChar = number of unmasked character; can be less than the defined bin length
+when there is masking or when the bin is the last bin of the chr as in row 1204.
+Columns after numUMChar are all the possible kmers and their counts for each bin.
+Number is not normalised yet to the bin length which is numUMChar. Bins with missing
+counts are those with at least one N in their sequence.
+
+Note that this can be used for both min2Mb and min05Mb contacts.
+
+2. Get complementarity scores (C||) for all possible contacts per chr for the 
+given bin length
+
+Two ways:
+a. kmer-based C||
+C|| is calculated by taking the differences in normalised counts of the two 
+contacting loci per kmer and then taking the sum of these differences. Normalising
+is done by dividing the kmer count by the numUMChar. The script also calculates 
+Gfree energy of contacts and the sd of the differences per kmer. These values
+are saved in HYB.MX that is generated with the CII.MX. 
+
+All samples from chr18.
+
+Output, CII.MX:
+> head(CII.MX)
+     i j Cp     C||
+1953 1 2 NA      NA
+3905 1 3 NA      NA
+3906 2 3 NA -1.2274
+5857 1 4 NA      NA
+5858 2 4 NA -0.9916
+5859 3 4 NA -1.3364
+
+b. alignment-based C||
+The complementarity score is equal to the edit distance (global alignment option,
+edlib NW mode) calculated via edlib(). Gaps and substitutions are both penalised 1. 
+The score is not set to be normalised to the bin length.
+For each contact, there are two possible alignments done:
+a. seq.i vs. seq.j
+b. seq.i vs. reverse complementary of seq.j
+The final score for the contacts is the smaller number between the two.
+
+Output, CII.MX:
+> head(CII.MX)
+     i j Cp    C||
+1953 1 2 NA     NA
+3905 1 3 NA     NA
+3906 2 3 NA -21063
+5857 1 4 NA     NA
+5858 2 4 NA -20697
+5859 3 4 NA -20891
+
+For both ways, NAs marked contacts with at least one N in at least one of the bins. 
+Contacts with Cp=NA but with score are contacts not part of the long-range
+contacts dataset.
+
+Local alignment (edlib HW mode) was also tested wherein gaps at ends are not 
+penalised but the trend was the same, the scores where only shifted to a lower values. 
+
+2.5 addRownames.R
+Add rownames to CII.MX to easily find matching contacts between CII.MX
+and PERSIST.MX or MELT.MX. I had to do this because some CII.MX (align)
+earlier generated didn't have the rownames.
+
+The rownames are indexes of the contacts in a matrix containing all possible
+contacts per chromosome made using this code:
+
+contact.mx <- data.matrix(expand.grid(ubins, ubins))
+dimnames(contact.mx)[[1]] <- 1:nrow(contact.mx)
+where ubins, are all unique bins of chr
+
+The script in B2 has now been changed to keep the rownames. 
+
+2.5 fixConstraints.R
+
+Sample from chr18.
+
+a. Integrate HYB.MX to CII.MX, adding extra columns for Gfree and sd
+> head(CII.MX)
+     i j Cp     C||         Gfree sdDifference
+1953 1 2 NA      NA            NA           NA
+3905 1 3 NA      NA            NA           NA
+3906 2 3 NA -1.2274 -2.309082e-05 1.467288e-04
+5857 1 4 NA      NA            NA           NA
+5858 2 4 NA -0.9916 -2.424825e-05 9.681414e-05
+5859 3 4 NA -1.3364 -2.179339e-05 1.608983e-04
+b. Normalise align scores, and exclude contacts formed by regions of different
+length (i.e. contacts formed by the last bin of chr17)
+> head(CII.MX)
+     i j Cp       C||
+1953 1 2 NA        NA
+3905 1 3 NA        NA
+3906 2 3 NA -0.526575
+5857 1 4 NA        NA
+5858 2 4 NA -0.517425
+5859 3 4 NA -0.522275
+c. For both kmer and align, make a 0.5Mb version of CII.MX by adding the right Cp
+values from PERSIST.MX
+
+3. Combine CII.MX of all chromosome and plot CII, Gfree, sd across Cp. 
+The script can also be used to plot for individual chromosome. 
+###############################################################################
+# C. Catgorise complementarity scores into high, middle and low values
+1. Since the methods to assess complementarity do not reflect the actual
+hybridisation energies, we thought of categorising the values into high, middle
+and low instead of using the absolute values. Given a 5% cutoff and number of
+contacts to be 100, the 95th highest complementarity score is the threshold value
+for the high group (1, contacts with score > 95th score). The 5th highest score
+is the threshold for the low group (-1, contacts with score < 5th score). The
+rest is part of the middle group (0).
+
+Sample from chr21. 
+
+Output, CII.MX:
+     i j Cp C|| Gfree sdDifference group
+1205 1 2 NA  NA    NA           NA    NA
+2409 1 3 NA  NA    NA           NA    NA
+2410 2 3 NA  NA    NA           NA    NA
+3613 1 4 NA  NA    NA           NA    NA
+3614 2 4 NA  NA    NA           NA    NA
+3615 3 4 NA  NA    NA           NA    NA
+################################################################################
+1. Plot kmer-based constraints
+################################################################################
+# D. Compare Cp, Cs, C|| values
+################################################################################
+1. Compare Cs, Cp, C|| (kmer and align) values
+Generate CSCPCII.MX which contains Cs, Cp, C|| (kmer and align) values for all
+Hi-C contacts from MELT.MX. The long-range contacts will be the one with Cp value.
+2. Plot (per cell/tissue, combining data from all chr):
+a. Cs. vs. Cp 
+b. Cs vs. C||(kmer and align)
+If LRcontactOnly = TRUE, plot will only include LR contacts (those with Cp value).
+Use both raw Cs and log10 transformed. Transformation
+needed because the range of Cs is wide while that of C|| is very narrow.
+Total ij in title are the number of contacts in given cell/tissue (vary depending on
+LRcontactOnly = TRUE/FALSE parameter), the %nonNA are percentage of contacts with 
+non-NA C||. 
+bins=30, cuts=3
+3. Make a correlation plot of C|| (align) vs. C|| (kmer) to see how well the
+two methods agree. Only contacts with both types of scores were included. This 
+is relevant for chr17's last bin, whose contacts only have k-mer-based scores.
+The number of ij in the plot is the number of all contacts in CII.MX. The nonNA
+percentage corresponds to contact with both types of scores.
+################################################################################
+LOG
+
+17/02/2020 - updated
+13/12/2019 - written
