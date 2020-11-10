@@ -71,6 +71,7 @@ find_motifs_genome(
 ## that the experiment may have failed in one way or another. 
 ## In principle, in a motif is present in less than 5% of the targets 
 ## sequences, there may be a problem
+Reference: http://homer.ucsd.edu/homer/ngs/peakMotifs.html#:~:text=Enrichment%20p%2Dvalues%20reported%20by,is%20not%20expressed%20very%20high.
 
 3. p-value plots of results 
 ################################################################################
