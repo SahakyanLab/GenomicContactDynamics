@@ -18,16 +18,16 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/12_FeatureVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/8_FeatureVsPersist"
     data.dir = "/Users/ltamon/Database"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 # Chromatin features directory
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
-#foifile = paste0(wk.dir, "/foifile/foifile_priority_runB_cp21_numOlapAANDcomOlap_acrossTissues")
-foifile = paste0(wk.dir, "/foifile/foifile_nonBDNA")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
+#foifile = paste0(wk.dir, "/foifile/foifile_priority_nperm10000_seed662_mxmskfr0_Cp21_pvalcutoff0.05_numOlapA_comOlap_edited_consistentAcrossCT")
+foifile = paste0(wk.dir, "/foifile/foifile_genesLTr")
 # File of feature grouping
 featgrpfile = paste0(wk.dir, "/features_group")
 fetacp.dir = paste0(wk.dir, "/out_FETACP")
@@ -35,15 +35,15 @@ out.dir = paste0(wk.dir, "/out_metaplot")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 description = NULL
-out.id = "nonBDNA"
+out.id = "genesLTr" #"priority_Cp21_numOlapAANDcomOlap_acrossTissues"
 plotOnly = FALSE
 # What bin to plot for FC vs. bin position
 cp = 21
 # What value to use for ordering?
-FCBIN.order = 0 # pos 
+FCBIN.order = 1 # pos 
 FCCP.order = 21 # Cp
 
-colourBy = "group" # "foi" | "group"
+colourBy = "foi" # "foi" | "group"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -71,6 +71,8 @@ featgrp.v <- sapply(X=1:(header.ind.len-1), simplify=TRUE, FUN=function(x){
   #return( paste(v, collapse="|") )
 })
 names(featgrp.v) <- featgrp[header.ind[-header.ind.len]]
+feat.df <- stack(featgrp.v)
+feat.df$ind <- as.character(feat.df$ind)
 #-------------------------------------------------------------------------------
 id <- paste0("chrALL_", gcb, "_desc_", out.id)
 
@@ -97,6 +99,7 @@ if(plotOnly==FALSE){
   # FC at contacting bin across Cp
   FCVSCP <- list()
   
+  # Store group of each foi
   for(f in 1:foi.v.len){
     
     foi.v[f] <- tail(x=strsplit(x=foi.v[f], split="\\/")[[1]], n=1)
@@ -109,7 +112,18 @@ if(plotOnly==FALSE){
                      "_fetacp.RData"))
     
     # Foi name for output
-    foi.v[f] <- strsplit(x=foi.v[f], split="foi\\_|\\_desc\\_|\\.bed")[[1]][2]
+    #foi.v[f] <- strsplit(x=foi.v[f], split="foi\\_|\\_desc\\_|\\.bed")[[1]][2]
+    fgrp <- strsplit(x=foi.v[f], split="foi\\_|\\_desc\\_|\\.bed")[[1]][2]
+    
+    grp.TF <- unlist(sapply(X=feat.df$values, simplify=TRUE, FUN=function(pat){
+      grepl(pattern=pat, x=paste0("_", foipat, "_"))
+    }))
+    if(foipat=="A_Phased_Repeat"){
+      grp.TF[!is.na(grp.TF)] <- FALSE 
+      grp.TF["_A_Phased_Repeat_"] <- TRUE
+    }
+    if(sum(grp.TF)>1){ stop( paste0(fgrp, ":Promiscous group for feature.")) }
+    grp <- ifelse(sum(grp.TF)==0, "Rest", feat.df$ind[grp.TF])
     
     if(f==1){
       pos.v <- as.numeric(colnames(FETACP.MX))
@@ -131,7 +145,7 @@ if(plotOnly==FALSE){
     df$percbinDIVref <- df$percbin/meanCpref
     df <- cbind(foi=rep(foi.v[f]), df)
     # Value for ordering plots
-    ORDER$FCVSBIN[f] <- df[df$bin==FCBIN.order, "percbinDIVref"]
+    ORDER$FCVSBIN[f] <- log2(df[df$bin==FCBIN.order, "percbinDIVref"])
     FCVSBIN[[ foi.v[f] ]] <- df
     
     #---------------------------------------------------
@@ -144,20 +158,9 @@ if(plotOnly==FALSE){
     df$percbinDIVref <- df$percbin/meanCp1
     df <- cbind(foi=rep(foi.v[f]), df)
     # Value for ordering plots
-    ORDER$FCVSCP[f] <- df[df$Cp==FCCP.order, "percbinDIVref"]
+    ORDER$FCVSCP[f] <- log2(df[df$Cp==FCCP.order, "percbinDIVref"])
     FCVSCP[[ foi.v[f] ]] <- df
-    
-    # Determine the group of foi
-    #grp <- sapply(X=featgrp.v, simplify=TRUE, FUN=function(x){
-    #  ## Add "_" to increase specificity
-    #  #grepl(x=paste0(foi.v[f], "_"), pattern=x)
-    #})
-    grp.TF <- unlist(lapply(X=featgrp.v, FUN=function(grp){
-      paste0("_", foipat, "_")%in%grp
-    }))
-    if(sum(grp.TF)>1){ stop( paste0(foi.v[f], ":Promiscous group for feature.")) }
-    grp <- ifelse(sum(grp.TF)==0, "Rest", names(featgrp.v)[grp.TF])
-    
+  
     # Add group
     FCVSBIN[[ foi.v[f] ]] <- cbind(group=rep(grp), FCVSBIN[[ foi.v[f] ]])
     FCVSCP[[ foi.v[f] ]] <- cbind(group=rep(grp),  FCVSCP[[ foi.v[f] ]])
@@ -174,7 +177,7 @@ if(plotOnly==FALSE){
     rownames(METAPLOT[[x]]) <- NULL
     foi.ordrd <- order(ORDER[[x]], decreasing=TRUE)
     METAPLOT[[x]][["foi"]] <- factor(x=METAPLOT[[x]][["foi"]],
-                                    levels=unique(METAPLOT[[x]][["foi"]])[foi.ordrd])
+                                     levels=unique(METAPLOT[[x]][["foi"]])[foi.ordrd])
   }
   save(METAPLOT, file=paste0(out.dir, "/", id, "_metaPcomb.RData"))
   

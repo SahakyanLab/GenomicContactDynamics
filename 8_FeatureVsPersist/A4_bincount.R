@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/8_FeatureVsPersist"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
@@ -25,7 +25,6 @@ gcb = "min2Mb"
 celltiss.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB",
                "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC",
                "hg19")
-#celltiss.v = c("FC", "LC", "ESC", "hg19")
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -52,8 +51,14 @@ for(celltiss in celltiss.v){
   cp.v.len <- length(unique(bincount.act$cp))
   coul <- colorRampPalette( rev( brewer.pal(11, "Spectral") ) )(cp.v.len)
   
+  min.x <- min(bincount.act$pos)
+  max.x <- max(bincount.act$pos)
   p <- ggplot(data=bincount.act, aes(x=pos, y=value)) +
     geom_point( size=4, aes(colour=factor(cp)) ) +
+    scale_x_continuous(labels=as.vector(rbind("",seq(from=min.x, to=max.x, by=2)))[-1],
+                       breaks=min.x:max.x,
+                       limits=c(min.x-0.5, max.x+0.5)
+    ) + 
     scale_colour_manual(values=coul) + 
     labs(title=paste0( "chrALL_", gcb, "_", celltiss, "_Npos=", 
                        unique(table(bincount.act$cp)), "_max=", maxval, "%\n", exp),
@@ -80,4 +85,4 @@ for(celltiss in celltiss.v){
   
 } # celltiss.v for loop end
 
-# rm(list=ls())
+# rm(list=ls()); gc()
