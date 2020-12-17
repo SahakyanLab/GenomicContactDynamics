@@ -15,18 +15,20 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/14_TADboundary"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/3_TADboundary"
     data.dir = "/Users/ltamon/Database"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 # Bed files directory
-TADb.dir = paste0(data.dir, "/funx_data/masterpool")
+#TADb.dir = paste0(data.dir, "/Schmitt2016_21HiCdatasets/Schmitt2016_TADboundary")
+TADb.dir = paste0(wk.dir, "/Schmitt2016_TADboundary")
 out.dir = paste0(wk.dir, "/out_TADsizeDist")
 ### OTHER SETTINGS #############################################################
 ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
           "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
+ct.v = sort(ct.v)
 HiC.res = 40000L
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
@@ -78,10 +80,12 @@ for(ct in ct.v){
   max.v[ct] <- max(len.v)
   mean.v[ct] <- mean(len.v)
   
-  p.lst[[ct]] <- plotLengthDist(vec=(len.v/10e6), vline.v=c(0.5, 2), col="deepskyblue3",
+  
+  p.lst[[ct]] <- plotLengthDist(df=data.frame(variable="size", value=(len.v/10e6)),
+                                vline.v=c(0.5, 2), col.v="#55bde6",
                                 label.x=bquote(bold("TAD size, "%*%~10^6)),
                                 out.name=paste0("chrALL_", ct, "_TADsizeDist_Schmitt"), 
-                                out.dir=out.dir)
+                                out.dir=out.dir, addlabs=TRUE, addlegend=TRUE)
   
   print(paste0(ct, " done!"), quote=FALSE)
   
@@ -98,7 +102,9 @@ write.table(x, file=paste0(out.dir, "/Schmitt2016_stat_TAD"), col.names=TRUE,
 
 p.arr <- ggarrange(plotlist=p.lst, nrow=3, ncol=7,
                    legend=NULL)
-ggexport(p.arr, height=30, width=70, 
+ggexport(p.arr, height=22.5, width=52.5, 
+#ggexport(p.arr, height=15, width=35, 
          filename=paste0(out.dir, "/TADsizeDist_Schmitt.pdf" ))
 
-# rm(list=ls())
+# rm(list=ls()); gc()
+

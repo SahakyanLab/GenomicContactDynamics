@@ -14,25 +14,26 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/14_TADboundary"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/3_TADboundary"
     data.dir = "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/14_TADboundary"
+    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/3_TADboundary"
     data.dir = "/t1-data/user/ltamon/Database"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 # Bed files directory
-TADb.dir = paste0(data.dir, "/funx_data/masterpool")
+TADb.dir = paste0(wkdir.dir, "/Schmitt2016_TADboundary")
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 out.dir = paste0(wk.dir, "/out_contactTypes")
 ### OTHER SETTINGS #############################################################
 ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
           "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
+ct.v = sort(ct.v)
 #ct = "REPLACE"
-gcb.v = c("min2Mb", "min05Mb")
+gcb.v = c("min2Mb")
 HiC.res = 4e4L
 # Cp
 nCPU = 5L #~26G
@@ -201,18 +202,21 @@ for(gcb in gcb.v){
     p.lst[[ct]] <- ggplot(data=df, aes(x=type, y=value, group=Cp)) +
       geom_point(aes(colour=factor(Cp)), size=8) +
       scale_y_continuous(breaks=c(25,50,75)) +
-      scale_x_discrete(breaks=c("b-b", "nb-b", "nb-nb(intra)", "nb-nb(inter)")) +
+      scale_x_discrete(breaks=c("b-b", "nb-b", "nb-nb(inter)", "nb-nb(intra)"),
+                       labels=c("b-b", "nb-b", "nb-nb\ninter", "nb-nb\nintra")) +
       scale_colour_manual(values=coul) +
       guides( colour=guide_legend( title=expression(bold("C"["p"]) ),
                                    ncol=1) 
       ) + 
-      labs( title=id,
-            y=expression(bold("% Contacts")), 
-            x=NULL ) +
+      labs( title=id, y=expression(bold("% Contacts")), x=NULL ) +
       bgr2 +
       theme(axis.text.x = element_text(face="bold", size=20, 
                                        angle=360, colour="black")
-      )
+      ) #+
+      #labs(title=NULL, y=NULL, x=NULL) +
+      #theme(legend.position="none") + 
+      #theme(axis.text.x=element_blank(),
+      #      axis.text.y=element_blank())
     
     ggsave(filename=paste0(out.dir, "/", id, "_contactType.pdf"),
            units="in", height=10, width=10, plot=p.lst[[ct]])
@@ -226,11 +230,13 @@ for(gcb in gcb.v){
   p.arr <- ggarrange(plotlist=p.lst, nrow=3, ncol=7,
                      legend=NULL)
   ggexport(p.arr, height=30, width=70,
+  #ggexport(p.arr, height=15, width=35,
            filename=paste0(out.dir, "/", gcb, "_contactType_Schmitt.pdf" ))
   
 } # gcb.v for loop end
 
-# rm(list=ls())
+# rm(list=ls()); gc()
+
 
 
 
