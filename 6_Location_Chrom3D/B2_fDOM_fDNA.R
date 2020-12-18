@@ -12,15 +12,15 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/6_Chrom3D"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/6_Location_Chrom3D"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-model.id = "IMR90_LMNB1_GSE49341_hg19" # "IMR90_LMNB1_GSE49341_hg19" | "H1-hESC_LMNB1_hg38"
+model.id = "H1-hESC_LMNB1_hg38" # "IMR90_LMNB1_GSE49341_hg19" | "H1-hESC_LMNB1_hg38"
 # DOMXYZR.DF directory
 data.dir = paste0(wk.dir, "out_AddXYZR")
-out.dir = paste0(wk.dir, "/out_fDOMfDNA/", model.id)
+out.dir = paste0(wk.dir, "/out_fDOM_fDNA/", model.id)
 ### OTHER SETTINGS #############################################################
 ploidy = "haploid"
 # For IMR90_LMNB1_GSE49341_hg19 diploid, r can be greater than 6
@@ -31,7 +31,7 @@ dr.v = c(0.01, 0.03, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7)
 plotWhich = c("fbeadDNA") # c("fbeadDNA", "fDOM")
 HxbinPlot = FALSE
 rwindPlot = TRUE
-plotOnly = FALSE
+plotOnly = TRUE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -153,7 +153,7 @@ p.arr <- ggarrange(plotlist=p.lst, nrow=4, ncol=4,
 ggexport(p.arr, width=40, height=40,
          filename=paste0(out.dir, "/", out.name, "_", paste(plotWhich, collapse="_"),
                          ".pdf" ))
-# rm(list=ls())
+# rm(list=ls()); gc()
 
 
 

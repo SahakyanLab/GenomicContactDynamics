@@ -5,14 +5,14 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/6_Chrom3D"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/6_Location_Chrom3D"
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -26,8 +26,8 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-model.id = "IMR90_LMNB1_GSE49341_hg19" # "IMR90_LMNB1_GSE49341_hg19" | "H1-hESC_LMNB1_hg38"
-data.dir = out.dir = paste0(wk.dir, "/out_ContactRadDist/", model.id)
+model.id = "H1-hESC_LMNB1_hg38" # "IMR90_LMNB1_GSE49341_hg19" | "H1-hESC_LMNB1_hg38"
+data.dir = out.dir = paste0(wk.dir, "/z_ignore_git/out_ContactRadDist/", model.id)
 ### OTHER SETTINGS #############################################################
 ploidy = "haploid"
 gcb.v = "min2Mb"
@@ -36,14 +36,14 @@ chr.v = "chrALL" #paste("chr", c(1:22, "X"), sep="")
 doParCHR = FALSE 
 nCPU = 1L
 
-boxPlot = TRUE
-densPlot = TRUE
-corPlot = TRUE
+boxPlot = FALSE
+densPlot = FALSE
+corPlot = FALSE
  ggscattr = FALSE
  ntis.corPlot = 1:21
  ntis.lab = "PScoreALL"
 corCoefPlot = TRUE
-plotOnlyCoeff = FALSE
+plotOnlyCoeff = TRUE
 
 ## Note
 # Adjust to x limits of density plot to make models comparable
@@ -74,11 +74,11 @@ myboxplot <- function( df=df,
   ggplot(data=as.data.frame(df),
          aes(x=ntis, y=value, group=ntis)) +
     stat_boxplot(geom="errorbar", width = 0.3, coef = 1.5) + 
-    geom_boxplot(aes(fill=factor(ntis)), na.rm=FALSE) +
+    geom_boxplot(fill="#FDC776", na.rm=FALSE) +
     stat_summary(fun.data=binN, geom="text", size=1) + 
     scale_x_discrete(limits=sort(as.numeric(uniqueNtis), decreasing=FALSE),
                      drop=FALSE) +
-    scale_fill_manual(values=coul) +
+    #scale_fill_manual(values=coul) +
     guides(fill=FALSE) + 
     labs(title=title, x=expression("c"["p"]), y=expression("r"["ij"])) +
     bgr2 
@@ -137,8 +137,8 @@ mycorplot <- function( df=df, title=plottitle ){
 
 mycorCoefPlot <- function(df=df, title=plottitle){
   ggplot(data=df, aes(x=ntis, y=PearsonCoef, label=pvalue)) +
-    geom_line(size=2.5) +
-    geom_point(size=5, colour="darkred") +
+    #geom_line(size=2.5) +
+    geom_point(size=6, colour="darkred") +
     scale_x_continuous(breaks=ntis.corPlot) +
     labs(title=title, x=expression("c"["p"]), 
          y=expression(paste("Pearson's")~italic("r"))) +
@@ -188,10 +188,10 @@ for(v in for.v){
         # Load IJ.FEAT.MX
         load(file=paste0(data.dir, "/", chr, "_", gcb, "_", out.name, 
                          ".RData"))
+        ntis.uniq <- unique(IJ.FEAT.MX[,"ntis"])
+        ntis.uniq.len <- length(ntis.uniq)
       }
-      
-      ntis.uniq <- unique(IJ.FEAT.MX[,"ntis"])
-      ntis.uniq.len <- length(ntis.uniq)
+    
       plottitle <- paste0(chr, "_", gcb, "_", out.name)
       
       # Make boxplot radDistVsCp
@@ -275,7 +275,7 @@ for(v in for.v){
   } 
 } 
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 
 
 
