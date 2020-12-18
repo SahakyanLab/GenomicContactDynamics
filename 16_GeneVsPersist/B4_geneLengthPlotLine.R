@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -21,10 +21,11 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-lencp.dir = paste0(wk.dir, "/out_geneLength")
-out.dir = paste0(wk.dir, "/out_geneLength/line")
+lencp.dir = paste0(wk.dir, "/out_geneLengthPlot")
+out.dir = paste0(wk.dir, "/out_geneLengthPlotLine")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
+refseq = "ALL" # ALL | NM | NR
 out.id <- "length" # "length"| "%R"
 config <- list(
   # c(1-colour, 2-legend.name)
@@ -56,7 +57,7 @@ if(out.id=="%R"){
   stop("Invalid out.id input.")
 }
 
-id <- paste0("hg19anno_NM_", gcb)
+id <- paste0("hg19anno_", refseq, "_", gcb)
 
 DF <- list()
 
@@ -67,7 +68,7 @@ for(len in lengths.v){
   load(file=paste0(lencp.dir, "/", id, "_", len, ".RData"))
   LENCP.DF <- aggregate(formula=L~cp, data=LENCP.DF, FUN=mean)
   # Convert to length to fold change (reference is Cp=1)
-  #LENCP.DF$L <- log2(LENCP.DF$L/LENCP.DF[LENCP.DF$cp==1,"L"])
+  LENCP.DF$L <- log2(LENCP.DF$L/LENCP.DF[LENCP.DF$cp==1,"L"])
   DF[[len]] <- cbind(L.name=rep(len), LENCP.DF)
   
   print(len, quote=FALSE)
@@ -109,4 +110,4 @@ out.id <- ifelse(out.id=="%R", "repPerc", out.id)
 ggsave(filename=paste0(out.dir, "/", id, "_", out.id, "_lineplot.pdf"),
        width=10, height=10, units="in")
 
-# rm(list=ls())
+# rm(list=ls()); gc()

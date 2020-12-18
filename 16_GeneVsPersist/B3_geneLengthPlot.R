@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -21,13 +21,14 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-genelist.dir = out.dir = paste0(wk.dir, "/out_annoTxtfiles")
-out.dir = paste0(wk.dir, "/out_geneLength")
+genelist.dir = out.dir = paste0(wk.dir, "/out_LTrUniqueIDPerCp")
+data.dir = paste0(wk.dir, "/out_geneLength")
+out.dir = paste0(wk.dir, "/out_geneLengthPlot")
 ### OTHER SETTINGS #############################################################
 # Annotation file prefix
 anno.nme = "hg19anno"
 # Just NM (mRNA) because 
-refseq = "NM"
+refseq = "ALL"
 gcb.v = "min2Mb" #c("min2Mb", "min05Mb")
 # Cp
 nCPU = 2
@@ -40,8 +41,8 @@ lengths.v <- c("TRANSCRIPT.L", "INTRONS.dev.EXONS",
                "INTRONS.L", "MEAN.INTRON.L")
 repFree = TRUE
 
-repPercPlot = TRUE
-lengths.v <- c("REP.PERC.TR.L", "REP.PERC.EX.L", "REP.PERC.INT.L")
+repPercPlot = FALSE
+#lengths.v <- c("REP.PERC.TR.L", "REP.PERC.EX.L", "REP.PERC.INT.L")
 
 config <- list(
   # c(1-colour, 2-prefix, 3-abbreviation)
@@ -67,7 +68,7 @@ source(paste0(lib, "/UTL_doPar.R"))
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
 # ANNOLENGTH.DF
-load(file=paste0(out.dir, "/", anno.nme, "_ALL_annoLengths.RData"))
+load(file=paste0(data.dir, "/", anno.nme, "_ALL_annoLengths.RData"))
 
 if(repFree==FALSE){
   RF.ind <- grep(x=colnames(ANNOLENGTH.DF), pattern=".RF", fixed=TRUE)
@@ -268,6 +269,6 @@ for(gcb in gcb.v){
   
 } # gcb.v for loop end
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 
 

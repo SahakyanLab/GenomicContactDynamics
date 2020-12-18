@@ -18,7 +18,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_AnnotationVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
     annofile.dir = "/Users/ltamon/Database/ucsc_tables/hsa_geneAnno"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -28,7 +28,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-out.dir = paste0(wk.dir, "/out_annoLengthsVsCp")
+out.dir = paste0(wk.dir, "/out_geneLength")
 ### OTHER SETTINGS #############################################################
 # annotation file prefix
 anno.nme = "hg19anno"
