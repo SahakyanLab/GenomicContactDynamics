@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -15,7 +15,7 @@ if( !is.null(whorunsit[1]) ){
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/13_CsVsCp"
+    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_CsVsCp"
     data.dir = "/t1-data/user/ltamon/Database"
     os = "Linux"
   } else {
@@ -27,19 +27,19 @@ out.dir = paste0(wk.dir, "/out_hexbin_HiCNormCs")
 ### OTHER SETTINGS #############################################################
 # Expands warnings
 options(warn=1)
-ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
-         "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "LC", "FC")
-gcb = "min2Mb"
+ct.v = sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
+              "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "LC", "FC"))
+gcb = "min05Mb"
 chr.v = paste("chr", c(1:22, "X"), sep="") # "chrALL"
 nCPU = 1L #~15G
 # Scaled Cs values?
 scaled = FALSE
 approach = "gghexbin" # "hexbin" "gghexbin"
 # If approach = "gghexbin"
-cuts = 8
-plotOnly = FALSE
+cuts = 4
+plotOnly = TRUE
 # Combine plots?
-combine = FALSE
+combine = TRUE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -137,11 +137,13 @@ makeCpVsCsHexbin <- function(
                           yvar=CPCS.MX[,"Cs"], 
                           bins=30, 
                           cuts=cuts,
-                          xlab=expression( bold("C"["p"]) ),
-                          ylab=bquote( bold("C"["s"]~.(affix)) ),
-                          title=id,
+                          xlab=NULL, #expression( bold("C"["p"]) ),
+                          ylab=NULL, #bquote( bold("C"["s"]~.(affix)) ),
+                          title=NULL, #id,
                           col=viridis(cuts)
-    ) 
+    )
+    
+    p$hexplot <- p$hexplot + theme(legend.position="none")
     
     ggsave(filename=paste0(out.dir, "/", id, "_CsVsCp_hexbinplot.pdf"),
            units="in", width=10, height=10, plot=p$hexplot)
@@ -192,9 +194,9 @@ for( i in 1:length(ct.v) ){
 
 if(combine){
   
-  p.arr <- ggarrange(plotlist=p.lst, nrow=3, ncol=7,
-                     legend=NULL)
-  ggexport(p.arr, width=60, height=24,
+  p.arr <- ggarrange(plotlist=p.lst, nrow=3, ncol=7)
+  #ggexport(p.arr, width=60, height=24,
+  ggexport(p.arr, width=35, height=15,
            filename=paste0(out.dir, "/", gcb, "_cuts", cuts, "_hexbinplot.pdf" ))
 }
 

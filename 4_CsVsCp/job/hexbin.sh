@@ -1,20 +1,15 @@
 #!/bin/sh
 ##########################################################################
 ## A script template for submitting batch jobs.
-## Please note that anything after the first two characters "#$" on a line
-## will be treated as a SUN Grid Engine command.
+## Please note that anything after "#SBATCH" on a line will be treated as
+## a SLURM command.
 ##########################################################################
+#SBATCH -p batch
+#SBATCH --mail-user=ltamon
+#SBATCH --mail-type=ALL
+##########################################################################
+module load R-base/4.0.1
+module load R-cbrg/current
+module load gcc/9.3.0
 
-#$ -cwd
-#$ -q batchq
-
-#$ -M ltamon
-#$ -m eas
-
-#########################################################################
-## JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS ##
-#########################################################################
-module load R/3.6.0-newgcc
-module load gcc/4.9.2
-
-Rscript --vanilla /t1-data/user/ltamon/DPhil/GenomicContactDynamics/13_CsVsCp/A2_hexbinplot.R
+Rscript --vanilla /t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_CsVsCp/A2_hexbinplot.R
