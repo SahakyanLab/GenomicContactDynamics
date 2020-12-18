@@ -5,7 +5,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -23,12 +23,12 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 # PERSIST.MX directory
-out.dir = paste0(wk.dir, "/out_FETA_B4scomp")
+out.dir = paste0(wk.dir, "/out_FETA_genes_denovomotif")
 # feta.dir is FETA.MX directory
 feta.dir = paste0(out.dir, "/temp")
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_B4scomp")
+foifile = paste0(wk.dir, "/foifile/foifile_genes_denovomotif")
 #foigroup = "topo" #"HMnp"
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"

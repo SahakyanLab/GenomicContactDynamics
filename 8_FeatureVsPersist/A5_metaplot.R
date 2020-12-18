@@ -26,8 +26,8 @@ if( !is.null(whorunsit[1]) ){
 }
 # Chromatin features directory
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
-#foifile = paste0(wk.dir, "/foifile/foifile_priority_nperm10000_seed662_mxmskfr0_Cp21_pvalcutoff0.05_numOlapA_comOlap_edited_consistentAcrossCT")
-foifile = paste0(wk.dir, "/foifile/foifile_genesLTr")
+foifile = paste0(wk.dir, "/foifile/FINAL_foifile_priority_nperm10000_seed662_mxmskfr0_Cp21_pvalcutoff0.05_numOlapA_comOlap_edited_consistentAcrossCT")
+foifile = paste0(wk.dir, "/foifile/foifile_genes")
 # File of feature grouping
 featgrpfile = paste0(wk.dir, "/features_group")
 fetacp.dir = paste0(wk.dir, "/out_FETACP")
@@ -35,7 +35,7 @@ out.dir = paste0(wk.dir, "/out_metaplot")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 description = NULL
-out.id = "genesLTr" #"priority_Cp21_numOlapAANDcomOlap_acrossTissues"
+out.id = "genes" #"priority_Cp21_numOlapAANDcomOlap_acrossTissues"
 plotOnly = FALSE
 # What bin to plot for FC vs. bin position
 cp = 21

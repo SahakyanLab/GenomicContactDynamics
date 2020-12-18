@@ -162,3 +162,8 @@ Short_Tandem_Repeat
 Slipped_Motif
 Triplex_Motif
 Z_DNA_Motif
+>denovo_motif
+AAGCTTCC
+AAGCTTCT
+CAAGCTTT
+TTAAGCTT

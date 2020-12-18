@@ -5,7 +5,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -25,12 +25,12 @@ if( !is.null(whorunsit[1]) ){
 # PERSIST.MX directory
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 # feta.dir is FETA.MX chrALL directory
-feta.dir = paste0(wk.dir, "/out_FETA_B4scomp")
-out.dir = paste0(wk.dir, "/out_FETACP_B4scomp")
+feta.dir = paste0(wk.dir, "/out_FETA_genes_denovomotif")
+out.dir = paste0(wk.dir, "/out_FETACP_genes_denovomotif")
 bincount.dir = paste0(wk.dir, "/out_bincount")
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_B4scomp")
+foifile = paste0(wk.dir, "/foifile/foifile_genes_denovomotif")
 nCPU = 2L # stick to 5 NCPU, ~300G
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
@@ -49,8 +49,7 @@ source(paste0(lib, "/finaliseFOI.R"))
 foi.v <- finaliseFOI(foi.dir=foi.dir, foifile=foifile)
 
 foi.v.len <- length(foi.v)
-toExport <- c("foi.v", "chr.v.len", "chr.v", "persist.dir", "gcb", 
-              "feta.dir", "out.dir")
+toExport <- c("foi.v", "persist.dir", "gcb", "feta.dir", "out.dir")
 
 #### PARALLEL EXECUTION #########
 

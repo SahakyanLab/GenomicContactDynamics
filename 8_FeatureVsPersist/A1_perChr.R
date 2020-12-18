@@ -7,7 +7,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 # Expands warnings
@@ -41,17 +41,17 @@ persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
 # List of filenames of features of interest (refer to foi.dir)
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_B4scomp")
+foifile = paste0(wk.dir, "/foifile/foifile_genes_denovomotif")
 # Number of bins
 nCPU = 4L 
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
-out.dir = paste0(wk.dir, "/out_FETA_B4scomp")
+out.dir = paste0(wk.dir, "/out_FETA_genes_denovomotif")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 HiC.res = 4e4L
 pos.v = -12:12
-chr.v = "chr19" #paste("chr", c(1:22, "X"), sep="")
+chr.v = paste("chr", c(1:22, "X"), sep="")
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
