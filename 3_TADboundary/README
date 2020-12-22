@@ -29,6 +29,9 @@ et al. 2016, per celltiss. TAD counting starts at 1st TAD boundary. Script also
 includes a check confirming that all lengths of borders are equal to Hi-C 
 resolution, 40 kb. 
 
+TAD size is the length of the intervening base between two boundaries, excluding any
+base from the boundaries. 
+
 "To quantify TADs, we devised an approach of assigning an ‘insulation score’ to 
 genomic intervals along the chromosome. The score reflects the aggregate of 
 interactions occurring across each interval. Minima of the insulation profile

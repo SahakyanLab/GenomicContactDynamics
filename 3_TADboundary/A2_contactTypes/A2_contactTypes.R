@@ -25,15 +25,14 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 # Bed files directory
-TADb.dir = paste0(wkdir.dir, "/Schmitt2016_TADboundary")
+TADb.dir = paste0(wk.dir, "/Schmitt2016_TADboundary")
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 out.dir = paste0(wk.dir, "/out_contactTypes")
 ### OTHER SETTINGS #############################################################
-ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
-          "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
-ct.v = sort(ct.v)
-#ct = "REPLACE"
-gcb.v = c("min2Mb")
+#ct.v = sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
+#              "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC"))
+ct = "FC" #"REPLACE"
+gcb.v = "min2Mb"
 HiC.res = 4e4L
 # Cp
 nCPU = 5L #~26G
@@ -115,27 +114,27 @@ for(gcb in gcb.v){
               
               # "TADb-TADb"
               a <- sum(log.cp&log.ibound&log.jbound)
+              
               # "nTADb-TADb"
               b <- sum( apply(X=cbind(log.ibound[log.cp], log.jbound[log.cp]), 
                               MARGIN=1, FUN=function(x){
+                                # Order not important
                                 setequal(x, c(TRUE, FALSE))
-                              }) 
-              )
+                              }) )
               
               # "nTADb-nTADb"
               log.nbnb <- log.cp & !log.ibound & !log.jbound
+              
               # inter "nTADb-nTADb"
               c1 <- sum(
-                
                 apply(X=ij.mx[log.nbnb, c("i","j")],
                       MARGIN=1, FUN=function(x){
                         return(any( 
-                          ((x[1]+1):(x[2]-1))%in%bound[log.bound, "bin"] 
+                          ( (x[1]+1):(x[2]-1) )%in%bound[log.bound, "bin"] 
                         ))
-                        
                       })
-                
               )
+              
               # intra "nTADb-nTADb"
               c2 <- sum(
                 
@@ -180,7 +179,7 @@ for(gcb in gcb.v){
            #     file=paste0(out.dir, "/chrALL_", gcb, "_", ct, "_contactType.RData"))
            file=paste0(out.dir, "/", ct, "_", gcb, "_contactType.RData"))
       
-      
+      # Check if percentages add to 100
       if( any( round(rowSums(CONTTYPE.MX), digits=0)!=100L ) ){
         stop("Checkpoint 2.")
       }

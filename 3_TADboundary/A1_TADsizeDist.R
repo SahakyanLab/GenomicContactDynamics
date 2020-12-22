@@ -63,11 +63,10 @@ for(ct in ct.v){
   for(chr in chr.v){
     
     # Check if TAD boundaries are sorted from upstream to downstream
-    
     log <- bed$chr==chr
     
     if(is.unsorted(bed[log, "start"]) | is.unsorted(bed[log, "end"]) ){
-      stop("TAD boundaries not sored in increasing order.")
+      stop("TAD boundaries not sorted in increasing order.")
     }
     
     len <- sum(log)
@@ -81,11 +80,11 @@ for(ct in ct.v){
   mean.v[ct] <- mean(len.v)
   
   
-  p.lst[[ct]] <- plotLengthDist(df=data.frame(variable="size", value=(len.v/10e6)),
+  p.lst[[ct]] <- plotLengthDist(df=data.frame(variable="size", value=(len.v/10^6)),
                                 vline.v=c(0.5, 2), col.v="#55bde6",
                                 label.x=bquote(bold("TAD size, "%*%~10^6)),
                                 out.name=paste0("chrALL_", ct, "_TADsizeDist_Schmitt"), 
-                                out.dir=out.dir, addlabs=TRUE, addlegend=TRUE)
+                                out.dir=out.dir, addlabs=FALSE, addlegend=FALSE)
   
   print(paste0(ct, " done!"), quote=FALSE)
   
@@ -102,8 +101,8 @@ write.table(x, file=paste0(out.dir, "/Schmitt2016_stat_TAD"), col.names=TRUE,
 
 p.arr <- ggarrange(plotlist=p.lst, nrow=3, ncol=7,
                    legend=NULL)
-ggexport(p.arr, height=22.5, width=52.5, 
-#ggexport(p.arr, height=15, width=35, 
+#ggexport(p.arr, height=22.5, width=52.5, 
+ggexport(p.arr, height=15, width=35, 
          filename=paste0(out.dir, "/TADsizeDist_Schmitt.pdf" ))
 
 # rm(list=ls()); gc()
