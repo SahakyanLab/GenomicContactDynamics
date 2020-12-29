@@ -12,16 +12,15 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/9_GenomicComposition"
-    # BINKMER.MX directory
-    data.dir = "/Users/ltamon/Database/HiC_features_GSE87112_RAWpc"
+    data.dir = "/Users/ltamon/Database/"
   } else if(whorunsit == "LiezelCluster"){
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/9_GenomicComposition"
-    # BINKMER.MX directory
-    data.dir = "/t1-data/user/ltamon/Database/HiC_features_GSE87112_RAWpc"
+    data.dir = "/t1-data/user/ltamon/Database/"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+binkmer.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_orig_persist")
 out.dir = paste0(wk.dir, "/out_control")
 ### OTHER SETTINGS #############################################################
 chr.v = paste("chr", c(17, 22:18, 16:1, "X"), sep="")
@@ -48,10 +47,10 @@ source(paste0(wk.dir, "/lib/makeKmerStrandInvar.R"))
 ################################################################################
 chr.v.len <- length(chr.v)
 
-# Multiple by 2 because your counting kmers of both strands
+# Multiply by 2 because your counting kmers of both strands
 totcountPBin <- ( HiC.res-(kmer.len-1L) )*2L
 
-toExport <- c("data.dir", "kmer.len", "gcb", "totcountPBin")
+toExport <- c("binkmer.dir", "kmer.len", "gcb", "totcountPBin")
 
 #### PARALLEL EXECUTION #########
 
@@ -60,7 +59,7 @@ KMERfrBIN.HiCAll <- foreach(chr=chr.v, .combine="cbind"
 ) %do% {
   
   # Load BINKMER.MX 
-  data.nme <- load(paste0(data.dir, "/", chr, "_BinKmer", kmer.len,"_", gcb, 
+  data.nme <- load(paste0(binkmer.dir, "/", chr, "_BinKmer", kmer.len,"_", gcb, 
                           affix, ".RData"))
   # Because old naming specifies kmer length i.e. BINKMER7.MX
   eval(parse( text=paste0("BINKMER.MX <-", data.nme) ) )
@@ -84,7 +83,7 @@ KMERfrBIN.HiCAll <- foreach(chr=chr.v, .combine="cbind"
     
     if(saveStrandInvarMx==TRUE){
       BINKSTRINV.MX <- cbind(BINKMER.MX[,1:3], BINKSTRINV.MX)
-      save(BINKSTRINV.MX, file=paste0(data.dir, "/", chr, "_BinKStrInv", 
+      save(BINKSTRINV.MX, file=paste0(binkmer.dir, "/", chr, "_BinKStrInv", 
                                       kmer.len, "_", gcb, affix, ".RData"))
       BINKSTRINV.MX <- BINKSTRINV.MX[,-(1:3)]
     }
