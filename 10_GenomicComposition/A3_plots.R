@@ -13,7 +13,7 @@ if( !is.null(whorunsit[1]) ){
     lib = "/Users/ltamon/DPhil/lib"
     # UNIQBIN.DF directory
     data.dir = "/Users/ltamon/Database/HiC_features_GSE87112_RAWpc"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/9_GenomicComposition"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/10_GenomicComposition"
   } else if(whorunsit == "LiezelCluster"){
     # UNIQBIN.DF directory
     data.dir = "/t1-data/user/ltamon/Database/HiC_features_GSE87112_RAWpc"
@@ -23,6 +23,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+data.dir = paste0(wk.dir, "/out_compare")
 out.dir = paste0(wk.dir, "/out")
 ### OTHER SETTINGS #############################################################
 gcb = "min05Mb"
@@ -49,7 +50,7 @@ source(paste0(lib, "/makeSeqLogo.R"))
 #for(kmerDistVal in kmerDistVal.v){
   
   # Load KMERCP list
-  load(file=paste0(out.dir, "/KMERCP", kmer.len, "_", gcb, "_", kmerDistVal,
+  load(file=paste0(data.dir, "/KMERCP", kmer.len, "_", gcb, "_", kmerDistVal,
                    ".RData")) 
   
   # NaNs will be introduced
@@ -160,11 +161,13 @@ source(paste0(lib, "/makeSeqLogo.R"))
              y=bquote(bold("-log"["10"]~"(p-value)")),
              colour=""
         ) +
-        theme(legend.text=element_text(size=20, face="bold"),
-              legend.title=element_text(size=25, face="bold"),
-              legend.position="top",
-              aspect.ratio=1) + 
-        bgr2
+        #theme(legend.text=element_text(size=20, face="bold"),
+        #      legend.title=element_text(size=25, face="bold"),
+        #      legend.position="top",
+        #      aspect.ratio=1) + 
+        bgr2 +
+        labs(title=NULL, x=NULL, y=NULL) + 
+        theme(legend.position="none", aspect.ratio=1)
       
       if(log){
         
@@ -226,8 +229,11 @@ source(paste0(lib, "/makeSeqLogo.R"))
     
     # Save volcano plots as a group
     p.lst <- ggarrange(plotlist=p.lst, nrow=3, ncol=7,
-                       common.legend=FALSE, legend="top")
-    ggexport(p.lst, width=70, height=30,
+                       common.legend=FALSE
+                       #, legend="top"
+                       )
+    #ggexport(p.lst, width=70, height=30,
+    ggexport(p.lst, width=35, height=15,
              filename=paste0(out.dir, "/KMERCP", kmer.len, "_", gcb, 
                              "_", kmerDistVal, "_volcp.pdf"))
     save(VOLCANO, file=paste0(out.dir, "/KMERCP", kmer.len, "_", gcb, 
@@ -273,5 +279,5 @@ source(paste0(lib, "/makeSeqLogo.R"))
   
 #} # kmerDistVal.v for loop end 
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 
