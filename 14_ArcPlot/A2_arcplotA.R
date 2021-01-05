@@ -3,14 +3,14 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/17_Structure"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/14_ArcPlot"
     data.dir= "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -23,9 +23,9 @@ if( !is.null(whorunsit[1]) ){
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 out.dir = paste0(wk.dir, "/out_arcplotA")
 ### OTHER SETTINGS #############################################################
-chr.v = paste0("chr", c(22:1, "X"))
+chr.v = "chr1" #paste0("chr", c(22:1, "X"))
 topCP = 1; cp.v = 1:21
-plotOnly = FALSE
+plotOnly = TRUE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -80,11 +80,11 @@ for(chr in chr.v){
   pdf(file=paste0(out.dir, "/", chr, "_topCP", topCP, "_LRmap.pdf"), width=30, height=30)
   plotDoubleHelix(as.helix(df$min2Mb), as.helix(df$min05Mb), shape="circle", 
                   line=TRUE, arrow=TRUE)
-  mtext("> 2 Mb", side=3, line=-40, adj=0.05)
+  #mtext("> 2 Mb", side=3, line=-40, adj=0.05)
   ij2Mb <- nrow(df$min2Mb)
-  mtext(paste0(chr, "_topCP=", topCP, "_2Mbij=", ij2Mb, "_restij=", nrow(df$min05Mb)-ij2Mb), 
-        side=3, line=-40, adj=0.5)
-  mtext("> 0.5 Mb", side=1, line=-40, adj=0.05)
+  #mtext(paste0(chr, "_topCP=", topCP, "_2Mbij=", ij2Mb, "_restij=", nrow(df$min05Mb)-ij2Mb), 
+  #      side=3, line=-40, adj=0.5)
+  #mtext("> 0.5 Mb", side=1, line=-40, adj=0.05)
   
   dev.off()
   
@@ -92,4 +92,4 @@ for(chr in chr.v){
   print(paste0(chr, " done!"), quote=FALSE)
 }
 
-# rm(list=ls())
+# rm(list=ls()); gc()

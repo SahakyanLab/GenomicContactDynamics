@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/13_ArcPlot"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/14_ArcPlot"
     data.dir= "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -22,14 +22,14 @@ if( !is.null(whorunsit[1]) ){
 }
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 out.dir = paste0(wk.dir, "/out_arcplotB")
-chrLenfile = paste0(wk.dir, "/Hsa_GRCh37_73_chr_info.txt")
+chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
 # Expands warnings
 options(warn=1)
 
 gcb = "min2Mb"
 bin.len = 40000
-chr.v = paste0("chr", c(22:1, "X"))
+chr.v = "chr1" #paste0("chr", c(22:1, "X"))
 
 # topCP=3 would means the top 3 values of cp.v; topCP=-3 means the bottom 3 values
 # of cp.v
@@ -38,7 +38,7 @@ ct = "FC"; ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", 
                     "AG", "Ov", "Bl", "MesC","MSC", "NPC", "TLC", "ESC", "FC", "LC")
 # Gap in terms of % of chr length ("Perc") or bin ("Bin")
 gap.type = "Bin" 
-gap.val = 150
+gap.val = 650
 
 # xlim max value to make x-axis consistent across chr
 xlim = NULL
@@ -165,4 +165,4 @@ for(chr in chr.v){
   print(paste0(chr, " done!"), quote=FALSE)
 }
 
-# rm(list=ls())
+# rm(list=ls()); gc()
