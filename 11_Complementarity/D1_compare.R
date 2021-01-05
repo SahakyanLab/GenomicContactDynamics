@@ -20,11 +20,11 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-melt.dir = paste0(data.dir, "/GSE87112/combined_contacts/RAW_primary_cohort")
-persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+melt.dir = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_primary_cohort")
+persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
 compl.dir = paste0(wk.dir, "/out_constraints/merged_final")
 #compl.dir = paste0(wk.dir, "/out_constraints")
-out.dir = paste0(wk.dir, "/out_compare")
+out.dir = paste0(wk.dir, "/out_compare_HiCNormCs")
 ### OTHER SETTINGS #############################################################
 ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
          "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "LC", "FC")
