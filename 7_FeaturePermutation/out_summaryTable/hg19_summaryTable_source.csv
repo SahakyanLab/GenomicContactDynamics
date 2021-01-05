@@ -1,0 +1,276 @@
+Tissue,Feature,Description,Source
+hg19,GRB_canFam3,binned_kurtosis_arl_370_0.7_pc_30_kb_windows,Nash et al. 2019
+hg19,GRB_galGal4,binned_kurtosis_arl_370_0.7_pc_30_kb_windows,Nash et al. 2019
+hg19,GRB_gorGor3,binned_kurtosis_arl_370_0.7_pc_30_kb_windows,Nash et al. 2019
+hg19,GRB_lepOcu1,binned_kurtosis_arl_370_0.7_pc_30_kb_windows,Nash et al. 2019
+hg19,GRB_monDom5,binned_kurtosis_arl_370_0.7_pc_30_kb_windows,Nash et al. 2019
+hg19,GRB_rheMac3,binned_kurtosis_arl_370_0.7_pc_30_kb_windows,Nash et al. 2019
+ESC;FC,DNase.hotspot_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,DNase.hotspot.fdr0.01_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H2A.Z_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2AK5ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+FC,H2AK9ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK120ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK12ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK15ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK20ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK5ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K14ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K18ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K23ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC,H3K23me2_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K27ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K27me3_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K36me3_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K4ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K4me1_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K4me2_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K4me3_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K56ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K79me1_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K79me2_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K9ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+FC,H3K9me1_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K9me3_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H4K20me1_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H4K5ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H4K8ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H4K91ac_br,broadPeak,NIH Roadmap Epigenomics Mapping Consortium
+AG;Ao;Bl;Co;ESC;FC;Hi;LC;Li;Lu;LV;MesC;MSC;NPC;Ov;Pa;PM;RV;SB;Sp;TLC,A,compartment,Schmitt et al. 2016
+AG;Ao;Bl;Co;ESC;FC;Hi;LC;Li;Lu;LV;MesC;MSC;NPC;Ov;Pa;PM;RV;SB;Sp;TLC,B,compartment,Schmitt et al. 2016
+hg19,centromere,DNA,UCSC Table Browser
+hg19,CGI_m,DNA,UCSC Table Browser
+hg19,CGI_um,DNA,UCSC Table Browser
+hg19,G-quadruplex_greq19,DNA,Sahakyan et al. 2017
+hg19,genes_LTr,DNA,UCSC Table Browser
+ESC;FC,DNase.hotspot.all_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,DNase.hotspot.fdr0.01_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,DNase.macs2_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H2A.Z_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2AK5ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+FC,H2AK9ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK120ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK12ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK15ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK20ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H2BK5ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K14ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K18ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K23ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC,H3K23me2_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K27ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K27me3_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K36me3_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K4ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K4me1_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K4me2_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K4me3_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K56ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H3K79me1_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K79me2_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K9ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+FC,H3K9me1_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H3K9me3_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC;LC,H4K20me1_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H4K5ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H4K8ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+ESC;FC,H4K91ac_na,narrowPeak,NIH Roadmap Epigenomics Mapping Consortium
+hg19,A_Phased_Repeat,nonBDNA,non-B DB
+hg19,Cruciform_Motif,nonBDNA,non-B DB
+hg19,Direct_Repeat,nonBDNA,non-B DB
+hg19,G_Quadruplex_Motif,nonBDNA,non-B DB
+hg19,Inverted_Repeat,nonBDNA,non-B DB
+hg19,Mirror_Repeat,nonBDNA,non-B DB
+hg19,Short_Tandem_Repeat,nonBDNA,non-B DB
+hg19,Slipped_Motif,nonBDNA,non-B DB
+hg19,Triplex_Motif,nonBDNA,non-B DB
+hg19,Z_DNA_Motif,nonBDNA,non-B DB
+hg19,huCNE_canFam3_100pc_50col,noncoding,Nash et al. 2019
+hg19,huCNE_canFam3_96pc_50col,noncoding,Nash et al. 2019
+hg19,huCNE_galGal4_80pc_50col,noncoding,Nash et al. 2019
+hg19,huCNE_galGal4_90pc_50col,noncoding,Nash et al. 2019
+hg19,huCNE_galGal4_98pc_50col,noncoding,Nash et al. 2019
+hg19,huCNE_gorGor3_100pc_400col,noncoding,Nash et al. 2019
+hg19,huCNE_gorGor3_100pc_500col,noncoding,Nash et al. 2019
+hg19,huCNE_LepOcu1_70pc_30col,noncoding,Nash et al. 2019
+hg19,huCNE_LepOcu1_80pc_30col,noncoding,Nash et al. 2019
+hg19,huCNE_LepOcu1_96.6pc_30col,noncoding,Nash et al. 2019
+hg19,huCNE_monDom5_100pc_50col,noncoding,Nash et al. 2019
+hg19,huCNE_monDom5_80pc_50col,noncoding,Nash et al. 2019
+hg19,huCNE_monDom5_96pc_50col,noncoding,Nash et al. 2019
+hg19,huCNE_rheMac3_100pc_150col,noncoding,Nash et al. 2019
+hg19,huCNE_rheMac3_99.3pc_150col,noncoding,Nash et al. 2019
+hg19,repeat,repeat,UCSC Table Browser
+LC,B4,scompRaob37,Rao et al. 2014
+FC;hg19;LC,A1,subcompPred_IMR90;subcompPred_HAP1;subcompPred_HeLa;subcompPred_HMEC;subcompPred_HSPC;subcompPred_HUVEC;subcompPred_K562;subcompPred_TCell;scompRaob37;subcompPred_GM12878,Xiong et al. 2019; Rao et al. 2014
+FC;hg19;LC,A2,subcompPred_IMR90;subcompPred_HAP1;subcompPred_HeLa;subcompPred_HMEC;subcompPred_HSPC;subcompPred_HUVEC;subcompPred_K562;subcompPred_TCell;scompRaob37;subcompPred_GM12878,Xiong et al. 2019; Rao et al. 2014
+FC;hg19;LC,B1,subcompPred_IMR90;subcompPred_HAP1;subcompPred_HeLa;subcompPred_HMEC;subcompPred_HSPC;subcompPred_HUVEC;subcompPred_K562;subcompPred_TCell;scompRaob37;subcompPred_GM12878,Xiong et al. 2019; Rao et al. 2014
+FC;hg19;LC,B2,subcompPred_IMR90;subcompPred_HAP1;subcompPred_HeLa;subcompPred_HMEC;subcompPred_HSPC;subcompPred_HUVEC;subcompPred_K562;subcompPred_TCell;scompRaob37;subcompPred_GM12878,Xiong et al. 2019; Rao et al. 2014
+FC;hg19;LC,B3,subcompPred_IMR90;subcompPred_HAP1;subcompPred_HeLa;subcompPred_HMEC;subcompPred_HSPC;subcompPred_HUVEC;subcompPred_K562;subcompPred_TCell;scompRaob37;subcompPred_GM12878,Xiong et al. 2019; Rao et al. 2014
+LC,ARID3A,TF,ENCODE Consortium
+LC,ARNT,TF,ENCODE Consortium
+ESC;LC,ASH2L,TF,ENCODE Consortium
+ESC;LC,ATF2,TF,ENCODE Consortium
+ESC,ATF3,TF,ENCODE Consortium
+LC,ATF7,TF,ENCODE Consortium
+ESC;LC,BACH1,TF,ENCODE Consortium
+LC,BATF,TF,ENCODE Consortium
+ESC;LC,BCL11A,TF,ENCODE Consortium
+LC,BCL3,TF,ENCODE Consortium
+LC,BCLAF1,TF,ENCODE Consortium
+FC;LC,BHLHE40,TF,ENCODE Consortium
+LC,BMI1,TF,ENCODE Consortium
+ESC;LC,BRCA1,TF,ENCODE Consortium
+LC,CBFB,TF,ENCODE Consortium
+LC,CBX3,TF,ENCODE Consortium
+ESC;LC,CBX5,TF,ENCODE Consortium
+ESC,CBX8,TF,ENCODE Consortium
+ESC;FC;LC,CEBPB,TF,ENCODE Consortium
+LC,CEBPZ,TF,ENCODE Consortium
+ESC;FC;LC,CHD1,TF,ENCODE Consortium
+ESC;LC,CHD2,TF,ENCODE Consortium
+LC,CHD4,TF,ENCODE Consortium
+ESC,CHD7,TF,ENCODE Consortium
+LC,CREM,TF,ENCODE Consortium
+ESC,CTBP2,TF,ENCODE Consortium
+ESC;FC;LC,CTCF,TF,ENCODE Consortium
+LC,CUX1,TF,ENCODE Consortium
+LC,DPF2,TF,ENCODE Consortium
+LC,E2F4,TF,ENCODE Consortium
+LC,E2F8,TF,ENCODE Consortium
+LC,E4F1,TF,ENCODE Consortium
+LC,EBF1,TF,ENCODE Consortium
+LC,EED,TF,ENCODE Consortium
+ESC;LC,EGR1,TF,ENCODE Consortium
+LC,ELF1,TF,ENCODE Consortium
+FC;LC,ELK1,TF,ENCODE Consortium
+ESC;LC,EP300,TF,ENCODE Consortium
+LC,ESRRA,TF,ENCODE Consortium
+LC,ETS1,TF,ENCODE Consortium
+LC,ETV6,TF,ENCODE Consortium
+ESC;LC,EZH2,TF,ENCODE Consortium
+FC;LC,FOS,TF,ENCODE Consortium
+ESC,FOSL1,TF,ENCODE Consortium
+LC,FOXK2,TF,ENCODE Consortium
+LC,FOXM1,TF,ENCODE Consortium
+ESC;LC,GABPA,TF,ENCODE Consortium
+LC,GATAD2B,TF,ENCODE Consortium
+ESC,GTF2F1,TF,ENCODE Consortium
+LC,HCFC1,TF,ENCODE Consortium
+ESC;LC,HDAC2,TF,ENCODE Consortium
+ESC;LC,HDAC6,TF,ENCODE Consortium
+LC,HDGF,TF,ENCODE Consortium
+LC,HSF1,TF,ENCODE Consortium
+LC,IKZF1,TF,ENCODE Consortium
+LC,IKZF2,TF,ENCODE Consortium
+LC,IRF3,TF,ENCODE Consortium
+LC,IRF4,TF,ENCODE Consortium
+LC,IRF5,TF,ENCODE Consortium
+ESC,JUN,TF,ENCODE Consortium
+LC,JUNB,TF,ENCODE Consortium
+ESC;LC,JUND,TF,ENCODE Consortium
+ESC;LC,KDM1A,TF,ENCODE Consortium
+ESC,KDM4A,TF,ENCODE Consortium
+ESC,KDM5A,TF,ENCODE Consortium
+LC,KLF5,TF,ENCODE Consortium
+LC,LARP7,TF,ENCODE Consortium
+ESC;FC,LMNB1,TF,Bas van Steensel et al. 2017; Sadaie et al. 2013
+ESC;FC;LC,MAFK,TF,ENCODE Consortium
+LC,MAX,TF,ENCODE Consortium
+FC;LC,MAZ,TF,ENCODE Consortium
+LC,MEF2A,TF,ENCODE Consortium
+LC,MEF2B,TF,ENCODE Consortium
+LC,MEF2C,TF,ENCODE Consortium
+LC,MLLT1,TF,ENCODE Consortium
+LC,MTA2,TF,ENCODE Consortium
+LC,MTA3,TF,ENCODE Consortium
+ESC;LC,MXI1,TF,ENCODE Consortium
+LC,MYB,TF,ENCODE Consortium
+ESC;LC,MYC,TF,ENCODE Consortium
+ESC,NANOG,TF,ENCODE Consortium
+LC,NBN,TF,ENCODE Consortium
+LC,NFATC1,TF,ENCODE Consortium
+LC,NFATC3,TF,ENCODE Consortium
+FC,NFE2L2,TF,ENCODE Consortium
+LC,NFIC,TF,ENCODE Consortium
+LC,NFXL1,TF,ENCODE Consortium
+LC,NFYA,TF,ENCODE Consortium
+LC,NFYB,TF,ENCODE Consortium
+LC,NKRF,TF,ENCODE Consortium
+LC,NR2C1,TF,ENCODE Consortium
+LC,NR2C2,TF,ENCODE Consortium
+LC,NR2F1,TF,ENCODE Consortium
+ESC;LC,NRF1,TF,ENCODE Consortium
+LC,PAX5,TF,ENCODE Consortium
+LC,PAX8,TF,ENCODE Consortium
+LC,PBX3,TF,ENCODE Consortium
+ESC,PHF8,TF,ENCODE Consortium
+LC,PKNOX1,TF,ENCODE Consortium
+LC,PML,TF,ENCODE Consortium
+ESC;FC;LC,POLR2A,TF,ENCODE Consortium
+LC,POLR2AphosphoS2,TF,ENCODE Consortium
+ESC;LC,POLR2AphosphoS5,TF,ENCODE Consortium
+LC,POLR3G,TF,ENCODE Consortium
+LC,POU2F2,TF,ENCODE Consortium
+ESC,POU5F1,TF,ENCODE Consortium
+ESC;FC;LC,RAD21,TF,ENCODE Consortium
+LC,RAD51,TF,ENCODE Consortium
+LC,RB1,TF,ENCODE Consortium
+ESC;LC,RBBP5,TF,ENCODE Consortium
+LC,RCOR1,TF,ENCODE Consortium
+LC,RELA,TF,ENCODE Consortium
+LC,RELB,TF,ENCODE Consortium
+ESC;LC,REST,TF,ENCODE Consortium
+ESC;LC,RFX5,TF,ENCODE Consortium
+LC,RUNX3,TF,ENCODE Consortium
+ESC;LC,RXRA,TF,ENCODE Consortium
+ESC,SAP30,TF,ENCODE Consortium
+ESC;LC,SIN3A,TF,ENCODE Consortium
+ESC,SIRT6,TF,ENCODE Consortium
+ESC;LC,SIX5,TF,ENCODE Consortium
+LC,SKIL,TF,ENCODE Consortium
+LC,SMAD1,TF,ENCODE Consortium
+LC,SMAD5,TF,ENCODE Consortium
+LC,SMARCA5,TF,ENCODE Consortium
+FC;LC,SMC3,TF,ENCODE Consortium
+ESC;LC,SP1,TF,ENCODE Consortium
+ESC,SP2,TF,ENCODE Consortium
+ESC,SP4,TF,ENCODE Consortium
+LC,SPI1,TF,ENCODE Consortium
+ESC;LC,SRF,TF,ENCODE Consortium
+LC,STAT1,TF,ENCODE Consortium
+LC,STAT3,TF,ENCODE Consortium
+LC,STAT5A,TF,ENCODE Consortium
+ESC;LC,SUZ12,TF,ENCODE Consortium
+ESC;LC,TAF1,TF,ENCODE Consortium
+ESC,TAF7,TF,ENCODE Consortium
+LC,TARDBP,TF,ENCODE Consortium
+LC,TBL1XR1,TF,ENCODE Consortium
+ESC;LC,TBP,TF,ENCODE Consortium
+LC,TBX21,TF,ENCODE Consortium
+ESC;LC,TCF12,TF,ENCODE Consortium
+LC,TCF3,TF,ENCODE Consortium
+LC,TCF7,TF,ENCODE Consortium
+ESC,TEAD4,TF,ENCODE Consortium
+LC,TRIM22,TF,ENCODE Consortium
+LC,UBTF,TF,ENCODE Consortium
+ESC,USF1,TF,ENCODE Consortium
+ESC;FC;LC,USF2,TF,ENCODE Consortium
+LC,WRNIP1,TF,ENCODE Consortium
+LC,YBX1,TF,ENCODE Consortium
+ESC;LC,YY1,TF,ENCODE Consortium
+LC,ZBED1,TF,ENCODE Consortium
+LC,ZBTB33,TF,ENCODE Consortium
+LC,ZBTB40,TF,ENCODE Consortium
+LC,ZFP36,TF,ENCODE Consortium
+ESC;LC,ZNF143,TF,ENCODE Consortium
+LC,ZNF207,TF,ENCODE Consortium
+LC,ZNF217,TF,ENCODE Consortium
+LC,ZNF24,TF,ENCODE Consortium
+LC,ZNF384,TF,ENCODE Consortium
+LC,ZNF592,TF,ENCODE Consortium
+LC,ZNF622,TF,ENCODE Consortium
+LC,ZNF687,TF,ENCODE Consortium
+LC,ZSCAN29,TF,ENCODE Consortium
+LC,ZZZ3,TF,ENCODE Consortium
+hg19,TOP2B,TF_MCF7,Manville et al. 2015

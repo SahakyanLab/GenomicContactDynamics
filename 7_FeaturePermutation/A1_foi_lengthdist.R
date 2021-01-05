@@ -15,7 +15,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib" 
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
     data.dir = "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -25,7 +25,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
 # List of filenames of features of interest (refer to foi.dir)
 # If foifile = NULL, all files in foi.dir
 foifile = NULL #paste0(wk.dir, "/foifile/foifile_TF")

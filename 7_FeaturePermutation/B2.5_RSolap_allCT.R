@@ -11,19 +11,21 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-data.dir = paste0(wk.dir, "/out_RSolap_perCT/CpAllCsmatch_HiCNorm")
-out.dir = paste0(wk.dir, "/out_RSolap_allCT/CpAllCsmatch_HiCNorm")
+data.dir = paste0(wk.dir, "/out_RSolap_perCT/CpAllCs1perc_HiCNorm")
+out.dir = paste0(wk.dir, "/out_RSolap_allCT/CpAllCs1perc_HiCNorm")
 ### OTHER SETTINGS #############################################################
 data.id = "min2Mb_allCT" 
 
 # UpSet plot
 ylim.v = c(0,1)
 at.v = seq(from=0.2, to=0.8, by=0.2)
+
+combsizethreshfr = 0
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -48,11 +50,13 @@ UPSMX$SS <- sapply(X=RSid.v, simplify=FALSE, FUN=function(RSid){
 #-------------------UpSet plot
 load(file=paste0(data.dir, "/", data.id, "_RS_upsetplot.RData"))
 UPSOBJ <- UPSOBJ[comb_name(UPSOBJ)%in%comb.nme]
+UPSOBJ <- UPSOBJ[(comb_size(UPSOBJ)/totreg)>combsizethreshfr]
 cs <- comb_size(UPSOBJ)/totreg
 ss <- set_size(UPSOBJ)/totreg
 comb.od <- order(-comb_degree(UPSOBJ))
 
-pdf(file=paste0(out.dir, "/", data.id, "_upsetplot_comb.pdf"), width=10, height=10)
+pdf(file=paste0(out.dir, "/", data.id, "_csthresh", combsizethreshfr, "upsetplot_comb.pdf"), 
+    width=10, height=10)
 ht <- UpSet(UPSOBJ, 
             set_order=match(x=set_name(UPSOBJ), table=RSid.v), 
             comb_order=comb.od,

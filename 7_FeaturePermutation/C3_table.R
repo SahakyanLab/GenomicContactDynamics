@@ -11,16 +11,15 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
-    binmx.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/19_Circos/out_bindata"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-permtsum.dir = paste0(wk.dir, "/out_summary")
-out.dir = paste0(wk.dir,"/out_table")
+permtsum.dir = paste0(wk.dir, "/out_summary/feat_720")
+out.dir = paste0(wk.dir,"/out_table/feat_720")
 ### OTHER SETTINGS #############################################################
-pr.name = "nperm10000_seed662_mxmskfr0_CpAllCs1perc"
+pr.name = "nperm10000_seed662_mxmskfr0_CptopCP3" # CpAllCs1perc
 pr.eval.v = c("numOlapA", "comOlap")
 pval.cutoff = 0.05
 regenerateCSV = TRUE
@@ -46,6 +45,8 @@ if(regenerateCSV){
   colnames(df) <- paste( rep(colnames(PERMTSUM$pval), each=3), 
                          rep(c("obs", "alt", "pval"), times=3), sep="_" )
   df <- cbind.data.frame(foi=PERMTSUM$foifile, df, stringsAsFactors=FALSE)
+  df <- cbind.data.frame(df, PERMTSUM$numANDlen[rownames(PERMTSUM$obs),], 
+                         stringsAsFactors=FALSE)
   rm(PERMTSUM); gc()
   write.csv(df, file=paste0(out.dir, "/", out.name, "_permtsum.csv"),
             row.names=FALSE)

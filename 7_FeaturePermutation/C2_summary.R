@@ -11,15 +11,15 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-Cp.id = "CpAllCs1perc"
-permt.dir = paste0(wk.dir,"/out_associate_", Cp.id)
-out.dir = paste0(wk.dir,"/out_summary")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
+Cp.id = "CpAllCs1perc" # CpAllCs1perc
+permt.dir = paste0(wk.dir,"/z_ignore_git/out_associate_", Cp.id)
+out.dir = paste0(wk.dir,"/out_summary/feat_732")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL")
 foifile = NULL #paste0(wk.dir, "/foifile/foifile_test1")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"

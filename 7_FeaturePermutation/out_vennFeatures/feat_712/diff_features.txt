@@ -1,0 +1,57 @@
+ESC_only_enriched
+[1] "ESC_A2_subcompPred_HMEC"  "ESC_A2_subcompPred_HSPC"  "ESC_A2_subcompPred_HUVEC" "ESC_A2_subcompPred_K562" 
+[5] "ESC_A2_subcompPred_TCell"
+
+FC_only_enriched
+[1] "FC_A2_subcompPred_HMEC"  "FC_A2_subcompPred_HUVEC" "FC_A2_subcompPred_K562"  "FC_A2_subcompPred_TCell"
+ [5] "FC_B1_subcompPred_HAP1"  "FC_B1_subcompPred_HeLa"  "FC_B1_subcompPred_HUVEC" "FC_B1_subcompPred_IMR90"
+ [9] "FC_B1_subcompPred_K562"  "FC_B1_subcompPred_TCell"
+ 
+LC_only_enriched
+[1] "LC_A2_scompRaob37"         "LC_A2_subcompPred_GM12878" "LC_A2_subcompPred_HAP1"   
+ [4] "LC_A2_subcompPred_HeLa"    "LC_A2_subcompPred_HMEC"    "LC_A2_subcompPred_HSPC"   
+ [7] "LC_A2_subcompPred_HUVEC"   "LC_A2_subcompPred_K562"    "LC_A2_subcompPred_TCell"  
+[10] "LC_B1_subcompPred_HUVEC"   "LC_B1_subcompPred_K562"    "LC_BATF_TF"               
+[13] "LC_BCL11A_TF"              "LC_CBX3_TF"                "LC_CBX5_TF"               
+[16] "LC_GABPA_TF"               "LC_H2A.Z_br_broadPeak"     "LC_H3K9me3_br_broadPeak"  
+[19] "LC_JUNB_TF"                "LC_MAFK_TF"                "LC_STAT3_TF"              
+[22] "LC_TCF7_TF"  
+
+hg19_only_enriched
+[1] "hg19_A2_subcompPred_HAP1"  "hg19_A2_subcompPred_HeLa"  "hg19_A2_subcompPred_HMEC" 
+ [4] "hg19_A2_subcompPred_HSPC"  "hg19_A2_subcompPred_HUVEC" "hg19_A2_subcompPred_K562" 
+ [7] "hg19_A2_subcompPred_TCell" "hg19_B1_subcompPred_HSPC"  "hg19_B1_subcompPred_HUVEC"
+[10] "hg19_B1_subcompPred_K562"  "hg19_B1_subcompPred_TCell" "hg19_repeat_repeat"       
+[13] "hg19_TOP2B_TF_MCF7"      
+
+ESC_only_depleted
+[1] "ESC_H3K4me3_br_broadPeak"
+
+LC_only_depleted
+[1] "LC_GRB_lepOcu1_binned_kurtosis_arl_370_0.7_pc_30_kb_windows"
+
+FC_only_ns
+[1] "FC_A2_subcompPred_HAP1" "FC_A2_subcompPred_HSPC" "FC_B1_subcompPred_HSPC"
+
+ESC_only_ns
+[1] "ESC_BCL11A_TF"            "ESC_H2A.Z_br_broadPeak"   "ESC_H3K9me3_br_broadPeak"
+
+LC_only_ns
+[1] "LC_ATF2_TF"                "LC_B1_subcompPred_HeLa"    "LC_B1_subcompPred_HSPC"   
+ [4] "LC_B1_subcompPred_TCell"   "LC_BMI1_TF"                "LC_CEBPB_TF"              
+ [7] "LC_CUX1_TF"                "LC_EP300_TF"               "LC_ETV6_TF"               
+[10] "LC_H3K36me3_br_broadPeak"  "LC_H3K36me3_na_narrowPeak" "LC_H3K4me3_br_broadPeak"  
+[13] "LC_H3K79me2_na_narrowPeak" "LC_H3K9me3_na_narrowPeak"  "LC_MEF2A_TF"              
+[16] "LC_MEF2C_TF"               "LC_MTA2_TF"                "LC_NFIC_TF"               
+[19] "LC_NFXL1_TF"               "LC_PAX8_TF"                "LC_RAD51_TF"              
+[22] "LC_RBBP5_TF"               "LC_RELA_TF"                "LC_SKIL_TF"               
+[25] "LC_TBX21_TF"               "LC_Triplex_Motif_nonBDNA"  "LC_ZBED1_TF"              
+[28] "LC_ZNF384_TF"              "LC_ZZZ3_TF"               
+             
+hg19_only_ns
+[1] "hg19_B1_subcompPred_HAP1"                  "hg19_B1_subcompPred_HeLa"                 
+[3] "hg19_G-quadruplex_greq19_DNA"              "hg19_huCNE_LepOcu1_80pc_30col_noncoding"  
+[5] "hg19_huCNE_LepOcu1_96.6pc_30col_noncoding" "hg19_Triplex_Motif_nonBDNA"           
+
+
+

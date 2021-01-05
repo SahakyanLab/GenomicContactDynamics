@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     data.dir = "/t1-data/user/ltamon/Database"
@@ -28,14 +28,14 @@ chr.v = paste0("chr", c(1:22, "X"))
 CT.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
          "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
 Cp.v = 1:21
-Cs.v = 0.01
-id = "CpAllCs1perc" #"CpAll" #"CptopCP3" #"Cp1" #"CpAllCs1perc" #"CpAllCsmatch"
+Cs.v = 0.01 # c(1, 0.01) | 0.01 
+id = "CpAllCs1percHiCNorm" #"CpAll" #"CptopCP3" #"Cp1" #"CpAllCs1percHiCNorm" #"CpAllCsmatch"
 
 # If combsizethreshfr = 0.1, don't display top bar for combination comprised of equal 
 # or less than 10% of total regions. Do this only if necessary for clarity. 
-combsizethreshfr = 0
+combsizethreshfr = 0.05
 
-plotOnly = FALSE
+plotOnly = TRUE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################

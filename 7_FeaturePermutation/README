@@ -256,6 +256,10 @@ pval.cutoff used is 0.05.
 1. The results from above shows association of UNIQUE contact regions to different
 features. However, we do not know how this translates to contacts.
 
+query argument allows to specify if bin or feature range will be reference for 
+type.olap=within. Ex. if query=bin, type.olap=within function will check which bins
+are within feature ranges. 
+
 Contact-centric (foiVsij_ij.pdf):
 -Plot is fraction of contact vs. Cp distinguished by different ways the contact regions
 overlap with given feature (any or within type of overlap as indicated). Promisc means 
@@ -265,6 +269,8 @@ any feature.
 Feature-centric (foiVsij_foi.pdf):
 -Plot is fraction of contact per different contact types based on feature grouped
 by Cp. 
+
+Note that only chromosomes with features were considered. For instance, there is no sub-compartment data for chrX. 
 
 2. Taking a foicentric view of feature overlaps with unique contacting
 regions. Plot shows fraction of total feature bp per Cp. Since contact regions
