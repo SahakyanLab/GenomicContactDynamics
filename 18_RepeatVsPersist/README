@@ -177,6 +177,12 @@ ELMTISSDYN.MX.norm[i,] <- (ELMTISSDYN.MX[i,] - mean(ELMTISSDYN.MX[i,]))/
 where i denotes a row (an element).	  
 For the log2 fold change, the reference is raw Cp=1.
 
+To further depict the relationship of age and contact persistence,  weighted mean 
+$c_p$ was calculated per row by multiplying each value by the corresponding $c_p$ 
+and then taking the mean of the products. A loess line was then fitted via the 
+smooth argument (smooth=TRUE) of ComplexHeatmap::anno_lines(), which is used to 
+annotate heatmaps made using ComplexHeatmap. 
+
 6. Cluster repeats based on trend. Three clustering ways used:
 kmeans (euclidean), pam (euclidean), pam (manhattan). Venn is generated to
 compare differences in clustering across methods. 

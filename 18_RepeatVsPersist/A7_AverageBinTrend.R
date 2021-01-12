@@ -9,7 +9,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_RepeatVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatVsPersist"
   } else if (whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
@@ -19,7 +19,7 @@ if( !is.null(whorunsit[1]) ){
 }
 rep.group = "subfam" # "fam" | "subfam" | "subfam6"
 elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/viridis/", rep.group)
-out.dir = paste0(wk.dir, "/out_AverageBinTrend")
+out.dir = paste0(wk.dir, "/out_AverageBinTrend/subfam/nolabel")
 ### OTHER SETTINGS #############################################################
 # Age rank, ELMTISSDYN identifier
 elm.id = "GiorPubl" 
@@ -141,11 +141,13 @@ HicRepeatCluster <- function(
           
           y.range <- range(MX[elements.inclust,])
           plot(NA, ylim=y.range, xlim=range(unique.ntis), cex=1.5, pch=21, lwd=3,
-               xlab="", ylab=paste0(suffix, " contact fr with >=1 repeat pair"),
-               cex.main=0.5, cex.lab=2.5, cex.axis=2, xaxt="n",
-               main=paste0(out.id, "_Bin", b, "_Cluster",  cl, "_", length(elements.inclust)))
+               xlab="", ylab="", #ylab=paste0(suffix, " contact fr with >=1 repeat pair"),
+               cex.main=0.5, cex.lab=2.5, cex.axis=2, xaxt="n"
+               #,
+               #main=paste0(out.id, "_Bin", b, "_Cluster",  cl, "_", length(elements.inclust))
+               )
           axis(side=1, at=unique.ntis, cex.axis=1, cex.lab=2.5)
-          mtext(side=1, text=expression("c"["p"]), line=5, cex=2.5)
+          #mtext(side=1, text=expression("c"["p"]), line=5, cex=2.5)
           for(i in 1:21){abline(v=i, col="grey", lty="dotted")}
           y.v <- list()
           for(elm in elements.inclust){
