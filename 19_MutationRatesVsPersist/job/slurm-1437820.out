@@ -1,0 +1,201 @@
+Loading R-cbrg/current
+  Loading requirement: gsl/2.6 hdf5/1.10.7
+ERROR: Unable to locate a modulefile for 'gcc/9.3.0'
+
+R version 4.0.1 (2020-06-06) -- "See Things Now"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ################################################################################
+> # Explore COSMIC non-coding mutation data.
+> ################################################################################
+> # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
+> ### DIRECTORY STRUCTURE ########################################################
+> whorunsit = "LiezelCluster"  # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+> # "AlexMac", "AlexCluster"
+> 
+> if( !is.null(whorunsit[1]) ){
++   # This can be expanded as needed ...
++   if(whorunsit == "LiezelMac"){
++     lib = "/Users/ltamon/DPhil/lib"
++     data.dir = "/Users/ltamon/Database"
++     wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/19_Mutation_rates"
++   } else if(whorunsit == "LiezelCluster"){
++     lib = "/t1-data/user/ltamon/DPhil/lib"
++     data.dir = "/t1-data/user/ltamon/Database"
++     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/19_Mutation_rates"
++   } else {
++     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
++   }
++ }
+> genome = 37
+> CosmicNCVPath = paste0(data.dir, "/cosmic/GRCh", genome, "/CosmicNCV.GRCh", 
++                        genome, ".tsv")
+> out.dir = paste0(wk.dir, "/out_explore")
+> ### OTHER SETTINGS #############################################################
+> ################################################################################
+> # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
+> ################################################################################
+> ### FUNCTION ###################################################################
+> library(data.table)
+> ################################################################################
+> # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
+> ################################################################################
+> x <- list()
+> 
+> ncv.df <- fread(file=CosmicNCVPath, header=TRUE) 
+> 
+> # Extract sample dataset
+> mut <- as.data.frame(ncv.df[1:2000,])
+> save(mut, file=paste0(out.dir, "/CosmicNCV_GRCh", genome, "_2000.RData"))
+> rm(mut); gc()
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells  62934240 3361.1  125809280 6719.0  62938824 3361.3
+Vcells 783983612 5981.4 1147599377 8755.5 784292377 5983.7
+> 
+> # Check for NAs 
+> tmp <- list()
+> for( i in 1:ncol(ncv.df) ){
++   colnme <- colnames(ncv.df)[i]
++   if( any(is.na(ncv.df[[colnme]])) ){
++     tmp[[colnme]] <- colnme
++   }
++   rm(colnme)
++ }
+> x$withNAs <- names(tmp); rm(tmp)
+> 
+> # Total mutations
+> x$total <- nrow(ncv.df[,1])
+> 
+> # GENOMIC_MUTATION_ID & LEGACY_MUTATION_ID
+> indG <- which(duplicated(ncv.df$GENOMIC_MUTATION_ID))
+> indL <- which(duplicated(ncv.df$LEGACY_MUTATION_ID))
+> x$GLsame <- ifelse(identical(indG, indL), TRUE, FALSE)
+> x$dupGid <- length(indG)
+> x$dupLid <- length(indL); rm(indL)
+> 
+> # Zygosity
+> x$zygosity <- table(ncv.df$zygosity)
+> 
+> # Genome reference
+> x$GRCh <- table(ncv.df$GRCh)
+> 
+> # Genomic position
+> tmp <- strsplit(x=ncv.df$`genome position`, split=":|-")
+> tmp <- unlist(lapply( X=tmp, FUN=function(x) x[2]==x[3] ))
+> x$onebased <- table(tmp); rm(tmp)
+> 
+> # Mutation somatic status
+> x$`Mutation somatic status` <- table(ncv.df$`Mutation somatic status`)
+> 
+> # WT SEQ --> MUT SEQ
+> x$wtmutdiff <- all(ncv.df$WT_SEQ!=ncv.df$MUT_SEQ)
+> x$WT_SEQ <- table(ncv.df$WT_SEQ)
+> x$MUT_SEQ <- table(ncv.df$MUT_SEQ)
+> 
+> # SNP
+> x$SNP <- table(ncv.df$SNP)
+> 
+> # FATHMM_MKL_NON_CODING_SCORE
+> tmp <- ncv.df$FATHMM_MKL_NON_CODING_SCORE
+> tmp <- tmp[!is.na(tmp)]
+> x$FATHMM_MKL_NON_CODING_SCORE <- c(Missing=sum(is.na(ncv.df$FATHMM_MKL_NON_CODING_SCORE)),
++                                    Neutral=sum(tmp<=0.5),
++                                    Pathogenic=sum(tmp>=0.7), 
++                                    Mid=sum(tmp>0.5 & tmp<0.7))
+> rm(tmp)
+> 
+> # FATHMM_MKL_NON_CODING_GROUPS 
+> x$FATHMM_MKL_NON_CODING_GROUPS <- table(ncv.df$FATHMM_MKL_NON_CODING_GROUPS) 
+> 
+> # Whole Genome Reseq
+> x$Whole_Genome_Reseq <- table(ncv.df$Whole_Genome_Reseq)
+> 
+> # Whole_Exome
+> x$Whole_Exome <- table(ncv.df$Whole_Exome)
+> 
+> #-------------------Remove samples with multiple mutations at the same site
+> # Custom id for a sample; Need alternative to ID_SAMPLE because there can be 
+> # multiple ids, if the same sample has been entered into the database multiple 
+> # times from different papers.
+> 
+> # Also, there can be multiple sample ids linked to the same sample name if it 
+> # is unclear whether the same sample name between different publications is 
+> # indeed the same sample.
+> 
+> custom.id <- paste(ncv.df$`Primary site`, ncv.df$`Site subtype 1`, 
++                    ncv.df$`Site subtype 2`, ncv.df$`Site subtype 3`,
++                    ncv.df$`Primary histology`, ncv.df$`Histology subtype 1`,
++                    ncv.df$`Histology subtype 2`, ncv.df$`Histology subtype 3`)
+> 
+> # Trim down dataset
+> ncv.df <- ncv.df[, c("Sample name", "ID_SAMPLE", "GENOMIC_MUTATION_ID", "genome position")]
+> 
+> x$multMutInPos <- c(pos_ID_SAMPLE=NA, pos_Sample_name=NA, pos_custom.id=NA, anyOf3=NA)
+> 
+> tmp <- paste0(custom.id, ncv.df$`genome position`)
+> TF1 <- duplicated(tmp) | duplicated(tmp, fromLast=TRUE)
+> x$multMutInPos["pos_custom.id"] <- sum(TF1)
+> rm(tmp, custom.id); gc()
+            used   (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells  31711813 1693.6  128352626 6854.8  200550977 10710.6
+Vcells 342125152 2610.3 1101759402 8405.8 1377199248 10507.2
+> 
+> tmp <- paste0(ncv.df$ID_SAMPLE, ncv.df$`genome position`)
+> TF2 <- duplicated(tmp) | duplicated(tmp, fromLast=TRUE)
+> x$multMutInPos["pos_ID_SAMPLE"] <- sum(TF2)
+> rm(tmp)
+> 
+> tmp <- paste0(ncv.df$`Sample name`, ncv.df$`genome position`)
+> TF3 <- duplicated(tmp) | duplicated(tmp, fromLast=TRUE)
+> x$multMutInPos["pos_Sample_name"] <- sum(TF3)
+> rm(tmp); gc()
+            used   (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells  31711825 1693.6  102682101 5483.9  200550977 10710.6
+Vcells 360448788 2750.1 1101759402 8405.8 1377199248 10507.2
+> 
+> SampDrop.TF <- TF1 | TF2 | TF3
+> rm(TF1, TF2, TF3); gc()
+            used   (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells  31711824 1693.6  102682101 5483.9  200550977 10710.6
+Vcells 342125156 2610.3 1101759402 8405.8 1377199248 10507.2
+> x$multMutInPos["anyOf3"] <- sum(SampDrop.TF)
+> 
+> # Entries of the same mutation type may have different GENOMIC_MUTATION_ID if from
+> # different samples. Check that entries with the same GENOMIC_MUTATION_ID do have the 
+> # same position
+> ncv.df <- ncv.df[,c("GENOMIC_MUTATION_ID", "genome position")]
+> dupGid <- ncv.df$GENOMIC_MUTATION_ID[duplicated(ncv.df$GENOMIC_MUTATION_ID)]
+> dupGid.ind <- which(ncv.df$GENOMIC_MUTATION_ID%in%dupGid)
+> same.TF <- by(data=ncv.df$`genome position`[dupGid.ind],
++               INDICES=ncv.df$GENOMIC_MUTATION_ID[dupGid.ind],
++               FUN=function(x) length(unique(as.character(x)))==1
++ )
+> rm(ncv.df)
+> x$dupGidSamepos <- ifelse( all(same.TF), TRUE, FALSE )
+> 
+> # Drop entries with same GENOMIC_MUTATION_ID but diff position
+> GidDrop.ind <- dupGid.ind[!same.TF]
+> x$dupGidDiffpos <- length(GidDrop.ind)
+> x$DropSampidGid <- length(unique(which(SampDrop.TF), GidDrop.ind)) 
+> 
+> #rm( list=ls()[!ls()%in%c(x, out.dir, genome)] ); gc()
+> 
+> save(x, file=paste0(out.dir, "/CosmicNCV_GRCh", genome, "_explore.RData"))
+> 
+> #rm(list=ls()); gc()
+> 
