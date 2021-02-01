@@ -16,7 +16,7 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/19_Mutation_rates"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_MutationRatesVsPersist"
     binmx.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation/binmx/out_bindata_1perc_HiCNorm"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -27,13 +27,14 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-mutbin.dir = paste0(wk.dir, "/out_mutCalcPerBin")
-out.dir = paste0(wk.dir, "/out_mutCalcPerCp")
+mutbin.dir = paste0(wk.dir, "/out_mutCalcPerBin/WT_SEQ_rowSum")
+out.dir = paste0(wk.dir, "/out_mutCalcPerCp/WT_SEQ_rowSum")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-src.id = "Hg19" # "Hg19" | "hg38ToHg19"
+src.id = "hg38ToHg19" # "Hg19" | "hg38ToHg19"
 Cp.v = 1:21
 mut.v = c("All", "A>C", "A>G", "A>T", "C>A", "C>G", "C>T")
+calc.v = c("Tmut", "Nmsite", "TmutDIVNmsite", "Nmsitenorm")
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -96,38 +97,26 @@ for(mut in mut.v){
   x <- x[x$value==1,colnames(x)!="value"]
   colnames(x) <- c(colnames(x)[1:5], "Cp")
   
-  binPerCp <- table(x$Cp)
-  binmutPerCp <- table(x$Cp[x$mutbin==1])
-  percbinmut <- binmutPerCp/binPerCp*100
-  binPerCp <- paste0("\n binPerCp1to21_", paste(x=binPerCp, collapse="_"))
-  binmutPerCp <- paste0("\n binmutPerCp1to21_", paste(x=binmutPerCp,collapse="_"))
-  percbinmut <- paste0("\n %binmutPerCp1to21_",
-                       paste(x=round(percbinmut, digits=3), collapse="_"))
-  
-  # Tmut
-  boxplot(Tmut~Cp, outline=FALSE, data=x, xlab="Cp", ylab="Total mut per bin", 
-          boxwex=0.6, cex.axis=1.2, col="#FDC776", cex.main=0.3,
-          main=paste0(mut.id, "_", src.id, "_TmutperCp_", binPerCp, binmutPerCp, 
-                      percbinmut))
-  
-  # Nmsite
-  boxplot(Nmsite~Cp, outline=FALSE, data=x, xlab="Cp", ylab="No. mutated site", 
-          boxwex=0.6, cex.axis=1.2, col="#FDC776", cex.main=0.3,
-          main=paste0(mut.id, "_", src.id, "_Nmsite_", binPerCp, binmutPerCp, 
-                      percbinmut))
- 
-  # TmutDIVNmsite
-  boxplot(TmutDIVNmsite~Cp, outline=FALSE, data=x, xlab="Cp", ylab="Tmut/Nmsite", 
-          boxwex=0.6, cex.axis=1.2, col="#FDC776", cex.main=0.3,
-          main=paste0(mut.id, "_", src.id, "_TmutDIVNmsite_", binPerCp, 
-                      binmutPerCp, percbinmut))
-  
-  # Nmsitenorm
-  boxplot(Nmsitenorm~Cp, outline=FALSE, data=x, xlab="Cp", 
-          ylab="Nmsite/no. of orig base or bin length for all mut type", 
-          boxwex=0.6, cex.axis=1.2, col="#FDC776", cex.main=0.3,
-          main=paste0(mut.id, "_", src.id, "_Nmsitenorm_", binPerCp, 
-                      binmutPerCp, percbinmut))
+  for(calc in calc.v){
+    
+    bin.TF <- is.finite(x[[calc]])
+    binPerCp <- table( x$Cp[bin.TF] )
+    binmutPerCp <- table(x$Cp[x$mutbin==1 & bin.TF])
+    percbinmut <- binmutPerCp/binPerCp*100
+    binPerCp <- paste0("\n binPerCp1to21_", paste(x=binPerCp, collapse="_"))
+    binmutPerCp <- paste0("\n binmutPerCp1to21_", paste(x=binmutPerCp,collapse="_"))
+    percbinmut <- paste0("\n %binmutPerCp1to21_",
+                         paste(x=round(percbinmut, digits=3), collapse="_"))
+    
+    # By default, ignore missing values in either the response or the group.
+    eval(parse(text=paste0(
+      'boxplot(', calc, '~Cp, outline=FALSE, data=x, xlab="Cp", ylab=calc, boxwex=0.6, 
+              cex.axis=1.2, col="#FDC776", cex.main=0.3,
+              main=paste0(mut.id, "_", src.id, "_calc_", binPerCp, binmutPerCp, 
+                          percbinmut))'
+    )))
+    
+  }
   
   print(paste0(mut, " done!"), quote=FALSE)
   

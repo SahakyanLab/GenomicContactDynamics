@@ -18,7 +18,7 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/19_Mutation_rates"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_MutationRatesVsPersist"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     data.dir = "/t1-data/user/ltamon/Database"
@@ -56,7 +56,9 @@ for(mut in mut.v){
   
   if(mut=="All"){
     mut.TF <- rep(TRUE, times=nrow(ncv.df))
-    WT_SEQ <- "numUMChar"
+    #WT_SEQ <- "numUMChar"
+    # For Nmsitenorm, consider only bins without missing sequence
+    WT_SEQ <- "rSum"
   } else if( mut%in%c("A>C", "A>G", "A>T", "C>A", "C>G", "C>T") ){
     mut.TF <- ncv.df$MUT==mut
     WT_SEQ <- strsplit(x=mut, split=">", fixed=TRUE)[[1]][1]
@@ -94,6 +96,12 @@ for(mut in mut.v){
     # Number of mutated sites normalised to number of original/WT base per bin
     load(file=paste0(basecont.dir, "/", chr, "_BinKmer1.RData"))
     dimnames(BINKMER.MX)[[1]] <- BINKMER.MX[,"bins"]
+    
+    # Check if rows in BINKMER.MX don't have rows with both missing and defined values.
+    a <- rowSums(x=BINKMER.MX[,c("A","C","G","T")], na.rm=FALSE)
+    b <- rowSums(x=BINKMER.MX[,c("A","C","G","T")], na.rm=TRUE)
+    if( sum(is.na(a) & b!=0)!=0 ){ stop("Checkpoint 2.") }
+    BINKMER.MX <- cbind(BINKMER.MX, rSum=a); rm(a, b)
     numWTSEQ <- BINKMER.MX[bin.srt,WT_SEQ]
     Nmsitenorm <- Nmsite[bin.srt]/numWTSEQ
     rm(BINKMER.MX, numWTSEQ); gc()

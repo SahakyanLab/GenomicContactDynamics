@@ -130,12 +130,15 @@ a. Tmut - number of mutations
 b. Nmsite - number of mutated sites (in at least one sample in the cosmic data)
 c. TmutDIVNmsite - Tmut/Nmsite
 d. Nmsitenorm - Nmsite/number of wildtype base in the bin 
-	- for A>C, divide by the number of As in the bin
-	- If considering all types of mutations, divide by bin length. This is regardless
-	if the sequence has missing base or not. This is because the missing base will
-	be part of the sum anyway since it can only be one of the 4 bases. 
+	- Example for A>C, divide by the number of As in the bin
 	- Nmsitenorm missing values correspond to bins with missing A,C,G,T content
 	because they have Ns in their sequence
+	- For mut=='All' (all mutation types), out_WT_SEQ_nUMChar contains result
+	considering all bins regardless if there are missing base or none. The bin
+	length is used for normalisation because although there are missing bases,
+	they can only be of the 4 bases and will always be included in the sum. 
+	The out_WT_SEQ_rowSum contains results ignoring bins with missing bases
+	as in other mutation types. 
 
 See ~/GCD_polished/2_Expl_contacts for script calculating base content per bin.
 	

@@ -14,7 +14,7 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/19_Mutation_rates"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_MutationRatesVsPersist"
     binmx.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation/binmx/out_bindata_1perc_HiCNorm"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -26,8 +26,8 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 meanCp.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/out_binWeightedMeanCp")
-mutCp.dir = paste0(wk.dir, "/out_mutCalcPerCp")
-out.dir = paste0(wk.dir, "/out_mutCalcVsMeanCp")
+mutCp.dir = paste0(wk.dir, "/out_mutCalcPerCp/WT_SEQ_rowSum")
+out.dir = paste0(wk.dir, "/out_mutCalcVsMeanCp/WT_SEQ_rowSum")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 src.id = "hg38ToHg19" # "Hg19" | "hg38ToHg19"
