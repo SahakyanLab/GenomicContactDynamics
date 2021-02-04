@@ -101,7 +101,7 @@ getComplementarityKmer <- function(
     save(HYB.MX, file=paste0(out.dir, "/", out.id, ".RData"))
   }
   
-  return(HYB.MX)
+  return(HYB.MX["NegSumAbsDiff",])
 
 }
 ################################################################################

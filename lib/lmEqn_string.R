@@ -6,7 +6,7 @@ lmEqn_string <- function(x="kmer", y="align", data=df){
   m <- eval(parse(text=paste0("lm(", y, "~", x, ", data=data)"
   )
   ))
-  p <- cor(x=data[,x], y=data[,y])
+  p <- cor(x=data[,x], y=data[,y], method="pearson")
   
   a=format(unname(coef(m)[1]), digits=5)
   b=format(unname(coef(m)[2]), digits=5)

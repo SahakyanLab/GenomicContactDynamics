@@ -23,8 +23,8 @@ bgr1 <- theme(# Plot panel
               axis.ticks.length=unit(.28, "cm"),
               aspect.ratio=1,
               # Legend text
-              legend.text=element_text(size=20),
-              legend.title=element_text(size=25, face="bold")
+              legend.text=element_text(size=15),
+              legend.title=element_text(size=20, face="bold")
 )
 
 # Larger size of labels
@@ -39,8 +39,8 @@ bgr2 <- bgr1 +
     # Axis tick labels
     axis.text.x = element_text(size=25, angle=360, colour="black"),
     axis.text.y = element_text(size=25, angle=360, colour="black"),
-    legend.text=element_text(size=30),
-    legend.title=element_text(size=35, face="bold")
+    legend.text=element_text(size=20),
+    legend.title=element_text(size=25, face="bold")
   )
 
 # Lighter panel.background=element_rect()

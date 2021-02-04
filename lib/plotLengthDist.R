@@ -11,22 +11,34 @@ plotLengthDist <- function(df = data.frame(variable=NA, value=NA),
                            col.v = NULL,
                            out.name = "",
                            out.dir = "/dir",
-                           label.x = bquote(bold("log"["10"]~"("~"L"~")"))
+                           label.x = bquote(bold("log"["10"]~"("~"L"~")")),
+                           addlabs = TRUE,
+                           addlegend= TRUE
                            ){
   colnames(df) <- c("variable", "value")
   p <- ggplot(data=df, aes_string(x=colnames(df)[2])) +
-    geom_density(aes_string(fill=colnames(df)[1], col=colnames(df)[1]) ) + #alpha=0.25) +
+    geom_density(aes_string(fill=colnames(df)[1], col=colnames(df)[1])) + #alpha=0.25) +
     # aes(y=..scaled..)
     # aes(y=..count..)
     # aes(values, stat(count))
-    labs(title=out.name,
-         x=label.x, 
-         y=expression(bold("Density"))
-    ) +
     bgr2 
+  
+  if(addlabs){
+    p <- p + labs(title=out.name,
+                  x=label.x, 
+                  y=expression(bold("Density"))
+    ) 
+  } else {
+    p <- p + labs(title=NULL, x=NULL, y=NULL, fill=NULL)
+  }
+  
+  if(addlegend==FALSE){
+    p <- p + theme(legend.position="none")
+  }
+  
   if( !is.null(vline.v) ){
     p <- p + geom_vline( data=data.frame(vline.v), linetype="dashed",
-                         colour="black", size=0.7, aes(xintercept=vline.v))
+                         colour="black", size=2, aes(xintercept=vline.v))
   }
   if( !is.null(col.v) ){
     p <- p + 

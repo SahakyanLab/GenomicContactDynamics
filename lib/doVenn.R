@@ -1,35 +1,32 @@
 ################################################################################
-#make venn (up to 7 sets)
-#input is a list of objects
+# Wrapper function to make venn using R package venn (up to 7 sets)
 ################################################################################
-library(venn)
-library(gplots)
+# LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
-################################################################################
-doVenn <- function(vennlist = VENN.OBJ.LIST,
-                   #or a vector of names same order as your list
-                   #if NULL, it uses names on the list
+# library(venn)
+### FUNCTION ###################################################################
+doVenn <- function(vennlist = vennlist,
+                   # Vector of names same order as your list.
+                   # If NULL, it uses names of the list.
                    labels = NULL,
                    makeVenn = TRUE,
                    saveVenndata = TRUE,
-                   venncol = "style", #or specifiy a vector
-                   filename = "myvenn"){
+                   # If venncol="style", predefined colours will be used.
+                   # Specify vector of colours to customise. 
+                   venncol = "style", 
+                   filename = "/out.dir/myvenn"){
   
-  if(!is.null(labels)){
+  if( !is.null(labels) ){
     names(vennlist) <- labels
   }
-  
+
   if(makeVenn==TRUE){
-    #make and save venn in a pdf
-    pdf(file=paste0(filename, ".pdf"))
-    v <- venn::venn( x=VENN.OBJ.LIST, zcolor="style" )
+    pdf(file=paste0(filename, "_venn.pdf"))
+    v <- venn::venn( x=vennlist, zcolor=venncol )
     dev.off()
   } else {
-    v <- venn::venn( x=VENN.OBJ.LIST, zcolor="style" )
+    v <- venn::venn( x=vennlist, zcolor=venncol )
   }
-  
-  #save underlying venn data
-  items <- gplots::venn(VENN.OBJ.LIST, show.plot=FALSE)
   
   #Ref: https://www.r-bloggers.com/working-with-venn-diagrams/
   # You can inspect the contents of this object with the str() function
@@ -38,10 +35,10 @@ doVenn <- function(vennlist = VENN.OBJ.LIST,
   # By inspecting the structure of the a object created, 
   # you notice two attributes: 1) dimnames 2) intersections
   # We can store the intersections in a new object named inters
-  VENN.DATA <- attr(items, "intersections")
+  VENN.DATA <- attr(v, "intersections")
   
   if(saveVenndata==TRUE){
-    save(VENN.DATA, file=paste0(filename, ".RData"))
+    save(VENN.DATA, file=paste0(filename, "_venn.RData"))
   }
   
 }
