@@ -30,7 +30,7 @@ mutCp.dir = paste0(wk.dir, "/out_mutCalcPerCp/WT_SEQ_rowSum")
 out.dir = paste0(wk.dir, "/out_mutCalcVsMeanCp/WT_SEQ_rowSum")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-src.id = "hg38ToHg19" # "Hg19" | "hg38ToHg19"
+src.id = "Hg19" # "Hg19" | "hg38ToHg19"
 mut.v = c("All", "A>C", "A>G", "A>T", "C>A", "C>G", "C>T")
 calc.v = c("Tmut", "Nmsite", "TmutDIVNmsite", "Nmsitenorm")
 hxbincuts.v = c(13,13,3,13)
@@ -76,6 +76,7 @@ for(mut in mut.v){
     rm(BINWMEANCP.DF); gc()
     
   }
+  save(MUTCP.DF) <
   
   for(calc in calc.v){
     
@@ -104,8 +105,6 @@ for(mut in mut.v){
   print(paste0(mut, " done!"), quote=FALSE)
   
 } # mut.v for loop end
-
-
 
 calc.v.len <- length(calc.v)
 mut.v.len <- length(mut.v)

@@ -31,7 +31,7 @@ mutbin.dir = paste0(wk.dir, "/out_mutCalcPerBin/WT_SEQ_rowSum")
 out.dir = paste0(wk.dir, "/out_mutCalcPerCp/WT_SEQ_rowSum")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-src.id = "hg38ToHg19" # "Hg19" | "hg38ToHg19"
+src.id = "Hg19" # "Hg19" | "hg38ToHg19"
 Cp.v = 1:21
 mut.v = c("All", "A>C", "A>G", "A>T", "C>A", "C>G", "C>T")
 calc.v = c("Tmut", "Nmsite", "TmutDIVNmsite", "Nmsitenorm")
@@ -112,7 +112,7 @@ for(mut in mut.v){
     eval(parse(text=paste0(
       'boxplot(', calc, '~Cp, outline=FALSE, data=x, xlab="Cp", ylab=calc, boxwex=0.6, 
               cex.axis=1.2, col="#FDC776", cex.main=0.3,
-              main=paste0(mut.id, "_", src.id, "_calc_", binPerCp, binmutPerCp, 
+              main=paste0(mut.id, "_", src.id, "_', calc, '_", binPerCp, binmutPerCp, 
                           percbinmut))'
     )))
     
