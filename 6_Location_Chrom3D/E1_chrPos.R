@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/6_Chrom3D"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/6_Location_Chrom3D"
     repeat.dir = "/Users/ltamon/Database/ucsc_tables/hsa_RepeatMasker"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -60,13 +60,17 @@ pos[pos==0] <- 1
 # Data for heatmap
 HM.MX <- matrix(data=NA, ncol=length(pos), nrow=length(chr.v),
                 dimnames=list(chr.v, pos))
+COUNT.MX <- matrix(data=0, ncol=length(pos), nrow=length(chr.v),
+                   dimnames=list(chr.v, pos))
 
 rw.len <- nrow(DOMXYZR.DF)
 for(i in 1:rw.len){
   rw <- DOMXYZR.DF[i,]
-  HM.MX[chr.v==rw$chr, (pos>=rw$start & pos<=rw$end) ] <- rw$radDist
+  HM.MX[rw$chr, (pos>=rw$start & pos<=rw$end) ] <- rw$radDist
+  COUNT.MX[rw$chr, ] <- COUNT.MX[rw$chr, ] + as.numeric( (pos>=rw$start & pos<=rw$end) )
 }
 dimnames(HM.MX)[[2]] <- pos/1e6
+if( any(COUNT.MX>1) ){ stop("Checkpoint 1.") }
 
 df <- melt(HM.MX)
 colnames(df) <- c("chr", "pos", "r")
@@ -86,4 +90,4 @@ ggplot(df, aes(x=pos, y=chr, fill=r)) +
 ggsave(filename=paste0(out.dir, "/", out.name, "_bin", bin.len, "_chrPos_plot.pdf"), 
        units="in", width=10, height=10)
 
-# rm(list=ls())
+# rm(list=ls()); gc()

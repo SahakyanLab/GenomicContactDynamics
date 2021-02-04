@@ -11,7 +11,8 @@ getcmmXYZradi.R
 getCOM.R
 getRadDist.R
 loadRData.R
-BINorSLIDE.R
+./lib/BINorSLIDE.R
+./lib/plotFeatDensPerRadWindow.R
 TrantoR_liftOver/GEN_liftOveR.R
 TrantoR_liftOver/GEN_liftOverLoadChain.R
 TrantoRextr/GEN_WhichOverlap.R
