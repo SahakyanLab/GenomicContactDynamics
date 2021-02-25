@@ -1,0 +1,44 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+Processed RT data using James' script (data in ~/Database/replication_timing/out_clustering_combined/hg19/", id, "/RT_data_hg19.RData"))
+
+library(reshape2)
+source(paste0(lib, "/makebp.R"))
+################################################################################
+# Replication timing (RT) vs. Cp
+################################################################################
+1. Use processed RT data to plot replication timing vs. Cp.
+
+> head(rt)
+  chroms starts       norm        sd set.count        skew      mean
+1   chr1      1 0.12039080 0.3976384        43 -0.34061787 0.1406257
+2   chr1  40001 0.02745193 0.3845765        85  0.30669808 0.1312744
+3   chr1  80001 0.04534876 0.3934512        85  0.35028699 0.1625699
+4   chr1 120001 0.05786389 0.2187318        32 -0.74728639 0.3698464
+5   chr1 160001 0.15308877 0.2359828        25  0.06484551 0.4802662
+6   chr1 200001 0.17383877 0.3107106        42 -0.72942617 0.2219531
+
+rt dataframe contains RT calculations for all hg19 bins. See ~/Database/replication_timing/README
+for the description of columns.
+
+a. Bins with rt$set.count < 3 | rt$point.count < 3 | rt$norm==1 | rt$norm.cA==1 | rt$norm.cB==1
+were excluded (their values were set to NA).
+
+b. If the RT resolution is less than and is a factor of the HiC resolution (40kb),
+the script will convert the RT data to the resolution of the HiC bins by collapsing
+the bins and taking the mean of values except for point.count column (not shown above). 
+For instance, if the RT resolution is 20kb, the 1st and 2nd bins of chrs will be
+collapsed to form the first 40kb bin of the converted dataset.
+
+For point.count (number of RT points contributing to bin), values of bins to be 
+collapsed are summed. set.count on the other hand is the number of accessions (RT)
+file contributing to the bin so we can't just take the sum of set.count of bins
+to be collapsed because the bins may share accessions. 
+
+c. Only the boxplot of set.count displays outliers, in order to clearly show the 
+range of values. 
+
+d. The plot title contains the total number of hg19 bins and the percentage of
+bins filtered based on (a). 
+################################################################################
