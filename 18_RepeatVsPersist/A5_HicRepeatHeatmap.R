@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     # directory for intermediate and final files of HiCRepeatExploration
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_RepeatVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatVsPersist"
   } else if (whorunsit == "LiezelCluster"){
     # directory for intermediate and final files of HiCRepeatExploration
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -41,28 +41,7 @@ addLoess = FALSE # Only works if cluster.TF=FALSE
 library(viridis)
 library(data.table)
 library(ComplexHeatmap)
-
-myheatmap <- function(mx=ELMTISSDYN.MX, colScheme=viridis::viridis(n=10), 
-                      rep.group=rep.group, mx.nme="raw", cluster=FALSE, at.v=at.v
-                      ){
-  
-  if( grepl(x=rep.group, pattern="subfam", fixed=TRUE) ){
-    h1 <- ComplexHeatmap::Heatmap(matrix=mx, col=colScheme, na_col="gray50", 
-                                  cluster_columns=FALSE, cluster_rows=cluster,
-                                  row_names_gp=gpar(fontsize=2),
-                                  heatmap_legend_param=list(title=mx.nme, at=at.v))
-    return(h1)
-  } else if(rep.group=="fam"){
-    h1 <- ComplexHeatmap::Heatmap(matrix=mx, col=colScheme, na_col="gray50",
-                                  cluster_columns=FALSE, cluster_rows=cluster, 
-                                  row_dend_width=unit(50,"mm"), 
-                                  row_names_gp=gpar(fontsize=15),
-                                  heatmap_legend_param=list(title=mx.nme, at=at.v))
-    return(h1)
-  } else {
-    stop("Invalid rep.group argument.")
-  }
-}
+source(paste0(wk.dir, "/lib/myheatmap.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * 
 ################################################################################
