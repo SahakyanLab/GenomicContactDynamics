@@ -25,9 +25,10 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 # Chromatin features directory
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL")
 foifile = paste0(wk.dir, "/foifile/FINAL_foifile_priority_nperm10000_seed662_mxmskfr0_Cp21_pvalcutoff0.05_numOlapA_comOlap_edited_consistentAcrossCT")
 foifile = paste0(wk.dir, "/foifile/foifile_genes")
+foifile = paste0(wk.dir, "/foifile/mutvarfeat")
 # File of feature grouping
 featgrpfile = paste0(wk.dir, "/features_group")
 fetacp.dir = paste0(wk.dir, "/out_FETACP")
@@ -35,7 +36,7 @@ out.dir = paste0(wk.dir, "/out_metaplot")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 description = NULL
-out.id = "genes" #"priority_Cp21_numOlapAANDcomOlap_acrossTissues"
+out.id = "mutvarfeat" #"genes" #"priority_Cp21_numOlapAANDcomOlap_acrossTissues"
 plotOnly = FALSE
 # What bin to plot for FC vs. bin position
 cp = 21
@@ -223,6 +224,8 @@ if(foi.v.len < 15 | colourBy=="group"){
 plotParam <- list(geom_line(size=1, aes_string(colour=colourBy)
                             ),
                   geom_point(size=1.5, colour="black"),
+                  geom_hline(yintercept=0, linetype="dashed", colour="gray70", 
+                             size=0.5),
                   scale_y_continuous(limits=c(-1,1)),
                   guides(colour=guide_legend(ncol=num.col)
                          ),
@@ -231,7 +234,7 @@ plotParam <- list(geom_line(size=1, aes_string(colour=colourBy)
                   theme(legend.text=element_text(size=legend.tsize, 
                                                  face="bold"),
                         legend.title=element_text(size=12, face="bold"),
-                        panel.grid.major.x=element_line(size=0.5, color="gray70",
+                        panel.grid.major.x=element_line(size=0.5, colour="gray70",
                                                         linetype="dashed"))
                   )
 #-------------------------------------------------------------------------------

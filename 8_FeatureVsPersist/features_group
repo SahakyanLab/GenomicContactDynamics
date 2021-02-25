@@ -37,8 +37,14 @@ H4K20me1
 LMNB1
 H3K9me2
 H3K9me3
->DNase_hotspot
+>DNase.hotspot
 DNase.hotspot
+>DNase.hotspot.all
+DNase.hotspot.all
+>DNase.hotspot.fdr0.01
+DNase.hotspot.fdr0.01
+>DNase.macs2
+DNase.macs2
 >PRC1
 BMI1
 CBX5
