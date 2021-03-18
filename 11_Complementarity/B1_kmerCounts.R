@@ -25,7 +25,8 @@ if( !is.null(whorunsit[1]) ){
 }
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
 genome.dir = paste0(data.dir, "/human_genome_unmasked_37.73")
-out.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer3_divLen_all")
+# binkmer_divLen_all changed to binkmer_allBins
+out.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer3_divLen_all")  
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
@@ -46,7 +47,7 @@ source(paste0(lib.TrantoRextr, "/GEN_readfasta.R"))
 source(paste0(lib.TrantoRextr, "/GEN_loadGenome.R")) 
 source(paste0(lib.TrantoRextr, "/GEN_getKmers.R"))  
 source(paste0(lib.TrantoRextr, "/GEN_getGenomicSeq.R"))  
-source(paste0(wk.dir, "/lib/getKmerCountsPerInterval_new.R"))
+source(paste0(lib.TrantoRextr, "/getKmerCountsPerInterval_new.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
