@@ -1,7 +1,8 @@
 ################################################################################
 # Plot:
-# a. Total mutations per ID_SAMPLE in the dataset. Also calculates the mean and
-# median of the total mutations per sample and the number of unique ID_SAMPLE.
+# a. Total mutations per Sample name-ID_SAMPLE in the dataset. Also calculates 
+# the mean and median of the total mutations per sample and the number of unique
+# Sample name-ID_SAMPLE.
 # b. Total mutations per nucleotide site per chromosome. Make plot for all and 
 # each mutation type (e.g. A>C). 
 ################################################################################

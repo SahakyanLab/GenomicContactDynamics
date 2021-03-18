@@ -5,7 +5,7 @@
 ## a SLURM command.
 ##########################################################################
 #SBATCH -p batch
-#SBATCH --mem-per-cpu=30G
+#SBATCH --mem-per-cpu=23G
 #SBATCH -n 1
 #SBATCH --mail-user=ltamon
 #SBATCH --mail-type=ALL
