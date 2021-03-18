@@ -1,10 +1,11 @@
 ################################################################################
 # Read all sheets of excel workbooks; output is a tibble
 # Source: https://stackoverflow.com/questions/8188415/save-excel-spreadsheet-as-csv-with-r
-# Dependencies:
-## library(readxl)
 ################################################################################
+# LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
+# library(readxl)
+### FUNCTION ###################################################################
 readExcelWb <- function(filepath=".xlsx",
                         colnames=FALSE) { # TRUE of vector of names
   sheets.nme <- readxl::excel_sheets(filepath)

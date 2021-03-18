@@ -28,7 +28,7 @@
 getMaskedKmerCount <- function(
   
   # original BINKMER.MX all bins
-  binkmerAll.dir = "/dir",
+  binkmer.dir = "/dir",
   out.dir = "/dir",
 
   gcb = "min2Mb",
@@ -61,32 +61,41 @@ getMaskedKmerCount <- function(
              chr.id=chr.id, 
              silent = FALSE, split=split,
              remove.other.loads=TRUE)
+  
+  genome.filename <- paste0(genome.prefix, chr.id, fastafile.ending)
+  
   #-------------------------------------------------------------------------------
   # Masked version of chromosome
   #-------------------------------------------------------------------------------
-  genome.filename <- paste0(genome.prefix, chr.id, fastafile.ending)
-
-  # Mask chromosome
-  eval(parse(text=paste0(
-    genome.filename, 
-    "$seq <- maskGenome(chr=chr, seq=", 
-    genome.filename, "$seq, maskbed=maskbed, maskingChar=maskingChar, reduce=TRUE, split=split)"
-  )
-  ))
-  
-  # Check if masking worked
-  eval(parse(text=paste0(
-    "if( grepl(x=", genome.filename, "$seq, pattern=maskingChar) ){ print('Sequence has masked nt.') }"
-  )
-  ))
-  
-  print("Genome masking done.", quote=FALSE)
-  
+  if( !is.null(maskingChar) ){
+    
+    # Mask chromosome
+    eval(parse(text=paste0(
+      genome.filename, 
+      "$seq <- maskGenome(chr=chr, seq=", 
+      genome.filename, "$seq, maskbed=maskbed, maskingChar=maskingChar, reduce=TRUE, split=split)"
+    )
+    ))
+    
+    # Check if masking worked
+    eval(parse(text=paste0(
+      "if( grepl(x=", genome.filename, "$seq, pattern=maskingChar) ){ print('Sequence has masked nt.') }"
+    )
+    ))
+    
+    print("Genome masking done.", quote=FALSE)
+    
+  } else {
+    
+    print("No masking of genome.", quote=FALSE)
+    
+  }
+    
   #-------------------------------------------------------------------------------
   # Count kmers in HiC contact bins (generate masked BINKMER.MX)
   #-------------------------------------------------------------------------------
   # Load unmasked BINKMER.MX (all bins) to get positions of bins
-  load(paste0(binkmerAll.dir, "/", chr, "_BinKmer7.RData"))
+  load(paste0(binkmer.dir, "/", chr, "_BinKmer7.RData"))
   
   ubins <- BINKMER.MX[,"bins"]
   bin.end <- BINKMER.MX[,"endpos"]
@@ -100,9 +109,9 @@ getMaskedKmerCount <- function(
   ))
   
   # Remove chromosome sequence
-  eval(parse(text=
-               paste0("rm(", genome.filename, ")")
-  ))
+  #eval(parse(text=
+  #             paste0("rm(", genome.filename, ")")
+  #))
 
   BINKMER.MX <- cbind(bins=ubins, startpos=bin.start, endpos=bin.end, BINKMER.MX)
   rm(ubins, bin.end, bin.start); gc()

@@ -30,12 +30,7 @@ PATH.genome   = "/Volumes/Data/Database/human_genome_unmasked_37.73",
 genome.prefix = "Homo_sapiens.GRCh37.73.dna.chromosome.",
 fastafile.ending = ".fa",
 silent        = FALSE,
-nCPU          = 2L,
-maskingChar   = NULL,
-# If an altered version of the chromosome sequence should be used, introduce it
-# through this argument. If not, set seq=NULL and the original sequece will be
-# used. I haven't figured out the reason for this.
-sequence      = NULL
+nCPU          = 2L
 ){
   
   if(nCPU > 1){
@@ -51,8 +46,7 @@ sequence      = NULL
   kmer.len <- length(kmer.names)
   
   toExport <- c("silent", "PATH.genome", "genome.prefix", "fastafile.ending",
-                "chr", "silent", "startpos", "endpos", "K", "kmer.len", 
-                "maskingChar", "sequence")
+                "chr", "silent", "startpos", "endpos", "K", "kmer.len")
   
   bin.len <- length(startpos)
   
@@ -66,40 +60,28 @@ sequence      = NULL
     
     chunk <- sapply(X=itr, simplify=FALSE, FUN=function(i){
       
-      seq <- substr(sequence, start=startpos[i], stop=endpos[i])
+      seq <- getGenomicSeq(PATH.genome=PATH.genome,
+                           genome.prefix=genome.prefix,
+                           fastafile.ending=fastafile.ending,
+                           chr.id=strsplit(chr,"chr")[[1]][2],
+                           remove.other.loads = TRUE,
+                           silent=FALSE, split = FALSE,
+                           borders=c(startpos[i], endpos[i]) )
       
       if( length(grep("N", seq))==1 ){
+        
         # If there is N in the sequence populate the counts with NA
         kmers <- rep(NA, times=kmer.len) 
+        
       } else {
-        # Masking character will not mess up counting and will just be ignored
-        # seq="ATCGCATCGTACA" 
-        # ATCGCAT ATCGTAC CATCGTA CGCATCG GCATCGT TCGCATC TCGTACA 
-        #    1       1       1       1       1       1       1
-        # seq="ATCGCATCGmmmm"
-        # ATCGCAT CGCATCG TCGCATC 
-        #    1       1       1
         
         # Kmers in order already
         kmers <- getKmers(seq.string=DNAStringSet(seq), k=K, method="Biostrings")
-      }
-      
-      numUMChar <- nchar(seq)
-      
-      # Count number of unmasked characters if applicable
-      if( !is.null(maskingChar) ){
-        
-        if( grepl(x=seq, pattern=maskingChar) ){
-          print(paste0(startpos[i], " has ", maskingChar), quote=FALSE)
-          numUMChar <- sum(charToRaw(seq)!=charToRaw(maskingChar))
-        } else {
-          print(paste0(startpos[i], " has no ", maskingChar), quote=FALSE)
-        }
         
       }
-     
+
       # Number of unmasked character in bin sequence and kmer counts 
-      return( c(numUMChar, kmers) )
+      return( c(numUMChar=nchar(seq), kmers) )
         
     })
     
