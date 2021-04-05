@@ -88,12 +88,15 @@ Cp per bin. In other words take the mean Cp of all long-range contacts involving
 the bin. 
 
 Two ways:
-a. When taking the mean, consider all possible long-range contacts (2/0.5 Mb 
-threshold) except for unmappble bins consistent across cell/tissues and contact with
-itself. In other words, also consider contacts with Cp=0. 
+a. wmeanCp0 = When taking the mean, consider all possible long-range contacts 
+(2/0.5 Mb threshold).
 
-b. Consider only long-range contacts with Cp>=1 (do not consider Cp=0) contacts.
-Still do not consider unmappable bins across cell/tissues and contact with itself. 
+b. wmeanCp = Consider only long-range contacts with Cp>=1 (do not consider Cp=0)
+contacts.
+ 
+For both cases:
+Do consider unmappble bins (they are set as NA) shared across 21 cell/tissues, 
+self-contact and short-range contacts.
 
 Output: 
 > tail(BINWMEANCP.DF)
@@ -108,7 +111,13 @@ Output:
 NaN corresponds to bins with all missing Cp (NA). These are likely the unmappable 
 bins. 
 
-2. Use GEN_getKmerCountsPerInterval() for counting kmers in sequences, but for
+Cp.incl lets you specify which Cp values to consider when calculating the mean. 
+Contacts of Cp not included are set as NA (just like how unmapple bins are
+considered). 
+
+2. Plot weighted mean Cp vs. Cp of long-range contacts as boxplots and hex bin plots.
+
+3. Use GEN_getKmerCountsPerInterval() for counting kmers in sequences, but for
 kmer length equal to 1. In other words, count A, C, G and T content per bin.
 
 Output: 
@@ -124,4 +133,10 @@ Output:
 Bins with missing base content are bins with at least one N in the sequence. 
 numUMChar refers to the length of the bin. Note that the last bin is always not
 equal to 40kb. 
+
+4. Plot wmeanCp0 and LRij/posLRij vs. wmeanCp of bins. Also make LRij/posLRij 
+vs. wmeanCp0.
+
+LRij is the number of long-range contacts formed by a bin.
+posLRij is the number of possible long-range contacts that be formed by a bin.
 ################################################################################

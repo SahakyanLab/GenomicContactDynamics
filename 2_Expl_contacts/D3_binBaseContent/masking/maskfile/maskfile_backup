@@ -1,0 +1,4 @@
+#exon              - ct_hg19_foi_Transcript_intron_desc_DNA;ct_hg19_foi_intergenic_0updownTr_desc_DNA
+#intron            - ct_hg19_foi_Transcript_exon_desc_DNA;ct_hg19_foi_intergenic_0updownTr_desc_DNA
+#intergenic        - ct_hg19_foi_Transcript_exon_desc_DNA;ct_hg19_foi_Transcript_intron_desc_DNA;ct_hg19_foi_intergenic_2000excluded_desc_DNA
+#intron_intergenic - ct_hg19_foi_Transcript_exon_desc_DNA;ct_hg19_foi_intergenic_2000excluded_desc_DNA

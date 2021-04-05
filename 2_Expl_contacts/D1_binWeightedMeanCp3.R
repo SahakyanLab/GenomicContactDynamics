@@ -25,7 +25,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-Cp.incl = 1:13
+Cp.incl = 19:21
 id = paste0("Cp", min(Cp.incl), "To", max(Cp.incl))
 #id = "Cp1To13AND18To21"
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")

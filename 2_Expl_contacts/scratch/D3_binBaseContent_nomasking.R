@@ -11,13 +11,13 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/3_AnnotationVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/2_Expl_contacts"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     data.dir = "/t1-data/user/ltamon/Database"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/3_AnnotationVsPersist"
+    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/2_Expl_contacts"
   } else {
-    stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
+    print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
