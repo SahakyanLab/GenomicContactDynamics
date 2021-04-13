@@ -107,6 +107,8 @@ generateMUTBINDF <- function(ncv.df, data.id, src.id, out.dir, basecont.dir,
     
   }
   
+  print(paste0(samp.len, " samples..."), quote=F)
+  
   # Return metadata
   meta <- c(mut.id, SIG.id, loc.id, sigEpLim.id, tot.mut, samp.len, 
             Nsamp.mean, Nsamp.med, samp.str)
