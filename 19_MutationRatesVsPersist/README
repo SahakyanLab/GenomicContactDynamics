@@ -1,0 +1,187 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+~/Database/HiC_features_GSE87112_RAWpc/out_binBaseContent # Base content per bin
+~/Database/cancer_somatic_mutation/out_filter # Final filtered mutation data,
+2 datasets available PCAWG and non-PCAWG/ICGC
+
+library(compiler)
+library(foreach)
+library(doParallel)
+library(itertools)
+
+library(data.table)
+library(ggsci)
+library(matrixStats)
+library(reshape2)
+
+library(ggplot2)
+
+library(ggpubr)
+library(yarrr)
+yarrr::piratepal("basel")
+
+source(paste0(lib, "/UTL_doPar.R"))
+source(paste0(wk.dir, "/lib/selectSamplesBasedOnSigExposure.R"))
+source(paste0(wk.dir, "/lib/makeMUTBINDFperChrPerMUT.R"))
+source(paste0(wk.dir, "/lib/generateMUTBINDF.R"))
+
+source(paste0(lib, "/binToContact.R"))
+source(paste0(wk.dir, "/lib/funxv.R"))
+source(paste0(wk.dir, "/lib/getRelevantBins.R"))
+source(paste0(wk.dir, "/lib/makeMUTBINDFtoBinMUTCPDFperMUT.R"))
+source(paste0(wk.dir, "/lib/makeMUTBINDFtoContactMUTCPDFperMUT.R"))
+source(paste0(wk.dir, "/lib/aggregateDF.R"))
+source(paste0(wk.dir, "/lib/identifyAltHyp.R"))
+source(paste0(wk.dir, "/lib/doMannWhitney.R"))
+source(paste0(wk.dir, "/lib/makebp.R"))
+
+source(paste0(lib, "/GG_bgr.R"))
+################################################################################
+A. Mutation calculations vs. contact persistence (bin-wise and contact-wise)
+################################################################################
+1. Assign mutated sites to bin and then calculate the following per bin. Do this 
+per 
+
+Group:
+a. (mut) Mutation type - All (all mutations), C>A, C>G, C>T, T>A, T>C, T>G ]
+b. (loc) Location of mutation - exon, intron, intergenic, intron+intergenic 
+(±2000 bp of transcript), intergenic 2000 bp excluded]
+c. (sig) Degasperi et al. 2020 signatures + RefSig.MMR1 & RefSig.MMR2 
+d. (sigEpLim) Signature exposure (SE raw and percentage - nosampfilter (No 
+filtering based on signatures), percentage i.e. "0_100" means take samples with 
+>0% & <=100% signatureexposure percentage to given signature, raw i.e. "1000rawInf" 
+means take samples with >1000 signature exposure to given signature. Degasperi 
+et al. 2020 used >=1000 raw signature exposure to assign samples to signature. 
+It's okay that we set ours at >1000 because there's no sample with exactly 1000 
+SE to any signature.
+
+Mutation calculations per bin:
+a. numWTSEQ - Number of wild type base for given mutation type and location. 
+Because I've already converted equivalent mutation types (e.g. T>G == A>C),
+number of complementary bases should be added. For example, for mutation type 
+T>G, numWTSEQ should be the sum of T and A per bin. 
+b. Tmut - total mutations
+c. Tmutnorm - Tmut divided by numWTSEQ
+d. Nmsite - number of sites with at least one mutation
+e. Nmsitenorm - Nmsite divided by numWTSEQ
+f. TmutDIVNmsite - Tmut divided by Nmsite
+
+Note:
+a. Bins that have at least one missing base --> missing numWTSEQ --> missing 
+Tmutnorm and Nmsitenorm
+
+Output:
+a. MUTBIN.DF - only contains bins with at least one mutation; contains
+all chr (chr1-22)
+> head(MUTBIN.DF)
+    chr bin numWTSEQ Tmut    Tmutnorm Nmsite  Nmsitenorm TmutDIVNmsite
+1 chr17   1     1865    5 0.002680965      5 0.002680965             1
+2 chr17   2     1798    5 0.002780868      5 0.002780868             1
+3 chr17   3      175    3 0.017142857      3 0.017142857             1
+4 chr17   6      131    1 0.007633588      1 0.007633588             1
+5 chr17   7     1839    5 0.002718869      5 0.002718869             1
+6 chr17   8     3620   11 0.003038674     11 0.003038674             1
+
+b. csv file (separate files per mutation type) containing pertinent numbers 
+per group:
+mut.id	SIG.id	loc.id	sigEpLim.id	Nmut	Nsamp	meanNsamp	medianNsamp	sample
+All	RefSig.MMR1_RefSig.MMR2	exon	nosampfilter	332097	1775	187.0969014	90
+All	RefSig.1	exon	nosampfilter	332097	1775	187.0969014	90
+All	RefSig.18	exon	nosampfilter	332097	1775	187.0969014	90
+All	RefSig.17	exon	nosampfilter	332097	1775	187.0969014	90
+All	RefSig.MMR1	exon	nosampfilter	332097	1775	187.0969014	90
+
+Nmut - number of mutations
+Nsamp - number of samples
+meanNsamp - mean (Nmut per sample)
+medianNsamp - median (Nmut per sample)
+sample - semi-colon-separated string of sample names
+
+1.5. Make a file containing a semi-colon-separated string with combinatons of 
+loc, mut, SIG and sigEpLim for (2). 
+Example:
+RefSig.1;All;nosampfilter;exon
+RefSig.1;C>A;nosampfilter;exon
+RefSig.1;C>G;nosampfilter;exon
+RefSig.1;C>T;nosampfilter;exon
+RefSig.1;T>A;nosampfilter;exon
+RefSig.1;T>C;nosampfilter;exon
+RefSig.1;T>G;nosampfilter;exon
+
+2. Generate data for plotting mutation calculations vs. Cp (bin-wsie and 
+contact-wise). Outputs generated per dataset, aggregate function, mutation 
+calculation, and combination of loc, mut, SIG and sigEpLim (use combination
+file from (1.5)).
+
+Output:
+a. P.DF
+> P.DF
+   mut.id   SIG.id                                 loc.id sigEpLim.id ind       values percbinmut binPerCp  wise       alt          pval
+1     All RefSig.1 exon_intron_intergenic_intergenic.excl  1000rawInf   1 0.0016314716   99.55381    66788     b two.sided  1.000000e+00
+2     All RefSig.1 exon_intron_intergenic_intergenic.excl  1000rawInf   2 0.0016335762   99.64617    66699     b   greater  3.402931e-01
+22    All RefSig.1 exon_intron_intergenic_intergenic.excl  1000rawInf   1 0.0015977584   99.99948 18261845 cmean two.sided  1.000000e+00
+23    All RefSig.1 exon_intron_intergenic_intergenic.excl  1000rawInf   2 0.0016270155   99.99995 17899757 cmean   greater  0.000000e+00
+43    All RefSig.1 exon_intron_intergenic_intergenic.excl  1000rawInf   1 0.0008553288   99.99948 18261845   csd two.sided  1.000000e+00
+44    All RefSig.1 exon_intron_intergenic_intergenic.excl  1000rawInf   2 0.0008209363   99.99995 17899757   csd      less  0.000000e+00
+
+Columns:
+i. ind - Cp
+ii. values - use aggregate function to calculate central value of mutation 
+calculations per Cp. For example, for a bin-wise/contact-wise calculation, 
+given aggregate function is mean and calculation is Nmsitenorm, value for a Cp 
+is the mean of the Nmsitenorm of unique bins/contacts in that Cp category. 
+To obtain one calculation per contact, I used mean (cmean) and sd (csd) to combine
+the values from its two bins. I did not use median because value should be equal 
+to mean for two datapoints (two bins forming a contact).
+iii. percbinmut - percentage of bins with at least one mutation and percentage of
+contacts with at least one bin mutated relative to binPerCp
+iv. binPerCp - number of unique bins or contacts per Cp
+v. wise - b means bin-wise, cmean means contact-wise and using mean to get 
+calculation per contact, csd means contact-wise and using sd to get calculation 
+per contact (read ii. for details on cmean and csd)
+vi. alt - alternative hypothesis for mann whitney test (wilcox.test(paired=F)) 
+of distribution per Cp relative to distribution of Cp=1. If value (from ii.) of 
+given Cp is equal greater or less than value of Cp=1, the alt is two.sided, 
+greater and less, respectively. 
+vii. pval - p-value from the mann whitney test for independent samples
+
+b. PFC.DF - same as P.DF except for the values column. Its values column contains
+fold-change of P.DF$values relative to value at Cp=1. 
+
+c. Boxplot - contains 3 boxplots; shows distribution of calculations across Cp per 
+wise (b, cmean, csd). Title of each boxplot contains number and percentage of valid
+bins/contacts relative to number of possible bins/contacts (see below for details
+about valid bins and contacts), number of list of chromosomes contributing mutations,
+binPerCp from 1 to 21, binmutPerCp from 1 to 21 and percentage of binmutPerCp relative
+to binPerCp from 1 to 21. The values column in P.DF is the mean and median
+(aggregate function) of the values in the boxplot per Cp.
+
+Note:
+a. Invalid bins/contacts - Bins with at least one missing base, bins with no 
+overlap with given location, bins with contact persistence (meaning only those that
+form long-range contacts), last bins of chromosomes. Last bins were removed
+because of length being <40000. If included, this will require normalisation
+of bin mutation calculations by bin length. Removal of last bins has minimal
+effect because all of them except chr17's have missing sequence anyway and are 
+by default removed. Contacts with at least one invalid bin are removed. 
+
+b. Calculation value for valid bins without mutations is set to 0 except for 
+numWTSEQ. Value for numWTSEQ for these bins are taken from BINKMER.MX.
+
+3. (a) For each dataset (PCAWG/ICGC), combine csv files from (1) containing
+key numbers to be used in (4). (b) Also, generate a density plot of the number of 
+contributing samples for all combinations of mut, loc, SIG and sigEpLim
+specified using sigEpLim.id.v argument. Density plot excludes Nsamp from
+nosampfilter. This density plot was made to help identify a minimum value
+requirement to exclude combinations with two few contributing samples. I chose
+to set the cut-off in terms of number samples rather than number of mutations
+to avoid including combinations with too few samples with large number of
+mutations (extreme case being 1 sample contributing thousands of mutations
+already). 
+
+4. Per sigEplim (separate pdf), mutation type, location and wise, make a plot of 
+mutation calculation vs. contact persistence showing all signatures in one plot.
+Nsampmin value decided using the density plot from (3) excludes signature trends 
+with <= Nsampmin value contributing samples.
+################################################################################

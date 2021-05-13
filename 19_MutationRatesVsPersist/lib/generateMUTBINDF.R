@@ -19,7 +19,7 @@ generateMUTBINDF <- function(ncv.df, data.id, src.id, out.dir, basecont.dir,
   
   # Samples/donors based on signature exposure to signature/s of interest
   sigEpLim.id <- sigEpLim
-  sigEpLim <- strsplit(x=sigEpLim, split="_", fixed=T)[[1]]
+  sigEpLim <- strsplit(x=sigEpLim, split="_|raw", fixed=F)[[1]]
   
   SIG.id <- SIG
   SIG <- strsplit(x=SIG, split="_", fixed=T)[[1]]
@@ -106,8 +106,6 @@ generateMUTBINDF <- function(ncv.df, data.id, src.id, out.dir, basecont.dir,
     print(paste0(out.id, ": MUTBIN.DF generated."), quote=F)
     
   }
-  
-  print(paste0(samp.len, " samples..."), quote=F)
   
   # Return metadata
   meta <- c(mut.id, SIG.id, loc.id, sigEpLim.id, tot.mut, samp.len, 

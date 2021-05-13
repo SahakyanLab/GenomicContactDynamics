@@ -89,14 +89,16 @@ makeMUTBINDFperChrPerMUT <- function(ncv.df='mutation data per chr per mutation 
   rm(a, b, AT.sum, CG.sum)
   numWTSEQ <- BINKMER.MX[bin.srt,WT_SEQ]
   Nmsitenorm <- Nmsite[bin.srt]/numWTSEQ
+  Tmutnorm <- Tmut[bin.srt]/numWTSEQ
   rm(BINKMER.MX); gc()
   
   MUTBIN.DF <- data.frame(chr=chr, bin=as.numeric(bin.srt), 
-                          Tmut=as.numeric(Tmut[bin.srt]), 
-                          Nmsite=as.numeric(Nmsite[bin.srt]),
-                          TmutDIVNmsite=as.numeric(TmutDIVNmsite[bin.srt]),
-                          Nmsitenorm=as.numeric(Nmsitenorm),
                           numWTSEQ=as.numeric(numWTSEQ),
+                          Tmut=as.numeric(Tmut[bin.srt]), 
+                          Tmutnorm=as.numeric(Tmutnorm),
+                          Nmsite=as.numeric(Nmsite[bin.srt]),
+                          Nmsitenorm=as.numeric(Nmsitenorm),
+                          TmutDIVNmsite=as.numeric(TmutDIVNmsite[bin.srt]),
                           stringsAsFactors=F)
 
   return(MUTBIN.DF)
