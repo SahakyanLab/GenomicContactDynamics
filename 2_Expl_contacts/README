@@ -139,4 +139,10 @@ vs. wmeanCp0.
 
 LRij is the number of long-range contacts formed by a bin.
 posLRij is the number of possible long-range contacts that be formed by a bin.
+
+################################################################################
+E. Contacts
+################################################################################
+1. Generate a lighter PERSIST.MX containing only i,j columns (no rownames) and
+Cp value. Keep original list format.
 ################################################################################
