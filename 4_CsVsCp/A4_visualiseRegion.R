@@ -10,14 +10,14 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/13_CsVsCp"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/4_CsVsCp"
     data.dir = "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -39,24 +39,24 @@ compl.dir = paste0(wk.dir, "/out_constraints")
 out.dir = paste0(wk.dir, "/out_visualiseRegion")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb" #"" | "min2Mb" | "min05Mb"
-chr = "chr1" # "chr12" | "chr12" | "chr1" 
+chr = "chr21" # "chr12" | "chr12" | "chr1" 
 ct = "FC"
 # ID of chosen region
-region = "chr1_FC" #"KRAS" #"KRAS_lowCslowCp" #"SGIP1_lowCshighCp"
-metric.v = c("Cs", "Cp", "CII")
+region = "chr21_hg19" #"KRAS" #"KRAS_lowCslowCp" #"SGIP1_lowCshighCp"
+metric.v = "Cp" #c("Cs", "Cp", "CII")
 # CII in CII.MX
 type = "kmer" #"kmer"
 cutoff = 15
 # Vector of bins for x-xis
-bins.x = NULL #634:636 #1675:1681 #853:859
+bins.x = 900:920 #634:636 #1675:1681 #853:859
 # Vector of bins for y-axis
 # If bins.y=NULL, all contacts formed by bins.x
 bins.y = NULL #NULL #3094:3100 #1727:1733 c(1184, 1208, 1210, 1215, 1223, 1228, 1232)
-wholeChr = TRUE
+wholeChr = FALSE
 scalebr.v = c(xmin=100, xmax=350, ymin=1, ymax=30)
 HiC.res = 4e4L
 # squarer = half triangle if plotting wholeChr
-format = "symmetric" # "symmetric" | "square" | "none"
+format = "square" # "symmetric" | "square" | "none"
 outtype = "jpeg" # "jpeg" | "pdf"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
@@ -147,4 +147,4 @@ visualiseBinRegions(
   outtype=outtype
   )
 
-# rm(list=ls())
+# rm(list=ls()); gc()
