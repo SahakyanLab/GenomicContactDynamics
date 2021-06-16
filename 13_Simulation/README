@@ -6,7 +6,7 @@ MELT.MX (Raw and HiCNorm)
 CII.MX (complementarity scores)
 
 library(data.table)
-library(reshape)
+library(reshape2)
 library(RColorBrewer)
 library(ggplot2)
 library(ggpubr)
@@ -24,14 +24,121 @@ source(paste0(lib, "/UTL_doPar.R"))
 ################################################################################
 # Simulation
 ################################################################################
-The values in the simulation matrices represent frequency of contact
-within a given timeframe. Two beads are in contact if the distance (unitless in
-the simulation) between them is less than a certain cut-off (1.5 for the matrices 
-Zahra sent). 1.5 is a reasonable cut-off based on the bead size that is 1. 
-The chr are truncated (last bead removed) in the simulation because the last bead 
-is less than the Hi-C resolution of 40-kb for all chr. 
-Different simulation types are on the same scale because frequency was measured
-on the same timeframe. 
+1. Simulation types
+
+Basic types:
+a. Set1: homopolymer
+b. Set2: heteropolymer informed by cp scores only 
+c. Set3.2: heteropolymer informed by cp and cll scores 
+d. Set4.2: heteropolymer informed by cll scores only
+
+Variations:
+a. Arm interaction type
+Set1 and Set2 - only interacting arms applied
+Set3.2 and Set4.2 - both non- and interacting arms applied
+b. Two types of parameter sets applied to Sets 3.2 and 4.2 
+c. Different cut-offs (explained below) used
+1.0, 1.5, 2.0, 3.0
+
+2. Simulation map values 
+
+The value in the simulation map is the frequency of two beads in contact within 
+a given timeframe.
+
+--> Is the diagonal value set to the max frequency?
+--> How replicates were combined?
+
+a. Values not symmetrical
+
+"I have checked the matrices and the code that I used to calculate them. I am 
+using the MDA package in Python to calculate the contact maps, more specifically 
+I am using the following function: mda.analysis.distances.contact_matrix. Sometimes 
+the output of this function is not symmetric, which is very strange. The non-symmetric
+elements only differ by one, i.e. abs(A(i, j) - A(j, i)) equals 1, therefore, they 
+would not be very much problematic. However, I will try to find a solution to this 
+and will let you know. "
+
+3. Cut-off distance between beads to be in contact
+
+Two beads are in contact if the distance (unitless in the simulation) between 
+their centers is within the cut-off distance. To be stringent, use 1.0 as the
+cut-off such that beads in contact have no gap in between. 
+
+--> Would it be possible to look at the code of the function to see what within 
+means? So if we choose 1, that means distance should be exactly 1 right? cause
+beads are not allowed to overlap
+
+4. Last bin/bead removed from simulation because it's less than the 40-kb Hi-C 
+resolution.
+
+5. Two parameter sets
+
+Zahra used two simulation parameter sets for 3.2 and 4.2 and she still has to tell 
+me what to use.
+
+6. Arm interaction type
+
+Interacting arms - contact between beads from different arms allowed
+Non-interacting arms - contacts between beads from different arms NOT allowed
+For simulation, arms assumed to be separated by pericentromeric region.  
+
+a. Arms were split by identifying the centromic + pericentromeric regions.
+Peri+centromeric cytobands were chosen to be p11.2, p11.1, q11 and q12. She 
+wanted to include p11.2 to the left arm because this band contains genes.
+Corresponding peri+centromeric coordinates in hg19
+
+chr1	120600000	121500000	p11.2	gneg. 3016-3038 (has genes)
+chr1	121500000	125000000	p11.1	acen  3038-3125 (no genes)
+chr1	125000000	128900000	q11	acen.     3126-3223 (no genes)
+chr1	128900000	142600000	q12	gvar      3223-3565 (no genes)
+Source: UCSC_cytoBand_hg19.gz (0-based, ~/Database/cytoband/cytoBand_hg19)
+Based on this, 3038-3565 is the peri+centromeric regions (not including p11.2), 
+1-3037 is the left arm and 1-3566-6231 is right arm.
+
+In Zahra's simulation, 3001-3549 is peri+centromeric region. This is
+partly because hg38 coordinates were used instead and I think in the end
+she decided to include the p11.2 band (containing genes) to peri+centromeric regions. 
+
+According to Zahra, "in simulations, there are 6231 beads in total. Beads 1-3000 
+form the left arm and beads 3550-6231 form the right arm of chr1. Other beads 
+belong to the pericentromeric region. 
+
+"Please see this google doc, where I have written how I concluded the pericentromeric
+coordinates:
+https://docs.google.com/document/d/18UmnUVs6QQFn8xrafyH5FARCwojddBSqZYFsfYRB5Z0/edit?usp=sharing
+Basically, I have tried to exclude these sections: p11.1, q11, and q12."
+
+>>> I don't think this will affect the result that much but I'm just wondering how
+to explain this in the paper if we choose non-interacting arms. 
+################################################################################
+# Scaling of maps before comparison
+################################################################################
+1. Simulation maps
+
+Absolute maps from the 4 types of simulation should be in the same scale since 
+frequency were measured in the same timeframe and using the same cut-off. This 
+means that a frequency of 100 in one chr is comparable with 200 in another chr. 
+But this difference may be due to differences in chr characteristic such as length
+therefore should be normalised out. Also, frequencies between interacting arms 
+and non-interacting arms for the same chr may differ and should be normalised out. 
+
+To compare the 4 simulation types for the same chr and arm interaction type, 
+frequencies can be divided by the maximum frequency out of all types instead of 
+dividing by the maximum for each type. This is to account for the difference in 
+absolute frequency per simulation type. 
+
+>>> However, I dont think I can do this if we choose to use non-interacting arms for
+Set3.2 and Set4.2 then interacting arms for Set1 and Set2. 
+
+2. Cs-based maps
+
+The 21 Hi-C datasets are in different scales. To scale, HiCNorm-normalised values 
+are divided by sd such that the resulting values are not so affected by outliers as in the
+case when dividing by maximum value. Converting to z-score (scaling by mean and sd) 
+is not good because this can turn 0s to a non-zero value.
+
+3. Cp map
+No scaling, 1-21 used as is.
 ################################################################################
 # A.
 ################################################################################

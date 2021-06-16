@@ -9,12 +9,12 @@
 # source(paste0(lib, "/GG_bgr.R"))
 ### FUNCTION ###################################################################
 makeMatrixMap <- function(df = data.frame(x, y, value), # lower/upper triangle only
-                          metric = NULL,
-                          format = "symmetric", # symmetric | square
-                          check.dup = TRUE,
+                          metric = NULL, format = "symmetric", # symmetric | square
                           scalebr.v = c(xmin=100, xmax=350, ymin=1, ymax=30),
-                          plot.title = NULL
-){
+                          check.dup = TRUE, plot.title = NULL,
+                          mark.x = NULL, mark.y = NULL, 
+                          limits.x = c(NA, NA), limits.y = c(NA, NA)
+                          ){
   
   if( !is.null(scalebr.v) ){
     plot.title <- paste0(plot.title, "_scaleXbyY:", (scalebr.v["xmax"]-scalebr.v["xmin"]),
@@ -47,43 +47,58 @@ makeMatrixMap <- function(df = data.frame(x, y, value), # lower/upper triangle o
     df[!is.na(df$value) & df$value==0,"value"] <- NA
   }
   #-------------------Parameters of heatmap
-  brk.x <- sort(unique(df$i))
-  brk.y <- sort(unique(df$j))
-  len <- length(brk.x)
-  if( (nrow(df)/2)>50 ){
-    #seq.v <- ceiling(seq.int(from=1, to=len, length.out=3))
-    seq.v <- c(1, len/2, len)
-    brk.x <- brk.x[seq.v]
-    brk.y <- brk.y[seq.v]
-    rm(seq.v)
-  }; rm(len)
   
-  # Process fill values depending on metric and decide colouring system for map
-  lst <- processForMap(x=df$value, metric=metric)
-  df$value <- lst$value; lst$value <- NULL
-  #-------------------Generate heatmap
-  p <- ggplot(data=df, aes(x=i, y=j)) + 
-    geom_raster(aes(fill=value)) +
-    scale_x_continuous(breaks=brk.x ) + 
-    scale_y_continuous(breaks=brk.y, trans="reverse" ) + 
-    lst$col +
-    labs(x=NULL, y=NULL, title=plot.title) +
-    bgr2 + 
-    theme(
-      plot.title=element_text(size=2),
-      axis.text.x=element_text(face="bold", size=10, angle=360, colour="black"),
-      axis.text.y=element_text(face="bold", size=10, angle=360, colour="black"),
-      #axis.ticks.y=element_blank(),
-      #axis.ticks.x=element_blank(),
-      legend.text=element_text(size=5, face="bold"),
-      legend.title=element_text(size=10, face="bold"),
-      legend.position="bottom",
-      legend.direction="horizontal", 
-      legend.box="vertical"
-    )
+  if(format=="symmetric"){
+    
+    brk.x <- sort(unique(df$i))
+    brk.y <- sort(unique(df$j))
+    len.x <- length(brk.x)
+    len.y <- length(brk.y)
+    if( (nrow(df)/2)>50 ){
+      
+      brk.x <- sort(unique( c(limits.x, mark.x, brk.x[c(1, len.x/2 , len.x)]) ))
+      brk.y <- sort(unique( c(limits.y, mark.y, brk.y[c(1, len.y/2 , len.y)]) ))
+      
+    }
+    rm(len.x, len.y)
+    
+    if( is.null(limits.x) ){ limits.x <- c(NA, NA) }
+    if( is.null(limits.y) ){ limits.y <- c(NA, NA) }
+    
+    # Process fill values depending on metric and decide colouring system for map
+    lst <- processForMap(x=df$value, metric=metric)
+    df$value <- lst$value; lst$value <- NULL
+    #-------------------Generate heatmap
+    p <- ggplot(data=df, aes(x=i, y=j)) + 
+      geom_raster(aes(fill=value)) +
+      #geom_tile(aes(fill=value)) +
+      geom_abline(slope=-1, intercept=0, colour="gray20") + 
+      geom_hline(yintercept=mark.y, colour="gray80", size=0.1) +
+      geom_vline(xintercept=mark.x, colour="gray80", size=0.1) +
+      scale_x_continuous(breaks=brk.x, limits=limits.x) + 
+      scale_y_continuous(breaks=brk.y, limits=rev(limits.y), trans="reverse" ) + 
+      lst$col +
+      labs(x=NULL, y=NULL, title=plot.title) +
+      bgr2 + 
+      theme(
+        plot.title=element_text(size=2),
+        axis.text.x=element_text(face="bold", size=1.5, angle=90, colour="black"),
+        axis.text.y=element_text(face="bold", size=1.5, angle=360, colour="black"),
+        axis.ticks=element_line(size=0.1), 
+        axis.ticks.length=unit(.15, "cm"),
+        legend.text=element_text(size=5, face="bold"),
+        legend.title=element_text(size=10, face="bold"),
+        legend.position="bottom",
+        legend.direction="horizontal", 
+        legend.box="vertical"
+      )
+    
+  }  else if(format=="square"){
+    stop("Plot format for 'format==square' still has to be set.")
+  }
   
   if( !is.numeric(df$value) ){
-   p <-  p + guides(fill=guide_legend(nrow=1, label.position="bottom")) 
+    p <-  p + guides(fill=guide_legend(nrow=1, label.position="bottom")) 
   }
   
   if( !is.null(scalebr.v) & length(scalebr.v)==4 ){
