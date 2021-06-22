@@ -140,60 +140,13 @@ is not good because this can turn 0s to a non-zero value.
 3. Cp map
 No scaling, 1-21 used as is.
 ################################################################################
-# A.
+# A. Simulation maps
 ################################################################################
-1. Inspect simulation maps from Zahra: symmetry, min and max values.
-Matrices are not symmetrical for some reason. Zahra's reply regarding this:
 
-"I have checked the matrices and the code that I used to calculate them. I am 
-using the MDA package in Python to calculate the contact maps, more specifically 
-I am using the following function: mda.analysis.distances.contact_matrix. Sometimes 
-the output of this function is not symmetric, which is very strange. The non-symmetric
-elements only differ by one, i.e. abs(A(i, j) - A(j, i)) equals 1, therefore, they 
-would not be very much problematic. However, I will try to find a solution to this 
-and will let you know. "
-
-2. Get average frequency of replicates per simulation type. Put replicates of 
-a simulation type in one directory then loop over directories to get average
-simulation matrix per type. Name of directory is used to name average matrix.
-
-3. Visualise contact matrices as maps
-Custom functions used:
-
-a. getContactDF() - gets dataframe of upper triangle contacts (i-j column) 
-including a column for values based on metric and a column specifying whether 
-the contact will be included or not based on specified bins to be included/masked.
-
-ct - Specify tissue using this parameter. For metric=Cp, specifying a specific
-tissue willl only return contacts present in that tissue. If ct="hg19", this
-will return all contacts with Cp value. 
-
-filterContacts() is used to filter contacts based on specified bins and based on
-gap between contacts. Gap is the number of bins between two contacting bins (actual
-bins in contact are not counted in gap). 
-
-> head(df)
-metric=Cs.raw
-         i   j value include
-516168 402 403     0       0
-517451 402 404     2       0
-517452 403 404     2       0
-518734 402 405     0       0
-518735 403 405     1       0
-518736 404 405     3       0
-
-This dataframe is then inputted to makeMatrixMap(), and the contact map is 
-generated using the upper triangle matrix values.
-
-b. makeMatrixMap() - makes a matrix map, either symmetrical or square format from 
-dataframe of i, j and value. Function checks and removes duplicates of contacts
-and checks if the contacts are from one triangle. Values equal to 0 are converted
-to NA because the value means no contact. This is done for all metrics except for 
-complementarity scores (CII.MX values). In the map, NA will appear as white. 
 ################################################################################
-# B. Comparison of matrices
+# B. Get unmappable areas on Hi-C experimental maps
 ################################################################################
-0. Identify gaps (white areas) in contact matrices so contacts can be masked 
+1. Identify gaps (white areas) in contact matrices so contacts can be masked 
 appropriately and consistently across tissues. This is useful to accurately
 and consistenly exclude regions with no Hi-C signal (e.g. centromeric areas)
 across tissues. 
@@ -201,6 +154,26 @@ Good thing that the areas to be masked are the same across tisues in the case of
 
 Output gives 1-based ranges of white areas (cross-shaped for chr1).
 
+2. Looking at the outputs of B1, there are cases when unmappable areas in one 
+tissue can be 100-200 but in another it can be 99-199. The script identifies
+these ranges and assigns them to a parent range that encomapasses all these
+child ranges. The coordinates of this parent range is in the red.start and
+red.end columns (the width is also specified in red.width column). Note that
+consecutive ranges like 1-5 and 6-7 are not assigned to one 1 parent range
+by specifying the min.gapwidth=0L argument in the GenomicRanges::reduce(). 
+
+3. From B2 output, generate file of unmappable areas present across all tissues 
+and another file containing the largest of those persistent unmappable areas, 
+which are likely the peri(centromeric) regions that are not sequenceable.
+################################################################################
+# C. Explore contact maps 
+################################################################################
+1.
+
+2. 
+################################################################################
+# D. Pairwise comparison of contact maps
+################################################################################
 1. Compare two contact matrices, treating one as a predicted contact matrix (subject) 
 and the other as the actual/real matrix (reference). Get confusion-matrix 
 quantities namely the number of true and false positives and negatives. Do this 

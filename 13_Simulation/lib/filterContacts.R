@@ -73,7 +73,7 @@ filterContacts <- function(ij.df=ij.df, # i-j dataframe, upper triangle
     
   } else if( !is.null(mask.bin.x) & is.null(mask.bin.y) ){
     
-    # Any contacts with bins in incl.bin.x excluded
+    # Any contacts with bins in mask.bin.x excluded
     for(i in 1:len.mask.x){
       incl.TF[ ij.df$i%in%mask.bin.x[[i]] | 
                ij.df$j%in%mask.bin.x[[i]] ] <- FALSE
