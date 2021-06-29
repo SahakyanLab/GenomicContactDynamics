@@ -4,7 +4,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelLinuxDesk" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -17,6 +17,11 @@ if( !is.null(whorunsit[1]) ){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     data.dir = "/t1-data/user/ltamon/Database"
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
+  } else if(whorunsit == "LiezelLinuxDesk"){
+    lib = "/home/ltamon/DPhil/lib"
+    data.dir = "/home/ltamon/Database"
+    wk.dir = "/home/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
+    os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
@@ -32,22 +37,33 @@ gcb = "min2Mb"
 chr = "chr1"
 bin.len = 40000
 
-# Select contact maps
+#-------------------FILTER CONTACTS
 
-#ct.v = "hg19" #"CTREPLACE"
-#metric.v = sort(list.files(path=simmap.dir), decreasing=F)[-(1:3)]
-ct.v = c(rep(x="hg19", times=10),
-         sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB",
-                "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")))
-metric.v = c("SIM.int.set1.1.5", "SIM.int.set1.2.0", 
-             "SIM.int.set2.1.5", "SIM.int.set2.2.0",
-             "SIM.int.set3.2.10.5.1.5", "SIM.int.set3.2.10.5.2.0",
-             "SIM.non.set3.2.10.5.1.5", "SIM.non.set3.2.10.5.2.0",
-             "SIM.int.set3.2.1.5.old", "SIM.int.set4.2.1.5.old", 
-             rep(x="Cs.norm", times=21))
+# If both incl.bin.x and incl.bin.y lists are NULL, use whole chr. 
+# For upper triangle contacts, i --> y and j --> x
+incl.x = 'incl.bin.x = NULL'
+incl.y = 'incl.bin.y = NULL'
+mask.x = 'mask.bin.x = list(3038:6232)' #j #'mask.bin.x = list(3039:6232)'
+mask.y = 'mask.bin.y = list(1:3565)'    #i #'mask.bin.y = list(1:3563)' 
+# If vector gap.range is NULL, no filtering. Treated as closed range. 
+#gap.v = 'gap.range = c(50, Inf)'
+gap.v = 'gap.range = c(50, Inf)'
 
-#ct.v = c("hg19", "hg19")
-#metric.v = c("SIM.int.set3.2.1.5.old", "SIM.int.set4.2.1.5.old")
+#-------------------SELECT CONTACT MAPS
+
+#ct.v = c(rep(x="hg19", times=10),
+#         sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB",
+#                "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")))
+#metric.v = c("SIM.int.set1.1.5", "SIM.int.set1.2.0", 
+#             "SIM.int.set2.1.5", "SIM.int.set2.2.0",
+#             "SIM.int.set3.2.10.5.1.5", "SIM.int.set3.2.10.5.2.0",
+#             "SIM.non.set3.2.10.5.1.5", "SIM.non.set3.2.10.5.2.0",
+#             "SIM.int.set3.2.1.5.old", "SIM.int.set4.2.1.5.old", 
+#             rep(x="Cs.norm", times=21))
+
+ct.v = sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB",
+              "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC"))
+metric.v = rep(x="Cs.norm", times=21)
 
 # Map id format: <cell/tissue>-<metric name>. Metric name should match source 
 # directory name, e.g. for metric name Cs.norm directory is Cs.norm.dir. 
@@ -60,9 +76,15 @@ if( length(ct.v)!=length(metric.v) ){
   map.id.v <- paste(ct.v, metric.v, sep="-")
 }
 
-lsize.v <- c(rep(x=2, times=10), rep(x=1, times=21))
-ltype.v <- c(rep(x="dashed", times=10), rep(x="solid", times=21))
-names(lsize.v) <- names(ltype.v) <- map.id.v
+CsScaling = "TRIMMEANSD" # "none" | "SD" | "MAD" | "BOXWHISK" | "MEANSD" | "MEDMAD"
+out.id = "whole_maskMidSquare_gap2up_maskx3038To6232y1To3565_Cs.norm"
+out.id <- paste0(out.id, "_CsScaling", CsScaling)
+
+# Density plot
+xlim.dens = c(-10, 60)
+ylim.dens = c(0,4)
+
+#-------------------SET PLOT PARAMETERS
 
 # From https://stackoverflow.com/questions/9563711/r-color-palettes-for-many-data-classes
 base.pal = c(
@@ -83,25 +105,16 @@ base.pal = c(
 pal <- colorRampPalette(base.pal)(length(map.id.v))
 set.seed(123)
 pal <- pal[ sample(x=length(pal), size=length(pal)) ]
+#pal <- adjustcolor(col=pal, alpha.f=0.3)
 names(pal) <- map.id.v
 
-# Filter contacts
+plotDist = "dens.combined" # "box" | "dens" | "dens.combined" | "none"
+plotcvd  = F
 
-# If both incl.bin.x and incl.bin.y lists are NULL, use whole chr. 
-# For upper triangle contacts, i --> y and j --> x
-incl.x = 'incl.bin.x = NULL'
-incl.y = 'incl.bin.y = NULL'
-mask.x = 'mask.bin.x = list(3038:6232)' #j #'mask.bin.x = list(3039:6232)'
-mask.y = 'mask.bin.y = list(1:3565)'    #i #'mask.bin.y = list(1:3563)' 
-# If vector gap.range is NULL, no filtering. Treated as closed range. 
-#gap.v = 'gap.range = c(50, Inf)'
-gap.v = 'gap.range = c(1, Inf)'
-
-out.id = "whole_maskMidSquare_gap2up_maskx3038To6232y1To3565_CsSim"
-
-plotDist = "none" # "box" | "dens" | NA
-xlim.dens = c(0,6)
-plotcvd  = T
+# CVD plot
+lsize.v <- c(rep(x=2, times=10), rep(x=1, times=21))
+ltype.v <- c(rep(x="dashed", times=10), rep(x="solid", times=21))
+names(lsize.v) <- names(ltype.v) <- map.id.v
 # See contactprobVsDistance() re its two arguments below
 scale.diag.ind = NA # Diagonal for scaling (usually min(gap.v)+1); If NA, no scaling
 # Determines number of distance bins to smoothen curve
@@ -121,6 +134,7 @@ source(paste0(wk.dir, "/lib/contactprobVsDistance.R"))
 source(paste0(wk.dir, "/lib/getmapdir.R"))
 source(paste0(wk.dir, "/lib/getContactDF.R"))
 source(paste0(wk.dir, "/lib/filterContacts.R"))
+source(paste0(wk.dir, "/lib/scaling.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
@@ -140,13 +154,26 @@ eval(parse(text=gap.v))
 
 rm(incl.x, incl.y, mask.x, mask.y, gap.v)
 
-if( !is.na(plotDist) & plotDist=="dens" ){
+if( !plotDist%in%c("none", "dens", "dens.combined", "box") ){
+  stop('Invalid plotDist argument - "none", "dens" or "box" only.')
+}
+
+if(plotDist=="dens"){
   
-  pdf(file=paste0(out.dir, "/", gcb, "_", chr, "_", out.id, "_dens.pdf"), 
+  pdf(file=paste0(out.dir, "/", gcb, "_", chr, "_", out.id, "_xlim", 
+                  xlim.dens[1], "_", xlim.dens[2], "_dens.pdf"), 
       width=25, height=25)
   par(mfrow=c(5,5))
   
-} 
+}
+
+if(plotDist=="dens.combined"){
+  
+  pdf(file=paste0(out.dir, "/", gcb, "_", chr, "_", out.id, "_xlim", 
+                  xlim.dens[1], "_", xlim.dens[2], "_denscombined.pdf"), 
+      width=10, height=10)
+  
+}
 
 if(plotcvd){
   CVD <- list(bydiag=list(), smooth=list())
@@ -171,6 +198,25 @@ for(map.id in map.id.v){
   df$include <- NULL
   posij.len <- length(df$value)
   
+  if( !grepl(x=metric, pattern="CII.") ){
+    plot.TF <- is.finite(df$value) & df$value>0
+  } else {
+    plot.TF <- is.finite(df$value)
+  }
+  
+  # Scale Cs values if needed
+  
+  scaleF.id <- NULL
+  if( metric%in%c("Cs.raw", "Cs.norm") & CsScaling!="none" ){
+
+    scaled <- scaling(x=df$value[plot.TF], approach=CsScaling)
+    df$value[plot.TF] <- scaled$scaled
+    
+    scaleF.id <- paste(format(x=scaled$scalingFactor, digits=4, scientific=F), collapse=",")
+    rm(scaled); gc()
+    
+  }
+  
   #-------------------Contact probability vs distance
   
   if(plotcvd){
@@ -186,30 +232,20 @@ for(map.id in map.id.v){
   
   #-------------------
   
-  if( !is.na(plotDist) ){
+  if( plotDist%in%c("box", "dens", "dens.combined") ){
     
     # Store for boxplot; remove NAs
-    v <- sort(df$value, decreasing=FALSE, na.last=NA)
+    v <- sort(df$value, decreasing=F, na.last=NA)
     
     # For box and density plots
-    
-    v.nZero <- v[v>0]
-    
-    # Use min and max to bound cut-off ranges.
-    max.v <- tail(unique(v), n=2)
-    min.v <- min(v[v>0], na.rm=TRUE)
+    v.nZero <- df$value[plot.TF]
     
     validij.len <- length(v)
     nonNA.perc <- format( x=validij.len/posij.len*100, digits=4 )
-    non0.perc <- format( x=sum(v>0)/validij.len*100, digits=4 )
+    non0.perc <- format( x=length(v.nZero)/validij.len*100, digits=4 )
     
-    if( (sum(v%in%max.v)!=2) & metric%in%c("Cs.norm", "Cs.raw") ){
-      print(paste0(metric, ": Cut-off max checkpoint."))
-    }
-    
-    p.title <- paste0(out.name, "\nmin=", min.v, "_max=", max.v[2],
-                      "\n", posij.len, chr, "posij_nonNA", nonNA.perc, "%ofchrposij_nonZero", 
-                      non0.perc, "%ofnonNAij")
+    p.title <- paste0(out.name, "\nscalingFactor", scaleF.id, "_min=", min(v.nZero), "_max=", max(v.nZero),
+                      "\n", posij.len, chr, "posij_nonNA", nonNA.perc, "%ofchrposij_nonZero", non0.perc, "%ofnonNAij")
     
   }
   
@@ -217,42 +253,49 @@ for(map.id in map.id.v){
   
   #-------------------Boxplot
   
-  if( !is.na(plotDist) & plotDist=="box" ){
+  if(plotDist=="box"){
     
     png(file=paste0(out.dir, "/", gcb, "_", chr, "_", out.id, "_box.png"), 
         res=500, width=6000, height=1500)
     
-    # Boxplot excluding 0s
-    if( !grepl(x=metric, pattern="CII.") ){
-      
-      boxplot(x=v.nZero, outline=FALSE, ylab="Value",
-              main=paste0(p.title, "_no0sNoOutliers"), cex.main=0.5)
-      boxplot(x=v.nZero, outline=TRUE, ylab="Value",
-              main=paste0(p.title, "_no0sWithOutliers"), cex.main=0.5)
-      
-    }
+    # Boxplot values in v.nZero
+    boxplot(x=v.nZero, outline=FALSE, ylab="Value",
+            main=paste0(p.title, "_no0sNoOutliers"), cex.main=0.5)
+    boxplot(x=v.nZero, outline=TRUE, ylab="Value",
+            main=paste0(p.title, "_no0sWithOutliers"), cex.main=0.5)
     
-    # Boxplot including all values in v
+    # Boxplot values in v
     boxplot(x=v, outline=FALSE, ylab="Value",
             main=paste0(p.title, "_AllNoOutliers"), cex.main=0.5)
     boxplot(x=v, outline=TRUE, ylab="Value",
             main=paste0(p.title, "_AllWithOutliers"), cex.main=0.5)
     
     dev.off()
-    
-    rm(v.nZero, p.title, max.v, min.v)
   
   }
  
   #-------------------Density plot, non-zero values
   
-  if( !is.na(plotDist) & plotDist=="dens" ){
+  if( plotDist=="dens" ){
     
     plot(density(x=v.nZero), xlab="Contact value", main=paste0(p.title, "_no0s"),
-         cex.main=0.5, xlim=xlim.dens)
+         cex.main=0.5, xlim=xlim.dens, col=pal[map.id], lty=1, lwd=2)
+    legend(x="topright", legend=map.id, col=pal[map.id], lty=1, lwd=2, cex=0.8,
+           title=NULL, text.font=4)
+      
+  }
     
-    rm(v.nZero, p.title, max.v, min.v)
+  if( plotDist=="dens.combined" ){
     
+    if(map.id==map.id.v[1]){
+      
+      plot(density(x=v.nZero), xlab="Contact value", main=paste0(p.title, "_no0s"),
+           cex.main=0.5, xlim=xlim.dens, ylim=ylim.dens, col=pal[map.id], lty=1, lwd=0.5)
+      
+    } else {
+      lines(density(x=v.nZero), cex.main=0.5, xlim=xlim.dens, col=pal[map.id], lty=1, lwd=0.5)
+    }
+   
   }
   
   print(paste0(map.id, " done!"), quote=F)
@@ -260,7 +303,16 @@ for(map.id in map.id.v){
   
 } # len for loop end
 
-if( !is.na(plotDist) & plotDist=="dens" ){
+
+if(plotDist=="dens.combined"){
+  
+  # Add a legend to density plot
+  legend(x="topright", legend=map.id.v, col=pal, lty=1, lwd=2, cex=0.8,
+         title=NULL, text.font=4)
+  
+}
+
+if( grepl(x=plotDist, pattern="dens") ){
   dev.off()
 }
 
@@ -307,3 +359,4 @@ if(plotcvd){
 }
 
 # rm(list=ls()); gc()
+
