@@ -6,7 +6,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -27,8 +27,8 @@ if( !is.null(whorunsit[1]) ){
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 out.dir = paste0(wk.dir, "/out_gapdist")
 ### OTHER SETTINGS #############################################################
-gcb = "min05Mb"
-chr.v = paste0("chr", c(1:22, "X"))
+gcb = "min2Mb" #"min05Mb"
+chr.v = "chr21" #paste0("chr", c(1:22, "X"))
 Cp.v = 1:21
 bin.len = 4e4
 ################################################################################
@@ -68,29 +68,38 @@ GAP <- vector(mode="list", length=length(Cp.v))
 names(GAP) <- Cp.v
 
 for(chr in chr.v){
+  
   load(file=paste0(persist.dir, "/", chr, "_Persist_", gcb, ".RData"))
   gap.v <- (PERSIST.MX$hits$j-PERSIST.MX$hits$i-1L)
   cp.v <- PERSIST.MX$ntis
-  rm(PERSIST.MX); gc()
+  rm(PERSIST.MX)
+  gc()
+  
   for(Cp in Cp.v){
     GAP[[as.character(Cp)]] <- c(GAP[[as.character(Cp)]], gap.v[cp.v==Cp])
   }
+  
   rm(gap.v, cp.v); gc()
   print(paste0(chr, " done!"), quote=FALSE)
+  
 }
 
 GAP <- stack(GAP)
 colnames(GAP) <- c("gap", "Cp")
 GAP$gap <- GAP$gap*(bin.len/1e6)
 out.name <- paste0(gcb, "_LR_gapdist_bp")
+
 #-------------------Boxplot across Cp
+
 GAP$Cp <- factor(as.character(GAP$Cp), levels=c("0",as.character(Cp.v)))
 bp.stat <- makebp(out.name=paste0(out.dir, "/", out.name, "_acrossCp"), GAP=GAP, 
                   xlab=levels(GAP$Cp))
 bp.stat <- bp.stat[,-1] # Remove stat for factor "0", which are all NAs
 colnames(bp.stat) <- as.character(Cp.v)
 rownames(bp.stat) <- c("Min", "25th", "Median", "75th", "Max")
+
 #-------------------Boxplot for all LR contacts
+
 GAP$Cp[GAP$Cp%in%Cp.v] <- "0"
 temp <- makebp(out.name=paste0(out.dir, "/", out.name, "_All"), GAP=GAP, 
                xlab=levels(GAP$Cp))
