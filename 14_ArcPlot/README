@@ -7,6 +7,7 @@ Hsa_GRCh37_73_chr_info
 GG_bgr.R"
 makeHexbinggplot.R
 
+library(data.table)
 library(ggplot2)
 library(Hmisc)
 library(hexbin)
@@ -32,6 +33,13 @@ length of sequence 40000 to 80000 which is equal to (3-1-1)*bin.len, where
 bin.len in this case is 40000.
 Almost all of Cp=21 contacts have gap distance less than 20% of chromosome length.
 
+Plot gap distance as hexbin and boxplots.
+
+Boxplot of the contact gap lengths for all long-range contacts (Cp=0) and
+per Cp. Plot combines contacts from all chr. The boxplot whiskers is set to 
+include min and max value so there should be no outliers. Boxplot statistics are 
+saved in the csv file. Plot combines contacts from all chr. 
+
 2. Visualise contacts as arcs using R4RNA package made to represent RNA structure.
 Top panel are min2Mb contacts colored by the unknotted groups. Color assignment
 starts from the most LR contact. 
@@ -41,7 +49,7 @@ are contacts common between the two sets (50,max()] bins gap distance. I did
 the comparison between these two to see that the shortest among the LR contacts
 are within the domains form by the longer LR contacts.  
 
-3. AThe second type of arc diagram is mainly to differentiate persistent contacts 
+3. The second type of arc diagram is mainly to differentiate persistent contacts 
 based on the contact gap distance. Top panel displays contacts above or equal to 
 the set gap distance threshold. Bottom panel displays contacts below that threshold. 
 The gap distance threshold can be set as percentage of chromosome length or as 

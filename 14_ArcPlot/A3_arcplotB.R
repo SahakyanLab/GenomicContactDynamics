@@ -34,7 +34,8 @@ chr.v = "chr1" #paste0("chr", c(22:1, "X"))
 # topCP=3 would means the top 3 values of cp.v; topCP=-3 means the bottom 3 values
 # of cp.v
 topCP = 3; cp.v = 1:21
-ct = "FC"; ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB",
+# If ct="All", no tissue filtering.
+ct = "All"; ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB",
                     "AG", "Ov", "Bl", "MesC","MSC", "NPC", "TLC", "ESC", "FC", "LC")
 # Gap in terms of % of chr length ("Perc") or bin ("Bin")
 gap.type = "Bin" 
@@ -64,8 +65,8 @@ cp.v <- sort(cp.v, decreasing=FALSE)
 if(topCP<0){ cp.v <- rev(cp.v) }
 cp <- sort(tail(cp.v, n=abs(topCP)), decreasing=FALSE)
 #---------------------------------------
-ct.id <- NULL
-if( !is.null(ct) ){ ct.id <- ct; ct.id <- paste0(ct.id[!is.na(ct.id)], "_") }
+ct.id <- paste0(ct, "_")
+#if( !is.null(ct) ){ ct.id <- ct; ct.id <- paste0(ct.id[!is.na(ct.id)], "_") }
 #---------------------------------------
 for(chr in chr.v){
   
@@ -78,7 +79,7 @@ for(chr in chr.v){
     
     # Load PERSIST.MX
     load(file=paste0(persist.dir, "/", chr, "_Persist_", gcb, ".RData"))
-    if( is.null(ct) ){
+    if(ct=="All"){
       incl.TF <- PERSIST.MX$ntis%in%cp 
     } else if(ct%in%ct.v){
       incl.TF <- PERSIST.MX$ntis%in%cp & PERSIST.MX$hits[[ct]]>0
