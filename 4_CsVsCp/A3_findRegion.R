@@ -4,14 +4,14 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/13_CsVsCp"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/4_CsVsCp"
     data.dir = "/Users/ltamon/Database"
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
@@ -30,12 +30,12 @@ out.dir = paste0(wk.dir, "/out_findRegion")
 #         "Li", "SB", "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC")
 ct.v = "FC"
 gcb.v = c("min2Mb")
-chr.v = "chr1" #paste("chr", c(1:22, "X"), sep="")
+chr.v = "chr17" #paste("chr", c(1:22, "X"), sep="")
 # Range of Cs, [x,y]
-Cs = c(1,1000)
-# Range of Cs, [x,y]
+Cs = c(1,3)
+# Range of Cp, [x,y]
 Cp = c(1,5)
-out.name = "allCsLowCp"
+out.name = "1and2CsLowCp"
 scaled = FALSE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
