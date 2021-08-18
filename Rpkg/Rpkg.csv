@@ -27,7 +27,7 @@ gridExtra
 gridGraphics
 hexbin
 Hmisc
-IRanges
+Iranges
 itertools
 marge
 methods
@@ -46,6 +46,7 @@ rtracklayer
 scales
 sna
 stats
+stringr
 utils
 viridis
 visNetwork
