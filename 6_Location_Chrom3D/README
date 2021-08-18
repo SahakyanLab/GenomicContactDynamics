@@ -195,10 +195,17 @@ of columns as NAs. They were appended as the bottom rows.
 When liftover is required, the LO_mapToHiCcontactPersistBins() produces plots
 of the total length of converted ranges (divided 10000) per bin to see the deviation
 from the fixed bin length (Hi-C resolution). In the plot, the number of bins
-is the number of successfully lifted bins. 
+is the number of successfully lifted bins (bins split into multiple ranges
+are counted). 
 
-1.5 Transform diploid DOMXYZR.DF such that a domain/bead will have one radial
-distance value. (TO DO)
+%%1.5 Transform diploid DOMXYZR.DF such that a domain/bead will have one radial
+%%distance value. (TO DO)
+
+1.5 Make plot showing the length distribution of contact bins after hg19 -> hg38 
+liftover and the percentage of bins per chromosome that were split into multiple 
+ranges after liftover. Csv file contains count of bins lifted over to only one 
+range (not split) and the corresponding percentage relative to number of bins in
+chromosome. 
 
 2. Make a matrix of the contacts per chr with their corresponding radial positions.
 Output is IJ.FEAT.MX is cell/tissue-specific. Contacts found in IJ.FEAT.MX 
