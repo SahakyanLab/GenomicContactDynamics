@@ -18,7 +18,7 @@ source(paste0(lib, "/TrantoRextr/GEN_getKmerCountsPerInterval.R"))
 library(foreach)
 library(doParallel)
 library(itertools)
-library(reshape)
+library(reshape2)
 library(RColorBrewer)
 library(ggplot2)
 ################################################################################
@@ -29,8 +29,11 @@ MELT.MX.
 2. Count selected long-range contacts per tissue per Cp. Csv file made per chr
 # and chrALL. 
 3.Plot fraction of long-range contacts per Cp per tissue. 
-Do for each chr and chrALL. Barplot ordered starting from allCT then highest
-to lowest fraction of Cp=21 contacts. 
+Do for each chr and chrALL. Barplot ordered starting from highest
+to lowest fraction of Cp=21 contacts and highest to lowest weighted average Cp.
+"All" is explicitly put at the rightmost. Weighted average Cp per tissue
+is summation of (Cp value)*(count of contact per Cp) for Cp=1:21 then divided by
+total count of contacts in tissue. 
 ################################################################################
 B. Useful unique contacting bins dataset
 ################################################################################
