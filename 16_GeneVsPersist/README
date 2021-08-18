@@ -4,6 +4,11 @@
 DATASET_Hsa_GRCh37_73_chr_info
 DATASET_ucsc_tables
 
+library(stringr)
+library(RColorBrewer)
+library(ggplot2)
+
+source(paste0(lib, "/GG_bgr.R"))
 convertHGNCsymb.R
 RefSeqCat.R
 UCSCTableReadFilter.R
@@ -59,20 +64,37 @@ Gene count in plot means the number of genes associated with the certain term.
 The gene count in the legend name (enclosed in parentheses) is the total number of
 foreground genes associated with at least one term. 
 
+7.5. Plot DAVID functional annotation clusters of terms enriched in given gene set.
+From the functional annotation clustering result, get terms enriched from topN clusters
+with highest EASE score. In the plot, significance is shown by the $log_{10}$-transformed Benjamini-Hochberg adjusted p-value (BH to match adjusted
+p-value in A7). Red dashed line marks -log10(0.05)~1.3010 and only terms with
+adjusted p-value greater than that value in at least 1 sample are displayed. Gene
+count is the number of prime contact bin genes associated with each term. 
+
+Perform this using samples of Cp=21 genes (A9). Each panel in plot corresponds to
+a sample denoted by the seed number used to generate it. Only 2999 was sampled
+because in the case of sample 754, DAVID maps 3000 DAVID identifiers to 2999
+genes. For the clustering the medium stringency setting was used and the
+background is the built-in set of Homo sapiens genes. The enrichment score or
+EASE of clusters is the negative log transformed geometric mean of the enrichment
+p-values (a modified Fisher exact p-value) of member terms
+\cite{huang_systematic_2009}. The EASE scores per cluster per sample are not shown
+but ranges from to 2.1859 to 8.1766 (-log(0.05)~2.9957$).
+
 8. Make a text file of genes colocalising with Cp of interest. This is for 
 DAVID.
 
-9. DAVID and code to generate samples (N=3000) of gene list.
-Functional term enrichment:
-This does not work for HUGO genes >3000. Therefore, I used entrezIDs.  
-Result is stored in ./out_DAVID. I also stored the entrezIDs that were not 
-mapped by DAVID. 
+9. Generate samples of genes from gene sets in \out_geneFilePerCp. This is 
+because DAVID can only take at most 3000 genes for functional annotation 
+clustering. The code generates two files:
 
-Functional term clustering:
-This does not work for genes >3000. What I did is to remove from the entrezID
-list the unmapped IDs by DAVID and then sampled 3000 entrezIDs to be able to
-run the clustering. For cp=21 gene list, I got 3 samples (different seeds) and
-all of them yield comparable results. Result is stored in ./out_DAVID/sampleGeneList.
+a. List of genes from files in \out_geneFilePerCp chosen based on gene
+format (official gene symbol or Entrez gene id).
+b. Samples of genes from (a) of given length and seed. Before sampling,
+genes that cannot be mapped by DAVID (out_DAVID/unmapped) were removed.
+2999 genes were sampled because sometimes DAVID matches N+1 DAVID IDs
+to N input genes (as in the case of seed=754). Three samples of the same length
+(N=2999) were generated to make sure that results are stable. 
 ################################################################################
 # B. Gene length vs. Cp
 ################################################################################
