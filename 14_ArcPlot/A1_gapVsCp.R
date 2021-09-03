@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -13,19 +13,18 @@ if( !is.null(whorunsit[1]) ){
     wk.dir = "/Users/ltamon/DPhil/GCD_polished/14_ArcPlot"
     data.dir= "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/17_Structure"
-    data.dir= "/t1-data/user/ltamon/Database"
-  } else if(whorunsit == "LiezelLinuxDesk"){
-    lib = "/home/ltamon/DPhil/lib"
-    wk.dir = "/home/ltamon/DPhil/GenomicContactDynamics/17_Structure"
-    data.dir= "/home/ltamon/Database"
+    #lib = "/t1-data/user/ltamon/DPhil/lib"
+    #wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/17_Structure"
+    #data.dir= "/t1-data/user/ltamon/Database"
+    lib = "/stopgap/sahakyanlab/ltamon/DPhil/lib"
+    wk.dir = "/stopgap/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/14_ArcPlot"
+    data.dir= "/stopgap/sahakyanlab/ltamon/Database"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
-out.dir = paste0(wk.dir, "/z_ignore_git/out_gapVsCp")
+out.dir = paste0(wk.dir, "/out_gapVsCp")
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
 chr.v = paste0("chr", c(1:22, "X"))
@@ -34,11 +33,11 @@ bin.len = 40000
 gap.type = "gap.perc" # "gap.bp" | gap.perc
 Cp.v = 1:21
 
+plot.type = "box" # hexbin | box | both
 # For hexbin plot
 cuts=6
 bins=60
 
-plot.type = "box" # hexbin | box | both
 plotOnly = TRUE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
@@ -57,19 +56,24 @@ makebp <- function(out.name=paste0(out.dir, "/", out.name, "_AllLR"),
 ){
   
   xlab.len <- length(xlab)
-  max.y <- ceiling(max(GAP$gap))
   
+  if(gap.type=="gap.perc"){
+    max.y <- 100
+  } else if(gap.type=="gap.bp"){
+    max.y <- ceiling(max(GAP$gap))
+  }
+
   png(file=paste0(out.name, ".png"), width=10, height=10, units="in", res=1200)
   
   # range=0, coef=0 causes the whiskers to extend to the data extremes (so no  
   # data will be outliers)
   bp <- boxplot(gap~Cp, outline=TRUE, data=GAP,  xlab=expression(bold("c"["p"])), 
                 ylab=ylab, width=rep(0.4, times=xlab.len), cex.axis=1, col="#FDC776", 
-                xaxt="n", range=0, coef=0, ylim=c(0,max.y))
+                xaxt="n", range=1.5, ylim=c(0,max.y))
   axis(side=1, at=1:xlab.len, labels=xlab, cex.axis=1)
   mtext(side=3, line=2, cex=0.7, 
         text=paste0(out.name, 
-                    "\n whiskers stretch to minmax (range=0, coef=0); Cp=0 includes all LR contacts
+                    "\n whiskers 1.5IQR; Cp=0 includes all LR contacts
                     gap.bp unit is Mb; gap.perc is % of chr length"))
   dev.off()
   
@@ -169,7 +173,7 @@ if( plot.type%in%c("box", "both") ){
                     xlab=levels(GAP$Cp), ylab=gap.type)
   bp.stat <- bp.stat[,-1] # Remove stat for factor "0", which are all NAs
   colnames(bp.stat) <- as.character(Cp.v)
-  rownames(bp.stat) <- c("Min", "25th", "Median", "75th", "Max")
+  rownames(bp.stat) <- c("Q1minus1.5IQR", "25th", "Median", "75th", "Q3plus1.5IQR")
   
   # Boxplot for all LR contacts
   

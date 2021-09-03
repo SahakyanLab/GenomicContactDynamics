@@ -50,16 +50,16 @@ the comparison between these two to see that the shortest among the LR contacts
 are within the domains form by the longer LR contacts.  
 
 3. The second type of arc diagram is mainly to differentiate persistent contacts 
-based on the contact gap distance. Top panel displays contacts above or equal to 
-the set gap distance threshold. Bottom panel displays contacts below that threshold. 
-The gap distance threshold can be set as percentage of chromosome length or as 
-the absolute number of 40-kb bins between contacting loci.
-Saved RData contains data for botttom panel (df$A) and top panel (df$B). 
-When plotting, the extra row (i=xlim, j=xlim, length=0) is added to both df$A 
-and df$B, which will not be presented by an arc, but will set the max value of
-the x-axis. This is important to make x-axis of plots uniform. 
+of specified cp values based on the contact gap distance. Top panel displays 
+long-range contacts with gap above or equal to the set gap distance threshold. 
+Bottom panel displays contacts below that threshold. The gap distance threshold 
+can be set as percentage of chromosome length or as the absolute number of 40-kb 
+bins between contacting loci. Saved RData contains data for botttom panel (df$A) 
+and top panel (df$B). When plotting, the extra row (i=xlim, j=xlim, length=0) 
+is added to both df$A and df$B, which will not be presented by an arc, but will 
+set the max value of the x-axis. This is important to make x-axis of plots uniform. 
 
-If showSRij==FALSE, shorter-range (<gap threshold) contacts in the bottom panel
-will not displayed. If no contacts are above or equal to the gap threshold, 
-df$top is set to NULL and no contacts are displayed.
+If showLRijbelowGap==FALSE, long-range contacts with gap < gap threshold will 
+not be displayed in the bottom panel. If no contacts are above or equal to the 
+gap threshold, df$top is set to NULL and no contacts are displayed.
 ################################################################################
