@@ -109,8 +109,7 @@ nonNA 9.917451e+01 89.007534037
 19    6.649000e+03  0.051829172
 20    2.867000e+03  0.022128761
 21    7.320000e+02  0.005454845
-d. Compare distribution of the two sets via Wilcoxon-Mann-Whitney test (non-parametric, unpaired/independent groups). The test assumes that the shape of the two distributions 
-are similar so check the boxplots.
+d. Compare distribution of the two sets via Wilcoxon-Mann-Whitney test (non-parametric, unpaired/independent groups). The test assumes that the shape of the two distributions are similar so check the boxplots.
 
 mw <- wilcox.test(as.formula(paste0(feat, "~set")), alternative="two-sided",
                           data=HYBCOMB.DF[HYBCOMB.DF$Cp==cp, c(feat, "set")],
