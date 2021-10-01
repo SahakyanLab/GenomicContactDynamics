@@ -14,36 +14,46 @@ if( !is.null(whorunsit[1]) ){
     #wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
     wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    data.dir = "/t1-data/user/ltamon/Database"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+    #lib = "/t1-data/user/ltamon/DPhil/lib"
+    #data.dir = "/t1-data/user/ltamon/Database"
+    #wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+    lib = "/stopgap/sahakyanlab/ltamon/DPhil/lib"
+    data.dir = "/stopgap/sahakyanlab/ltamon/Database"
+    wk.dir = "/stopgap/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+  } else if(whorunsit == "LiezelLinuxDesk"){
+    lib = "/home/ltamon/DPhil/lib"
+    data.dir = "/home/ltamon/Database"
+    wk.dir = "/home/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
+    os = "Linux"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")#/persist_HiCNorm")
+# Using raw because athena does not havepersist_HiCNorm/
+#persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
-foifile = paste0(wk.dir, "/foifile/foivsij/foifile10")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/2021August_notassociated/raw")
+foifile = paste0(wk.dir, "/foifile/foivsij/foifile175")#FOIREPLACE")
 out.dir = paste0(wk.dir, "/out_foiVsij")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr.v = paste0("chr", c(1:22, "X"))
 bin.len = 40000
 Cp.v = 1:21
-Ct.v = "Li" #c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", 
-      #   "SB", "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC",
-      #   "FC", "LC")
-out.id = "10" 
+Ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG", 
+         "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
+out.id = "175" #"FOIREPLACE" 
 type.olap = "any" # "any" | "within"
 query = "bin" #"bin" | "foi"
-plotOnly = FALSE
+plotOnly = TRUE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
 library(GenomicRanges)
 library(ggplot2)
-library(reshape)
-#library(ggsci)
+library(reshape2)
+library(ggsci)
 library(RColorBrewer)
 #library(yarrr); base.pal <- yarrr::piratepal("basel")
 source(paste0(lib, "/TrantoRextr/GEN_WhichOverlap.R"))
@@ -184,26 +194,28 @@ if(plotOnly==FALSE){
 } else {
  load(file=paste0(out.dir, "/", out.name, "_foiVsij.RData")) 
 }
+
 v <- colSums(FEATVSCP.MX)
 if( v["All"]!=sum(v[-1]) ){ stop("Checkpoint.") } 
 ij.num <- paste(paste(names(v), v, sep=":"), collapse="_")
 #-------------------Contact-centric plot
-df <- melt.array(FEATVSCP.MX[,-1]/FEATVSCP.MX[,"All"])
+df <- reshape2::melt(data=FEATVSCP.MX[,-1]/FEATVSCP.MX[,"All"])
 colnames(df) <- c("Cp", "Pair", "Value")
-df$Pair <- factor(df$Pair, levels=unique(df$Pair))
+df$Pair <- factor(as.character(df$Pair), levels=unique(as.character(df$Pair)))
 x.lab <- Cp.v; x.lab[(x.lab%%2)==0] <- ""
 
-ggplot(data=df, aes(x=Cp, y=Value, fill=Pair)) +
+p <- ggplot(data=df, aes(x=Cp, y=Value, fill=Pair)) +
   geom_col(position="fill") +
   scale_x_continuous(breaks=Cp.v, labels=x.lab) + 
-  #scale_fill_npg() + 
+  scale_fill_npg() + 
   labs(title=paste0(out.name, "_olaptype=", type.olap), 
        x=expression(bold("c"["p"])),
        y="Fraction of contacts", fill=NULL) + 
   bgr2 +
   theme(legend.text=element_text(size=5, face="bold")) 
+
 ggsave(filename=paste0(out.dir, "/", out.name, "_foiVsij_ij.pdf"),
-       width=10, height=10)
+       width=10, height=10, plot=p)
 #-------------------Feature-centric plot
 totij.pair <- colSums(FEATVSCP.MX)
 df <- apply(X=FEATVSCP.MX, MARGIN=1, FUN=function(rw){
@@ -213,12 +225,12 @@ df <- apply(X=FEATVSCP.MX, MARGIN=1, FUN=function(rw){
 totij.pair[totij.pair>0] <- 1
 if( !identical(rowSums(df), totij.pair) ){ stop("Fractions don't add up to 1.") }
 
-df <- melt.array(df)
+df <- reshape2::melt(df)
 colnames(df) <- c("Pair", "Cp", "Value")
 df$Cp <- factor(df$Cp, levels=as.character(Cp.v))
 df <- df[df$Value!=0,]
 df$Pair <- gsub(x=df$Pair, pattern="-", replacement="\n", fixed=TRUE)
-df$Pair <- factor( df$Pair, levels=unique(c("All", as.character(unique(df$Pair)))) )
+df$Pair <- factor(as.character(df$Pair), levels=unique(as.character(df$Pair)))
 coul <- colorRampPalette(rev(brewer.pal(n=11,name="Spectral")))(length(Cp.v))
 
 ggplot(data=df, aes(x=Pair, y=Value, fill=Cp)) +
@@ -229,6 +241,7 @@ ggplot(data=df, aes(x=Pair, y=Value, fill=Cp)) +
        x="", y="Fraction of contacts", 
        fill=expression(bold("c"["p"]))
        ) + 
+  guides(fill=guide_legend(ncol=2)) +
   bgr2 +
   theme(axis.text.x=element_text(angle=90, size=10, hjust=1),
         plot.title=element_text(size=2))

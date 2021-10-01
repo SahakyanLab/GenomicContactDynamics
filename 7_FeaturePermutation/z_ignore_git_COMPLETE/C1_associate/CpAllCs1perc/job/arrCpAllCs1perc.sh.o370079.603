@@ -1,0 +1,16 @@
+[1] Cs value/s: 0.01
+[1] Cp value/s: 1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21
+[1] nperm10000_seed662_mxmskfr0_CpAllCs1perc
+[1] Running on 3 cores...
+[1] A=contact region, B=feature.
+[1] Max allowed % overlap with mask: 0
+[1] Choosing allCT regions for cell-type independent feature.
+           used  (Mb) gc trigger  (Mb)  max used  (Mb)
+Ncells  6569464 350.9   11443461 611.2   7392551 394.9
+Vcells 42852072 327.0  127892237 975.8 127877974 975.7
+[1] Don't supply mask...
+[1] Background is regioneR::resampleRegions of HiCAll...
+[1] Background is HiCAll...
+[1] Filtering cp bed for chromosomes in foi bed...
+[1] Regions: 61652 A and 27537 B.
+[1] FC_CGI_m_DNA done!

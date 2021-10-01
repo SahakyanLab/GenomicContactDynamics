@@ -1,8 +1,8 @@
 #!/bin/sh
 
-lines=`cat foifile24`
+lines=`cat foifile_isochore`
 outid="foifile"
-fileArr=($(seq 27 1 32))
+fileArr=($(seq 177 1 188))
 
 i=0
 

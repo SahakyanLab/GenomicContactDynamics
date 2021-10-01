@@ -1,0 +1,56 @@
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Warning in permTest(A = A, B = B, ntimes = NTIMES, alternative = "auto",  :
+  All permuted values are equal to 255. Z-score is infinite.
+Warning in permTest(A = A, B = B, ntimes = NTIMES, alternative = "auto",  :
+  All permuted values and the original evaluation value are equal to 0. Z-score cannot be computed.
+Warning in permTest(A = A, B = B, ntimes = NTIMES, alternative = "auto",  :
+  All permuted values are equal to 0. Z-score is infinite.
+Warning in permTest(A = A, B = B, ntimes = NTIMES, alternative = "auto",  :
+  All permuted values are equal to 4728930.09411765. Z-score is infinite.
+Warning in arrows(mperm, ymax * 0.75, mobs, ymax * 0.75, length = 0.1, code = 3) :
+  zero-length arrow is of indeterminate angle and so skipped
+Warning in plot.permTestResults(X[[i]], ...) :
+  all permuted values are equal to 255. It is not posible to adjust a normal distribution nor to compute a Z-score.
+Warning in arrows(mperm, ymax * 0.75, mobs, ymax * 0.75, length = 0.1, code = 3) :
+  zero-length arrow is of indeterminate angle and so skipped
+Warning in plot.permTestResults(X[[i]], ...) :
+  all permuted values are equal to 0. It is not posible to adjust a normal distribution nor to compute a Z-score.
+Warning in arrows(mperm, ymax * 0.75, mobs, ymax * 0.75, length = 0.1, code = 3) :
+  zero-length arrow is of indeterminate angle and so skipped
+Warning in plot.permTestResults(X[[i]], ...) :
+  all permuted values are equal to 4728930.09411765. It is not posible to adjust a normal distribution nor to compute a Z-score.

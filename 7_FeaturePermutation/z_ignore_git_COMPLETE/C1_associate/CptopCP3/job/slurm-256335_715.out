@@ -1,0 +1,55 @@
+Loading R-cbrg/current
+  Loading requirement: gsl/2.6 hdf5/1.10.7
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+[1] Cs value/s: 1;0.01
+[1] Cp value/s: 19;20;21
+[1] nperm10000_seed662_mxmskfr0_CptopCP3
+[1] Running on 3 cores...
+[1] A=contact region, B=feature.
+[1] Max allowed % overlap with mask: 0
+[1] Choosing allCT regions for cell-type independent feature.
+           used  (Mb) gc trigger  (Mb)  max used  (Mb)
+Ncells  7269621 388.3   14782264 789.5   8109490 433.1
+Vcells 44079589 336.4  129365708 987.0 129359251 987.0
+[1] Don't supply mask...
+[1] Background is regioneR::resampleRegions of HiCAll...
+[1] Background is HiCAll...
+[1] Filtering cp bed for chromosomes in foi bed...
+[1] ESC_genes_DNA: Not reduced.
+[1] Regions: 44855 A and 46534 B.
+[1] ESC_genes_DNA done!

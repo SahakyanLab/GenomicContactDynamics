@@ -1,0 +1,19 @@
+[1] Cs value/s: 1;0.01
+[1] Cp value/s: 19;20;21
+[1] nperm10000_seed662_mxmskfr0_CptopCP3
+[1] Running on 3 cores...
+[1] A=contact region, B=feature.
+[1] Max allowed % overlap with mask: 0
+[1] Choosing allCT regions for cell-type independent feature.
+           used  (Mb) gc trigger  (Mb)  max used  (Mb)
+Ncells  6569464 350.9   11443461 611.2   7392551 394.9
+Vcells 42852059 327.0  127892216 975.8 127877961 975.7
+[1] Don't supply mask...
+[1] Background is regioneR::resampleRegions of HiCAll...
+[1] Background is HiCAll...
+[1] Filtering cp bed for chromosomes in foi bed...
+[1] LC_NFIC_TF: Not reduced.
+[1] min2Mb_LC_NFIC_TF_nperm10000_seed662_mxmskfr0_CptopCP3:1 NaN/NA zscore/s.
+[1] numOlapAwithin
+[1] Regions: 44962 A and 38139 B.
+[1] LC_NFIC_TF done!

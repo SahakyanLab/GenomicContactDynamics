@@ -5,12 +5,14 @@ Database/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced
 Database/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw
 PERSIST.MX raw and HiCNorm version
 Database/genome_info/Hsa_GRCh37_73_chr_info.txt
+BIN.MX dataset ~/7_FeaturePermutation/binmx/out_bindata_1perc_HiCNorm
 
 library(ggplot2)
 library(ggpubr)
 library(foreach)
 library(doParallel)
 library(itertools)
+library(reshape2)
 
 source(paste0(lib, "/GG_bgr.R"))
 source(paste0(lib, "/finaliseFOI.R"))
@@ -271,6 +273,10 @@ Feature-centric (foiVsij_foi.pdf):
 by Cp. 
 
 Note that only chromosomes with features were considered. For instance, there is no sub-compartment data for chrX. 
+
+Regardless of feature present results from "any" overlap cause "within" results
+are affected by whether I used raw (used for the runs) or reduced bed files. Although
+features (such as shared A and B) are only in reduced form. 
 
 2. Taking a foicentric view of feature overlaps with unique contacting
 regions. Plot shows fraction of total feature bp per Cp. Since contact regions

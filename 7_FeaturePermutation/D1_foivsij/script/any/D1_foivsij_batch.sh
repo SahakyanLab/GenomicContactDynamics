@@ -1,9 +1,7 @@
 #!/bin/sh
 
-#declare -a replaceArr=(0.5 0.6 0.7 0.8 0.9 1)
-replaceArr=($(seq 100 1 124))
-len=${#replaceArr[@]}
-fileArr=($(seq 100 1 124))
+replaceArr=($(seq 125 1 189))
+fileArr=($(seq 125 1 189))
 
 # Source file
 src="D1_foivsij_template"
@@ -18,7 +16,7 @@ orig=FOIREPLACE
 ###################################################################################
 # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE #
 ###################################################################################
-len=${#fileArr[@]}
+len=${#replaceArr[@]}
 
 for (( i=0; i<${len}; i++ ))
 do
