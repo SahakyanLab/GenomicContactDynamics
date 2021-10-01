@@ -43,6 +43,7 @@ map.id.v = c(subj="Ao-Cs.norm", ref="AG-Cs.norm") # c(subj="SUBJREPLACE", ref="R
 # Filter contacts
 
 # If both incl.bin.x and incl.bin.y lists are NULL, use whole chr. 
+# Upper triangle perspective, i -> y, j -> x
 incl.x = 'incl.bin.x = NULL'
 incl.y = 'incl.bin.y = NULL'
 mask.x = 'mask.bin.x = list(3038:6232)' #'mask.bin.x = list(3039:6232)'
@@ -128,7 +129,7 @@ for(m in c("subj", "ref")){
                      chrlen.file=chrlen.file, bin.len=bin.len, invalidij.action=NA)
 
   # Convert df to matrix format
-  df <- df[order(df$j, df$i),]
+  df <- df[order(df$j, df$i, decreasing=FALSE),]
   
   if( !identical(as.numeric(df$i), as.numeric(temp$i)) | 
       !identical(as.numeric(df$j), as.numeric(temp$j)) ){

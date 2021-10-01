@@ -4,7 +4,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelLinuxDesk" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -13,10 +13,16 @@ if( !is.null(whorunsit[1]) ){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
     wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
+    CII.dir = "/Users/ltamon/DPhil/GCD_polished/11_Complementarity/out_group"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    data.dir = "/t1-data/user/ltamon/Database"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
+    #lib = "/t1-data/user/ltamon/DPhil/lib"
+    #data.dir = "/t1-data/user/ltamon/Database"
+    #wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
+    #CII.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/polished/11_Constraints/out_group"
+    lib = "/stopgap/sahakyanlab/ltamon/DPhil/lib"
+    data.dir = "/stopgap/sahakyanlab/ltamon/Database"
+    wk.dir = "/stopgap/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
+    CII.dir = "/stopgap/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/pending/11_Constraints/out_group"
   } else if(whorunsit == "LiezelLinuxDesk"){
     lib = "/home/ltamon/DPhil/lib"
     data.dir = "/home/ltamon/Database"
@@ -29,27 +35,23 @@ if( !is.null(whorunsit[1]) ){
 simmap.dir = paste0(wk.dir, "/sim_maps")
 Cs.raw.dir = paste0(data.dir, "/GSE87112/combined_contacts/RAW_primary_cohort")
 Cs.norm.dir = Cp.dir = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_primary_cohort")
-CII.disc.kmer.5.dir = CII.cont.kmer.5.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/polished/11_Constraints/out_group"
-out.dir = paste0(wk.dir, "/out_explore")
+CII.cont.kmer.5.dir = CII.cont.align.5.dir = CII.cont.Gfree.5.dir = CII.dir
+CII.disc.kmer.5.dir = CII.disc.align.5.dir = CII.dir
+out.dir = paste0(wk.dir, "/out_explore/CII_boxplots")
 chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr = "chr1"
 bin.len = 40000
 
-#-------------------FILTER CONTACTS
-
-# If both incl.bin.x and incl.bin.y lists are NULL, use whole chr. 
-# For upper triangle contacts, i --> y and j --> x
-incl.x = 'incl.bin.x = NULL'
-incl.y = 'incl.bin.y = NULL'
-mask.x = 'mask.bin.x = list(3038:6232)' #j #'mask.bin.x = list(3039:6232)'
-mask.y = 'mask.bin.y = list(1:3565)'    #i #'mask.bin.y = list(1:3563)' 
-# If vector gap.range is NULL, no filtering. Treated as closed range. 
-#gap.v = 'gap.range = c(50, Inf)'
-gap.v = 'gap.range = c(50, Inf)'
-
 #-------------------SELECT CONTACT MAPS
+
+chr.v = paste0("chr", c(1:22, "X"))
+
+# Map id format: <cell/tissue>-<metric name>. Metric name should match source 
+# directory name, e.g. for metric name Cs.norm directory is Cs.norm.dir. 
+# For c||, <CII>.<disc/cont>.<kmer/align>.<(0,100)>, e.g. 5 in "CII.disc.kmer.5" 
+# is the cutoff percentage for categorisation. disc means discrete (categorised CII), 
+# cont means continuouos (orig CII).
 
 #ct.v = c(rep(x="hg19", times=10),
 #         sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB",
@@ -60,31 +62,42 @@ gap.v = 'gap.range = c(50, Inf)'
 #             "SIM.non.set3.2.10.5.1.5", "SIM.non.set3.2.10.5.2.0",
 #             "SIM.int.set3.2.1.5.old", "SIM.int.set4.2.1.5.old", 
 #             rep(x="Cs.norm", times=21))
+ct.v = "hg19"
+metric.v = "CII.cont.kmer.5"
 
-ct.v = sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB",
-              "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC"))
-metric.v = rep(x="Cs.norm", times=21)
-
-# Map id format: <cell/tissue>-<metric name>. Metric name should match source 
-# directory name, e.g. for metric name Cs.norm directory is Cs.norm.dir. 
-# For c||, <CII>.<disc/cont>.<kmer/align>.<(0,100)>, e.g. 5 in "CII.disc.kmer.5" 
-# is the cutoff percentage for categorisation. disc means discrete (categorised CII), 
-# cont means continuouos (orig CII).
 if( length(ct.v)!=length(metric.v) ){
-  stop("Lengths of ct.v and metric.v not equal.")
+  stop("Each element of ct.v and metric.v should correspond such that the two 
+       vectors have the same length.")
 } else {
-  map.id.v <- paste(ct.v, metric.v, sep="-")
+  
+  map.id.v <- expand.grid(chr.v, paste0(ct.v, "-", metric.v))
+  map.id.v <- apply(X=map.id.v, MARGIN=1, FUN=paste, collapse="-")
+  
 }
 
-CsScaling = "TRIMMEANSD" # "none" | "SD" | "MAD" | "BOXWHISK" | "MEANSD" | "MEDMAD"
-out.id = "whole_maskMidSquare_gap2up_maskx3038To6232y1To3565_Cs.norm"
+#-------------------FILTER CONTACTS
+
+# If both incl.bin.x and incl.bin.y lists are NULL, use whole chr. 
+# For upper triangle contacts, i --> y and j --> x
+incl.x = 'incl.bin.x = NULL'
+incl.y = 'incl.bin.y = NULL'
+mask.x = 'mask.bin.x = NULL' #list(3038:6232)' #j #'mask.bin.x = list(3039:6232)'
+mask.y = 'mask.bin.y = NULL' #list(1:3565)'    #i #'mask.bin.y = list(1:3563)' 
+# If vector gap.range is NULL, no filtering. Treated as closed range. 
+#gap.v = 'gap.range = c(50, Inf)'
+gap.v = 'gap.range = c(50, Inf)'
+
+CsScaling = "none" # "none" | "SD" | "MAD" | "BOXWHISK" | "MEANSD" | "MEDMAD"
+
+#-------------------SET PLOT PARAMETERS
+
+# Output specifications
+out.id = "whole_50ToInf_CII.cont.5"
 out.id <- paste0(out.id, "_CsScaling", CsScaling)
 
 # Density plot
-xlim.dens = c(-10, 60)
-ylim.dens = c(0,4)
-
-#-------------------SET PLOT PARAMETERS
+xlim.dens = c(NA,NA)
+ylim.dens = c(NA,NA)
 
 # From https://stackoverflow.com/questions/9563711/r-color-palettes-for-many-data-classes
 base.pal = c(
@@ -108,17 +121,17 @@ pal <- pal[ sample(x=length(pal), size=length(pal)) ]
 #pal <- adjustcolor(col=pal, alpha.f=0.3)
 names(pal) <- map.id.v
 
-plotDist = "dens.combined" # "box" | "dens" | "dens.combined" | "none"
+plotDist = "box" # "box" | "dens" | "dens.combined" | "none"
 plotcvd  = F
 
 # CVD plot
-lsize.v <- c(rep(x=2, times=10), rep(x=1, times=21))
-ltype.v <- c(rep(x="dashed", times=10), rep(x="solid", times=21))
-names(lsize.v) <- names(ltype.v) <- map.id.v
+#lsize.v <- c(rep(x=2, times=10), rep(x=1, times=21))
+#ltype.v <- c(rep(x="dashed", times=10), rep(x="solid", times=21))
+#names(lsize.v) <- names(ltype.v) <- map.id.v
 # See contactprobVsDistance() re its two arguments below
-scale.diag.ind = NA # Diagonal for scaling (usually min(gap.v)+1); If NA, no scaling
+#scale.diag.ind = NA # Diagonal for scaling (usually min(gap.v)+1); If NA, no scaling
 # Determines number of distance bins to smoothen curve
-n.breaks = 30
+#n.breaks = 30
 
 res = 500
 ################################################################################
@@ -130,15 +143,22 @@ library(reshape2)
 library(ggplot2)
 library(ggpubr)
 source(paste0(lib, "/GG_bgr.R"))
-source(paste0(wk.dir, "/lib/contactprobVsDistance.R"))
-source(paste0(wk.dir, "/lib/getmapdir.R"))
-source(paste0(wk.dir, "/lib/getContactDF.R"))
-source(paste0(wk.dir, "/lib/filterContacts.R"))
-source(paste0(wk.dir, "/lib/scaling.R"))
+source(paste0(lib, "/simulation_lib/contactprobVsDistance.R"))
+source(paste0(lib, "/simulation_lib/getmapdir.R"))
+source(paste0(lib, "/simulation_lib/getContactDF.R"))
+source(paste0(lib, "/simulation_lib/filterContacts.R"))
+source(paste0(lib, "/simulation_lib/scaling.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-out.name0 <- paste(gcb, chr, out.id, sep="_")
+if( any(duplicated(map.id.v)) ){
+  
+  print("Duplicated map.id in map.id.v. Applying unique().")
+  map.id.v <- unique(map.id.v)
+  
+}
+
+out.name0 <- paste(gcb, out.id, sep="_")
 
 print(incl.x, quote=F) 
 print(incl.y, quote=F) 
@@ -160,7 +180,7 @@ if( !plotDist%in%c("none", "dens", "dens.combined", "box") ){
 
 if(plotDist=="dens"){
   
-  pdf(file=paste0(out.dir, "/", gcb, "_", chr, "_", out.id, "_xlim", 
+  pdf(file=paste0(out.dir, "/", gcb, "_", out.id, "_xlim", 
                   xlim.dens[1], "_", xlim.dens[2], "_dens.pdf"), 
       width=25, height=25)
   par(mfrow=c(5,5))
@@ -169,7 +189,7 @@ if(plotDist=="dens"){
 
 if(plotDist=="dens.combined"){
   
-  pdf(file=paste0(out.dir, "/", gcb, "_", chr, "_", out.id, "_xlim", 
+  pdf(file=paste0(out.dir, "/", gcb, "_", out.id, "_xlim", 
                   xlim.dens[1], "_", xlim.dens[2], "_denscombined.pdf"), 
       width=10, height=10)
   
@@ -181,10 +201,11 @@ if(plotcvd){
 
 for(map.id in map.id.v){
   
-  ct <- strsplit(x=map.id, split="-", fixed=T)[[1]][1]
-  metric <- strsplit(x=map.id, split="-", fixed=T)[[1]][2]
+  chr <- strsplit(x=map.id, split="-", fixed=T)[[1]][1]
+  ct <- strsplit(x=map.id, split="-", fixed=T)[[1]][2]
+  metric <- strsplit(x=map.id, split="-", fixed=T)[[1]][3]
   
-  out.name <- paste(out.name0, ct, metric, sep="_")
+  out.name <- paste(out.name0, chr, ct, metric, sep="_")
   print(paste0(out.name, "..."), quote=F)
   
   metric.dir <- getmapdir(metric=metric, simmap.dir=simmap.dir)
@@ -195,7 +216,7 @@ for(map.id in map.id.v){
                      incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y, 
                      mask.bin.x=mask.bin.x, mask.bin.y=mask.bin.y,
                      chrlen.file=chrlen.file, bin.len=bin.len, invalidij.action=NA)
-  df$include <- NULL
+  df <- df[,c("i", "j", "value")]
   posij.len <- length(df$value)
   
   if( !grepl(x=metric, pattern="CII.") ){
@@ -255,8 +276,10 @@ for(map.id in map.id.v){
   
   if(plotDist=="box"){
     
-    png(file=paste0(out.dir, "/", gcb, "_", chr, "_", out.id, "_box.png"), 
+    png(file=paste0(out.dir, "/", gcb, "_", out.name, "_box.png"), 
         res=500, width=6000, height=1500)
+    par(mfrow=c(1,4))
+    
     
     # Boxplot values in v.nZero
     boxplot(x=v.nZero, outline=FALSE, ylab="Value",
@@ -359,4 +382,15 @@ if(plotcvd){
 }
 
 # rm(list=ls()); gc()
+
+dat = data.frame(A=c(2,3,0,1), B=c(1,4, 1,0), C=c(4,0,1,1), D=c(2,0,0,4))
+rownames(dat) <- c("SKy", "Ing", "Lowl", "embow")
+dat.mat = as.matrix(dat)
+heatmap(dat.mat, Colv = NA, Rowv = NA)
+
+myCol_AB <- c("orange", "orangered", "red", "firebrick")
+myCol_CD <- c("aquamarine", "chartreuse", "green", "green4")
+
+heatmap(dat.mat, Colv = NA, Rowv = NA, 
+       col = ifelse(dat.mat[, 1:2], myCol_AB, myCol_CD))
 

@@ -1,0 +1,66 @@
+[1] noninteracting_arms: set3.2_heteropolymer_cp_cll_10_5_combined_3_4_contact_map_cutoff_1.0_all.matrix...
+[1] 6231 6231
+max.nodiag min.nodiag       diag 
+       890          0        890 
+[1] 23 contacts not symmetric.
+[1] Max difference in value of asymmetric contacts is 1
+max.val.asy min.val.asy 
+        890           0 
+[1] noninteracting_arms: set3.2_heteropolymer_cp_cll_10_5_combined_3_4_contact_map_cutoff_1.5_all.matrix...
+[1] 6231 6231
+max.nodiag min.nodiag       diag 
+       890          0        890 
+[1] 12 contacts not symmetric.
+[1] Max difference in value of asymmetric contacts is 1
+max.val.asy min.val.asy 
+        890           0 
+[1] noninteracting_arms: set3.2_heteropolymer_cp_cll_10_5_combined_3_4_contact_map_cutoff_2.0_all.matrix...
+[1] 6231 6231
+max.nodiag min.nodiag       diag 
+       890          0        890 
+[1] 6 contacts not symmetric.
+[1] Max difference in value of asymmetric contacts is 1
+max.val.asy min.val.asy 
+        890          39 
+[1] noninteracting_arms: set3.2_heteropolymer_cp_cll_10_5_combined_3_4_contact_map_cutoff_3.0_all.matrix...
+[1] 6231 6231
+max.nodiag min.nodiag       diag 
+       890          0        890 
+[1] 6 contacts not symmetric.
+[1] Max difference in value of asymmetric contacts is 1
+max.val.asy min.val.asy 
+        890           5 
+[1] noninteracting_arms: set3.2_heteropolymer_cp_cll_20_5_combined_3_4_contact_map_cutoff_1.0_all.matrix...
+[1] 6231 6231
+max.nodiag min.nodiag       diag 
+       902          0        902 
+[1] 7 contacts not symmetric.
+[1] Max difference in value of asymmetric contacts is 1
+max.val.asy min.val.asy 
+        902           0 
+[1] noninteracting_arms: set3.2_heteropolymer_cp_cll_20_5_combined_3_4_contact_map_cutoff_1.5_all.matrix...
+[1] 6231 6231
+max.nodiag min.nodiag       diag 
+       902          0        902 
+[1] 12 contacts not symmetric.
+[1] Max difference in value of asymmetric contacts is 1
+max.val.asy min.val.asy 
+        902           0 
+[1] noninteracting_arms: set3.2_heteropolymer_cp_cll_20_5_combined_3_4_contact_map_cutoff_2.0_all.matrix...
+[1] 6231 6231
+max.nodiag min.nodiag       diag 
+       902          0        902 
+[1] 94 contacts not symmetric.
+[1] Max difference in value of asymmetric contacts is 1
+max.val.asy min.val.asy 
+        902           0 
+[1] noninteracting_arms: set3.2_heteropolymer_cp_cll_20_5_combined_3_4_contact_map_cutoff_3.0_all.matrix...
+[1] 6231 6231
+max.nodiag min.nodiag       diag 
+       902          0        902 
+[1] 47 contacts not symmetric.
+[1] Max difference in value of asymmetric contacts is 1
+max.val.asy min.val.asy 
+        902           4 
+null device 
+          1 
