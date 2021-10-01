@@ -30,7 +30,7 @@ options(warn=1)
 
 gcb = "min2Mb"
 bin.len = 40000
-chr.v = paste0("chr", c(1))
+chr.v = paste0("chr", c(22:1, "X"))
 
 # topCP=3 would means the top 3 values of cp.v; topCP=-3 means the bottom 3 values
 # of cp.v
@@ -40,7 +40,7 @@ ct = "All"; ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li",
                     "AG", "Ov", "Bl", "MesC","MSC", "NPC", "TLC", "ESC", "FC", "LC")
 # Gap in terms of % of chr length ("Perc") or bin ("Bin")
 gap.type = "Bin" 
-gap.val = 650
+gap.val = 200
 
 # xlim max value to make x-axis consistent across chr
 xlim = 6500
@@ -49,7 +49,9 @@ plotOnly = TRUE
 # the bottom panel
 showLRijbelowGap = TRUE
 
-res = 300
+# Add vertical lines to plot
+addVertLines = FALSE
+res = 500
 lwd.val = 10
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
@@ -197,9 +199,8 @@ for(chr in chr.v){
   png(file=paste0(out.dir, "/", out.name, ".png"), width=10*res, height=5*res)
   # individual plot cex=3
   par(cex=0.8, oma=c(0,0,0,0), lwd=lwd.val)
-  # scale=FALSE to remove x-axis but chromosomes become not scaled
   plotDoubleHelix(top=as.helix(df$top), bot=as.helix(df$bottom), line=TRUE, 
-                  arrow=TRUE, add=FALSE, scale=TRUE)
+                  arrow=TRUE, add=FALSE, scale=addVertLines)
   abline(v=centro.df[chrLen.df$chromosome==chr, 2:3], col="deepskyblue3", lwd=lwd.val, lty="dashed")
   abline(v=c(1, ceiling(chrLen.df$length.bp[chrLen.df$chromosome==chr]/bin.len)), 
          col="black", lwd=lwd.val, lty="dashed")
