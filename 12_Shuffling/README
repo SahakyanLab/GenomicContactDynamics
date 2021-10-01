@@ -145,5 +145,13 @@ CII	Gfree	sdDifference
 20	2.53542524140207e-37	1.62962937940714e-32	1.36573726818311e-33
 21	0.000370496214079261	7.34134313785349e-06	0.000493393375210345
 
+27 Sep 2020
+
+I modified the script to allow filtering of contacts based on feature e.g.
+only B-B compartment contacts. Also, the contacts are filtered based on
+cell type if feature is cell-type specific because we are dealing with
+variable contacts also. This was done to make sure that the 
+sequence complementarity - contact persistence relationship applies also
+even within contacts of the same type. 
 
 
