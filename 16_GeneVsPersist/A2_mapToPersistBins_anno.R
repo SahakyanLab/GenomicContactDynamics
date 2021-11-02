@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
     data.dir = "/Users/ltamon/Database"
     feat.dir = "/Users/ltamon/Database/ucsc_tables/hsa_geneAnno"
   } else if(whorunsit == "LiezelCluster"){
@@ -25,15 +25,17 @@ persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 feat.dir = paste0(data.dir, "/ucsc_tables/hsa_geneAnno")
 out.dir = paste0(wk.dir, "/out_mapToPersistBins_anno")
 ### OTHER SETTINGS #############################################################
-featurefile.v = paste(feat.dir, c("/hg19anno_ALL", "/hg19anno_NM", "/hg19anno_NR"), sep="")
+#featurefile.v = paste(feat.dir, c("/hg19anno_ALL", "/hg19anno_NM", "/hg19anno_NR"), sep="")
+featurefile.v = paste(feat.dir, c("/hg19annoLTr_ALL", "/hg19annoLTr_NM", "/hg19annoLTr_NR"), sep="")
 # Output identifier; should correspond with featurefile.v
-out.name.v = c("ALL_hg19_40KbBinAnno", "NM_hg19_40KbBinAnno", "NR_hg19_40KbBinAnno")
+#out.name.v = c("ALL_hg19_40KbBinAnno", "NM_hg19_40KbBinAnno", "NR_hg19_40KbBinAnno")
+out.name.v = c("LTr_ALL_hg19_40KbBinAnno", "LTr_NM_hg19_40KbBinAnno", "LTr_NR_hg19_40KbBinAnno")
 # HiC res
 bin.len = 40000L
 # Path to file
 # 2(2MB gap) or "05"(0.5 MB minimum gap), refers to minimum gap accepted to classify a contact, 
 # two points should be far enough to filter for contacts within a TAD
-gcb = "min05Mb"
+gcb = "min2Mb"
 chr.v = paste("chr", c(22:1, "X"), sep="")
 nCPU = 2L
 ################################################################################
@@ -112,7 +114,7 @@ for(i in 1:len){
   
 } # featurefile.v for loop end
   
-# rm(list=ls())
+# rm(list=ls()); gc()
 
   
 

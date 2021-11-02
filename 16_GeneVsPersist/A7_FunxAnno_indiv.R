@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
@@ -26,7 +26,7 @@ genelist.dir = paste0(wk.dir, "/out_anno_union")
 out.dir = paste0(wk.dir, "/out_FunxAnno_indiv")
 ### OTHER SETTINGS #############################################################
 # gcb + refseq
-prefix = "min2Mb_ALL"
+prefix = "min2Mb_LTr_ALL"
 # Forebackground strings defining foreground and background, foreground;background
 # to differentiate TLC from LC 
 foreback.combi = c("cp_21;cp_HiC_all", "cp_21;cp_1") #"cp_21;cp_1") #"cp_21;cp_HiC_all" | "cp_21;genes" 'genes' for all genes
@@ -159,7 +159,7 @@ for(i in 1:foreback.combi.len){
   rm(funxAnnoOut, forbgr.lab, out.name) ; gc()
 } # foreback.combi.len end for loop
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 ################################################################################
 
 > genesSymbol[seq(from=1, to=340, by=2)]

@@ -10,19 +10,21 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
     annofile.dir = "/Users/ltamon/Database/ucsc_tables/hsa_geneAnno"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 annofilePath = paste0(annofile.dir, "/hg19anno_ALL")
+# Use longest transcript to remove bias from uneven count of transcripts per gene
+#annofilePath = paste0(annofile.dir, "/hg19annoLTr_ALL")
 # Unique HUGO genes overlapping with Cp regions (any type of overlap)
 CpGenesPath = paste0(wk.dir, "/out_anno_union/min2Mb_ALL_name2")
 out.dir = paste0(wk.dir, "/out_NMNRvsCp")
 ### OTHER SETTINGS #############################################################
 # Annotation file prefix
-anno.nme = "hg19anno"
+anno.nme = "hg19anno" #"hg19annoLTr"
 gcb="min2Mb"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
@@ -62,6 +64,10 @@ NMNR.DF <- sapply(X=names(CpGenes), simplify=FALSE, FUN=function(cp){
 })
 NMNR.DF <- do.call("rbind.data.frame", NMNR.DF)
 
+# Convert Cp column to factor, arranging the levels for the plot
+NMNR.DF$Cp <- as.character(NMNR.DF$Cp)
+NMNR.DF$Cp <- factor(x=NMNR.DF$Cp, levels=unique(NMNR.DF$Cp))
+
 ggplot(data=NMNR.DF, aes(x=Cp, y=fr, fill=type)) +
   geom_col() +
   labs(title=paste0(gcb, "_", anno.nme), x=expression(bold("c"["p"])),
@@ -71,5 +77,5 @@ ggplot(data=NMNR.DF, aes(x=Cp, y=fr, fill=type)) +
 ggsave(filename=paste0(out.dir, "/", gcb, "_", anno.nme, "_NMNRvsCp.pdf"),
        width=10, height=10)
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 

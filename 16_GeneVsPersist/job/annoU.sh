@@ -1,19 +1,15 @@
 #!/bin/sh
 ##########################################################################
 ## A script template for submitting batch jobs.
-## Please note that anything after the first two characters "#$" on a line
-## will be treated as a SUN Grid Engine command.
+## Please note that anything after "#SBATCH" on a line will be treated as
+## a SLURM command.
 ##########################################################################
-#$ -cwd
-#$ -q batchq
-#$ -l h_vmem=3G
-#$ -pe dedicated 3
-#$ -M ltamon
-#$ -m eas
-#########################################################################
-## JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS ##
-#########################################################################
-module load R/3.6.0-newgcc
-module load gcc/4.9.2
+#SBATCH --mem=10G
+#SBATCH -n 3
+#SBATCH --mail-user=ltamon
+#SBATCH --mail-type=ALL
+##########################################################################
+module load R-base/4.1.0
+module load R-cbrg/current
 
-Rscript --vanilla /t1-data/user/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist/A4_anno_union.R
+R --vanilla < /t1-data/user/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist/A4_anno_union.R

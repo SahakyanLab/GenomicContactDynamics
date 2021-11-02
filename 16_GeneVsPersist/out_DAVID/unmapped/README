@@ -1,5 +1,12 @@
 ################################################################################
 Files here contain HUGO names (Official Gene Symbol) that cannot be mapped by 
-DAVID. Out of 4221 genes overlapping with Cp=21 contact bins, 281 were unmapped.
+DAVID. 
+
+For all transcript:
+Out of 4221 genes overlapping with Cp=21 contact bins, 281 were unmapped.
+All 3796 Entrez Gene IDs overlapping with Cp=21 contact bins were mapped by DAVID.
+
+For longest transcript (LTr):
+Out of 4209 genes overlapping with Cp=21 contact bins, 277 were unmapped.
 All 3796 Entrez Gene IDs overlapping with Cp=21 contact bins were mapped by DAVID.
 ################################################################################

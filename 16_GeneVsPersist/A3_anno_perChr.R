@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
     persist.dir = "/Users/ltamon/Database/HiC_features_GSE87112_RAWpc"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -25,8 +25,8 @@ out.dir = paste0(wk.dir, "/out_anno_perChr")
 ### OTHER SETTINGS #############################################################
 # 2(2MB gap) or "05"(0.5 MB minimum gap), refers to minimum gap accepted to classify a contact, 
 # two points should be far enough to filter for contacts within a TAD
-gcb = "min05Mb" # "min2Mb" | "min05Mb"
-refseq.v = c("ALL", "NM", "NR")
+gcb = "min2Mb" # "min2Mb" | "min05Mb"
+refseq.v = c("LTr_ALL", "LTr_NM", "LTr_NR")
 chr.v = paste("chr", c(22:1, "X"), sep="")
 nCPU = 3L
 cutoffStr = 5L
@@ -72,7 +72,7 @@ for(refseq in refseq.v){
       # Load FEATURE.BIN.MX
       load( file=paste0(feat.bin.dir, "/", 
                         dir(path=feat.bin.dir, 
-                            pattern=paste0(chr, "_", gcb, "_", refseq))) )
+                            pattern=paste0(chr, "_", gcb, "_", refseq), full.names=FALSE)) )
       FEATURE.BIN.MX <- FEATURE.BIN.MX[FEATURE.BIN.MX$countPerBin>0,]
       
       #---------------CONTACTPERSISTENCE------------
@@ -163,7 +163,7 @@ for(refseq in refseq.v){
       
       rm("PERSIST.MX", "FEATURE.BIN.MX", "allTissPerChr"); gc()  
       
-      print(paste0(chr, "done!"))
+      print(paste0(chr, " done!"))
       
     } # itr for loop end
     
@@ -173,7 +173,7 @@ for(refseq in refseq.v){
   
 } # refseq.v for loop end
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 
   
 

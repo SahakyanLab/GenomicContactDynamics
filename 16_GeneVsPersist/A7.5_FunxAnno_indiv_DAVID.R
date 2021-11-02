@@ -122,6 +122,7 @@ p <- ggplot(data=FTC, aes(x=-log10(Benjamini), y=Term) ) +
        size="Gene count", y=NULL, x=bquote(bold( "-log10("~"p-value"^"adj Benjamini"~")" )) 
   ) +
   bgr5 + 
+  theme(plot.title=element_text(size=5)) +
   facet_grid(~seed)
 
 ggsave(filename=paste0(out.dir, "/", out.id, "_DAVIDplot.pdf"), units="in",

@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
@@ -19,10 +19,10 @@ genelist.dir = paste0(wk.dir, "/out_anno_union")
 out.dir = paste0(wk.dir, "/out_geneFilePerCp")
 ### OTHER SETTINGS #############################################################
 # gcb + refseq
-prefix = "min2Mb_ALL"
+prefix = "min2Mb_LTr_ALL"
 # Forebackground strings defining foreground and background, foreground;background
 # to differentiate TLC from LC 
-cp.str.v = c("cp_19", "cp_20", "cp_21") #"cp_21" #c("cp_19", "cp_20", "cp_21") 
+cp.str.v = "cp_21" #c("cp_19", "cp_20", "cp_21") 
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -49,4 +49,4 @@ for(type in c("name2", "entrezID", "uniqueID")){
   print(type, quote=FALSE)
 }
 
-# rm(list=ls())
+# rm(list=ls()); gc()

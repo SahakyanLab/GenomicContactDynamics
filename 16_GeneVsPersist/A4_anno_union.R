@@ -12,7 +12,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/5_GeneVsPersist"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
     annofile.dir = "/Users/ltamon/Database/ucsc_tables/hsa_geneAnno"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -29,10 +29,10 @@ hugoEntrezPath = paste0(annofile.dir, "/keyType_conversion/hg19anno_SYMBOLtoENTR
 ### OTHER SETTINGS #############################################################
 # 2(2MB gap) or "05"(0.5 MB minimum gap), refers to minimum gap accepted to classify a contact, 
 # two points should be far enough to filter for contacts within a TAD
-anno.nme = "hg19anno"
+anno.nme = "hg19anno" #"hg19anno_" if not using longest transcript
 suffix = "name2" # "name2" | "uniqueID"
-gcb = "min05Mb" # "min2Mb" | "min05Mb"
-refseq.v = c("ALL", "NM", "NR")
+gcb = "min2Mb" # "min2Mb" | "min05Mb"
+refseq.v = c("LTr_ALL", "LTr_NM", "LTr_NR") # c("ALL", "NM", "NR")
 chr.v = paste("chr", c(1:22, "X"), sep="")
 nCPU = 2L
 ### FUNCTION ###################################################################
@@ -62,7 +62,7 @@ for(refseq in refseq.v){
   if(suffix=="name2"){
     # All unique genes from annotation table (chr filtered)
     # To be added later to the final text file
-    allgenes <- unique(fread(file=paste0(annofile.dir, "/", anno.nme, "_", refseq), 
+    allgenes <- unique(fread(file=paste0(annofile.dir, "/", anno.nme, refseq), 
                              header=TRUE, data.table=FALSE, stringsAsFactors=FALSE)[["name2"]])
   }
   
@@ -173,7 +173,7 @@ for(refseq in refseq.v){
 
 } # refseq.v for loop end
 
-# rm(list=ls())
+# rm(list=ls()); gc()
 
 
 

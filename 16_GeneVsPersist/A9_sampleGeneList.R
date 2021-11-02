@@ -20,8 +20,8 @@ unmapped.dir = paste0(wk.dir, "/out_DAVID/unmapped")
 out.dir = paste0(wk.dir, "/out_sampleGeneList")
 ### OTHER SETTINGS #############################################################
 # gcb + refseq
-prefix = "min2Mb_ALL"
-SEED = 287
+prefix = "min2Mb_LTr_ALL"
+SEED = 754 #587 #287
 # Limit of genes that can be inputted to DAVID is 3000 but used 2999 cause 
 #sometimes DAVID maps 3000 HUGO names to 3001 DAVID IDs.
 N = 2999 
