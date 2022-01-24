@@ -1,29 +1,31 @@
+
 ################################################################################
 # Count all Hi-C contacts (both short and long-range) per tissue per chr using 
 # MELT.MX.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/2_HiC_Human21_Expl_ext"
-    data.dir = "/Users/ltamon/Database"
+    home.dir = "/Users/ltamon" 
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/2_Expl_contacts")
   } else if(whorunsit == "LiezelCluster"){
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/1_Count_contacts"
-    data.dir = "/t1-data/user/ltamon/Database"
+    home.dir = "/project/sahakyanlab/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/2_Expl_contacts")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+data.dir = paste0(home.dir, "/Database")
 # MELT.MX directory
 melt.dir = paste0(data.dir, "/GSE87112/combined_contacts/RAW_primary_cohort")
-out.dir = paste0(wk.dir, "/out_count")
+out.dir = paste0(wk.dir, "/out_countALLcontacts")
 ### OTHER SETTINGS #############################################################
-chr.v <- paste("chr", c(1:22, "X"), sep="") 
+chr.v = paste("chr", c(1:22, "X"), sep="") 
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -40,6 +42,12 @@ MX <- sapply(X=chr.v, simplify=FALSE, FUN=function(chr){
     sum(x!=0)
   })
   
+  if( all(rowSums(MELT.MX$upper.tri[,-(1:2)]) > 0) ){
+    out <- c(out, allCT=nrow(MELT.MX$upper.tri))
+  } else {
+    stop(paste0(chr, ": Contact/s not present in any dataset."))
+  }
+  
   rm(MELT.MX); gc()
   
   print(paste(chr, " done!"), quote=FALSE)
@@ -54,4 +62,4 @@ MX <- rbind(MX, chrALL=colSums(x=MX))
 write.csv(x=MX, file=paste0(out.dir, "/HiCallcontactsCount.csv"),
           row.names=TRUE, quote=FALSE) 
 
-# rm(list=ls())
+# rm(list=ls()); gc()
