@@ -1,0 +1,3 @@
+source cell_type merge_source_if_repl species chrs description label
+Wang_2015 Wang2015_DpnII_2kb_ath - Arabidopsis_thaliana 'c(1:5)' '10-d-old seedlings' ath
+Wang_2015_20kb Wang2015_DpnII_20kb_ath - Arabidopsis_thaliana 'c(1:5)' '10-d-old seedlings' ath

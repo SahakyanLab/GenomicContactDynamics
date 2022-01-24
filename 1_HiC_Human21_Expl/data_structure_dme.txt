@@ -1,0 +1,3 @@
+source cell_type merge_source_if_repl species chrs description label
+Chathoth_2019_10kb Chathoth2019_10kb_BG3 - Drosophila_melanogaster 'c(X, 2R, 2L, 3R, 3L, 4)' 'neuronal cells' BG3
+Chathoth_2019_10kb Chathoth2019_10kb_Kc167 - Drosophila_melanogaster 'c(X, 2R, 2L, 3R, 3L, 4)' 'embryonic cells' Kc167

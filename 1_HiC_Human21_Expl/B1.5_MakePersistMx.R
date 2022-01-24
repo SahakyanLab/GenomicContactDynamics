@@ -10,24 +10,25 @@ whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    data.dir = "/Users/ltamon/Database"
+    home.dir = "/Users/ltamon"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    data.dir = "/t1-data/user/ltamon/Database"
+    home.dir = "/project/sahakyanlab/ltamon"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir = paste0(home.dir, "/Database")
+
 rawpmx.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 melt.dir = paste0(data.dir, "/GSE87112/combined_contacts")
 out.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
 ### OTHER SETTINGS #############################################################
-norm = "HiCNorm_primary_cohort"
+melt.id = "HiCNorm_primary_cohort" 
 chr.v = paste0("chr", c(1:22, "X"))
 nCPU = 1L
 gcb = "min05Mb"
-min.dist = 2000000
+min.dist = ifelse(gcb=="min2Mb", 2000000, 500000)
 hic.resol = 40000
 top.perc = 100
 min.tiss = 1
@@ -42,9 +43,9 @@ source(paste0(lib, "/TrantoRextr/GEN_getMELTMXpersist.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-print(paste0(gcb, " ", norm), quote=FALSE)
+print(paste0(gcb, " min.dist=", min.dist, " ", melt.id), quote=FALSE)
 
-melt.dir <- paste0(melt.dir, "/", norm)
+melt.dir <- paste0(melt.dir, "/", melt.id)
 chr.v.len <- length(chr.v)
 
 toExport <- c("rawpmx.dir", "melt.dir", "out.dir", "chr.v", "min.dist", 
@@ -68,6 +69,7 @@ foreach(itr=isplitVector(1:chr.v.len, chunks=nCPU),
     rm(PERSIST.MX); gc()
     ct.v <- setdiff(colnames(newPMX$hits), c("i","j"))
     if( (length(ct.v)!=ncol(newPMX$hits)-2) ){ stop(paste0(chr, ": Checkpoint")) }
+    
     #-------------------Compare with PERSIST.MX made from raw Cs
     load(paste0(rawpmx.dir, "/", chr, "_Persist_", gcb, ".RData"))
     
@@ -91,6 +93,7 @@ foreach(itr=isplitVector(1:chr.v.len, chunks=nCPU),
     PERSIST.MX$hits[PERSIST.MX$hits!=0] <- 1
     newPMX$hits <- data.matrix(newPMX$hits[,ct.v])
     newPMX$hits[newPMX$hits!=0] <- 1
+    
     # Identical set of contacts per tissue?
     if( !identical(PERSIST.MX$hits, newPMX$hits) ){
       print(paste0(chr, ": Set of contacts per tissue not consistent."), quote=FALSE)

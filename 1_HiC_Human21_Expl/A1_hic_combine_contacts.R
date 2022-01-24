@@ -9,29 +9,38 @@ whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/1_HiC_Human21_Expl"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/1_HiC_Human21_Expl")
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    data.dir = "/t1-data/user/ltamon/Database"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/1_HiC_Human21_Expl"
+    home.dir = "/project/sahakyanlab/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/1_HiC_Human21_Expl")
+  } else if(whorunsit == "LiezelLinuxDesk"){
+    home.dir = "/home/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/1_HiC_Human21_Expl")
+    os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+data.dir = paste0(home.dir, "/Database")
+
 # Path of the file holding the structure of the GSE87112 contact maps:
-data.str.path       = paste0(wk.dir, "/data_structure.txt")
-# The directory holding the contact maps of interest from GSE87112:
-contact.map.dir     = paste0(data.dir, "/GSE87112/contact_maps/HiCNorm_QQ")
+data.str.path = paste0(wk.dir, "/data_structure_dme.txt")
+## The directory holding the contact maps of interest from GSE87112:
+#contact.map.dir = paste0(data.dir, "/GSE87112/contact_maps/HiCNorm_QQ")
+contact.map.dir = paste0(data.dir, "/drosophila_Chathoth2019_HiC/Chathoth2019_10kb_contact_maps/KR_Chathoth")
 # Mid- and end-parts of the matrix files in the above directories:
 midpart.mx.filename = ".nor.chr"
-endpart.mx.filename = ".qq.mat"
+endpart.mx.filename = ".norm.mat" #".qq.mat"
 # Path to the location, where the outputs are to be saved (make sure that the
 # location exists):
-out.path = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_QQ_primary_cohort_1")
+#out.path = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_QQ_primary_cohort")
+out.path = paste0(data.dir, "/drosophila_Chathoth2019_HiC/Chathoth2019_10kb_combined_contacts/KR_Chathoth")
+
+source.id = "Chathoth_2019_10kb" # "primary_cohort"
+species.id = "dme" #"human"
 ### OTHER SETTINGS #############################################################
-chrs = 18 #c(1:22,"X")
+chrs = as.character(c("X", "2L", "2R", "3L", "3R", "4"))
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -39,14 +48,19 @@ library(reshape2)
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-data.str <- read.table(data.str.path, header=TRUE, as.is=TRUE)
-data.str <- data.str[data.str$source=="primary_cohort", ]
+data.str <- read.table(data.str.path, header=TRUE, stringsAsFactors=FALSE)
+data.str <- data.str[data.str$source==source.id, ]
+src.len <- length(data.str[,1])
+
+if( !dir.exists(out.path) ){
+  stop("out.path does not exist.")
+}
 
 for(chr in chrs){
   counter <- 1
-  for(src in 1:21){
+  for(src in 1:src.len){
     label <- data.str[src,"label"]
-    matrix.filepath <- paste0(contact.map.dir,"/primary_cohort/",
+    matrix.filepath <- paste0(contact.map.dir,"/", #primary_cohort/",
                               data.str[src,"cell_type"],
                               midpart.mx.filename,chr,endpart.mx.filename)
     mx <- as.matrix(data.table::fread(matrix.filepath, sep="\t", header=F))
@@ -93,14 +107,14 @@ for(chr in chrs){
     counter <- counter + 1
   }
   
-  contact.sums       <- rowSums(MELT.MX$upper.tri[,3:dim(MELT.MX$upper.tri)[2]])
+  contact.sums       <- rowSums(MELT.MX$upper.tri[,3:dim(MELT.MX$upper.tri)[2], drop=FALSE])
   all.zero.rows      <- which(contact.sums==0)
   MELT.MX$upper.tri.nocontact <- MELT.MX$upper.tri[all.zero.rows,1:3]
   dimnames(MELT.MX$upper.tri.nocontact)[[2]] <- c("i","j","value")
   if(length(all.zero.rows)!=0){
     MELT.MX$upper.tri  <- MELT.MX$upper.tri[-all.zero.rows,]
   }
-  save(MELT.MX, file=paste0(out.path,"/human_chr",chr,"_allcontacts.RData"))
+  save(MELT.MX, file=paste0(out.path,"/", species.id, "_chr", chr, "_allcontacts.RData"))
   rm(MELT.MX); gc()
   
 }

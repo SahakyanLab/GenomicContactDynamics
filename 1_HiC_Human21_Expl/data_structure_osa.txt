@@ -1,0 +1,2 @@
+source cell_type merge_source_if_repl species chrs description label
+Liu_2015_50kb Liu2017_50kb_osa - Oryza_sativa_Nipponbare 'c(1:12)' 'aerial parts' osa
