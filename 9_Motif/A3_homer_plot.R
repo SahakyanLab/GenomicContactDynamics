@@ -12,7 +12,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/15_Motif"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/9_Motif"
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
@@ -22,7 +22,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-results.dir = paste0(wk.dir, "/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize1")
+results.dir = paste0(wk.dir, "/z_ignore_git/out_motif/chrALL_uniquebins_targCp21_bgrCp1_seed845_sampsize0.7")
 ### OTHER SETTINGS #############################################################
 topN.v <- c(50,50) # c(<known>, <deva>)
 ################################################################################

@@ -10,15 +10,15 @@
 ### DIRECTORY STRUCTURE ########################################################
 version
 
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/15_Motif"
-    data.dir = "/Users/ltamon/Database/HiC_features_GSE87112_RAWpc"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/9_Motif"
+    data.dir = "/Users/ltamon/DPhil/GCD_polished/2_Expl_contacts/out_ubinsPerCp/"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/15_Motif"

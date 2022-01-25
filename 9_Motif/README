@@ -22,7 +22,9 @@ motif lengths to be subsequently used.
 2. Homer known motif analysis and de novo discovery.
 Generate bed files of target (targ) and background (bgr) HiC contact bins. The
 targ/bgr sequences is randomly sampled with size based on samp.size variable (%).
-UNIQBIN.DF is used for sampling.
+UNIQBIN.DF is used for sampling. Note that before sampling, bins with at least
+1 missing base were removed so percentage sampled is relative to number
+of bins without missing base.
 
 # Motif analysis (de novo and known)
 find_motifs_genome(
