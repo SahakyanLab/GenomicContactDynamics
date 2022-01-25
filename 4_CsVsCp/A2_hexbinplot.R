@@ -3,33 +3,40 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+# Set recommended global options
+
+# Avoid left to right partial matching by $
+options(warnPartialMatchDollar=TRUE)
+
+# Expands warnings
+options(warn=1)
+
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/4_CsVsCp"
-    data.dir = "/Users/ltamon/Database"
+    home.dir = paste0("/Users/ltamon")
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/4_CsVsCp")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_CsVsCp"
-    data.dir = "/t1-data/user/ltamon/Database"
+    home.dir = paste0("/project/sahakyanlab/ltamon")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_CsVsCp")
     os = "Linux"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir = paste0(home.dir, "/Database")
+
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
-out.dir = paste0(wk.dir, "/out_hexbin_HiCNormCs")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_hexbin_HiCNormCs")
 ### OTHER SETTINGS #############################################################
-# Expands warnings
-options(warn=1)
 ct.v = sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
               "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "LC", "FC"))
-gcb = "min05Mb"
+gcb = "min2Mb"
 chr.v = paste("chr", c(1:22, "X"), sep="") # "chrALL"
 nCPU = 1L #~15G
 # Scaled Cs values?
@@ -56,6 +63,8 @@ library(ggpubr)
 source(paste0(lib, "/GG_bgr.R"))
 source(paste0(lib, "/makeHexbinggplot.R"))
 ### FUNCTION ###################################################################
+transformFUN <- function(x) formatC(x, format="e", digits=1)
+
 makeCpVsCsHexbin <- function(
   out.dir = "/dir",
   persist.dir = "/dir",
@@ -143,7 +152,22 @@ makeCpVsCsHexbin <- function(
                           col=viridis(cuts)
     )
     
-    p$hexplot <- p$hexplot + theme(legend.position="none")
+    p$hexplot <- p$hexplot + 
+      guides(fill=guide_legend(nrow=4, byrow=TRUE)) +
+      labs(fill="") + 
+      theme(legend.position="top",
+            legend.justification="left",
+            legend.text=element_text(size=22),
+            legend.spacing.y=unit(0.01, 'cm'))
+    
+    if(combine){
+      
+      p$hexplot <- p$hexplot + 
+        scale_y_continuous(labels = transformFUN) +
+        theme(axis.text.x=element_blank(),
+              axis.text.y=element_text(size=25))
+      
+    }
     
     ggsave(filename=paste0(out.dir, "/", id, "_CsVsCp_hexbinplot.pdf"),
            units="in", width=10, height=10, plot=p$hexplot)
