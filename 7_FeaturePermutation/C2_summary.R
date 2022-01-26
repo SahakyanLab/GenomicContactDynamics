@@ -16,10 +16,15 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-Cp.id = "CpAllCs1perc" # CpAllCs1perc
-permt.dir = paste0(wk.dir,"/z_ignore_git/out_associate_", Cp.id)
-out.dir = paste0(wk.dir,"/out_summary/feat_732")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL")
+Cp.id = "CpAllCs1perc" #"Cp21" #"CptopCP3" #CpAllCs1perc
+permt.dir = paste0(wk.dir,"/z_ignore_git_COMPLETE/out_associate_", Cp.id)
+
+out.dir = paste0(wk.dir,"/out_summary/feat_844_raw")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL_associated")
+
+#out.dir = paste0(wk.dir,"/out_summary/feat_526_raw")
+#foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_associated")
+
 foifile = NULL #paste0(wk.dir, "/foifile/foifile_test1")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"

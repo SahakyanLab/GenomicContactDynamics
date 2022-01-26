@@ -16,10 +16,10 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-permtsum.dir = paste0(wk.dir, "/out_summary/feat_720")
-out.dir = paste0(wk.dir,"/out_table/feat_720")
+permtsum.dir = paste0(wk.dir, "/out_summary/feat_844_raw")
+out.dir = paste0(wk.dir,"/out_table/feat_844_raw")
 ### OTHER SETTINGS #############################################################
-pr.name = "nperm10000_seed662_mxmskfr0_CptopCP3" # CpAllCs1perc
+pr.name = "nperm10000_seed662_mxmskfr0_Cp21" #"Cp21" #"CptopCP3" #"CpAllCs1perc"
 pr.eval.v = c("numOlapA", "comOlap")
 pval.cutoff = 0.05
 regenerateCSV = TRUE
@@ -65,6 +65,18 @@ for(pr in pr.eval.v){
 #pr.foi.v <- df$foi[alt.TF & pval.TF]
 writeLines(text=df$foi[alt.TF & pval.TF], 
            con=paste0(out.dir, "/foifile_priority_", pr.name))
+
+# Significantly depleted
+alt.TF <- pval.TF <- rep(TRUE, times=nrow(df))
+for(pr in pr.eval.v){
+  alt.TF <- alt.TF & df[,paste0(pr, "_alt")]=="less" 
+  pval.TF <- pval.TF & df[,paste0(pr, "_pval")] < pval.cutoff
+  print(pr, quote=FALSE)
+}
+#pr.foi.v <- df$foi[alt.TF & pval.TF]
+writeLines(text=df$foi[alt.TF & pval.TF], 
+           con=paste0(out.dir, "/foifile_depleted_", pr.name))
+
 
 #temp <- unlist(
 #  lapply(X=strsplit(x=pr.foi.v, split="_foi_|\\_"), 

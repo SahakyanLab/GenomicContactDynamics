@@ -17,13 +17,13 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL")
+#foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_associated")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL_associated")
 foifile = NULL #paste0(wk.dir, "/foifile/foifile_test1")
-permtsum.dir = paste0(wk.dir, "/out_summary")
-out.dir = paste0(wk.dir,"/out_heatmap")
+permtsum.dir = paste0(wk.dir, "/out_summary/feat_844_raw")
+out.dir = paste0(wk.dir,"/out_heatmap1/feat_844_raw")
 ### OTHER SETTINGS #############################################################
 permtsum.id = "nperm10000_seed662_mxmskfr0"
-permtsum.v = c("Cp21", "CptopCP3", "CpAllCs1perc")
 eval.f.v = c("numOlapA", "comOlap")
 pval.cutoff = 0.05
 plotOnly = FALSE
@@ -36,6 +36,7 @@ source(paste0(lib, "/finaliseFOI.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
+permtsum.v <- c("Cp21", "CptopCP3", "CpAllCs1perc")
 out.name <- paste0(permtsum.id, "_", paste(eval.f.v, collapse="_"))
 
 if(plotOnly==FALSE){
@@ -62,7 +63,7 @@ if(plotOnly==FALSE){
   
   ps.v.len <- length(permtsum.v)
   eval.f.v.len <- length(eval.f.v)
-  for(ps in 1:3){
+  for(ps in 1:ps.v.len){
     
     ps.id <- permtsum.v[ps]
     load(paste0(permtsum.dir, "/", permtsum.id, "_", ps.id , "_permtsum.RData"))
@@ -71,9 +72,11 @@ if(plotOnly==FALSE){
     }
     PERMTSUM <- PERMTSUM[c("alt", "pval")]
     PERMTSUM <- lapply(X=PERMTSUM, FUN=function(mx){
+      
       mx <- as.matrix(mx[foilab.v,eval.f.v])
       if(eval.f.v.len==1){ dimnames(mx)[[2]] <- eval.f.v }
       return(mx)
+      
     })
     
     alt <- PERMTSUM$pval
@@ -102,9 +105,9 @@ if(plotOnly==FALSE){
     }
     
     # Input to HMAP.MX
-    if(ps.id%in%permtsum.v[1:2]){
+    if( ps.id%in%c("Cp21", "CptopCP3") ){
       HMAP.MX[,permtsum.v[ps]] <- alt[foilab.v]
-    } else if(ps.id==permtsum.v[3]){
+    } else if(ps.id=="CpAllCs1perc"){
       for(f in 1:foi.v.len){
         HMAP.MX[foilab.v[f],ct.v[f]] <- alt[foilab.v[f]]
       }

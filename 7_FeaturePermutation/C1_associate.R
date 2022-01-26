@@ -24,11 +24,12 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
-foifile = paste0(wk.dir, "/foifile/foifile_test")
+#foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_TBA")
+foifile = paste0(wk.dir, "/foifile/foifile_raw_TBA")
 mask.dir = paste0(wk.dir, "/mask")
 binmx.dir = paste0(wk.dir, "/binmx/out_bindata_1perc_HiCNorm")
-out.dir = paste0(wk.dir,"/out_associate_CpAllCs1perc")
+out.dir = paste0(wk.dir,"/out_associate_Cp21")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 # Chr allowed for both sets of ranges
@@ -43,7 +44,7 @@ CT.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li",
 # use union of regions from all cell lines.
 allCT.ref = "allCT"
 Cs.v = 0.01 # Depends on BIN.MX values; 1-Bin forms contact; 5-Bin part of top 5%
-id = "CpAllCs1perc" # c("Cp21", "CptopCP3", "Cp1", "CpAll", "CpAllCs1perc", "CpAllCsmatch")
+id = "Cp21" # c("Cp21", "CptopCP3", "Cp1", "CpAll", "CpAllCs1perc", "CpAllCsmatch")
 
 # Permutation test parameters
 NTIMES = 10000
@@ -67,6 +68,7 @@ zs.step=2e4
 
 # If CpBedFoiChrfilter=TRUE, take out cp regions for chr not in foi bed, this
 # should be done if the feature was deliberately not measured in that chr
+# CpBedFoiChrfilter=TRUE to be more strict
 CpBedFoiChrfilter = TRUE
 # Reduce cp bed to combine consecutive regions
 CpBedReduce = FALSE

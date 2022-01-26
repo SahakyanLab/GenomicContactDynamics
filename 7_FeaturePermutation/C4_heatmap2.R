@@ -16,10 +16,11 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL_associated")
+#foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_associated")
 foifile = NULL #paste0(wk.dir, "/foifile/foifile_heatmap2")
-permtsum.dir = paste0(wk.dir, "/out_summary/feat_732")
-out.dir = paste0(wk.dir,"/out_heatmap2/feat_732")
+permtsum.dir = paste0(wk.dir, "/out_summary/feat_844_raw")
+out.dir = paste0(wk.dir,"/out_heatmap2/feat_844_raw")
 ### OTHER SETTINGS #############################################################
 permtsum.id = "nperm10000_seed662_mxmskfr0"
 permtsum.v = c("Cp21", "CptopCP3", "CpAllCs1perc")

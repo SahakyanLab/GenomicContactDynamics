@@ -17,8 +17,8 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-hmap.dir = paste0(wk.dir,"/out_heatmap1")
-out.dir = paste0(wk.dir,"/out_vennFeatures")
+hmap.dir = paste0(wk.dir,"/out_heatmap1/feat_844_raw")
+out.dir = paste0(wk.dir,"/out_vennFeatures/feat_844_raw")
 ### OTHER SETTINGS #############################################################
 permtsum.id = "nperm10000_seed662_mxmskfr0"
 eval.f.v = c("numOlapA", "comOlap")

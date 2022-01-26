@@ -25,13 +25,14 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
+data.id = "reduced" # raw | reduced
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/", data.id, "_associated")
 # List of filenames of features of interest (refer to foi.dir)
 # If foifile = NULL, all files in foi.dir
 foifile = NULL #paste0(wk.dir, "/foifile/foifile_TF")
 out.dir = paste0(wk.dir, "/out_foi_lengthdist")
 ### OTHER SETTINGS #############################################################
-out.name = "foi_lengthdist_raw"
+out.name = paste0("foi_lengthdist_", data.id)
 bin.len = 40000
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
@@ -67,7 +68,7 @@ for(foi in foi.v){
   p.lst[[foi]] <- ggplot(data=df, aes(x=length)) +
     geom_density(position="identity", fill="deepskyblue3", 
                  colour="deepskyblue3") + 
-    scale_x_continuous(limits=c(1,10)) + 
+    #scale_x_continuous(limits=c(1,10)) + 
     #scale_y_continuous(limits=c(0,80)) +
     geom_vline(xintercept=log10(bin.len), lty=2) + 
     labs(title=foi, 
@@ -95,4 +96,4 @@ p.lst <- ggarrange(plotlist=p.lst[ind], nrow=3, ncol=6,
 ggexport(p.lst, width=52, height=24,
          filename=paste0(out.dir, "/", out.name, ".pdf"))
 
-# rm(list=ls())
+# rm(list=ls()); gc()

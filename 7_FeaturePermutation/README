@@ -281,4 +281,6 @@ features (such as shared A and B) are only in reduced form.
 2. Taking a foicentric view of feature overlaps with unique contacting
 regions. Plot shows fraction of total feature bp per Cp. Since contact regions
 can be in multiple Cp category, the maximum Cp is taken.
+
+3. Per fature-based contact type, plot fraction of contacts across Cp as scatter.
 ################################################################################

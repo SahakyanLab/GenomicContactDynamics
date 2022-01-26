@@ -43,6 +43,16 @@ within_query_foi - 25, 100-124 -- 125-126
 
 missing min2Mb_Li_10_any_querybin_foiVsij_foi.pdf
 
+subcompartment_shared all - 191
+scomp LC rao all - 192
+scomop LC rao all but B4 - 193
+hg19 MCF7 TOP2B - 194
+ESC, FC, LC MCF7 TOP2B - 195-197
+
+genes - 198
+genes_ltr - 199
+genes_coding - 200
+
 ij plots
 103
 121
