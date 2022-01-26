@@ -9,7 +9,7 @@ whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/2_Expl_contacts"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/2_Expl_contacts"
     data.dir = "/Users/ltamon/Database"
   } else if(whorunsit == "LiezelCluster"){
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/1_Count_contacts"
@@ -42,7 +42,12 @@ for(i in 1:chr.v.len){
   if(i==1){
     ct.v <- c(setdiff(colnames(PERSIST.MX$hits), c("i", "j")))
     ct.v.len <- length(ct.v)
+    
+    # Count of all unique contact bins
+    allCp <- setNames(obj=rep(NA, times=length(ct.v) + 1),
+                      nm=c(ct.v, "allCT"))
   }
+  
   mx <- matrix( data=0, nrow=Cp.v.len, ncol=ct.v.len+1L, 
                 dimnames=list(Cp.v, c(ct.v, "allCT")) )
   
@@ -52,6 +57,9 @@ for(i in 1:chr.v.len){
     } else if(ct=="allCT"){
       ct.TF <- rep(TRUE, times=length(PERSIST.MX$ntis))
     }
+    
+    allCp[ct] <- length(unique(unlist(PERSIST.MX$hits[ct.TF,c("i","j")])))
+      
     countPCp <- by(data=PERSIST.MX$hits[ct.TF,c("i","j")], INDICES=PERSIST.MX$ntis[ct.TF], 
                    FUN=function(df){
                      return( length(unique(unlist(df))) )
@@ -62,7 +70,7 @@ for(i in 1:chr.v.len){
     rm(countPCp, ct.TF)
   }
   rm(PERSIST.MX); gc()
-  mx <- rbind(mx, allCp=colSums(x=mx, na.rm=FALSE))
+  mx <- rbind(mx, allCp=allCp)
   write.csv(x=mx, file=paste0(out.dir, "/", gcb, "_", chr, "_countUbins.csv"),
             row.names=TRUE, quote=FALSE) 
   
