@@ -8,27 +8,36 @@
 whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
+# Avoid left to right partial matching by $
+options(warnPartialMatchDollar=TRUE)
+
+# Expands warnings
+options(warn=1)
+
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/12_FeatureVsPersist"
-    data.dir = "/Users/ltamon/Database"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/8_FeatureVsPersist")
+    os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
-    data.dir = "/t1-data/user/ltamon/Database"
+    home.dir = "/project/sahakyanlab/ltamon" #"/stopgap/sahakyanlab/ltamon" #"/t1-data/user/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/10_ChromatinFeatures")
+    os = "Linux"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir = paste0(home.dir, "/Database")
+
 # PERSIST.MX directory
-out.dir = paste0(wk.dir, "/out_FETA_genes_denovomotif")
+out.dir = paste0(wk.dir, "/out_FETA_sharedisofpcoding")
 # feta.dir is FETA.MX directory
 feta.dir = paste0(out.dir, "/temp")
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_genes_denovomotif")
+foifile = paste0(wk.dir, "/foifile/foifile_sharedisofpcoding")
 #foigroup = "topo" #"HMnp"
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"

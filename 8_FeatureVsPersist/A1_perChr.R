@@ -16,24 +16,20 @@ whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/12_FeatureVsPersist"
-    data.dir = "/Users/ltamon/Database"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/8_FeatureVsPersist")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
-    data.dir = "/t1-data/user/ltamon/Database"
-    os = "Linux"
-  } else if(whorunsit == "LiezelLinuxDesk"){
-    lib = "/home/ltamon/DPhil/lib"
-    wk.dir = "/home/ltamon/DPhil/GenomicContactDynamics/10_ChromatinFeatures"
-    data.dir = "/home/ltamon/Database"
+    home.dir = "/project/sahakyanlab/ltamon" #"/stopgap/sahakyanlab/ltamon" #"/t1-data/user/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/10_ChromatinFeatures")
     os = "Linux"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir = paste0(home.dir, "/Database")
+
 # PERSIST.MX directory
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 # Chromatin features directory
@@ -41,12 +37,12 @@ persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
 # List of filenames of features of interest (refer to foi.dir)
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_genes_denovomotif")
+foifile = paste0(wk.dir, "/foifile/foifile_sharedisofpcoding")
 # Number of bins
 nCPU = 4L 
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
-out.dir = paste0(wk.dir, "/out_FETA_genes_denovomotif")
+out.dir = paste0(wk.dir, "/out_FETA_sharedisofpcoding")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 HiC.res = 4e4L
