@@ -1,0 +1,8 @@
+################################################################################
+I renamed repeat lengths from e.g., len_full_repeat to len_repeat_full to so I
+can plot total lengths of genic elements and repeat content together assigning
+different point shapes. But, I have not generated plots using this new code
+because I decided to not plot them together since the two fold changes are
+independent of each other. In other words the plots here were generated when 
+both types of lengths are not distinguished. 
+################################################################################

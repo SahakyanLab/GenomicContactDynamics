@@ -1,6 +1,5 @@
 ################################################################################
-# Make scatter plot of gene lengths vs. Cp
-# Mac, R/3.5.2
+# Make scatter plot of central value of gene lengths vs. Cp.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -25,20 +24,27 @@ lencp.dir = paste0(wk.dir, "/out_geneLengthPlot")
 out.dir = paste0(wk.dir, "/out_geneLengthPlotLine")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-refseq = "ALL" # ALL | NM | NR
-out.id <- "length" # "length"| "%R"
-config <- list(
-  # c(1-colour, 2-legend.name)
-  TRANSCRIPT.L = c("#FDC776", "tr"),
-  INTRONS.dev.EXONS = c("#f0dab9", "int/ex"),
-  EXONS.L = c("#e25d6c", "ex"),
-  MEAN.EXON.L = c("#f0a5ae", "mean ex"),
-  INTRONS.L = c("#3288BD", "int"),
-  MEAN.INTRON.L = c("#add6f0", "mean int" ) ,
-  REP.PERC.TR.L = c("#FDC776", "%R tr"),
-  REP.PERC.EX.L = c( "#e25d6c", "%R ex" ),
-  REP.PERC.INT.L = c( "#3288BD", "%R int" )
-)
+refseq = "ALL" 
+out.id = "length" # "transcript"| "repeat"
+#lentyp.v = c("len_full", "len_exon", "len_intron",
+#             "mean_exon", "mean_intron", "div_intronBYexon",
+#            "num_exon", "num_intron")
+#plot.id = "transcript_lengths"
+
+lentyp.v = c("len_repeat_full", "len_repeat_exon", "len_repeat_intron",
+             "fr_repeat_full", "fr_repeat_full", "fr_repeat_full",
+             "len_full", "len_exon", "len_intron")
+plot.id = "transcript_repeat_values"
+
+repfree = F
+
+centr = "mean" # "median"
+
+col.v = c(full="#FDC776", exon="#e25d6c", intron="#3288BD", intronBYexon="#bb88dd")
+# len=15
+shp.v = c(`fr_repeat`=13, `len_repeat`=11, len=11, num=0, mean=8, div=17)
+facet = T
+ylim.v = c(-0.1,2)
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -47,67 +53,97 @@ source(paste0(lib, "/GG_bgr.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-if(out.id=="%R"){
-  lengths.v <- c("REP.PERC.TR.L", "REP.PERC.EX.L", "REP.PERC.INT.L")
-} else if(out.id=="length"){
-  lengths.v <- c("TRANSCRIPT.L", "INTRONS.dev.EXONS",
-                 "EXONS.L", "MEAN.EXON.L",
-                 "INTRONS.L", "MEAN.INTRON.L")
-} else {
-  stop("Invalid out.id input.")
-}
-
 id <- paste0("hg19anno_", refseq, "_", gcb)
+out.id <- paste0(id, "_", plot.id, "_", centr, "_repfree", repfree, "_facet", facet)
 
 DF <- list()
-
-for(len in lengths.v){
+for(lentyp in lentyp.v){
   
-  # Load LENCP.DF
-  # Actual length in LENCP.DF is LENCP.DF$L x 10^3
-  load(file=paste0(lencp.dir, "/", id, "_", len, ".RData"))
-  LENCP.DF <- aggregate(formula=L~cp, data=LENCP.DF, FUN=mean)
-  # Convert to length to fold change (reference is Cp=1)
-  LENCP.DF$L <- log2(LENCP.DF$L/LENCP.DF[LENCP.DF$cp==1,"L"])
-  DF[[len]] <- cbind(L.name=rep(len), LENCP.DF)
+  load(file=paste0(lencp.dir, "/", id, "_", lentyp, ".RData"))
+  cp.v <- sort(unique(LENCP.DF[,"cp"]), decreasing=F)
   
-  print(len, quote=FALSE)
+  LENCP.DF <- as.data.frame(LENCP.DF)
   
-} # lengths.v for loop end
+  LENCP.DF$cp <- factor(x=as.character(LENCP.DF$cp), 
+                        levels=as.character(cp.v))
+  
+  var.v <- colnames(LENCP.DF)[colnames(LENCP.DF)!="cp"]
+  
+  if(repfree==F){
+    var.v <- var.v[!grepl(x=var.v, pattern="_repfree", fixed=T)]
+  }
+  
+  for(vr in var.v){
+    
+    data.table::setnames(x=as.data.frame(LENCP.DF), old=vr, new="L", 
+                         skip_absent=F)
+    eval(parse(text=paste0(
+      paste0( 'tmp <- aggregate(formula=L~cp, data=LENCP.DF, FUN=', centr, ')' )
+    )))
+    
+    tmp$L.center <- tmp$L 
+    tmp$L <- log2(tmp$L/tmp[as.character(tmp$cp)=="1","L"])
+    DF[[vr]] <- cbind(L.name=rep(vr), tmp)
+    
+    LENCP.DF$L <- NULL
+    
+    rm(vr, tmp)
+    
+  }
+  
+  print(paste0(lentyp, " done!"), quote=FALSE)
+  
+  rm(LENCP.DF, cp.v, var.v)
+  
+} # length.v for loop end
 
 DF <- do.call("rbind", DF)
 rownames(DF) <- NULL
 
-config <- do.call("rbind", config)
-colnames(config) <- c("colour", "legendname")
+DF$L.name <- factor(x=DF$L.name, levels=unique(DF$L.name))
+grp <- as.character(DF$L.name)
 
-DF$L.name <- factor(DF$L.name, levels=c(lengths.v))
-DF$cp <- as.numeric(DF$cp)
+DF$repcontgrp <- "orig"
+DF$repcontgrp[grepl(x=DF$L.name, pattern="_repfree", fixed=T)] <- "repfree"
+
+# Groups are div, len, len_repeat, mean, num, fr_repeat
+calcgrp <- strsplit(x=grp, split="_full|_exon|_intron", fixed=F)
+calcgrp <- unlist(lapply(X=calcgrp, FUN=function(x) x[1]))
+DF$calcgrp <- calcgrp
+DF$calcgrp <- factor(x=DF$calcgrp, 
+                     levels=intersect(names(shp.v), unique(DF$calcgrp)))
+
+# Groups are exon, full, intron, intronBYexon
+partgrp <- mapply(FUN=gsub, x=grp, pattern=paste0(calcgrp, "_|_repfree"), 
+                  replacement="", fixed=F, SIMPLIFY=T)
+DF$partgrp <- partgrp
+DF$partgrp <- factor(x=DF$partgrp, 
+                     levels=intersect(names(col.v), unique(DF$partgrp)))
+
+rm(grp, calcgrp, partgrp)
 
 # Plot
-ggplot(data=DF, aes(x=cp, y=L, group=L.name)) +
-  geom_line(aes(colour=factor(L.name)), size=2) +
-  geom_point(aes(colour=factor(L.name)), size=2.5) +
-  scale_colour_manual(values=config[,"colour"], 
-                      labels=config[,"legendname"]
-) +
-  scale_x_continuous(breaks=1:21,
-                     labels=as.vector(rbind(seq(from=1, to=21, by=2),
-                                            rep("")
-                                            )
-                                      )[-22]
-                     ) +
-  labs(title=id,
-       x=expression(bold("c"["p"])),
-       y=bquote(bold("log"["2"]~"(Mean"~.(out.id)~"FC)")),
-       colour="") +
+p <- ggplot(data=DF, aes(x=cp, y=L, group=L.name)) +
+  geom_line(colour="gray91", size=1) +
+  geom_point(aes(shape=calcgrp, colour=partgrp), size=4) +
+  geom_hline(yintercept=0, linetype="dashed", colour="gray70", size=0.5) + 
+  scale_y_continuous(limits=ylim.v) + 
+  scale_colour_manual(values=col.v[levels(DF$partgrp)]) +
+  scale_shape_manual(values=shp.v[levels(DF$calcgrp)]) + 
+  labs(title=out.id, x="cp", colour="",
+       y=paste0("log2 or FC ", centr, " wrt cp=1")) +
   bgr2 +
   theme(legend.text=element_text(size=15, face="bold"),
-        legend.title=element_text(size=20, face="bold"))
+        legend.title=element_text(size=20, face="bold"),
+        legend.key = element_rect(colour="transparent",
+                                  fill="transparent"),
+        strip.background=element_blank())
+   
+if(facet){
+  p <- p + facet_grid(.~repcontgrp)
+}
 
-out.id <- ifelse(out.id=="%R", "repPerc", out.id)
-
-ggsave(filename=paste0(out.dir, "/", id, "_", out.id, "_lineplot.pdf"),
-       width=10, height=10, units="in")
+ggsave(filename=paste0(out.dir, "/", out.id, "_lineplot.pdf"),
+       width=15, height=10, units="in", plot=p)
 
 # rm(list=ls()); gc()

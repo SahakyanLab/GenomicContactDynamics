@@ -45,8 +45,8 @@ for(anno.nme in annofile.v){
 }
 
 
-anno.file <- fread(file=paste0(annofile.dir, "/", anno.nme, "_ALL"), 
-                 header=TRUE, data.table=FALSE, stringsAsFactors=FALSE)
+anno.file <- fread(file=paste0(annofile.dir, "/", anno.nme, "_ALL"),
+                   header=TRUE, data.table=FALSE, stringsAsFactors=FALSE)
 
 # Annotation table column names
 c("bin", "name", "chrom", "strand", "txStart", "txEnd", "cdsStart", "cdsEnd",

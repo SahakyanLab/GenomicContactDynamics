@@ -19,25 +19,29 @@ if( !is.null(whorunsit[1]) ){
 david.dir = paste0(wk.dir, "/out_DAVID/funxAnnoClust_sampleGeneList")
 out.dir = paste0(wk.dir, "/out_FunxAnno_indiv_DAVID")
 ### OTHER SETTINGS #############################################################
-data.id = "min2Mb_ALL_cp_21_name2"
+data.id = "min2Mb_LTr_ALL_cp_21_name2"
 seed.v = c(287, 587, 754)
 N = 2999
 stringency = "medium"
 
 # Get only top 10 clusters with highest enrichment score
-Nclust = 10
+Nclust = 5
+
+putlabel = T
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
 library(stringr)
 library(RColorBrewer)
 library(ggplot2)
+library(ggpubr)
 source(paste0(lib, "/GG_bgr.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
 out.id <- paste0(data.id, "_top", Nclust, "highestEASEclusters_seed",
-                 paste(seed.v, collapse="_"), "_", N, "sampled_ftc_", stringency)
+                 paste(seed.v, collapse="_"), "_", N, "sampled_ftc_", stringency,
+                 "_putlabel", putlabel)
   
 FTC <- list()
 ANME <- list() # Annotation cluster name and enrichment score
@@ -106,27 +110,64 @@ save(FTC, file=paste0(out.dir, "/", out.id, "_DAVIDplot.RData"))
 
 # Take only terms significant in at least one sample;
 # Use Benjamini to match the BH p-adjusted values plotted for KEGG and GO
-FTC <- FTC[ FTC$Term%in%FTC$Term[FTC$Benjamini<0.05], ]
+#FTC <- FTC[ FTC$Term%in%FTC$Term[FTC$Benjamini<0.05], ]
 FTC <- FTC[order(FTC$Benjamini, decreasing=F), ]
 
 FTC$Term <- factor(x=FTC$Term, levels=rev(unique(FTC$Term)))
 FTC$Cluster <- factor(x=as.character(FTC$Cluster), 
                       levels=as.character(sort( unique(FTC$Cluster)), decreasing=F ))
 
-p <- ggplot(data=FTC, aes(x=-log10(Benjamini), y=Term) ) +
-  geom_point(aes(colour=Cluster, size=Count)) + 
-  geom_vline(xintercept=-log10(0.05), linetype="dashed", colour="red", size=0.7) +
-  scale_colour_manual(values=brewer.pal(Nclust, "Spectral")) + 
-  guides(colour="legend") +
-  labs(title=paste0(out.id, "_reddashedlineis-log10(0.05)"), colour="Cluster",
-       size="Gene count", y=NULL, x=bquote(bold( "-log10("~"p-value"^"adj Benjamini"~")" )) 
-  ) +
-  bgr5 + 
-  theme(plot.title=element_text(size=5)) +
-  facet_grid(~seed)
 
-ggsave(filename=paste0(out.dir, "/", out.id, "_DAVIDplot.pdf"), units="in",
-       width=10, height=10)
+clust.col <- colorRampPalette(RColorBrewer::brewer.pal(Nclust, "Spectral"))(Nclust)
+names(clust.col) <- levels(FTC$Cluster)
+ptitle <- Xlab <- NULL
+if(putlabel){
+  
+  ptitle <- paste0(out.id, "_Cluster", Clust, "_reddashedlineis-log10(0.05)")
+  Xlab <- bquote(bold( "-log10("~"p-value"^"adj Benjamini"~")" ))
+  
+}
+
+p.lst <- list()
+for( Clust in levels(FTC$Cluster) ){
+  
+  Clust <- as.character(Clust)
+  p.lst[[Clust]] <- ggplot(data=FTC[as.character(FTC$Cluster)==Clust,], 
+                           aes(x=-log10(Benjamini), y=Term) ) +
+    geom_point(fill=clust.col[[Clust]], aes(size=Count), colour="black", shape=21) + 
+    geom_vline(xintercept=-log10(0.05), linetype="dashed", colour="red", size=0.7) +
+    scale_x_continuous(limits=c(0,10)) + 
+    guides(colour="legend") +
+    labs(title=ptitle, size="Gene\ncount", x=Xlab, y=NULL) + 
+    bgr5 + 
+    theme(panel.background=element_rect(colour="gray22", size=1, fill=NA),
+          plot.title=element_text(size=5),
+          axis.text.y=element_text(size=15),
+          axis.text.x=element_blank(),
+          legend.title=element_text(size=20), 
+          legend.text=element_text(size=20)) +
+    facet_grid(.~seed)  
+  
+  if(!putlabel){
+    
+    p.lst[[Clust]] <- p.lst[[Clust]] + 
+      theme(strip.text=element_blank())
+    
+  }
+  
+  if( Clust==as.character(Nclust) ){
+    
+    p.lst[[Clust]] <- p.lst[[Clust]] + 
+      theme(axis.text.x=element_text(size=20, face="bold"))
+
+  }
+  
+}
+
+seed.v.len <- length(seed.v)
+p.arr <- ggpubr::ggarrange(plotlist=p.lst, nrow=Nclust, ncol=1, align="hv")
+ggpubr::ggexport(p.arr, width=20, height=5*Nclust,
+                 filename=paste0(out.dir, "/", out.id, "_DAVIDplot.pdf"))
 
 # rm(list=ls()); gc()
 
