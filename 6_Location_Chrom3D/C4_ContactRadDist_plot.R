@@ -26,7 +26,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-model.id = "H1-hESC_LMNB1_hg38" # "IMR90_LMNB1_GSE49341_hg19" | "H1-hESC_LMNB1_hg38"
+model.id = "IMR90_LMNB1_GSE49341_hg19" # "IMR90_LMNB1_GSE49341_hg19" | "H1-hESC_LMNB1_hg38"
 data.dir = out.dir = paste0(wk.dir, "/z_ignore_git/out_ContactRadDist/", model.id)
 ### OTHER SETTINGS #############################################################
 ploidy = "haploid"
@@ -140,6 +140,7 @@ mycorCoefPlot <- function(df=df, title=plottitle){
     #geom_line(size=2.5) +
     geom_point(size=6, colour="darkred") +
     scale_x_continuous(breaks=ntis.corPlot) +
+    scale_y_continuous(limits=c(0,1)) +
     labs(title=title, x=expression("c"["p"]), 
          y=expression(paste("Pearson's")~italic("r"))) +
     bgr2 

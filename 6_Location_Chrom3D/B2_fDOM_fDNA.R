@@ -19,7 +19,7 @@ if( !is.null(whorunsit[1]) ){
 }
 model.id = "H1-hESC_LMNB1_hg38" # "IMR90_LMNB1_GSE49341_hg19" | "H1-hESC_LMNB1_hg38"
 # DOMXYZR.DF directory
-data.dir = paste0(wk.dir, "out_AddXYZR")
+data.dir = paste0(wk.dir, "/out_AddXYZR")
 out.dir = paste0(wk.dir, "/out_fDOM_fDNA/", model.id)
 ### OTHER SETTINGS #############################################################
 ploidy = "haploid"
@@ -32,15 +32,17 @@ plotWhich = c("fbeadDNA") # c("fbeadDNA", "fDOM")
 HxbinPlot = FALSE
 rwindPlot = TRUE
 plotOnly = TRUE
+nolabel = TRUE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
 library(ggplot2)
+library(scales)
 library(reshape2)
 library(RColorBrewer)
 library(ggpubr)
 source(paste0(lib, "/GG_bgr.R"))
-source(paste0(lib, "/BINorSLIDE.R"))
+source(paste0(wk.dir, "/lib/BINorSLIDE.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
@@ -127,17 +129,24 @@ for(dr in dr.v){
       #            aes(xintercept=rmin) ) + 
       #geom_vline( linetype="dashed", colour="black", size=0.7, 
       #            aes(xintercept=rmax) ) + 
-      scale_x_continuous( name=paste0("r±", dr), 
-                          breaks=breaks.v,
+      scale_x_continuous( breaks=breaks.v,
                           #breaks=0:max(fDOM.DNA$rInstant, na.rm=TRUE)
                           limits=limits.v 
                           ) +
+      scale_y_continuous(labels = scales::label_number(accuracy = 0.001)) +
       scale_colour_manual(values=col.v[plotWhich], 
                           labels=label.v[plotWhich]) +
       labs(title=out.name, y=expression(bold(" Genome fraction")),
-           colour="") +
+           colour="", x=paste0("r±", dr)) +
       bgr2 
  
+    if(nolabel){
+      p.lst[[as.character(dr)]] <- p.lst[[as.character(dr)]] +
+        labs(title=NULL, x=NULL, y=NULL) +
+        theme(legend.position="none",
+              axis.text.x=element_blank())
+    }
+    
     ggsave(filename=paste0(out.dir, "/", out.name, "_", paste(plotWhich, collapse="_"), 
                            "_dr", dr, ".pdf"), 
            units="in", width=10, height=10, plot=p.lst[[as.character(dr)]])
@@ -148,9 +157,9 @@ for(dr in dr.v){
 
 }
 
-p.arr <- ggarrange(plotlist=p.lst, nrow=4, ncol=4,
+p.arr <- ggarrange(plotlist=p.lst, nrow=5, ncol=2,
                    legend=NULL)
-ggexport(p.arr, width=40, height=40,
+ggexport(p.arr, width=20, height=50,
          filename=paste0(out.dir, "/", out.name, "_", paste(plotWhich, collapse="_"),
                          ".pdf" ))
 # rm(list=ls()); gc()
