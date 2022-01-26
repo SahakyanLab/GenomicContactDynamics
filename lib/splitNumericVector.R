@@ -14,8 +14,8 @@ splitNumericVector <- function(x=c(1,2,4,6),
                                action="SLIDE", # BIN | SLIDE
                                # For action="SLIDE" only
                                numSLwind=1000, # Number of windows 
-                               boundsSL=c(0, max(numVec)) # Max and min values of
-                               # the midpoints of windows
+                               # Ideally, max and min values of x
+                               boundsSL=c(0, max(numVec)) 
                               ){
   
   if( !is.numeric(x) ){

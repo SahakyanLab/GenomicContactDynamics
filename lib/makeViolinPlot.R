@@ -1,0 +1,49 @@
+################################################################################
+# Make basic violin ggplot
+# Adopted from https://www.datanovia.com/en/lessons/ggplot-violin-plot/
+################################################################################
+# LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
+################################################################################
+# library(ggplot2)
+# library(Hmisc) # for mean_sdl function
+# source(paste0(lib, "/GG_bgr.R"))
+### FUNCTION ###################################################################
+makeViolinPlot <- function(df, x.nme, y.nme, sd.mult, fill.nme = NULL, 
+                           fill.cols = NULL, fill.legend = '"none" or factor name', 
+                           plot.title, ylim.val = NULL, showOutlier){
+
+  p <- ggplot(data=df, aes_string(x=x.nme, y=y.nme))
+  
+  # Combine with box plot to add median and quartiles
+  # Change fill color by groups, remove legend
+  p <- p + geom_violin(aes_string(fill=fill.nme), trim = FALSE) + 
+    scale_y_continuous(limits=ylim.val) + 
+    scale_fill_manual(values=fill.cols) +
+    labs(title=plot.title) + 
+    guides(fill=fill.legend) + 
+    bgr2
+  
+  if(!showOutlier){ 
+    p <- p + geom_boxplot(width=0.1, outlier.shape=NA)
+  } else {
+    p <- p + geom_boxplot(width=0.1)
+  }
+    
+  # Add mean points +/- SD
+  # Use geom = "pointrange" or geom = "crossbar"
+  #p <- p + stat_summary(
+  #  data=df,
+  #  fun.data="mean_sdl", fun.args=list(mult=sd.mult), geom="point", 
+  #  color="black", size=2.5
+  #)
+ 
+  # Add mean
+  df.mean <- stack(by(df[[y.nme]], INDICES=df[[x.nme]], FUN=mean, na.rm=F))
+  p <- p + 
+    geom_point(data=df.mean, aes(x=ind, y=values), size=5, col="black", shape=7)
+
+  return(p)
+  
+}
+
+# rm(list=ls()); gc()

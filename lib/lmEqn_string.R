@@ -2,11 +2,11 @@
 # GET EQUATION AND R-SQUARED AS STRING
 # Modified version of SOURCE: https://groups.google.com/forum/#!topic/ggplot2/1TgH-kG5XMA
 ################################################################################
-lmEqn_string <- function(x="kmer", y="align", data=df){
-  m <- eval(parse(text=paste0("lm(", y, "~", x, ", data=data)"
-  )
-  ))
-  p <- cor(x=data[,x], y=data[,y], method="pearson")
+lmEqn_string <- function(x='x column name', y='y column name', data='data',
+                         cor.method="pearson"){
+  
+  eval(parse(text=paste0("m <- lm(", y, "~", x, ", data=data)")))
+  p <- cor(x=data[,x], y=data[,y], method=cor.method)
   
   a=format(unname(coef(m)[1]), digits=5)
   b=format(unname(coef(m)[2]), digits=5)
@@ -31,5 +31,6 @@ lmEqn_string <- function(x="kmer", y="align", data=df){
   #                      r2=format(summary(m)$r.squared, digits=3))
   #)
   #as.character(as.expression(eq))
+  
 }
 

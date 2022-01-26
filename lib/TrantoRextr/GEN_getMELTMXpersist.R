@@ -30,7 +30,9 @@ getMELTMXpersist <- function(MELT.MX   = MELT.MX,
   
   TrueFalse.MELT.MX <- MELT.MX$upper.tri
   
-  for(tis in 3:23){
+  tis.len <- length(MELT.MX$upper.tri[1,])
+  for(tis in 3:tis.len){
+  #for(tis in 3:23){
     value <- MELT.MX$upper.tri[,tis]
     value <- sort(value[value!=0], decreasing=TRUE)
     value <- value[floor(length(value)*top.perc/100)] # Should be higher or
@@ -38,8 +40,10 @@ getMELTMXpersist <- function(MELT.MX   = MELT.MX,
     TrueFalse.MELT.MX[,tis] <- (MELT.MX$upper.tri[,tis]>=value)
   }
   
-  rowsums.TrueFalse.MELT.MX <- rowSums(TrueFalse.MELT.MX[,3:23])
-  rowsums.MELT.MX.uppertri  <- rowSums(MELT.MX$upper.tri[,3:23])
+  #rowsums.TrueFalse.MELT.MX <- rowSums(TrueFalse.MELT.MX[,3:23])
+  rowsums.TrueFalse.MELT.MX <- rowSums(TrueFalse.MELT.MX[,3:tis.len, drop=FALSE])
+  #rowsums.MELT.MX.uppertri  <- rowSums(MELT.MX$upper.tri[,3:23])
+  rowsums.MELT.MX.uppertri  <- rowSums(MELT.MX$upper.tri[,3:tis.len, drop=FALSE])
   hits.ids <- which( rowsums.TrueFalse.MELT.MX >= min.tiss )
     
   length.left <- length(hits.ids)

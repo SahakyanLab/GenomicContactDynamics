@@ -13,7 +13,7 @@ getBinsOverlapRepMasker <- function(
   repmask.Filepath="/Volumes/Data/Database/RepeatMasker_hg19/RepeatMasker_hg19"
 ){
   
-  repmask <- getRepMaskSubset(chr=chr, freadchar="\t", 
+  repmask <- getRepMaskSubset(chr=chr, freadchar="auto", #"\t",
                               repmask.Filepath=repmask.Filepath,
                               repmask.col=c("genoStart","genoEnd","strand","repName","repClass","repFamily"))
   

@@ -24,7 +24,9 @@ bgr1 <- theme(# Plot panel
               aspect.ratio=1,
               # Legend text
               legend.text=element_text(size=15),
-              legend.title=element_text(size=20, face="bold")
+              legend.title=element_text(size=20, face="bold"),
+              legend.key=element_rect(colour="transparent", fill="transparent"),
+              strip.background=element_blank()
 )
 
 # Larger size of labels
@@ -85,9 +87,11 @@ bgr4 <- theme(panel.grid.major=element_blank(),
               axis.text.y = element_text(size=25, angle=360, colour="black"),
               # Axis ticks
               axis.ticks = element_line(size=1, colour="gray22"),
-              axis.ticks.length=unit(.20, "cm")
+              axis.ticks.length=unit(.20, "cm"),
               #,
               #aspect.ratio=1
+              legend.key=element_rect(colour="transparent", fill="transparent"),
+              strip.background=element_blank()
 )
 
 # For the GO-like plots 
@@ -102,5 +106,7 @@ bgr5 <- theme(panel.grid.major.y=element_line(colour="gray"),
               axis.title.x=element_text(size=10, colour="black", face="bold"),
               axis.text.x=element_text(size=10, colour="black", face="bold"),
               legend.text=element_text(size=10, face="bold"),
-              legend.title=element_text(size=10, face="bold")
+              legend.title=element_text(size=10, face="bold"),
+              legend.key=element_rect(colour="transparent", fill="transparent"),
+              strip.background=element_blank()
 )

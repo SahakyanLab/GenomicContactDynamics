@@ -20,8 +20,8 @@ makeHexbinggplot <- function(xvar,
                              yvar, 
                              bins=30, 
                              cuts=12,
-                             breaks.y=waiver(),
-                             limits.y=c(NA,NA),
+                             #breaks.y=waiver(),
+                             #limits.y=c(NA,NA),
                              xlab=expression( bold("C"["p"]) ),
                              ylab=bquote( bold("C"["s"]~.(affix)) ),
                              title=paste0("chrAll_", gcb, "_", ct),
@@ -36,7 +36,7 @@ makeHexbinggplot <- function(xvar,
   p <- ggplot(data=gghex, aes(x=x, y=y, fill=c) ) +
     geom_hex(bins=bins) +
     scale_fill_manual(values=col) + 
-    scale_y_continuous(breaks=breaks.y, limits=limits.y) + 
+    #scale_y_continuous(breaks=breaks.y, limits=limits.y) + 
     scale_x_continuous(breaks=1:21, 
                        labels=as.vector(rbind(
                          seq(from=1, to=21, by=2),

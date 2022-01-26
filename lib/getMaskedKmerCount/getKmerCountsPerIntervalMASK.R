@@ -7,7 +7,8 @@
 # row) sequence. If a given sequence contains at least one "N" witin, all the  #
 # values in that row will be populated with NA.                                #
 #                                                                              #
-# REQUIRES:                                                                    #
+# REQUIRES:   
+# source(paste0(lib, "/UTL_doPar.R"))
 # For its getGenomicSeq() function:                                            #
 # LIB.TRANTOR = "/Users/alex/GIT/GITrepo/TrantoR"                              #
 # library(foreach)                                                             #
@@ -19,7 +20,7 @@
 # The underlying functions may require fread() from <data.table> library.      #
 # Next, the functions directly needed for this one:                            #
 # source(paste0(LIB.TRANTOR, "/GEN_getGenomicSeq.R"))                          #
-# source(paste0(LIB.TRANTOR, "/GEN_getKmers.R"))                               #
+# source(paste0(LIB.TRANTOR, "/GEN_getKmers.R"))  
 ################################################################################
 getKmerCountsPerInterval <- function(
 chr           = "chr10",
@@ -38,13 +39,13 @@ maskingChar   = NULL,
 sequence      = NULL
 ){
   
-  if(nCPU > 1){
-    registerDoParallel(cores=nCPU)
-    `%op%` <- `%dopar%`
-    print(paste0("Running with ", nCPU, " cores."), quote=F)
-  } else {
-    `%op%` <- `%do%`
-  }
+  #if(nCPU > 1){
+  #  registerDoParallel(cores=nCPU)
+  #  `%op%` <- `%dopar%`
+  #  print(paste0("Running with ", nCPU, " cores."), quote=F)
+  #} else {
+  #  `%op%` <- `%do%`
+  #}
   
   kmer.names <- names(getKmers(seq.string=DNAStringSet("AAAAAAAAAAAAAAA"),
                                k=K, method="Biostrings"))

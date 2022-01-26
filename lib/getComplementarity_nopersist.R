@@ -22,10 +22,6 @@
 #-} else {
 #-  stop("Invalid input for type.")
 #-}
-
-# Take note that this and the relevant scripts use numeric indexing particularly
-# when accessing BINKMER.MX data, so format of these objects should be as 
-# expected.
 ################################################################################
 ################################################################################
 getComplementarity <- function(
@@ -82,7 +78,7 @@ getComplementarity <- function(
     # given chr obtained using expand.grid() with self and duplicated pairs not yet 
     # removed. The rowname therefore can be used to assign the Cp value of some 
     # contacts in the all ij contact matrix.
-    load(file=paste0(persist.dir, "/", chr, "_Persist_", gcb, affix.persist, ".RData"))
+    #load(file=paste0(persist.dir, "/", chr, "_Persist_", gcb, affix.persist, ".RData"))
     
     # Make mx of contacts
     if(allij){
@@ -99,7 +95,7 @@ getComplementarity <- function(
       
       # Add Cp using the rownames of PERSIST.MX$hits
       contact.mx <- cbind(contact.mx, Cp=NA)
-      contact.mx[rownames(PERSIST.MX$hits), "Cp"] <- PERSIST.MX$ntis
+      #contact.mx[rownames(PERSIST.MX$hits), "Cp"] <- PERSIST.MX$ntis
       
       # To remove self pairs and duplicates like {1,2}(keep) and {2,1}
       contact.mx <- contact.mx[contact.mx[,2]-contact.mx[,1]>0,]
@@ -129,13 +125,13 @@ getComplementarity <- function(
       
     }
     
-    rm(PERSIST.MX); gc()
+    #rm(PERSIST.MX); gc()
     
     if(type=="kmer"){
       # Load BINKMER.MX
       load(file=paste0(binkmer.dir, "/", chr, "_BinKmer", kmer.len, affix.binkmer, ".RData"))
       # Normalisa BINKMER.MX to bin length
-      BINKMER.MX[,5:ncol(BINKMER.MX)] <- BINKMER.MX[,-(1:4)]/BINKMER.MX[,4] #BINKMER.MX[,"numUMChar"] 
+      BINKMER.MX[,5:ncol(BINKMER.MX)] <- BINKMER.MX[,-(1:4)]/BINKMER.MX[,4] 
     }
     
     # Calculate complementarity score
