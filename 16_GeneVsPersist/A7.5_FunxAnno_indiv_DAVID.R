@@ -10,22 +10,22 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/16_GeneVsPersist"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/16_GeneVsPersist"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 
 david.dir = paste0(wk.dir, "/out_DAVID/funxAnnoClust_sampleGeneList")
-out.dir = paste0(wk.dir, "/out_FunxAnno_indiv_DAVID")
+out.dir = paste0(wk.dir, "/out_FunxAnno_indiv_DAVID/manuscript")
 ### OTHER SETTINGS #############################################################
 data.id = "min2Mb_LTr_ALL_cp_21_name2"
-seed.v = c(287, 587, 754)
+seed.v = 587 #c(287, 587, 754)
 N = 2999
 stringency = "medium"
 
 # Get only top 10 clusters with highest enrichment score
-Nclust = 5
+Nclust = 2
 
 putlabel = T
 ################################################################################
@@ -118,55 +118,65 @@ FTC$Cluster <- factor(x=as.character(FTC$Cluster),
                       levels=as.character(sort( unique(FTC$Cluster)), decreasing=F ))
 
 
-clust.col <- colorRampPalette(RColorBrewer::brewer.pal(Nclust, "Spectral"))(Nclust)
+#clust.col <- colorRampPalette(RColorBrewer::brewer.pal(n=11, "Spectral"))(Nclust)
+clust.col <- c("#F39B7FFF", "#91D1C2FF") #ggsci::pal_npg("nrc")(Nclust)
 names(clust.col) <- levels(FTC$Cluster)
 ptitle <- Xlab <- NULL
-if(putlabel){
-  
-  ptitle <- paste0(out.id, "_Cluster", Clust, "_reddashedlineis-log10(0.05)")
-  Xlab <- bquote(bold( "-log10("~"p-value"^"adj Benjamini"~")" ))
-  
-}
 
 p.lst <- list()
-for( Clust in levels(FTC$Cluster) ){
+#for( Clust in levels(FTC$Cluster) ){
+
+#if(putlabel){
   
-  Clust <- as.character(Clust)
-  p.lst[[Clust]] <- ggplot(data=FTC[as.character(FTC$Cluster)==Clust,], 
+#  ptitle <- paste0(out.id, "_Cluster", Clust, "_reddashedlineis-log10(0.05)")
+#  Xlab <- bquote(bold( "-log10("~"p-value"^"adj Benjamini"~")" ))
+  
+#}
+  
+  #Clust <- as.character(Clust)
+  #p.lst[[Clust]] <- ggplot(data=FTC[as.character(FTC$Cluster)==Clust,], 
+  p.lst[[1]]      <- ggplot(data=FTC,                          
                            aes(x=-log10(Benjamini), y=Term) ) +
-    geom_point(fill=clust.col[[Clust]], aes(size=Count), colour="black", shape=21) + 
+    #geom_point(fill=clust.col[[Clust]], aes(size=Count), colour="black", shape=21) + 
+    geom_point(aes(size=Count, fill=Cluster), colour="black", shape=21) + 
     geom_vline(xintercept=-log10(0.05), linetype="dashed", colour="red", size=0.7) +
     scale_x_continuous(limits=c(0,10)) + 
+    scale_fill_manual(values=clust.col[levels(FTC$Cluster)]) +
     guides(colour="legend") +
     labs(title=ptitle, size="Gene\ncount", x=Xlab, y=NULL) + 
     bgr5 + 
     theme(panel.background=element_rect(colour="gray22", size=1, fill=NA),
           plot.title=element_text(size=5),
           axis.text.y=element_text(size=15),
-          axis.text.x=element_blank(),
+          #axis.text.x=element_blank(),
+          axis.text.x=element_text(size=20, face="bold"),
           legend.title=element_text(size=20), 
-          legend.text=element_text(size=20)) +
+          legend.text=element_text(size=20),
+          panel.grid.major.x=element_blank(),
+          panel.grid.major.y=element_blank()) #element_line(size=5, colour="gray100")) 
     facet_grid(.~seed)  
   
-  if(!putlabel){
+  #if(!putlabel){
     
-    p.lst[[Clust]] <- p.lst[[Clust]] + 
-      theme(strip.text=element_blank())
+  #  p.lst[[Clust]] <- p.lst[[Clust]] + 
+  #    theme(strip.text=element_blank())
     
-  }
+  #}
   
-  if( Clust==as.character(Nclust) ){
+  #if( Clust==as.character(Nclust) ){
     
-    p.lst[[Clust]] <- p.lst[[Clust]] + 
-      theme(axis.text.x=element_text(size=20, face="bold"))
+  #  p.lst[[Clust]] <- p.lst[[Clust]] + 
+  #    theme(axis.text.x=element_text(size=20, face="bold"))
 
-  }
+  #}
   
-}
+#}
 
 seed.v.len <- length(seed.v)
 p.arr <- ggpubr::ggarrange(plotlist=p.lst, nrow=Nclust, ncol=1, align="hv")
-ggpubr::ggexport(p.arr, width=20, height=5*Nclust,
+#ggpubr::ggexport(p.arr, width=20, height=5*Nclust,
+#                 filename=paste0(out.dir, "/", out.id, "_DAVIDplot.pdf"))
+ggpubr::ggexport(p.arr, width=10, height=4*Nclust,
                  filename=paste0(out.dir, "/", out.id, "_DAVIDplot.pdf"))
 
 # rm(list=ls()); gc()
