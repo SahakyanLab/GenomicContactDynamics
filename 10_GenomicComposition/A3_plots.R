@@ -7,6 +7,14 @@
 whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
+# Set recommended global options
+
+# Avoid left to right partial matching by $
+options(warnPartialMatchDollar=T)
+
+# Expands warnings
+options(warn=1)
+
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
@@ -24,13 +32,14 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 data.dir = paste0(wk.dir, "/out_compare")
-out.dir = paste0(wk.dir, "/out")
+out.dir = paste0(wk.dir, "/out_plots")
 ### OTHER SETTINGS #############################################################
 gcb = "min05Mb"
 kmer.len = "7"
 # CHANGE x limits of volcano plot appropriately
 cp.v = 1:21
 kmerDistVal = "Mean"
+SL.method = "prob" # "bit"
 HM = FALSE
 VPSL = TRUE
 ################################################################################
@@ -44,6 +53,8 @@ library(ggseqlogo) # geom_logo
 library(ggrepel) # geom_text_repel
 source(paste0(lib, "/GG_bgr.R"))
 source(paste0(lib, "/makeSeqLogo.R"))
+
+transformFUN <- function(x) formatC(x, format="e", digits=1)
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
@@ -127,7 +138,7 @@ source(paste0(lib, "/makeSeqLogo.R"))
         ind.greater <- which(VOLCANO[[cp]][,"group"]=="sig.greater")
         ind.greater.len <- length(ind.greater)
         # Indices of kmers to label
-        kmerlabind <- c(ind.less[1:10], ind.greater[1:10])
+        kmerlabind <- c(ind.less[1:5], ind.greater[1:5])
         
         VOLCANO[[cp]] <- within(data=VOLCANO[[cp]], {
           putlabel <- NA
@@ -136,8 +147,8 @@ source(paste0(lib, "/makeSeqLogo.R"))
         
       }
       
-      max.y <- max(VOLCANO[[cp]][,"neglog10pval"])
-      max.x <- max(VOLCANO[[cp]][,"log2centrR"])
+      #max.y <- max(VOLCANO[[cp]][,"neglog10pval"])
+      #max.x <- max(VOLCANO[[cp]][,"log2centrR"])
       
       # Number of significantly enriched/depleted kmers out of 16384 (4^7)
       totkmersSig <- sum(VOLCANO[[cp]][,"group"]!="n.s.")  
@@ -152,10 +163,11 @@ source(paste0(lib, "/makeSeqLogo.R"))
         #                             ceiling(max.x)
         #) ) +
         scale_x_continuous(limits=c(-1.5,1.5)) +
+        scale_y_continuous(labels=transformFUN) + 
         scale_colour_manual(values=col.v[ names(col.v)%in%group.v ], 
                             labels=label.v[ names(label.v)%in%group.v ]
         ) + 
-        guides( colour=guide_legend(override.aes=list(size=5)) ) +
+        #guides( colour=guide_legend(override.aes=list(size=5)) ) +
         labs(title=id , 
              x=bquote(bold("log"["2"]~"("~.(kmerDistVal)~" FC)")), 
              y=bquote(bold("-log"["10"]~"(p-value)")),
@@ -167,16 +179,18 @@ source(paste0(lib, "/makeSeqLogo.R"))
         #      aspect.ratio=1) + 
         bgr2 +
         labs(title=NULL, x=NULL, y=NULL) + 
-        theme(legend.position="none", aspect.ratio=1)
+        theme(legend.position="none", aspect.ratio=1,
+              axis.text.x=element_blank(),
+              axis.text.y=element_text(size=15))
       
       if(log){
         
         p.lst[[cp]] <- p.lst[[cp]] + 
           geom_text_repel(data=subset(VOLCANO[[cp]], putlabel==1),
-                          aes(label=kmer), size=4,
+                          aes(label=kmer), size=3,
                           box.padding=unit(0.35, "lines"),
-                          point.padding=unit(0.3, "lines")  
-                          
+                          point.padding=unit(0.3, "lines"),  
+                          max.overlaps=20 
           )
         
       }
@@ -203,7 +217,7 @@ source(paste0(lib, "/makeSeqLogo.R"))
         DNAseq[[lab[1]]] <- as.character(VOLCANO[[cp]][ind.less,"kmer"])
         DNAseq[[lab[2]]] <- as.character(VOLCANO[[cp]][ind.greater,"kmer"])
         
-        p.seqL <- makeSeqLogo(list=DNAseq, ncol=2L, title=id)
+        p.seqL <- makeSeqLogo(list=DNAseq, ncol=2L, title=id, method=SL.method)
         
         ggsave(filename=paste0(out.name, "_seqLogo.pdf"), 
                width=10, height=8, plot=p.seqL)
@@ -211,7 +225,7 @@ source(paste0(lib, "/makeSeqLogo.R"))
         # Top 5% enriched/depleted
         DNAseq[[lab[1]]] <- DNAseq[[lab[1]]][1:trunc(ind.less.len*0.05)] 
         DNAseq[[lab[2]]] <- DNAseq[[lab[2]]][1:trunc(ind.greater.len*0.05)]
-        p.seqL <- makeSeqLogo(list=DNAseq, ncol=2L, title=bquote(.(id)~"_top5"~alpha))
+        p.seqL <- makeSeqLogo(list=DNAseq, ncol=2L, title=bquote(.(id)~"_top5"~alpha), method=SL.method)
         
         ggsave(filename=paste0(out.name, "_top5_seqLogo.pdf"), 
                width=10, height=8, plot=p.seqL)
