@@ -48,7 +48,7 @@ Using 4G mem is enough for all chr except for chr2 (6G).
 based on the criteria aforementioned. Percentage is relative to the number of contacts
 per Cp in original set (below the QEO plot). 
 
-So if Norig=10 and %error=1, the shuffled set contains 9 contacts. The %error will
+So if Norig=100 and %error=1, the shuffled set contains 99 contacts. The %error will
 be whichever is lower between O.opti (dataset straight from Optimus) or O.fin (dataset 
 after atttempting to reduce errors of the Optimus output by reversing pairs with 
 i > j).

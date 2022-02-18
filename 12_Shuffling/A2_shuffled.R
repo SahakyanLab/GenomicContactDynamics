@@ -5,13 +5,13 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/8_ShuffleContactBins"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/12_Shuffling"
     persist.dir = "/Users/ltamon/Database/HiC_features_GSE87112_RAWpc"
   } else if(whorunsit == "LiezelCluster"){
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/8_ShuffleContactBins"
@@ -23,7 +23,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-data.dir = paste0(wk.dir, "/out_shuffled")
+data.dir = paste0(wk.dir, "/z_ignore_git/out_shuffled_2")
 out.dir = paste0(wk.dir, "/out_features")
 ### OTHER SETTINGS #############################################################
 # chr 1 min 2Mb cp12:21 - 3.723G - 46s
