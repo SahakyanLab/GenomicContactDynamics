@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 # Expands warnings
@@ -32,9 +32,9 @@ if( !is.null(whorunsit[1]) ){
   
 }
 
-param.file = paste0(wk.dir, "/param.csv") #"/C2_generate_map/param.csv")
+param.file = paste0(wk.dir, "/param.csv")#"/C2_generate_map/param.csv")
 param.v <- read.csv(file=param.file, stringsAsFactors=F, header=T)
-param.ind = 10 #PARAMREPLACE
+param.ind = PARAMREPLACE
 param.v <- param.v[param.ind,]
 
 species.id = param.v[["species.id"]]
@@ -73,14 +73,14 @@ CII.disc.kmer.5.dir = CII.disc.align.5.dir = CII.disc.G.5.dir = CII.dir
 CII.cont.kmer.5.dir = CII.cont.align.5.dir = CII.cont.G.5.dir = CII.dir
 CII.disc.kmer.10.dir = CII.disc.align.15.dir = CII.disc.G.15.dir = CII.dir
 CII.cont.kmer.15.dir = CII.cont.align.15.dir = CII.cont.G.15.dir = CII.dir
-out.dir = paste0(wk.dir, "/out_generate_map_manuscript_test")
+out.dir = paste0(wk.dir, "/out_generate_map_manuscript")
 ### OTHER SETTINGS #############################################################
-gcb = "min0Mb" #"min0Mb" for ath
-bin.len = 10000 #40000 #20000 #50000 
+gcb = "min2Mb" #"min0Mb" for ath
+bin.len = 40000 #20000 #50000 
 
 #-------------------SELECT CONTACT MAPS
 
-chr.v = "chr3L" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
+chr.v = "chr1" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
 
 # Map id format: <cell/tissue>-<metric name>. Metric name should match source 
 # directory name, e.g. for metric name Cs.norm directory is Cs.norm.dir. 
@@ -91,10 +91,10 @@ chr.v = "chr3L" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X"))
 # Specify metric for upper and lower matrix by writing element of ct.v and 
 # metric.v as <cell type/metric upper>;<cell type/metric lower>. 
 
-ct.v = c("All;BG3", "All;BG3",
-         "All;Kc167", "All;Kc167") #param.v[["ct.v"]]
-metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm",
-             "CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm") #param.v[["metric.v"]]
+#ct.v = c("All;BG3", "All;BG3",
+#         "All;Kc167", "All;Kc167") #param.v[["ct.v"]]
+#metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm",
+#             "CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm") #param.v[["metric.v"]]
 
 #ct.v = c("All;osa", "All;osa")
 #metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm")
@@ -102,9 +102,9 @@ metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm",
 #ct.v = c("All;ath", "All;ath")
 #metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm")
 
-#ct.v = param.v[["ct.v"]]
-#metric.v = param.v[["metric.v"]]
- 
+ct.v = param.v[["ct.v"]]
+metric.v = param.v[["metric.v"]]
+  
 # Useful in case not whole chr is to be plotted
 out.id = gsub(x=paste(paste(ct.v, metric.v, sep="_"), collapse="_"), 
               pattern=".", replacement="", fixed=T)
@@ -126,7 +126,6 @@ if( length(ct.v)!=length(metric.v) ){
 }
 
 scaleContactByDist.TF = param.v[["scaleContactByDist.TF"]]
-scaled.disc.cutoff = as.numeric(param.v[["scaled.disc.cutoff"]])
 
 # Convert metric values to contact probability?
 contProb = F
@@ -137,8 +136,8 @@ contProb = F
 # Upper triangle perspective, i -> y, j -> x
 incl.bin.x = NULL
 incl.bin.y = NULL
-mask.bin.x = NULL #list(3563:6232) #NULL
-mask.bin.y = NULL #list(1:3563) #NULL
+mask.bin.x = list(3563:6232) #NULL
+mask.bin.y = list(1:3563) #NULL
 # If closed vector gap.range is NULL, no filtering. 
 gap.range = c(50, Inf)
 
@@ -151,19 +150,19 @@ limits.y = NULL
 symmetric = T
 
 # Mark bins along x- or/and y-axis
-#tmp = seq(1000, 1500, 100)
-mark.x = NULL #c(1, tmp, 2812-tmp+1, 2812)
-mark.y = NULL #mark.x
+tmp = seq(1000, 1500, 100)
+mark.x = c(1, tmp, 6232-tmp+1, 6232)
+mark.y = mark.x
 rm(tmp)
 
 # Output specifications
 
 # If scalebr.v==NULL, no scale bar
 # scalebr.v = c(xmin=1, xmax=100, ymin=1, ymax=50)
-scalebr.v = c(xmin=1, xmax=400, ymin=1, ymax=50)
+scalebr.v = NULL #c(xmin=1, xmax=200, ymin=1, ymax=25)
 res = 300
 # Number of rows and columns plot will be displayed
-out.dim = c(nrow=2, ncol=2)
+out.dim = c(nrow=1, ncol=1)
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -205,8 +204,7 @@ for( nme in names(tmp) ){
 }
 
 out.name0 <- paste0(gcb, "_", out.id, "_res", res)
-out.name0 <- paste0(out.name0, "_scaleContactByDist", scaleContactByDist.TF,
-                    "_scaleddisc", scaled.disc.cutoff)
+out.name0 <- paste0(out.name0, "_scaleContactByDist", scaleContactByDist.TF)
 
 p.lst <- list()
 len <- length(map.id.v)
@@ -302,29 +300,6 @@ for(M in 1:len){
                              out.filepath=paste0(out.dir, "/", out.name, "_scaleContactByDistPlot"),
                              plot.title=paste0(out.name, "_invalidij.actionNA"))
     
-    subj.ind <- which(grepl(x=names(df), pattern="CII.cont", fixed=T))
-    if(scaled.disc.cutoff>0){
-      
-      df[[subj.ind]]$value <- categoriseValues(val.v=df[[subj.ind]]$value, cutoff=scaled.disc.cutoff)
-      names(df)[subj.ind] <- "All-CII.disc.kmer.5"
-      metric.p <- "CII.disc.kmer.5;Cs.norm"
-      
-    }
-    
-    if(chr=="chr1"){
-      
-      for( ind in 1:length(df) ){
-        
-        incl.TF <- filterContacts(ij.df=df[[ind]][,c("i","j")], gap.range=gap.range,
-                                  incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y,  
-                                  mask.bin.x=list(3563:6232), mask.bin.y=list(1:3563))
-        
-        df[[ind]]$value[!incl.TF] <- NA
-        
-      }
-      
-    }
-      
   }
 
   # Plot

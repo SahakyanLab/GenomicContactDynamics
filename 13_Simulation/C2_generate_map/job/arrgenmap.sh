@@ -6,11 +6,11 @@
 ##########################################################################
 #SBATCH --mem=15G
 #SBATCH -n 1
+#SBATCH --array=1-4
 #SBATCH --mail-user=ltamon
 #SBATCH --mail-type=ALL
 ##########################################################################
-module load R-base/4.1.0
+module load R-base/4.1.2
 module load R-cbrg/current
 
-R --vanilla < /t1-data/user/ltamon/DPhil/GenomicContactDynamics/21_Simulation/C2_generate_map.R
-
+R --vanilla < /project/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/21_Simulation/C2_generate_map/script/genmap${SLURM_ARRAY_TASK_ID}.R
