@@ -72,7 +72,7 @@ zs.step=2e4
 CpBedFoiChrfilter = TRUE
 # Reduce cp bed to combine consecutive regions
 CpBedReduce = FALSE
-# A=feature, B=contact regions. If switchAB=TRUE, switch A and B. 
+# A=contact regions, B=feature. If switchAB=TRUE, switch A and B. 
 switchAB = FALSE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
@@ -234,19 +234,20 @@ for(i in 1:i.len){
   if(CpBedFoiChrfilter){
     cp.bed <- cp.bed[cp.bed$chr%in%foichr.v,]
   } 
+  
   genome <- toGRanges(genome)
   A <- toGRanges(cp.bed); rm(cp.bed)
   B <- toGRanges(foi.bed); rm(foi.bed); gc()
+  
+  if(CpBedReduce){ 
+    A <- reduce(A) 
+    print( paste0("Max width after reducing is ", max(width(A)), ".") )
+  }
   
   if(switchAB){
     A.temp <- A; B.temp <- B
     A <- B.temp; B <- A.temp
     rm(A.temp, B.temp); gc()
-  }
-  
-  if(CpBedReduce){ 
-    A <- reduce(A) 
-    print( paste0("Max width after reducing is ", max(width(A)), ".") )
   }
   #-------------------Permutation test
   out.name <- paste0(gcb, "_", foi, "_", out.id)
