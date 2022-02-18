@@ -66,8 +66,7 @@ for(chr in chr.v){
     type.olap = "any"
   )
   
-  save(BINREP.MX,  file=paste0(out.dir,"/", gcb, "_", chr, 
-                               "_BinRep.RData"))
+  save(BINREP.MX,  file=paste0(out.dir,"/", chr, "_BinRep_", gcb, ".RData"))
   
   rm(BINREP.MX, bins.uniq); gc()
   print(paste0(chr, " done!"), quote=FALSE)

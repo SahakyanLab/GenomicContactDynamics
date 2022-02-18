@@ -19,7 +19,7 @@ if( !is.null(whorunsit[1]) ){
 }
 rep.group = "subfam" # "fam" | "subfam" | "subfam6"
 elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/viridis/", rep.group)
-out.dir = paste0(wk.dir, "/out_AverageBinTrend/subfam/nolabel")
+out.dir = paste0(wk.dir, "/out_AverageBinTrend/forConfirmation")
 ### OTHER SETTINGS #############################################################
 # Age rank, ELMTISSDYN identifier
 elm.id = "GiorPubl" 
@@ -34,8 +34,9 @@ SEED = 438
 hmaptype.v = "norm" # c("raw", "norm", "fc")
 # Raw >= 0.1; arrange from lowest to highest; only c("MIRb", "MIR") > 0.5;
 # marked red in the plot
-red.v = c("MER5A", "L3", "L1M5", "AluJo", "L2", "AluJb", "AluSx", "MIR3", "AluY", 
-          "MIR", "MIRb")
+#red.v = c("MER5A", "L3", "L1M5", "AluJo", "L2", "AluJb", "AluSx", "MIR3", "AluY", 
+#          "MIR", "MIRb")
+red.v = c("AluJo", "L2", "AluJb", "AluSx", "MIR3", "AluY", "MIR", "MIRb")
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
