@@ -10,13 +10,13 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/3_RepeatAge"
+    wk.dir = "/Users/ltamon/DPhil/GCD_polished/17_RepeatAge"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 repmaskfile = paste0(data.dir, "/ucsc_tables/hsa_RepeatMasker/RepeatMasker_hg19")
-out.dir = paste0(wk.dir, "/out_hg19Repeats_summary")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_hg19Repeats_summary")
 ### OTHER SETTINGS #############################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -26,6 +26,16 @@ library(data.table)
 ################################################################################
 repmasker.df <- fread(file=repmaskfile, header=TRUE, data.table=FALSE, 
                       stringsAsFactors=FALSE)
+
+# Csv of mean and median lengths per repeat family
+genoLength <- repmasker.df$genoEnd-repmasker.df$genoStart
+val.df <- aggregate(x=genoLength, by=list(repmasker.df$repFamily), FUN=function(length.v){
+  c(mean(length.v, na.rm=F), median(length.v, na.rm=F))
+})
+val.df <- data.frame(repFamily=val.df$Group.1, mean=val.df$x[,1], median=val.df$x[,2],
+                     stringsAsFactors=F)
+write.csv(x=val.df, file=paste0(out.dir, "/hg19repeats_repFamily_lengths.csv"),
+          row.names=F)
 
 # to separate the same repNames with different repFamily and repClass 
 # repClass repFamily repName
