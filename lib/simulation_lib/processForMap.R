@@ -53,7 +53,8 @@ processForMap <- function(x, metric, is.contProb, is.scaleContactByDist, species
     #                 nm=c("-1", "0", "1"))
     coul <- setNames(object=brewer.pal(n=11, name="RdYlBu")[c(11, 5, 1)], 
                      nm=c("-1", "0", "1"))
-    coul[["0"]] <- adjustcolor(col=coul[["0"]], alpha.f=0.2)
+    coul[["0"]] <- "ivory" #"papayawhip"
+    #coul[["0"]] <- adjustcolor(col=coul[["0"]], alpha.f=0.2)
     
     leg.lab <- strsplit(x=metric, split=".", fixed=T)[[1]][3]
     leg.lab <- bquote(c['||']~.(leg.lab))

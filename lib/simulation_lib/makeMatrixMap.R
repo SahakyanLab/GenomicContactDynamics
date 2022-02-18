@@ -96,11 +96,11 @@ makeMatrixMap <- function(df.lst = 'list of 1 (upper) or 2(upper and lower) data
     
     geom_hline(yintercept=mark.y, colour="gray80", size=0.1),
     geom_vline(xintercept=mark.x, colour="gray80", size=0.1),
-      scale_x_continuous(breaks=brk.j, limits=limits.x),
-      scale_y_continuous(breaks=brk.i, limits=rev(limits.y), trans="reverse" ),
-      labs(x=NULL, y=NULL, 
-           title=paste0(plot.title, "_MINMAXna.rmTRUE=", paste(unlist(minmax.lst), collapse="_"),
-                        "_0valuesForMetricsOtherThanCIIsetToNA")),
+    scale_x_continuous(breaks=brk.j, limits=limits.x),
+    scale_y_continuous(breaks=brk.i, limits=rev(limits.y), trans="reverse"),
+    labs(x=NULL, y=NULL, 
+         title=paste0(plot.title, "_MINMAXna.rmTRUE=", paste(unlist(minmax.lst), collapse="_"),
+                      "_0valuesForMetricsOtherThanCIIsetToNA")),
     theme(
       plot.title=element_text(size=2),
       axis.text.x=element_text(face="bold", size=5, angle=360, colour="black"),
@@ -117,20 +117,11 @@ makeMatrixMap <- function(df.lst = 'list of 1 (upper) or 2(upper and lower) data
     
   )
   
-  if( !is.null(scalebr.v) & length(scalebr.v)==4 ){
-    
-    base.lst <- c(base.lst, 
-                  geom_rect(colour="black", fill="black", 
-                            aes(xmin=scalebr.v["xmin"], xmax=scalebr.v["xmax"], 
-                                ymin=scalebr.v["ymin"], ymax=scalebr.v["ymax"]))
-                  )
-    
-  }
-  
   test.TF <- symmetric & length(unique(metric.v))==2  
   if(test.TF){
     
     p <- ggplot() + 
+      base.lst +
       geom_raster(data=df.lst[[2]], aes(x=j, y=i, fill=value)) + 
       col.lst[[2]] + 
       # geoms below will use another color scale
@@ -138,13 +129,12 @@ makeMatrixMap <- function(df.lst = 'list of 1 (upper) or 2(upper and lower) data
       # Second scale should have the legend that will stay
       geom_raster(data=df.lst[[1]], aes(x=j, y=i, fill=value)) +
       col.lst[[1]] +
-      geom_abline(slope=-1, intercept=0, colour="gray20") +
-      base.lst
+      geom_abline(slope=-1, intercept=0, colour="gray80", size=0.1)
     
     pDown <- ggplot() + 
+      base.lst +
       geom_raster(data=df.lst[[1]], aes(x=j, y=i, fill=value)) + 
-      col.lst[[1]] +
-      base.lst
+      col.lst[[1]] 
     
     legDown <- cowplot::get_legend(pDown)
     rm(pDown)
@@ -157,10 +147,19 @@ makeMatrixMap <- function(df.lst = 'list of 1 (upper) or 2(upper and lower) data
     gc()
     
     p <- ggplot() +
+      base.lst + 
       geom_raster(data=df, aes(x=j, y=i, fill=value)) + 
-      col.lst[[1]] + 
-      base.lst
-       
+      col.lst[[1]] 
+      
+  }
+  
+  if( !is.null(scalebr.v) & length(scalebr.v)==4 ){
+    
+    p <- p + 
+      geom_rect(colour="black", fill="black", 
+                aes(xmin=scalebr.v["xmin"], xmax=scalebr.v["xmax"], 
+                    ymin=scalebr.v["ymin"], ymax=scalebr.v["ymax"]))
+    
   }
   
   if(test.TF){
