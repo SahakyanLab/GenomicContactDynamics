@@ -78,4 +78,4 @@ for(chr in chr.v){
   
 }
 
-# rm(list=ls())
+# rm(list=ls()); gc()

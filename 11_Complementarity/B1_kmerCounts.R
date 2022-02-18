@@ -3,8 +3,13 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
+
+# Set recommended global options
+
+# Avoid left to right partial matching by $
+options(warnPartialMatchDollar=T)
 
 # Expands warnings
 options(warn=1)
@@ -12,29 +17,36 @@ options(warn=1)
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/11_Complementarity"
-    data.dir =  "/Users/ltamon/Database"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
+    os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/11_Complementarity"
-    data.dir =  "/t1-data/user/ltamon/Database"
+    home.dir = "/project/sahakyanlab/ltamon" 
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Complementarity")
+    os = "Linux"
+  } else if(whorunsit == "LiezelLinuxDesk"){
+    home.dir = "/home/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
+    os = "Linux"
   } else {
-    print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
+    stop("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
 }
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir = paste0(home.dir, "/Database")
+
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
-genome.dir = paste0(data.dir, "/human_genome_unmasked_37.73")
+genome.dir = paste0(data.dir, "/rice_genome_unmasked_IRGSP1.0")
 # binkmer_divLen_all changed to binkmer_allBins
-out.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer3_divLen_all")  
+out.dir = paste0(data.dir, "/HiC_features_Liu2017oryza_HiC_NORMpc/binkmer7_divLen_all_50kb")  
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
-chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
+chrLenfile = paste0(data.dir, "/genome_info/Osa_IRGSP1.0_chr_info.txt")
 ### OTHER SETTINGS #############################################################
-chr.v = paste0("chr", c(1:22, "X"), sep="")
-bin.len = 40000
-kmer.len = 3
+chr.v = paste0("chr", 1:12) #c("X", "2L", "2R", "3L", "3R", "4", "Y", "MT")
+bin.len = 50000 #2000
+kmer.len = 7
 nCPU = 2 # ~4G
-genome.prefix = "Homo_sapiens.GRCh37.73.dna.chromosome."
+genome.prefix = "Oryza_sativa_Nipponbare.IRGSP1.0.dna.chromosome."
 fastafile.ending = ".fa"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
@@ -58,7 +70,7 @@ for(chr in chr.v){
   
   tot.bin <- ceiling(chrLen.df[chrLen.df$chromosome==chr, "length.bp"]/bin.len)
   
-  if( tot.bin==chrLen.df[chrLen.df$chromosome==chr, "bins.40kb"] ){
+  #if( tot.bin==chrLen.df[chrLen.df$chromosome==chr, "bins.40kb"] ){
     
     bin.end <- (1:tot.bin)*bin.len
     bin.start <- bin.end-bin.len+1
@@ -79,7 +91,7 @@ for(chr in chr.v){
       stop("Not all bins in BINKMER.MX.")
     }
     
-  }
+  #}
   
   genome.filename <- paste0(genome.prefix, strsplit(x=chr, split="chr")[[1]][2],
                             fastafile.ending)
