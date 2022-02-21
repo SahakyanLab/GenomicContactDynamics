@@ -1,0 +1,32 @@
+################################################################################
+# Get which Cp pairs have p-value >= 2.2e-16
+################################################################################
+library(reshape2)
+alpha = 0.01
+
+pw.dir = "~/SahakyanLab/GenomicContactDynamics/11_Complementarity/out_calc_significance"
+pw.files <- list.files(pw.dir, pattern="pairwisedifftest.RData")
+
+df <- list()
+for(pw in pw.files){
+  
+  load(paste0(pw.dir, "/", pw))
+  TEST$meanmed <- TEST$alt <- NULL
+  
+  TEST$pt <- melt(TEST$pt$p.value)
+  TEST$pmw <- melt(TEST$pmw$p.value)
+  
+  df <- cbind(do.call("rbind", TEST), data=pw)
+
+  print(pw, quote=F)
+  
+  rm(TEST, pw)
+  
+}
+
+df <- df[!is.na(df$value),]
+df <- df[df$value >= alpha,]
+
+print(df)
+
+# rm(list=ls()); gc()

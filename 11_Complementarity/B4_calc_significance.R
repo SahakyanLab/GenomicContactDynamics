@@ -37,7 +37,7 @@ out.dir  = paste0(wk.dir, "/out_calc_significance")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chrALL"
-type.v = c("kmer", "align", "Gfree", "sdDifference")
+type.v = c("Gfree", "sdDifference") #c("kmer", "align") #, "Gfree", "sdDifference")
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -53,22 +53,32 @@ for(type in type.v){
     
     dtype.id <- "kmer"
     val.id <- type
+    if(type=="Gfree"){ mult <- 10^5 } else { mult <- 10^4 }
     
   } else if( type %in% c("kmer", "align") ){
     
     dtype.id <- type
     val.id <- "C||"
+    mult <- 1
     
   } else {
     stop("Invalid argument.")
-  }
+  } 
   
   fle.id <- paste0(chr, "_", dtype.id, "_", gcb)
   load(paste0(CII.dir, "/", fle.id, ".RData"))
   
   CII.MX <- CII.MX[! (is.na(CII.MX[,val.id]) | is.na(CII.MX[,"Cp"])), ]
   
-  vals <- CII.MX[,val.id]
+  vals <- CII.MX[,val.id] * mult
+  if( type %in% c("Gfree", "sdDifference") ){
+    
+    print(range(vals, na.rm=T), quote=F)
+    vals <- round(vals, digits=4)
+    print(range(vals, na.rm=T), quote=F)
+    
+  }
+    
   Cps <- CII.MX[,"Cp"]
   
   rm(CII.MX)
@@ -76,7 +86,7 @@ for(type in type.v){
   out.name <- paste0(fle.id, "_", val.id) 
   
   # Correlation 
-  doCorTest(xval=Cps, yval=vals, alt="two.sided", exactpval=F, out.dir, out.name)
+  #doCorTest(xval=Cps, yval=vals, alt="two.sided", exactpval=F, out.dir, out.name)
   
   Cps <- factor(x=as.character(Cps), 
                 levels=as.character(sort(unique(Cps)))
