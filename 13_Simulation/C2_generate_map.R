@@ -16,8 +16,8 @@ if( !is.null(whorunsit[1]) ){
     prefix = "/Users/ltamon"
     lib = paste0(prefix, "/DPhil/lib")
     data.dir = paste0(prefix, "/Database")
-    wk.dir = paste0(prefix, "/DPhil/GenomicContactDynamics/21_Simulation")
-    CII.dir = paste0(prefix, "/DPhil/GCD_polished/11_Complementarity/z_ignore_git")
+    wk.dir = paste0(prefix, "/SahakyanLab/GenomicContactDynamics/13_Simulation")
+    CII.dir = paste0(prefix, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/z_ignore_git")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     prefix = "/project/sahakyanlab/ltamon"
@@ -34,7 +34,7 @@ if( !is.null(whorunsit[1]) ){
 
 param.file = paste0(wk.dir, "/param.csv") #"/C2_generate_map/param.csv")
 param.v <- read.csv(file=param.file, stringsAsFactors=F, header=T)
-param.ind = 10 #PARAMREPLACE
+param.ind = 9 #PARAMREPLACE
 param.v <- param.v[param.ind,]
 
 species.id = param.v[["species.id"]]
@@ -73,14 +73,14 @@ CII.disc.kmer.5.dir = CII.disc.align.5.dir = CII.disc.G.5.dir = CII.dir
 CII.cont.kmer.5.dir = CII.cont.align.5.dir = CII.cont.G.5.dir = CII.dir
 CII.disc.kmer.10.dir = CII.disc.align.15.dir = CII.disc.G.15.dir = CII.dir
 CII.cont.kmer.15.dir = CII.cont.align.15.dir = CII.cont.G.15.dir = CII.dir
-out.dir = paste0(wk.dir, "/out_generate_map_manuscript_test")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_generate_map_test")
 ### OTHER SETTINGS #############################################################
-gcb = "min0Mb" #"min0Mb" for ath
-bin.len = 10000 #40000 #20000 #50000 
+gcb = "min2Mb" #"min0Mb" for ath
+bin.len = 40000 #40000 #20000 #50000 
 
 #-------------------SELECT CONTACT MAPS
 
-chr.v = "chr3L" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
+chr.v = "chr17" #"chr3L" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
 
 # Map id format: <cell/tissue>-<metric name>. Metric name should match source 
 # directory name, e.g. for metric name Cs.norm directory is Cs.norm.dir. 
@@ -91,10 +91,10 @@ chr.v = "chr3L" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X"))
 # Specify metric for upper and lower matrix by writing element of ct.v and 
 # metric.v as <cell type/metric upper>;<cell type/metric lower>. 
 
-ct.v = c("All;BG3", "All;BG3",
-         "All;Kc167", "All;Kc167") #param.v[["ct.v"]]
-metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm",
-             "CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm") #param.v[["metric.v"]]
+#ct.v = c("All;BG3", "All;BG3",
+#         "All;Kc167", "All;Kc167") #param.v[["ct.v"]]
+#metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm",
+#             "CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm") #param.v[["metric.v"]]
 
 #ct.v = c("All;osa", "All;osa")
 #metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm")
@@ -102,8 +102,8 @@ metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm",
 #ct.v = c("All;ath", "All;ath")
 #metric.v = c("CII.cont.kmer.5;Cs.norm", "CII.disc.kmer.5;Cs.norm")
 
-#ct.v = param.v[["ct.v"]]
-#metric.v = param.v[["metric.v"]]
+ct.v = param.v[["ct.v"]]
+metric.v = param.v[["metric.v"]]
  
 # Useful in case not whole chr is to be plotted
 out.id = gsub(x=paste(paste(ct.v, metric.v, sep="_"), collapse="_"), 
@@ -154,16 +154,16 @@ symmetric = T
 #tmp = seq(1000, 1500, 100)
 mark.x = NULL #c(1, tmp, 2812-tmp+1, 2812)
 mark.y = NULL #mark.x
-rm(tmp)
+#rm(tmp)
 
 # Output specifications
 
 # If scalebr.v==NULL, no scale bar
 # scalebr.v = c(xmin=1, xmax=100, ymin=1, ymax=50)
-scalebr.v = c(xmin=1, xmax=400, ymin=1, ymax=50)
+scalebr.v = c(xmin=1, xmax=100, ymin=1, ymax=50)
 res = 300
 # Number of rows and columns plot will be displayed
-out.dim = c(nrow=2, ncol=2)
+out.dim = c(nrow=1, ncol=1)
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################

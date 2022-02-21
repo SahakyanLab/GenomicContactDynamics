@@ -30,14 +30,14 @@ scaleContactByDist <- function(df.lst = 'list of two map values to be compared',
   }
   
   #
-  png(file=paste0(out.filepath, ".png"), width=300*20, height=300*20, res=300)
+  png(file=paste0(out.filepath, ".png"), width=300*15, height=300*15, res=300)
   par(mfrow=c(2,2))
   
   plot(density(df.lst[[ref]]$value, na.rm=T), main=paste0("ref", ref, "original"),
-       cex.main=0.5, col=adjustcolor(col="darkblue"))
+       cex.main=0.5, lwd=4, col=adjustcolor(col="darkblue"))
   
   plot(density(df.lst[[subj]]$value, na.rm=T), main=paste0("subj", subj, "original"),
-       cex.main=0.5, col=adjustcolor(col="darkred"))
+       cex.main=0.5, lwd=4, col=adjustcolor(col="red"))
   
   # Get average contact value per gap in bins (i.e. per Hi-C diagonal)
   # Note that contactprobVsDistance() includes 0 values
@@ -56,12 +56,21 @@ scaleContactByDist <- function(df.lst = 'list of two map values to be compared',
  
   # chr1 - 300, 5
   # chr17 - 200, 3
-  ref.fit <- lm(mean.val.nonNAs ~ bs(gapjMINUSi, knots = 300, degree = 5, intercept=F), 
+  if(chr=="chr1"){
+    knots = 300; degree = 5
+  } else if(chr=="chr17"){
+    knots = 200; degree = 3
+  }
+  ref.fit <- lm(mean.val.nonNAs ~ bs(gapjMINUSi, knots = knots, degree = degree, intercept=F), 
                 data=refgap.meanval.df)
   
   refgap.meanval.df$pred <- predict(ref.fit, data=refgap.meanval.df[,"gapjMINUSi", drop=F])#ref.fit$m$predict()
   
   save(ref.fit, file=paste0(out.filepath, "_fitobj.RData"))
+  
+  #min.val <- min(refgap.meanval.df$pred, na.rm=T)
+  #max.val <- max(refgap.meanval.df$pred, na.rm=T)
+  #refgap.meanval.df$pred <- (refgap.meanval.df$pred - min.val) / (max.val - min.val)
   
   # Transform CII continuous to positive values that can be transformed
   # to probabilities. Did eumiro's answer so distribution will only be translated:
@@ -72,6 +81,10 @@ scaleContactByDist <- function(df.lst = 'list of two map values to be compared',
   # +1 so probability for minimum value will be 1 (not 0)
   df.lst[[subj]]$value[nonNA.TF] <- df.lst[[subj]]$value[nonNA.TF] - 
                                     min(df.lst[[subj]]$value, na.rm=T) + 1
+  
+  plot(density(df.lst[[subj]]$value, na.rm=T), 
+       main=paste0("subj", subj, "values_madePositive_subtractMINadd1"),
+       cex.main=0.5, lwd=4, col=adjustcolor(col="red"))
   
   # Multiply subj values by ref pred per gap given by fitted function
   
@@ -93,12 +106,12 @@ scaleContactByDist <- function(df.lst = 'list of two map values to be compared',
   subjgap.meanval.df$gapjMINUSi <- as.numeric(as.character(subjgap.meanval.df$gapjMINUSi))
   rownames(subjgap.meanval.df) <- subjgap.meanval.df$gapjMINUSi
   
-  plot(density(df.lst[[subj]]$value, na.rm=T), 
-       main=paste0("subj", subj, "values_multplied by ref", ref, "fitted values"),
-       cex.main=0.5, col=adjustcolor(col="darkred"))
+  #plot(density(df.lst[[subj]]$value, na.rm=T), 
+  #     main=paste0("subj", subj, "values_multplied by ref", ref, "fitted values"),
+  #     cex.main=0.5, col=adjustcolor(col="red"))
   
   plot.id <- paste0("refinblue", ref, "_subjinred", subj, 
-                    "_raw=brightshade_fittedfunction=black",
+                    "_raw=brightshade_fittedfunction=cyan",
                     "\nfittedparameters_",
                     paste(paste(names(ref.fit$coefficients), ref.fit$coefficients, sep="="), collapse="_"),
                     "\nrefrawVSsubjrawscaled_cor_pearson=",
@@ -116,18 +129,18 @@ scaleContactByDist <- function(df.lst = 'list of two map values to be compared',
   
   plot(x=refgap.meanval.df$gapjMINUSi, 
        y=refgap.meanval.df$mean.val.nonNAs, 
-       cex=0.5, cex.main=0.2, col=adjustcolor(col="blue", alpha.f=0.5),
-       xlab="gapjMINUSi", ylab="mean.val.nonNAs divided by max value",
+       cex=0.8, cex.main=0.2, col=adjustcolor(col="blue", alpha.f=0.5),
+       xlab="gapjMINUSi", ylab="mean.val.nonNAs",
        main=paste0(plot.title, "\n", plot.id, "_scaleContactByDistPlot"),
        ylim=range(c(refgap.meanval.df$mean.val.nonNAs, subjgap.meanval.df$mean.val.nonNAs)))
   
   points(x=refgap.meanval.df$gapjMINUSi, 
          y=refgap.meanval.df$pred, 
-         cex=0.5, col=adjustcolor(col="black", alpha.f=0.5))
+         cex=0.5, col=adjustcolor(col="cyan", alpha.f=0.5))
   
   points(x=subjgap.meanval.df$gapjMINUSi, 
          y=subjgap.meanval.df$mean.val.nonNAs,
-         cex=0.5, col=adjustcolor(col="red", alpha.f=0.5))
+         cex=0.8, col=adjustcolor(col="red", alpha.f=0.5))
 
   dev.off()
   
