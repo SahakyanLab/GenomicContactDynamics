@@ -16,7 +16,7 @@ for(pw in pw.files){
   TEST$pt <- melt(TEST$pt$p.value)
   TEST$pmw <- melt(TEST$pmw$p.value)
   
-  df <- cbind(do.call("rbind", TEST), data=pw)
+  df[[pw]] <- do.call("rbind", TEST)
 
   print(pw, quote=F)
   
@@ -24,6 +24,7 @@ for(pw in pw.files){
   
 }
 
+df <- do.call("rbind", df)
 df <- df[!is.na(df$value),]
 df <- df[df$value >= alpha,]
 
