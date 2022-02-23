@@ -10,7 +10,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/Rpkg"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/Rpkg"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
