@@ -139,4 +139,20 @@ c. Density of sites of repeat subfamilies represented in the age ranking for eac
 cluster. Transposon subfamily 249 (L1PA16), 344 (L1PA5) and 364 (SVA_E) serve as 
 time anchor points. For instance, age range of subfamilies younger than SVA_E 
 (position 364) are below 5 million years. 
+
+5. Calculate per cluster, fraction of transposon sites with age. When identifying
+transposons, we take the benefit of the doubt approach which means that if a 
+class is not sure to be not a transposon, it is considered a transposon. Use
+
+Kojima K. K. (2018). Human transposable elements in Repbase: genomic footprints 
+from fish to humans. Mobile DNA, 9, 2. https://doi.org/10.1186/s13100-017-0107-y
+
+for details on the repeats and the ./archive/repeat_info.xlxs for list
+of repeat classes, families and subfamilies.
+################################################################################
+# C. Repeat general info
+################################################################################
+1. Calculate per class/family/subfamily content in genome. This uses the .RData
+with repeat info generated in B1. Fraction is relative to total repeat sites in
+the hg19 genome.
 ################################################################################

@@ -1,5 +1,5 @@
 ################################################################################
-# Calculate per family/subfamily content in genome
+# Calculate per class/family/subfamily content in genome
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
