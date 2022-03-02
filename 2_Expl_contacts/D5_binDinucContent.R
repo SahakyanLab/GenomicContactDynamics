@@ -12,7 +12,7 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/2_Expl_contacts"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/2_Expl_contacts"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
@@ -121,7 +121,7 @@ if(plotOnly==F){
     
     df$values <- df$values/bin.len
     boxplot(formula=values ~ ind, data=df, outline=T, xlab="Cp", ylab="Fr", col="#FDC776", cex=0.2,
-            main=paste0(out.name, "_", dinuc, "_lastbinexcluded"), cex.main=0.5, ylim=c(0,1))
+            main=paste0(out.name, "_", dinuc, "_lastbinexcluded"), cex.main=0.5, ylim=c(0.2,0.8))
     
   }
   
@@ -129,4 +129,4 @@ if(plotOnly==F){
   
 }
 
-# rm(list=ls()); gc()
+# rm(list=ls()); gc()2/1
