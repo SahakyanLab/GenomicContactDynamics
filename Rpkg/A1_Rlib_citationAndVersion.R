@@ -21,6 +21,7 @@ pkgPath = paste0(wk.dir, "/Rpkg.csv")
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
+library(RefManageR)
 out.id = "supp_gcd"
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
@@ -45,6 +46,9 @@ for(p in pkg.v){
   # Citation
   write(x=toBibtex(citation(p)), file=paste0(out.dir, "/", out.id, "_cite_Rpkg.bib"), 
         append=T)
+  
+  #write(x=RefManageR::toBiblatex(citation(p)), file=paste0(out.dir, "/", out.id, "_cite_Rpkg_BibLaTex.bib"), 
+  #      append=T)
   
   # Version
   ver[[p]] <- ip.mx[p,"Version"]
