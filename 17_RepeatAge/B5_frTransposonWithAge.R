@@ -43,7 +43,7 @@ rnk = "GiorPubl372rank" #c("Giordano364rank", "GiorPubl372rank", "Publrank")
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-# REPEAT.MX (base)
+# REPEAT.MX
 load(file=paste0(repeatmx.dir, "/hg19repeats_repName.RData"))
 rownames(REPEAT.MX) <- NULL
 REPEAT.MX <- REPEAT.MX[,c("cluster", "copyNumber", "repName", "repClass", "repFamily",
@@ -62,15 +62,15 @@ is.transposon <- REPEAT.MX$repClass %in% transposon.class
 
 # Check if all subfam in ranking are transposons
 
-
 REPEAT.MX$copyNumber <- as.numeric(as.character(REPEAT.MX$copyNumber))
+total.sites <- sum(REPEAT.MX$copyNumber)
 
 clust.v <- sort(unique(REPEAT.MX$cluster))
 
 FRTR <- list()
-pdf(file=paste0(out.dir, "/hg19repeats_frRepeatSubfam_perCluster.pdf"), 
-    height=10, width=10)
-par(mfrow=c(2,1))
+pdf(file=paste0(out.dir, "/hg19repeats_frRepeat_perCluster.pdf"), 
+    height=20, width=20)
+par(mfcol=c(2,2))
 
 for(cl in clust.v){
   
@@ -78,15 +78,27 @@ for(cl in clust.v){
   
   # Proportion of sites per subfamily, per cluster
   
-  cl.total <- sum(REPEAT.MX$copyNumber[is.cl])
-  perc.sf <- REPEAT.MX$copyNumber[is.cl] / cl.total * 100
-  cut.off <- unname(sort(perc.sf, decreasing=T)[10])
-  labs <- paste0(REPEAT.MX$repName[is.cl], " - ", format(round(perc.sf, 4), scientific=F), "%")
-  labs[as.numeric(perc.sf) < cut.off] <- NA
-  
-  pie(x=REPEAT.MX$copyNumber[is.cl], labels=labs, srt=-10,
-      main=paste0(cl, "_frRepeatSubfam_perCluster_relTo_totalSitesPerCluster=", cl.total)) 
-  
+  for( r in c("repFamily", "repName") ){
+    
+    copynum.df <- aggregate(x=REPEAT.MX$copyNumber[is.cl], by=list(REPEAT.MX[[r]][is.cl]), FUN=sum, na.rm=T)
+    colnames(copynum.df) <- c(r, "copyNumber")
+    
+    cl.total <- sum(REPEAT.MX$copyNumber[is.cl])
+    perc.sf <- copynum.df$copyNumber / cl.total * 100
+    print(sum(perc.sf))
+    
+    cut.off <- unname(sort(perc.sf, decreasing=T)[10])
+    labs <- paste0(copynum.df[,r], "\n", format(round(perc.sf, 4), scientific=F), "%")
+    labs[as.numeric(perc.sf) < cut.off] <- NA
+    
+    pie(x=copynum.df$copyNumber, labels=labs, srt=-10, border=NA, 
+        col=ggsci::pal_npg("nrc", alpha=0.7)(9), cex.main=0.8, cex=1.5,
+        main=paste0(cl, "_frRepeat_", length(copynum.df[[r]]), r, 
+                    "_perCluster_relTo_totalSitesPerCluster=", cl.total, 
+                    "_totalSites=", total.sites))
+    
+  }
+   
   # Proportion of transposon sites with age per cluster
   
   cl.total.transposon <- sum(REPEAT.MX$copyNumber[is.transposon & is.cl])

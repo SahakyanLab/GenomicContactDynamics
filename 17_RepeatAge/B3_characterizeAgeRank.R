@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatAge"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/17_RepeatAge"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
@@ -57,14 +57,16 @@ for(k in 1:rank.v.len){
     load(file=paste0(out.dir, "/plot_", rank.v[k], "repFamilies.RData"))
   }
   
+  df <- df[order(df$repFamily, decreasing=T),]
+  
   ggplot(data=df, aes(x=rank, y=repFamily)) +
-    geom_point( size=5, aes(colour=factor(cluster), 
+    geom_point( size=8, stroke=1, aes(colour=factor(cluster), 
                     shape=factor(repTranspoType)) ) +
-    guides(size=FALSE) +
+    guides(size="none") +
     labs(colour=NULL, shape=NULL, main=rank.v[k], y="Repeat Family", 
          x="TE subfamilies in chronological order") +
-    scale_shape_manual(values=c(15,20)) +
-    scale_size_manual(values=c(4,4)) + 
+    scale_shape_manual(values=c(4,1)) +
+    #scale_size_manual(values=c(4,4)) + 
     scale_y_discrete(limits=unique(df$repFamily)) + 
     scale_color_manual(values=viridis(n=3)[1:2]) +
     bgr2 + 
