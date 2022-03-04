@@ -13,10 +13,10 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/6_Chrom3D"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/6_Location_Chrom3D"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/6_Chrom3D"
+    lib = "/project/sahakyanlab/ltamon/DPhil/lib"
+    wk.dir = "/project/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/6_Chrom3D"
   } else if(whorunsit == "LiezelLinuxDesk"){
     lib = "/home/ltamon/DPhil/lib"
     wk.dir = "/home/ltamon/DPhil/GenomicContactDynamics/6_Chrom3D"
@@ -36,13 +36,13 @@ ploidy = "haploid"
 dr = 0.5
 hist.breaks = c(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.6) 
 #seq(from=0, to=6, by=0.5)
-regenerateCountData = TRUE
+regenerateCountData = FALSE #TRUE
 regeneratePlotData = TRUE
 
 periphery.lst <- list(1,0, c(1:0))
 
 # Number of features
-nCPU = 5L #~41G
+nCPU = 1L #5L #~41G
 #---------------------------------------
 # Contact persistence
 #---------------------------------------
@@ -112,7 +112,7 @@ library(reshape2)
 library(ggplot2)
 library(RColorBrewer)
 source(paste0(lib, "/GG_bgr.R"))
-source(paste0(lib, "/BINorSLIDE.R"))
+source(paste0(wk.dir, "/lib/BINorSLIDE.R"))
 source(paste0(wk.dir, "/lib/plotFeatDensPerRadWindow.R"))
 ################################################################################
 # MAIN CODE * MAIN COhDE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
@@ -156,7 +156,7 @@ for(i in 1:len){
   
 }
   
-# rm(list=ls())
+# rm(list=ls()); gc()
 
 #out.dir=out.dir;
 #out.name=paste0(out.name, "_", m);
