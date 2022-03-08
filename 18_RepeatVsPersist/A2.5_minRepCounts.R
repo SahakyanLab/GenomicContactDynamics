@@ -11,13 +11,13 @@ options(warnPartialMatchDollar=T)
 # Expands warnings
 options(warn=1)
 
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatVsPersist"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist"
   } else if (whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
     wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
@@ -27,18 +27,18 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 
-rep.group = "subfamALL" #"subfamALL" # "fam" | "subfam"
+rep.group = "fam" #"subfamALL" # "fam" | "subfam"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group)
 out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group)
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr = "CHRREPLACE"
+chr.v = paste0("chr", c(1:22, "X")) #"CHRREPLACE"
 ntis.v = 1:21
 # Number of repeat elements (372/56/62)
 nCPU = 1L # 15G each --> set to 50
 # Age rank identifier
-out.name = "subfamALL_minRepCounts" #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
+out.name = paste0(rep.group, "_minRepCounts") #"subfamALL_minRepCounts" #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
 #plotOnly = FALSE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
@@ -66,7 +66,7 @@ print(paste0(gcb, " ", rep.group, "..."), quote=FALSE)
   agerank.len <- length(agerank)
 
   #chr.v.len <- length(chr.v)
-  #for(ch in 1:chr.v.len){
+  for(chr in chr.v){
     
     #chr <- chr.v[ch]
     load(paste0(minelm.dir,"/", chr, "_MinElm_", gcb, ".RData"))
@@ -143,12 +143,13 @@ print(paste0(gcb, " ", rep.group, "..."), quote=FALSE)
     rm(lst.temp); gc()
     
     rm(MINELM.MX, elements); gc()
+    
+    save(MINREPCOUNTS, 
+         file=paste0(out.dir, "/", chr, "_", gcb, "_", out.name, ".RData"))
       
-  #} # chr.v for loop end
+  } # chr.v for loop end
   
-  save(MINREPCOUNTS, 
-       file=paste0(out.dir, "/", chr, "_", gcb, "_", out.name, ".RData"))
-  
+
 #} else {
   
 #  # Load MINREPCOUNTS

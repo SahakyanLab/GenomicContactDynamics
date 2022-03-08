@@ -8,32 +8,32 @@ whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    # directory for intermediate and final files of HiCRepeatExploration
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatVsPersist"
+    home.dir = paste0("/Users/ltamon")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
   } else if (whorunsit == "LiezelCluster"){
-    # directory for intermediate and final files of HiCRepeatExploration
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
+    home.dir = paste0("/project/sahakyanlab/ltamon")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-rep.group = "fam" # "fam" | "subfam" | "subfam6"
+lib = paste0(home.dir, "/DPhil/lib")
+
+rep.group = "subfamALL" # "fam" | "subfam" | "subfam6"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 PreElmTissDyn.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData/", rep.group)
 # hmclustPth = paste0(wk.dir, "/out_HicRepeatHeatmap/hm_famVssubfam_clust.csv")
 out.dir = paste0(wk.dir, "/out_HicRepeatHeatmap")
 ### OTHER SETTINGS #############################################################
 # Age rank identifier
-out.name = "GiorPubl" 
+out.name = "subfamALL" #"GiorPubl" 
 gcb = "min2Mb"
 chr = "chrALL" 
 # Regenerate ELMTISSDYN?
 regenerateData = TRUE
 # Lineplot per repeat of average minimum repeat count per Cp
-lineplot = FALSE
-cluster.TF = FALSE
+lineplot = TRUE
+cluster.TF = TRUE
 addLoess = FALSE # Only works if cluster.TF=FALSE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
@@ -74,14 +74,25 @@ if(regenerateData){
     # 100*(row/num.contacts.each.ntis)
     row/num.contacts.each.ntis
   }) )
+  
+  ## Remove centr family
+  #ELMTISSDYN$raw <- ELMTISSDYN$raw[ !rownames(ELMTISSDYN$raw) %in% c("centr"), ]
+  # c("centr", "ERV", "scRNA", "srpRNA", "Other",
+  #"SINE", "Helitron", "TcMar", "rRNA", "snRNA")
   #---------------------------------------
   # Lineplot per repeat of average minimum repeat count per Cp
   ntis <- 1:21
   if(lineplot){
     element <- rownames(ELMTISSDYN$raw)
-    for(elm in element){
+    element.len <- length(element)
+    for(elm.ind in 1:element.len){
+      elm <- element[elm.ind]
       vals <- ELMTISSDYN$raw[elm,]
-      pdf(file=paste0(out.dir, "/lineplot/", id, "_lineplot_", elm, ".pdf"), 
+      
+      affix1 <- gsub(pattern="[^[:alnum:][:space:]]", replacement="", x=elm)
+      affix1 <- paste0(affix1, "_", elm.ind)
+      
+      pdf(file=paste0(out.dir, "/lineplot/", id, "_lineplot_", affix1, ".pdf"), 
           width=10, height=10)
       plot(x=ntis, y=vals, col="#55bde6", cex.lab=1.3, cex.axis=1.3, 
            pch=19, lwd=5, xlab="", ylab="", main="")
@@ -131,21 +142,24 @@ for(mx.nme in mx.nme.v){
   mx <- ELMTISSDYN[[mx.nme]]
  
   drp.rw <- apply( X=mx, MARGIN=1, FUN=function(rw) any(!is.finite(rw)) )
+  if(mx.nme=="fc" & rep.group=="fam"){
+    drp.rw[names(drp.rw)=="centr"] <- TRUE
+  }
   mx[!is.finite(mx)] <- NA
   
   if(mx.nme=="raw"){
     at.v <- seq(from=0, to=1, by=0.1)
   } else if( mx.nme%in%c("norm", "fc") ){
     
-    if(mx.nme=="fc" & rep.group=="fam"){
-      at.v <- c(-2, -1, -0.5, 0, 0.5, 1, 2, 3, 4, 6, 8)
-    }  else {
+    #if(mx.nme=="fc" & rep.group=="fam"){ 
+    #  at.v <- c(-2, -1, -0.5, 0, 0.5, 1, 2, 3, 4, 6, 8)
+    #}  else {
       at.v <- seq(from=floor(min(as.vector(mx[!drp.rw]), na.rm=TRUE)), 
                   to=ceiling(max(as.vector(mx[!drp.rw]), na.rm=TRUE)), 
                   length.out=10)
       at.v <- sort(unique(c(0, round(x=at.v, digits=1))))
-    }
-    
+    #}
+      
   }
   #-------------------Generate heatmap
   pdf(file=paste0(out.dir, "/", id, "_", mx.nme, "_heatmap.pdf"), 
@@ -156,9 +170,37 @@ for(mx.nme in mx.nme.v){
     # clustered heatmap.
     h <- myheatmap(mx=mx[!drp.rw,], colScheme=coul, rep.group=rep.group, 
                    mx.nme=mx.nme, cluster=cluster.TF, at.v=at.v)
-    h2 <- myheatmap(mx=mx[drp.rw,], colScheme=coul, rep.group=rep.group, 
-                    mx.nme=mx.nme, cluster=FALSE, at.v=at.v)
-    h <- h %v% h2
+    
+    if( sum(drp.rw)>0 ){
+      
+      drp.mx <- mx[drp.rw,]
+      
+      if( any(!is.na(drp.mx)) ){
+        
+        atdrp.v <- seq(from=floor(min(as.vector(drp.mx), na.rm=TRUE)), 
+                       to=ceiling(max(as.vector(drp.mx), na.rm=TRUE)), 
+                       length.out=10)
+        atdrp.v <- sort(unique(c(0, round(x=atdrp.v, digits=1))))
+        
+        
+        
+        if(mx.nme=="fc" & rep.group=="fam"){
+          drp.mx <- rbind(mx["centr",], mx[drp.rw,])
+          rownames(drp.mx) <- c("centr", rownames(mx[drp.rw,]))
+          drp.mx <- drp.mx[!duplicated(rownames(drp.mx)),]
+        }
+        
+        h2 <- myheatmap(mx=drp.mx, colScheme=coul, rep.group=rep.group, 
+                        mx.nme=mx.nme, cluster=FALSE, at.v=atdrp.v)
+        h <- h %v% h2
+        
+      } else {
+        write(rownames(drp.mx), file=paste0(out.dir, "/", chr, "_", gcb, "_", out.name, 
+                                            "_", mx.nme, "AllNArows_notinHmap.txt"))
+        print(paste0(mx.nme, ": Rows with all NAs not included."), quote=FALSE)
+      }
+      
+    }
     
   } else {
     h <- myheatmap(mx=mx, colScheme=coul, rep.group=rep.group, 

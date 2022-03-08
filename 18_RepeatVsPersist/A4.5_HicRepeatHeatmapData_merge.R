@@ -8,21 +8,23 @@ whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_RepeatVsPersist"
+    home.dir = paste0("/Users/ltamon")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
   } else if (whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
+    home.dir = paste0("/project/sahakyanlab/ltamon")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-rep.group = "subfam31" # "fam" | "subfam" | "subfam6"
+lib = paste0(home.dir, "/DPhil/lib")
+
+rep.group = "subfamALL" # "fam" | "subfam" | "subfam6"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 PreElmTissDyn.dir = out.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData/", rep.group)
 ### OTHER SETTINGS #############################################################
 # Age rank identifier
-out.name = "GiorPubl" 
+out.name = "subfamALL" 
 gcb = "min2Mb"
 chr.v = paste("chr", c(1:22, "X"), sep="")
 ################################################################################

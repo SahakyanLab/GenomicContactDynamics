@@ -1,5 +1,5 @@
 ################################################################################
-# Determine proper binning of heatmap
+# Determine element not present per chromosome
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################

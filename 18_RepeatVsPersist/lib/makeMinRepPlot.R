@@ -1,5 +1,10 @@
 ############################################################################### 
 # Make boxplot of shared number of repeat elements vs. Cp
+# source(paste0(lib, "/compareTwoDist.R"))
+################################################################################
+# LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
+################################################################################
+# source(paste0(lib, "/compareTwoDist.R"))
 ### FUNCTION ###################################################################
 makeMinRepPlot <- function(MINREPCOUNTS, ntis.v, 
                            affix=paste0(chr, "_", gcb, "_", out.name),
@@ -23,8 +28,9 @@ makeMinRepPlot <- function(MINREPCOUNTS, ntis.v,
                    FUN=function(ntis){
                      v <- unname(lst[[ntis]])
                      mincount <- as.numeric( names(lst[[ntis]]) )
-                     df <- cbind(ntis=rep( as.numeric(ntis) ), 
-                                 mincount=unlist( mapply(rep, x=mincount, times=v) ) 
+                     df <- data.frame(ntis=rep(as.numeric(ntis)),
+                                      mincount=unlist( mapply(rep, x=mincount, times=v) ),
+                                      stringsAsFactors=F
                      )
                    })
       
@@ -41,6 +47,12 @@ makeMinRepPlot <- function(MINREPCOUNTS, ntis.v,
                                          replacement="", x=elm) )
       affix1 <- paste0(affix1, "_", elm.ind)
       
+      cp.v <- sort(unique(df$cp), decreasing=F)
+      TEST <- compareTwoDist(x=df$mincount[df$cp%in%1:3],
+                             y=df$mincount[df$cp%in%19:21])
+      
+      df$cp <- factor(as.character(df$cp), levels=as.character(cp.v))
+      
       png(file=paste0(out.dir, "/", affix1, "_bp.png"), 
           res=300, width=3000, height=3000)
       boxplot(formula=mincount~cp, data=df, col="honeydew3", 
@@ -51,7 +63,7 @@ makeMinRepPlot <- function(MINREPCOUNTS, ntis.v,
       # y axis
       mtext(side=2, text="Contact min. repeat count", line=2.7, cex=1.5)
       # Diagram title
-      mtext(side=3, text=affix1, line=1.5, cex=1.5)
+      mtext(side=3, text=paste0(affix1, TEST$test.id, "_x=Cp1To3,y=Cp19To21"), line=1.5, cex=0.5)
       dev.off()
       
       rm(df)

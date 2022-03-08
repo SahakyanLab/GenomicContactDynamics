@@ -8,25 +8,28 @@ whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_RepeatVsPersist"
+    home.dir = paste0("/Users/ltamon")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
   } else if (whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
+    home.dir = paste0("/project/sahakyanlab/ltamon")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-rep.group = "fam" # "fam" | "subfam" | "subfam6"
-elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/viridis/", rep.group)
+lib = paste0(home.dir, "/DPhil/lib")
+
+rep.group = "subfamALL" # "fam" | "subfam" | "subfam6"
+elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/", rep.group)
 out.dir = paste0(wk.dir, "/out_HicRepeatClustering")
 # Repeats to mark with red line in final plot. Intended for those repeats with 
 # high raw fraction.  
-red.v = c("CR1", "TcMar-Tigger", "ERV1", "ERVL", "hAT-Charlie", "ERVL-MaLR", "L2",
-          "Low_complexity", "MIR", "Simple_repeat", "L1", "Alu")
+#red.v = c("CR1", "TcMar-Tigger", "ERV1", "ERVL", "hAT-Charlie", "ERVL-MaLR", "L2",
+#          "Low_complexity", "MIR", "Simple_repeat", "L1", "Alu")r
+red.v = c("MIR")
 ### OTHER SETTINGS #############################################################
 # Age rank, ELMTISSDYN identifier
-elm.id = "GiorPubl" 
+elm.id = "subfamALL" #"GiorPubl" 
 gcb = "min2Mb" 
 chr = "chrALL"
 silhouette = TRUE

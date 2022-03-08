@@ -11,13 +11,13 @@ options(warnPartialMatchDollar=T)
 # Expands warnings
 options(warn=1)
 
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatVsPersist"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist"
   } else if (whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
     wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
@@ -27,18 +27,18 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 
-rep.group = "subfamALL" #"subfamALL" # "fam" | "subfam"
+rep.group = "fam45" #"subfamALL" # "fam" | "subfam"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group)
 out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group)
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr.v = paste0("chr", c(21:22))
+chr.v = paste0("chr", c(1:22, "X"))
 ntis.v = 1:21
 # Number of repeat elements (372/56/62)
 nCPU = 1L # 15G each --> set to 50
 # Age rank identifier
-out.name = "subfamALL_minRepCounts" #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
+out.name = paste0(rep.group, "_minRepCounts") #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
 plotOnly = FALSE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
@@ -48,6 +48,7 @@ library(foreach)
 library(doParallel)
 library(itertools)
 source(paste0(lib, "/UTL_doPar.R"))
+source(paste0(lib, "/compareTwoDist.R"))
 source(paste0(wk.dir, "/lib/makeMinRepPlot.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
@@ -59,6 +60,7 @@ if(plotOnly==FALSE){
   col.nme <- ifelse(rep.group=="fam", "repFamily", "repName")
   agerank <- read.csv(file=paste0(agerank.dir, "/rep", rep.group, ".csv"),
                       header=TRUE, stringsAsFactors=FALSE)[,col.nme]; rm(col.nme)
+  agerank <- as.character(agerank)
  
   # Initialize chrALL list
   lst <- vector("list", length(ntis.v))

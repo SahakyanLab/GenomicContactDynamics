@@ -1,7 +1,7 @@
 ################################################################################
 # Generate PREELMTISSDYN.MX per chr containing the number of contacts with non-0
 # shared number of repeats (or minimum repeat count of the pair of contacting
-# regions) 
+# regions, Fr^rij) 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -10,24 +10,26 @@ whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/19_RepeatVsPersist"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/19_RepeatVsPersist")
   } else if (whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
+    home.dir = "/project/sahakyanlab/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-rep.group = "subfam24" # "fam" | "subfam" | subfam6
+lib = paste0(home.dir, "/DPhil/lib")
+
+rep.group = "subfamALL" # "fam" | "subfam" | subfam6
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
 minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group)
-out.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData")
+out.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData/", rep.group)
 ### OTHER SETTINGS #############################################################
 # Age rank identifier
-out.name = "GiorPubl"
+out.name = "subfamALL"
 gcb = "min2Mb"
-chr.v = paste("chr", c(1:22, "X"), sep="")
+chr = "CHRREPLACE" #paste("chr", c(1:22, "X"), sep="")
 # Max number is number of repeats in age rank
 nCPU = 1L
 ################################################################################
@@ -120,8 +122,6 @@ HicRepeatHeatmapData <- cmpfun(HicRepeatHeatmapData, options=list(suppressUndefi
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-print(paste0(gcb, "_", rep.group, "..."), quote=FALSE)
-
 out.dir <- paste0(out.dir, "/", rep.group)
 if( !dir.exists(out.dir) ){
   dir.create(out.dir)
@@ -132,8 +132,10 @@ agerank <- read.csv(file=paste0(agerank.dir, "/rep", rep.group, ".csv"),
                     header=TRUE, stringsAsFactors=FALSE)[,col.nme]
 agerank <- as.character(agerank)
 
-for(chr in chr.v){
+#for(chr in chr.v){
   
+  print(paste0(gcb, "_", rep.group, "_", chr, "..."), quote=FALSE)
+
   HicRepeatHeatmapData(
     agerank=agerank,
     minelm.dir=minelm.dir,
@@ -144,6 +146,6 @@ for(chr in chr.v){
     out.name=out.name
   )
   
-}
+#}
 
 # rm(list=ls()); gc()
