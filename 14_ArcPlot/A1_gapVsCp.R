@@ -1,5 +1,6 @@
 ################################################################################
-# Plot gap distance between contacting loci as % of chromosome length vs. Cp
+# Plot vs. Cp the gap distance between contacting loci in bp or as % of 
+# chromosome length. Gap in bp expressed as Mb. 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -9,20 +10,18 @@ whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/14_ArcPlot"
-    data.dir= "/Users/ltamon/Database"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/14_ArcPlot")
   } else if(whorunsit == "LiezelCluster"){
-    #lib = "/t1-data/user/ltamon/DPhil/lib"
-    #wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/17_Structure"
-    #data.dir= "/t1-data/user/ltamon/Database"
-    lib = "/stopgap/sahakyanlab/ltamon/DPhil/lib"
-    wk.dir = "/stopgap/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/14_ArcPlot"
-    data.dir= "/stopgap/sahakyanlab/ltamon/Database"
+    home.dir = "/stopgap/sahakyanlab/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/14_ArcPlot")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir= paste0(home.dir, "/Database")
+
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 out.dir = paste0(wk.dir, "/out_gapVsCp")
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
@@ -30,10 +29,10 @@ chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 chr.v = paste0("chr", c(1:22, "X"))
 gcb = "min2Mb"
 bin.len = 40000
-gap.type = "gap.perc" # "gap.bp" | gap.perc
+gap.type = "gap.bp" # "gap.bp" | gap.perc
 Cp.v = 1:21
 
-plot.type = "box" # hexbin | box | both
+plot.type = "both" # hexbin | box | both
 # For hexbin plot
 cuts=6
 bins=60
@@ -63,7 +62,7 @@ makebp <- function(out.name=paste0(out.dir, "/", out.name, "_AllLR"),
     max.y <- ceiling(max(GAP$gap))
   }
 
-  png(file=paste0(out.name, ".png"), width=10, height=10, units="in", res=1200)
+  png(file=paste0(out.name, ".png"), width=10*100, height=10*100, res=100)
   
   # range=0, coef=0 causes the whiskers to extend to the data extremes (so no  
   # data will be outliers)
@@ -118,7 +117,7 @@ for(chr in chr.v){
                                      yvar=(df[[gap.type]]), 
                                      bins=bins, 
                                      cuts=cuts,
-                                     breaks.y=c(0, 20, 40, 60, 80, 100),
+                                     #breaks.y=c(0, 20, 40, 60, 80, 100),
                                      #limits.y=c(0, 100),
                                      xlab=expression(bold("c"["p"])),
                                      ylab=gap.type,
@@ -153,19 +152,41 @@ if( plot.type%in%c("hexbin", "both") ){
   
 }
 
+GAP <- do.call("rbind", GAP)
+rownames(GAP) <- NULL
+data.table::setnames(x=GAP, old=gap.type, new="gap", skip_absent=FALSE)
+if(gap.type=="gap.bp"){
+  GAP$gap <- GAP$gap/1e6
+}
+
+out.name <- paste0(gcb, "_LR_gapdist_", gap.type)
+
+#-------------------Hexbin plot
+
+if( plot.type%in%c("hexbin", "both") ){
+  
+  p <- makeHexbinggplot(xvar=as.character(GAP$Cp), 
+                        yvar=(GAP$gap), 
+                        bins=bins, 
+                        cuts=cuts,
+                        #breaks.y=c(0, 20, 40, 60, 80, 100),
+                        #limits.y=c(0, 100),
+                        xlab=expression(bold("c"["p"])),
+                        ylab=gap.type,
+                        title=paste0("All_", gcb, "_bins=", bins, "_cuts=", cuts),
+                        col=viridis(cuts)
+  )[["hexplot"]]
+  
+  ggsave(filename=paste0(out.dir, "/", out.name, "_All_bins", bins, "_cuts", 
+                         cuts, "_", gap.type, "_gapVsCp.pdf"),
+         units="in", width=10, height=10, plot=p)
+  
+}
+
 #-------------------Boxplot
 
 if( plot.type%in%c("box", "both") ){
-  
-  GAP <- do.call("rbind", GAP)
-  rownames(GAP) <- NULL
-  data.table::setnames(x=GAP, old=gap.type, new="gap", skip_absent=FALSE)
-  if(gap.type=="gap.bp"){
-    GAP$gap <- GAP$gap/1e6
-  }
-  
-  out.name <- paste0(gcb, "_LR_gapdist_", gap.type)
-  
+
   # Boxplot across Cp
   
   GAP$Cp <- factor(as.character(GAP$Cp), levels=c("0",as.character(Cp.v)))
@@ -177,7 +198,7 @@ if( plot.type%in%c("box", "both") ){
   
   # Boxplot for all LR contacts
   
-  GAP$Cp[GAP$Cp%in%Cp.v] <- "0"
+  GAP$Cp[as.character(GAP$Cp)%in%Cp.v] <- "0"
   temp <- makebp(out.name=paste0(out.dir, "/", out.name, "_All"), GAP=GAP, 
                  xlab=levels(GAP$Cp), ylab=gap.type)
   bp.stat <- cbind(AllLR=temp[,1], bp.stat)
@@ -186,5 +207,5 @@ if( plot.type%in%c("box", "both") ){
             row.names=TRUE, quote=FALSE)
   
 }
-  
+
 # rm(list=ls()); gc()
