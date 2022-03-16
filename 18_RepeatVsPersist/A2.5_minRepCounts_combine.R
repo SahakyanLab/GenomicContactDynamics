@@ -27,19 +27,21 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 
-rep.group = "fam45" #"subfamALL" # "fam" | "subfam"
+# Metric
+metric = "_skewrep" # _skewrep | "" for minrep
+
+rep.group = "subfamALL" #"subfamALL" # "fam" | "subfam"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
-minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group)
-out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group)
+out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group, metric)
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr.v = paste0("chr", c(1:22, "X"))
 ntis.v = 1:21
 # Number of repeat elements (372/56/62)
-nCPU = 1L # 15G each --> set to 50
+nCPU = 2L # 15G each --> set to 50
 # Age rank identifier
-out.name = paste0(rep.group, "_minRepCounts") #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
-plotOnly = FALSE
+out.name = paste0(rep.group, metric) #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
+plotOnly = TRUE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -107,7 +109,7 @@ if(plotOnly==FALSE){
           
           v <- c(MINREPCOUNTS.ALL[[elm]][[ntis]], MINREPCOUNTS[[elm]][[ntis]])
           
-          if( is.null(v) ){
+          if( is.null(v) | length(v)==0 ){
             
             return(NULL)
            
@@ -157,6 +159,6 @@ if(plotOnly==FALSE){
 
 }
 
-makeMinRepPlot(MINREPCOUNTS, ntis.v, affix=paste0("chrALL_", gcb, "_", out.name), out.dir)
+makeMinRepPlot(MINREPCOUNTS, ntis.v, affix=paste0("chrALL_", gcb, "_", out.name), out.dir, nCPU=nCPU)
 
 # rm(list=ls()); gc()

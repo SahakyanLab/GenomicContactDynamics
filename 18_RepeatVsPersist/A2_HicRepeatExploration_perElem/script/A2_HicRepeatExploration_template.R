@@ -11,7 +11,7 @@ whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # Set recommended global options
 
 # Avoid left to right partial matching by $
-options(warnPartialMatchDollar=TRUE)
+options(warnPartialMatchDollar=T)
 
 # Expands warnings
 options(warn=1)
@@ -20,10 +20,10 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/18_RepeatVsPersist")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    home.dir = "/project/sahakyanlab/ltamon" #"/stopgap/sahakyanlab/ltamon" #"/t1-data/user/ltamon"
+    home.dir = "/project/sahakyanlab/ltamon" 
     wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
     os = "Linux"
   } else {
@@ -33,17 +33,21 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 
+# Metric
+metric = "skewrep" # skewrep | minrep
+
 rep.group = "subfam" # "fam" | "subfam"
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 binRep.dir = paste0(wk.dir, "/out_RepeatOverlapPerBin/", rep.group)
-out.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL")
-source.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_SOURCE")
-elementlistPath = paste0(wk.dir, "/out_makeElementsList/", rep.group)
+out.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", metric)
+source.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", metric, "_SOURCE")
+elementlistPath = paste0(wk.dir, "/out_makeElementsList/", rep.group, "ALL")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chrarr1.repl" 
 nCPU = 1L # Number of contacts
-# Index of element in elementlistPath; has to be an integer so add 'L'
+# Index of element in elementlistPath; has to be an integer so add 'L', NA if
+# not element-wise running
 element.ind = arr2.replL
 makeMinElmSOURCE = TRUE
 makeMINELMMX = FALSE
@@ -68,9 +72,12 @@ HicRepeatExploration <- function(
   chr = 'chromosome',
   suffix = 'contact gap id i.e. min2Mb or min05Mb',
   makeMinElmSOURCE = TRUE,
-  makeMINELMMX = FALSE
+  makeMINELMMX = FALSE,
+  metric = ""
   
 ){
+  
+print(paste0(metric, "..."), quote=FALSE)
   
 id <- paste0(chr,"_",suffix)
 
@@ -94,6 +101,7 @@ if( is.na(element.ind) ){
   } else {
     element.names <- tmp[[element.ind]]
   }
+  rm(tmp)
   
   elem.names.counter <- element.ind-1L
   
@@ -124,10 +132,17 @@ if(makeMinElmSOURCE){
       
       element.count.chunk <- sapply(itr,
                                     FUN=function(itr){
-                                      min(
-                                        BINREP.MX[which(BINREP.MX[,"bins"] %in%
-                                                          ij.mx[itr,]),element]
-                                      )
+                                      
+                                      v <- BINREP.MX[which(BINREP.MX[,"bins"] %in%
+                                                             ij.mx[itr,]),element]
+                                      if(metric=="minrep"){
+                                        min(v)  
+                                      } else if(metric=="skewrep"){
+                                        abs(diff(v)) / sum(v)
+                                      } else {
+                                        stop("Invalid metric.")
+                                      }
+                                      
                                     },
                                     simplify=TRUE, USE.NAMES=FALSE)
       return(element.count.chunk)
@@ -199,7 +214,8 @@ HicRepeatExploration(
   chr=chr,
   suffix=gcb,
   makeMinElmSOURCE=makeMinElmSOURCE,
-  makeMINELMMX=makeMINELMMX
+  makeMINELMMX=makeMINELMMX,
+  metric=metric
   
 )
 ################################################################################

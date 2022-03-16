@@ -27,10 +27,13 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 
-rep.group = "fam" #"subfamALL" # "fam" | "subfam"
+# Metric
+metric = "skewrep" # skewrep | minrep
+
+rep.group = "subfamALL" #"subfamALL" # "fam" | "subfam"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
-minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group)
-out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group)
+minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "_", metric)
+out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group, "_", metric)
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr.v = paste0("chr", c(1:22, "X")) #"CHRREPLACE"
@@ -38,7 +41,7 @@ ntis.v = 1:21
 # Number of repeat elements (372/56/62)
 nCPU = 1L # 15G each --> set to 50
 # Age rank identifier
-out.name = paste0(rep.group, "_minRepCounts") #"subfamALL_minRepCounts" #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
+out.name = paste0(rep.group, "_", metric, "Counts") #"subfamALL_minRepCounts" #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
 #plotOnly = FALSE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *

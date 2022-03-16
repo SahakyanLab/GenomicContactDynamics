@@ -12,8 +12,8 @@
 #########################################################################
 ## JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS ##
 #########################################################################
-module load R-base/4.1.0
+module load R-base/4.1.2
 module load R-cbrg/current
 
-R --vanilla < /project/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist/A2_HicRepeatExploration_perElem/script/chrCHRREPLACEelem${SLURM_ARRAY_TASK_ID}.sh
+R --vanilla < /project/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist/A2_HicRepeatExploration_perElem/script/chrCHRREPLACEelem${SLURM_ARRAY_TASK_ID}.R
 
