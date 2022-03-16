@@ -11,16 +11,16 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/7_FeaturePermutation"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-permtsum.dir = paste0(wk.dir, "/out_summary/feat_844_raw")
-out.dir = paste0(wk.dir,"/out_table/feat_844_raw")
+permtsum.dir = paste0(wk.dir, "/out_summary/feat_repeats")
+out.dir = paste0(wk.dir,"/out_table/feat_repeats")
 ### OTHER SETTINGS #############################################################
-pr.name = "nperm10000_seed662_mxmskfr0_Cp21" #"Cp21" #"CptopCP3" #"CpAllCs1perc"
-pr.eval.v = c("numOlapA", "comOlap")
+pr.name = "nperm10000_seed834_mxmskfr0_CptopCP3" #"Cp21" #"CptopCP3" #"CpAllCs1perc"
+pr.eval.v = "numOlapA" #c("numOlapA", "comOlap")
 pval.cutoff = 0.05
 regenerateCSV = TRUE
 ################################################################################

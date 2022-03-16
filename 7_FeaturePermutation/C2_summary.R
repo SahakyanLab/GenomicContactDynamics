@@ -11,24 +11,24 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/7_FeaturePermutation"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-Cp.id = "CpAllCs1perc" #"Cp21" #"CptopCP3" #CpAllCs1perc
-permt.dir = paste0(wk.dir,"/z_ignore_git_COMPLETE/out_associate_", Cp.id)
+Cp.id = "CptopCP3" #"Cp21" #"CptopCP3" #CpAllCs1perc
+permt.dir = paste0(wk.dir, "/out_associate_", Cp.id, "_repeats")
 
-out.dir = paste0(wk.dir,"/out_summary/feat_844_raw")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_ALL_associated")
+out.dir = paste0(wk.dir,"/out_summary/feat_repeats")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_repeats")
 
 #out.dir = paste0(wk.dir,"/out_summary/feat_526_raw")
 #foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_associated")
 
-foifile = NULL #paste0(wk.dir, "/foifile/foifile_test1")
+foifile = NULL #paste0(wk.dir, "/foifile/foifile_repeats_master_withPermt")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-permt.id = "nperm10000_seed662_mxmskfr0"
+permt.id = "nperm10000_seed834_mxmskfr0"
 eval.f.v = c("numOlapA", "numOlapAwithin", "numOlapB", "numOlapBwithin",
              "comOlap", "meandist", "meanLenOlapB")
 A = "bin"
@@ -82,8 +82,10 @@ if(plotOnly==FALSE){
   for(i in 1:foi.v.len){
     
     foi <- foilab.v[i]
+    print(foi, quote=FALSE)
+    
     fle <- permt.v[grepl(x=permt.v, pattern=paste0(gcb, "_", foi, "_"), fixed=TRUE)]
-    if(length(fle)!=1){ stop("Multiple file.") }
+    if(length(fle)!=1){ stop( paste0(i, " ", foi, ": Not one file.") ) }
     load(file=paste0(permt.dir, "/", fle))
     
     for(x in 1:evalf.v.len){

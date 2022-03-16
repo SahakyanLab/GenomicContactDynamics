@@ -12,24 +12,29 @@ options(warn=1)
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/7_FeaturePermutation")
+    os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    data.dir = "/t1-data/user/ltamon/Database"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
+    home.dir = "/project/sahakyanlab/ltamon" 
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/20_ChromFeatAssoc")
+    os = "Linux"
+  } else if(whorunsit == "LiezelLinuxDesk"){
+    home.dir = "/home/ltamon"
+    os = "Linux"
   } else {
-    print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
+    stop("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
 }
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir = paste0(home.dir, "/Database")
+
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
-#foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_TBA")
-foifile = paste0(wk.dir, "/foifile/foifile_raw_TBA")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_repeats")
+foifile = paste0(wk.dir, "/C1_associate/foifile/foifileFOIREPLACE")
 mask.dir = paste0(wk.dir, "/mask")
 binmx.dir = paste0(wk.dir, "/binmx/out_bindata_1perc_HiCNorm")
-out.dir = paste0(wk.dir,"/out_associate_Cp21")
+out.dir = paste0(wk.dir,"/out_associate_Cp21_repeats")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 # Chr allowed for both sets of ranges
@@ -43,13 +48,13 @@ CT.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li",
 # Cell line to be used for cell-type independent features. If allCT.ref="allCT",
 # use union of regions from all cell lines.
 allCT.ref = "allCT"
-Cs.v = 0.01 # Depends on BIN.MX values; 1-Bin forms contact; 5-Bin part of top 5%
+Cs.v = c(1, 0.01) # Depends on BIN.MX values; 1-Bin forms contact; 5-Bin part of top 5%
 id = "Cp21" # c("Cp21", "CptopCP3", "Cp1", "CpAll", "CpAllCs1perc", "CpAllCsmatch")
 
 # Permutation test parameters
 NTIMES = 10000
-SEED = 662
-nCPU = 3L
+SEED = 834
+nCPU = 2L
 # If supplyMask=TRUE, use mask from mask.dir.
 supplyMask = FALSE
 maxmaskOlapFr = 0
@@ -248,6 +253,7 @@ for(i in 1:i.len){
     A.temp <- A; B.temp <- B
     A <- B.temp; B <- A.temp
     rm(A.temp, B.temp); gc()
+    print("A and B switched...", quote=FALSE)
   }
   #-------------------Permutation test
   out.name <- paste0(gcb, "_", foi, "_", out.id)

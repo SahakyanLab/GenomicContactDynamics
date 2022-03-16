@@ -14,25 +14,26 @@ options(warn=1)
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib" 
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation"
-    data.dir = "/Users/ltamon/Database"
+    home.dir = paste0("/Users/ltamon")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/7_FeaturePermutation")
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc"
-    data.dir = "/t1-data/user/ltamon/Database"
+    home.dir = "/project/sahakyanlab/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/20_ChromFeatAssoc")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir = paste0(home.dir, "/Database")
+
 data.id = "reduced" # raw | reduced
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/", data.id, "_associated")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/", data.id, "_repeats")
 # List of filenames of features of interest (refer to foi.dir)
 # If foifile = NULL, all files in foi.dir
 foifile = NULL #paste0(wk.dir, "/foifile/foifile_TF")
 out.dir = paste0(wk.dir, "/out_foi_lengthdist")
 ### OTHER SETTINGS #############################################################
-out.name = paste0("foi_lengthdist_", data.id)
+out.name = paste0("foi_lengthdist_", data.id, "_repeats")
 bin.len = 40000
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *

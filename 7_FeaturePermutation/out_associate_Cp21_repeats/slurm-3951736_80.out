@@ -1,0 +1,183 @@
+Loading R-cbrg/current
+  Loading requirement: gsl/2.6 hdf5/1.10.7 gdal/3.4.1 sqlite/3.37.2 proj/8.1.1
+    geos/3.9.0 jags/4.3.0 java/17.0.1 cmake/3.17.2
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following objects are masked from ‘package:base’:
+
+    expand.grid, I, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+[1] Cs value/s: 1;0.01
+[1] Cp value/s: 21
+[1] nperm10000_seed834_mxmskfr0_Cp21
+[1] Running on 2 cores...
+[1] A=contact region, B=feature.
+[1] Max allowed % overlap with mask: 0
+[1] Choosing allCT regions for cell-type independent feature.
+           used  (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells  7616321 406.8   12163020  649.6   8921627  476.5
+Vcells 44564975 340.1  132479818 1010.8 132468113 1010.7
+[1] Don't supply mask...
+[1] Background is regioneR::resampleRegions of HiCAll...
+[1] Background is HiCAll...
+[1] Filtering cp bed for chromosomes in foi bed...
+Warning in permTest(A = A, B = B, ntimes = NTIMES, alternative = "auto",  :
+  All permuted values and the original evaluation value are equal to 0. Z-score cannot be computed.
+Warning in permTest(A = A, B = B, ntimes = NTIMES, alternative = "auto",  :
+  All permuted values are equal to 0. Z-score is infinite.
+Error in paste0(num.nas, " iterations returned NA or NaN. Only ", , " iterations have been used to compute the p-value.") : 
+  argument is missing, with no default
+Calls: permute -> permTest
+Execution halted
+CBB Profiling started Tue Mar  8 15:38:15 2022
+SLURM_JOB_ID		3951736_80
+REQ_CPU_CORES		3
+REQ_MEMORY_GB		0
+Starting profiling...
+
+                                                                                
+                                                                                
+                                    CPU (cores)                                 
+    3 +---------------------------------------------------------------------+   
+      |             +             +             +             +             |   
+      |                                                                     |   
+      |#                                                                    |   
+      |##                                                                   |   
+  2.5 |##                                                                 +-|   
+      |###                                                                  |   
+      |# ###                                                                |   
+      |#   ########                                                         |   
+    2 |#+         ################################################        +-|   
+      |#                                                         #          |   
+      |#                                                         #          |   
+      |#                                                         #          |   
+      |#                                                         #          |   
+  1.5 |#+                                                        #        +-|   
+      |#                                                         #          |   
+      |#                                                         #          |   
+      |#                                                         #          |   
+    1 |#+                                                        #        +-|   
+      |#                                                                    |   
+      |                                                                     |   
+      |                                                                     |   
+      |             +             +             +             +             |   
+  0.5 +---------------------------------------------------------------------+   
+      0            500           1000          1500          2000          2500 
+                                Job profiling step                              
+                                                                                
+
+                                                                                
+                                                                                
+                                    Memory (GB)                                 
+    4 +---------------------------------------------------------------------+   
+      |###########################################################          |   
+      |#                                                         #          |   
+  3.5 |#+                                                        #        +-|   
+      |#                                                         #          |   
+      |#                                                         #          |   
+    3 |#+                                                        #        +-|   
+      |#                                                         #          |   
+      |#                                                         #          |   
+  2.5 |#+                                                                 +-|   
+      |#                                                                    |   
+    2 |#+                                                                 +-|   
+      |#                                                                    |   
+      |#                                                                    |   
+  1.5 |#+                                                                 +-|   
+      |#                                                                    |   
+      |#                                                                    |   
+    1 |#+                                                                 +-|   
+      |#                                                                    |   
+      |                                                                     |   
+  0.5 |-+                                                                 +-|   
+      |                                                                     |   
+      |             +             +             +             +             |   
+    0 +---------------------------------------------------------------------+   
+      0            500           1000          1500          2000          2500 
+                                Job profiling step                              
+                                                                                
+
+                                                                                
+                                                                                
+                                   Data read (GB)                               
+  0.009 +-------------------------------------------------------------------+   
+        |             +            +             +            +             |   
+        |#########################################################          |   
+  0.008 |#+                                                               +-|   
+        |#                                                                  |   
+  0.007 |#+                                                               +-|   
+        |#                                                                  |   
+        |#                                                                  |   
+  0.006 |#+                                                               +-|   
+        |#                                                                  |   
+  0.005 |#+                                                               +-|   
+        |                                                                   |   
+        |                                                                   |   
+  0.004 |-+                                                               +-|   
+        |                                                                   |   
+  0.003 |-+                                                               +-|   
+        |                                                                   |   
+        |                                                                   |   
+  0.002 |-+                                                               +-|   
+        |                                                                   |   
+  0.001 |-+                                                               +-|   
+        |                                                                   |   
+        |             +            +             +            +             |   
+      0 +-------------------------------------------------------------------+   
+        0            500          1000          1500         2000          2500 
+                                 Job profiling step                             
+                                                                                
+
+                                                                                
+                                                                                
+                                   Data written (GB)                            
+   0.0003 +-----------------------------------------------------------------+   
+          |            +            +             +            +            |   
+          |                                                                 |   
+          |                                                                 |   
+  0.00025 |-+                                                  ###        +-|   
+          |                                                 ####            |   
+          |                                              ####               |   
+          |                                           ####                  |   
+   0.0002 |-+                                      ####                   +-|   
+          |                                      ###                        |   
+          |                                   ###                           |   
+  0.00015 |-+                              ####                           +-|   
+          |                             ####                                |   
+          |                          ####                                   |   
+          |                       ####                                      |   
+   0.0001 |-+                  ####                                       +-|   
+          |                 ####                                            |   
+          |              ####                                               |   
+          |           ####                                                  |   
+    5e-05 |-+      ####                                                   +-|   
+          |     ####                                                        |   
+          |  ####                                                           |   
+          |###         +            +             +            +            |   
+        0 +-----------------------------------------------------------------+   
+          0           500          1000          1500         2000         2500 
+                                  Job profiling step                            
+                                                                                

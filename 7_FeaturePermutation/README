@@ -238,6 +238,9 @@ error and termination of script.
 2. Make a barplot of -log10pvalue of all features per evaluation function.
 Indicated in inside the barplot is the actual observed value for each evaluation function.
 
+greater - purple
+less - gray
+
 a. meanLenOlap - the value in the bar is log10 transformed
 b. comOlap - divided by the total length of contacting regions (based on cell type)
 times 100
