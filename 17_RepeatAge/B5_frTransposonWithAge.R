@@ -36,6 +36,8 @@ not.transposon.class = c("Low_complexity", "RNA", "rRNA", "Satellite",
 
 
 rnk = "GiorPubl372rank" #c("Giordano364rank", "GiorPubl372rank", "Publrank")
+
+col.id = "CptopCP3" #"cluster"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -46,8 +48,27 @@ rnk = "GiorPubl372rank" #c("Giordano364rank", "GiorPubl372rank", "Publrank")
 # REPEAT.MX
 load(file=paste0(repeatmx.dir, "/hg19repeats_repName.RData"))
 rownames(REPEAT.MX) <- NULL
-REPEAT.MX <- REPEAT.MX[,c("cluster", "copyNumber", "repName", "repClass", "repFamily",
+REPEAT.MX <- REPEAT.MX[,c(col.id, "copyNumber", "repName", "repClass", "repFamily",
                           rnk)]
+
+REPEAT.MX$copyNumber <- as.numeric(as.character(REPEAT.MX$copyNumber))
+total.sites <- sum(REPEAT.MX$copyNumber)
+
+# L1 pie chart
+
+fam = "MIR"
+pdf(file=paste0(out.dir, "/hg19repeats_frRepeat_perCluster_", col.id, "_", fam, ".pdf"), 
+    height=10, width=10)
+
+is.fam <- REPEAT.MX$repFamily%in%fam
+tmp <- aggregate(x=REPEAT.MX$copyNumber[is.fam], by=list(REPEAT.MX$CptopCP3[is.fam]), FUN=sum)
+tmp$labels <- paste0(tmp$Group.1, "\n", round(tmp$x/sum(tmp$x)*100, 4), "%")
+pie(x=tmp$x, labels=tmp$labels, main=fam, 
+    col=adjustcolor(c("#541352FF", "#2f9aa0FF", "#ffcf20FF"), alpha=0.4))
+
+dev.off()
+
+#
 
 transposon.class.tmp <- setdiff(unique(REPEAT.MX$repClass), not.transposon.class)
 if( !identical(sort(transposon.class.tmp), sort(transposon.class)) ){
@@ -62,19 +83,16 @@ is.transposon <- REPEAT.MX$repClass %in% transposon.class
 
 # Check if all subfam in ranking are transposons
 
-REPEAT.MX$copyNumber <- as.numeric(as.character(REPEAT.MX$copyNumber))
-total.sites <- sum(REPEAT.MX$copyNumber)
-
-clust.v <- sort(unique(REPEAT.MX$cluster))
+clust.v <- sort(unique(REPEAT.MX[[col.id]]))
 
 FRTR <- list()
-pdf(file=paste0(out.dir, "/hg19repeats_frRepeat_perCluster.pdf"), 
+pdf(file=paste0(out.dir, "/hg19repeats_frRepeat_perCluster_", col.id, ".pdf"), 
     height=20, width=20)
-par(mfcol=c(2,2))
+par(mfrow=c(length(clust.v), 2))
 
 for(cl in clust.v){
   
-  is.cl <- REPEAT.MX$cluster %in% cl
+  is.cl <- REPEAT.MX[[col.id]] %in% cl
   
   # Proportion of sites per subfamily, per cluster
   
@@ -112,7 +130,7 @@ dev.off()
 
 FRTR <- do.call("rbind", FRTR)
 
-write.csv(FRTR, file=paste0(out.dir, "/hg19repeats_TransposonCount_perClusterIn", rnk, ".csv"),
+write.csv(FRTR, file=paste0(out.dir, "/hg19repeats_TransposonCount_perClusterIn", rnk, "_", col.id, ".csv"),
           row.names=T)
 
 # rm(list=ls()); gc()

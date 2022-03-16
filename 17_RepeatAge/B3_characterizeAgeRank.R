@@ -21,6 +21,7 @@ repFilePath = paste0(wk.dir, "/z_ignore_git/out_addToSummary/hg19repeats_repName
 out.dir = paste0(wk.dir, "/out_characterizeAgeRank")
 rank.v = c("Giordano364rank", "GiorPubl372rank", "Publrank")
 plotOnly = FALSE
+col.id = "CptopCP3" #"cluster"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -39,7 +40,7 @@ rank.v.len <- length(rank.v)
 for(k in 1:rank.v.len){
   if(plotOnly==FALSE){
     df <- REPEAT.MX[REPEAT.MX[[ rank.v[k] ]]!=0, 
-                    c(rank.v[k], "repName", "repFamily", "repType", "cluster")]
+                    c(rank.v[k], "repName", "repFamily", "repType", col.id)]
     setnames(x=df, old=rank.v[k], new="rank")
     df$rank <- as.numeric(df$rank)
     df <- within(data=df, {
@@ -60,21 +61,21 @@ for(k in 1:rank.v.len){
   df <- df[order(df$repFamily, decreasing=T),]
   
   ggplot(data=df, aes(x=rank, y=repFamily)) +
-    geom_point( size=8, stroke=1, aes(colour=factor(cluster), 
-                    shape=factor(repTranspoType)) ) +
+    geom_point( size=8, stroke=1, aes_string(colour=col.id,
+                                             shape="repTranspoType") ) +
     guides(size="none") +
     labs(colour=NULL, shape=NULL, main=rank.v[k], y="Repeat Family", 
          x="TE subfamilies in chronological order") +
     scale_shape_manual(values=c(4,1)) +
     #scale_size_manual(values=c(4,4)) + 
     scale_y_discrete(limits=unique(df$repFamily)) + 
-    scale_color_manual(values=viridis(n=3)[1:2]) +
+    scale_color_manual(values=viridis(n=3)[1:length(unique(REPEAT.MX[[col.id]]))]) +
     bgr2 + 
     theme(panel.grid.major.y=element_line(linetype="dashed",
                                           size=0.5, colour="grey80"),
           legend.text=element_text(size=25, face="bold"))
  
-  ggsave(filename=paste0(out.dir, "/plot_", rank.v[k], "repFamilies.pdf"),
+  ggsave(filename=paste0(out.dir, "/plot_", rank.v[k], "repFamilies_", col.id, ".pdf"),
          units="in", width=15, height=15)
   rm(df)
 }

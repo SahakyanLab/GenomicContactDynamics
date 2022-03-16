@@ -10,14 +10,18 @@ whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/3_RepeatAge"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/17_RepeatAge"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 agerank.dir = paste0(wk.dir, "/out_cleanAgeRank")
-repeatmx.dir = paste0(wk.dir, "/out_hg19Repeats_summary")
-out.dir = paste0(wk.dir, "/out_addToSummary")
+repeatmx.dir = paste0(wk.dir, "/z_ignore_git/out_hg19Repeats_summary")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_addToSummary")
+
+Cp21.file = paste0(out.dir, "/foifile_depleted_priority_nperm10000_seed834_mxmskfr0_Cp21_pvalcutoff0.05_numOlapA_comOlap.RData")
+CptopCP3.file = paste0(out.dir, "/foifile_depleted_priority_nperm10000_seed834_mxmskfr0_CptopCP3_pvalcutoff0.05_numOlapA.RData")
+Cp.id.v = c("Cp21", "CptopCP3")
 ### OTHER SETTINGS #############################################################
 # Age rank
 Giordano364file = paste0(agerank.dir, "/Giordano2007_364HumanTEs_renamed.txt")
@@ -168,6 +172,28 @@ REPEAT.MX[is.na(REPEAT.MX[,c("Publrank")]), "Publrank"] <- 0L
 if( sum(REPEAT.MX[,"Publrank"]!=0) != nrow(publAges.df) ){
   stop("Checkpoint 6.")
 }
+
+#----------------------------------
+# Add repeat enrichment at certain Cps. Greater, less, n.s.
+
+for(id in Cp.id.v){
+  
+  eval(parse(text=paste0(
+    'load(', id, '.file)'
+  )))
+  
+  if( length(intersect(FOI$priority, FOI$depleted)) > 1 ){
+    stop(paste0(id, ": Common foi between depleted and priority in FOI."))
+  } else {
+    
+    REPEAT.MX[[id]] <- "n.s."
+    REPEAT.MX[[id]][REPEAT.MX$repName%in%FOI$depleted] <- "sig.less"
+    REPEAT.MX[[id]][REPEAT.MX$repName%in%FOI$priority] <- "sig.greater"
+    
+  }
+
+}
+
 save(REPEAT.MX, file=paste0(out.dir, "/hg19repeats_repName.RData"))
 write.table(REPEAT.MX, file=paste0(out.dir, "/hg19repeats_repName.txt"),
             row.names=FALSE, col.names=TRUE, quote=FALSE, sep=";")

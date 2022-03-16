@@ -10,19 +10,19 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatAge"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/17_RepeatAge"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-repFilePath = paste0(wk.dir, "/out_addToSummary/hg19repeats_repName.RData")
+repFilePath = paste0(wk.dir, "/z_ignore_git/out_addToSummary/hg19repeats_repName.RData")
 out.dir = paste0(wk.dir, "/out_clusters")
 ### OTHER SETTINGS #############################################################
 rank.v = c("Giordano364rank", "GiorPubl372rank", "Publrank")
 plotOnly = FALSE
-agerankPlot = FALSE
+agerankPlot = TRUE; col.id = "CptopCP3" # "cluster"
 CNplot = FALSE
-RepTypeOriginPlot = TRUE
+RepTypeOriginPlot = FALSE
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -131,25 +131,25 @@ if(agerankPlot==TRUE){
     
     if(plotOnly==FALSE){
       df <- REPEAT.MX[REPEAT.MX[[ rank.v[k] ]]!=0,
-                      c("copyNumber", "cluster", rank.v[k])]
-      melt1 <- do.call( "c", mapply(FUN=rep, df[,"cluster"], 
+                      c("copyNumber", col.id, rank.v[k])]
+      melt1 <- do.call( "c", mapply(FUN=rep, df[,col.id], 
                                     df[,"copyNumber"]))
       melt2 <- do.call( "c", mapply(FUN=rep, df[,rank.v[k]], 
                                     df[,"copyNumber"]))
       df <- data.frame(cluster=melt1, agerank=melt2, stringsAsFactors=FALSE)
-      save(df, file=paste0(out.dir, "/plot_hg19_clustersVs", 
+      save(df, file=paste0(out.dir, "/plot_hg19_", col.id, "Vs", 
                            rank.v[k], ".RData"))
     } else {
-      load(file=paste0(out.dir, "/plot_hg19_clustersVs", rank.v[k], ".RData"))
+      load(file=paste0(out.dir, "/plot_hg19_", col.id, "Vs", rank.v[k], ".RData"))
     }
     numTEs <- length(unique(df$agerank))
     p <- ggplot(data=df, aes(x=agerank)) +
       # y=..count.. to reflect the difference in number of sites each cluster
       #geom_density( alpha=0.4, aes(fill=factor(cluster), y=..count..) ) +
-      geom_density( alpha=0.4, aes(fill=factor(cluster)) ) +
-      guides(fill=FALSE) + 
+      geom_density( alpha=0.4, aes(fill=cluster) ) +
+      guides(fill="none") + 
       scale_x_continuous(limits=c(1, numTEs), breaks=c(0,100,200,249,344,364)) + 
-      scale_fill_manual(values=viridis(n=3)[1:2]) + 
+      scale_fill_manual(values=viridis(n=3)[1:length(unique(df$cluster))]) + 
       labs(title=paste0("hg19repeats_", rank.v[k]),
            x=paste0(numTEs, " TEs in chronological order"),
            y="Density") + 
@@ -157,7 +157,7 @@ if(agerankPlot==TRUE){
       bgr1 + 
       theme(strip.text.y=element_text(size=12, angle=90, face="bold"),
             aspect.ratio=0.2) 
-    ggsave(file=paste0(out.dir, "/plot_hg19_clustersVs", rank.v[k], ".pdf"),
+    ggsave(file=paste0(out.dir, "/plot_hg19_", col.id, "Vs", rank.v[k], ".pdf"),
            plot=p, units="in", width=10, height=10)
     rm(df, p)
     
