@@ -1,0 +1,9 @@
+################################################################################
+Renamed outputs (due to ct_ splitting for feature names)
+
+chrALL_min2Mb_hg19_FordPreferepSubfamily_fetacp.RData -->
+chrALL_min2Mb_hg19_FordPrefect_repSubfamily_fetacp.RData
+
+chrALL_min2Mb_hg19_FordPrefea_repSubfamily_fetacp.RData -->
+chrALL_min2Mb_hg19_FordPrefect_a_repSubfamily_fetacp.RData
+################################################################################

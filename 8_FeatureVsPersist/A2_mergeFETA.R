@@ -32,12 +32,12 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 
 # PERSIST.MX directory
-out.dir = paste0(wk.dir, "/out_FETA_sharedisofpcoding")
+out.dir = paste0(wk.dir, "/out_FETA_raw_repeats")
 # feta.dir is FETA.MX directory
 feta.dir = paste0(out.dir, "/temp")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_repeats")
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_sharedisofpcoding")
+foifile = NULL #paste0(wk.dir, "/foifile/foifile_sharedisofpcoding")
 #foigroup = "topo" #"HMnp"
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"

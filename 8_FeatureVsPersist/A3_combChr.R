@@ -34,12 +34,12 @@ data.dir = paste0(home.dir, "/Database")
 # PERSIST.MX directory
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 # feta.dir is FETA.MX chrALL directory
-feta.dir = paste0(wk.dir, "/out_FETA_sharedisofpcoding")
-out.dir = paste0(wk.dir, "/out_FETACP_sharedisofpcoding")
+feta.dir = paste0(wk.dir, "/out_FETA_raw_repeats")
+out.dir = paste0(wk.dir, "/out_FETACP_raw_repeats")
 bincount.dir = paste0(wk.dir, "/out_bincount")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_repeats")
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_sharedisofpcoding")
+foifile = NULL #paste0(wk.dir, "/foifile/foifile_sharedisofpcoding")
 nCPU = 2L # stick to 5 NCPU, ~300G
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"

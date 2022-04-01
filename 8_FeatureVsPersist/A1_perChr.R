@@ -34,15 +34,15 @@ data.dir = paste0(home.dir, "/Database")
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 # Chromatin features directory
 # Remove column names in bed file
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/reduced")
+foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_repeats")
 # List of filenames of features of interest (refer to foi.dir)
 # If foifile = NULL, all files in foi.dir
-foifile = paste0(wk.dir, "/foifile/foifile_sharedisofpcoding")
+foifile = NULL #paste0(wk.dir, "/foifile/foifile_sharedisofpcoding")
 # Number of bins
 nCPU = 4L 
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
-out.dir = paste0(wk.dir, "/out_FETA_sharedisofpcoding")
+out.dir = paste0(wk.dir, "/out_FETA_raw_repeats")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 HiC.res = 4e4L
