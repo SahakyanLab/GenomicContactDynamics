@@ -1,7 +1,7 @@
 #!/bin/sh
 
-replaceArr=($(seq 9 1 12))
-fileArr=($(seq 9 1 12))
+replaceArr=($(seq 5 1 8))
+fileArr=($(seq 5 1 8))
 
 # Source file
 src="C2_generate_map_template"

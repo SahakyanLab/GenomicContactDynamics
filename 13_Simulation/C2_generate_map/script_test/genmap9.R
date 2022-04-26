@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 # Expands warnings
@@ -16,15 +16,15 @@ if( !is.null(whorunsit[1]) ){
     prefix = "/Users/ltamon"
     lib = paste0(prefix, "/DPhil/lib")
     data.dir = paste0(prefix, "/Database")
-    wk.dir = paste0(prefix, "/SahakyanLab/GenomicContactDynamics/13_Simulation")
-    CII.dir = paste0(prefix, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/z_ignore_git")
+    wk.dir = paste0(prefix, "/DPhil/GenomicContactDynamics/21_Simulation")
+    CII.dir = paste0(prefix, "/DPhil/GCD_polished/11_Complementarity/z_ignore_git")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     prefix = "/project/sahakyanlab/ltamon"
     lib = paste0(prefix, "/DPhil/lib")
     data.dir = paste0(prefix, "/Database")
     wk.dir = paste0(prefix, "/DPhil/GenomicContactDynamics/21_Simulation")
-    CII.dir = paste0(prefix, "/DPhil/GenomicContactDynamics/11_Constraints")
+    CII.dir = paste0(prefix, "/DPhil/GenomicContactDynamics/11_Constraints/out_constraints/merged_final")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
@@ -32,7 +32,7 @@ if( !is.null(whorunsit[1]) ){
   
 }
 
-param.file = paste0(wk.dir, "/param.csv") #"/C2_generate_map/param.csv")
+param.file = paste0(wk.dir, "/param.csv")#"/C2_generate_map/param.csv")
 param.v <- read.csv(file=param.file, stringsAsFactors=F, header=T)
 param.ind = 9
 param.v <- param.v[param.ind,]
@@ -44,11 +44,8 @@ if(species.id=="human"){
   simmap.dir = paste0(wk.dir, "/sim_maps")
   Cs.raw.dir = Cp.dir = paste0(data.dir, "/GSE87112/combined_contacts/RAW_primary_cohort")
   Cs.norm.dir = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_primary_cohort")
-  CII.dir = paste0(CII.dir, "/out_constraints/merged_final")
+  CII.dir = ifelse(whorunsit=="LiezelCluster", CII.dir, paste0(CII.dir, "/out_constraints/merged_final"))
   chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
-  bin.len = 40000
-  gcb = "min2Mb"
-  chr.v = paste0("chr", c(1:22, "X"))
   
 } else if(species.id=="ath"){
   
@@ -67,9 +64,6 @@ if(species.id=="human"){
   Cs.norm.dir = paste0(data.dir, "/drosophila_Chathoth2019_HiC/Chathoth2019_10kb_combined_contacts/KR_Chathoth")
   CII.dir = paste0(CII.dir, "/out_constraints_dme_10kb")
   chrlen.file = paste0(data.dir, "/genome_info/Dme_dm6_chr_info.txt")
-  bin.len = 10000
-  gcb = "min0Mb"
-  chr.v = paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
   
 } else {
   stop("Species data not available.")
@@ -79,14 +73,14 @@ CII.disc.kmer.5.dir = CII.disc.align.5.dir = CII.disc.G.5.dir = CII.dir
 CII.cont.kmer.5.dir = CII.cont.align.5.dir = CII.cont.G.5.dir = CII.dir
 CII.disc.kmer.10.dir = CII.disc.align.15.dir = CII.disc.G.15.dir = CII.dir
 CII.cont.kmer.15.dir = CII.cont.align.15.dir = CII.cont.G.15.dir = CII.dir
-out.dir = paste0(wk.dir, "/out_generate_map_gcdmns")
+out.dir = paste0(wk.dir, "/out_generate_map_manuscript")
 ### OTHER SETTINGS #############################################################
-#gcb = "min2Mb" #"min0Mb" for ath
-#bin.len = 40000 #40000 #20000 #50000 
+gcb = "min2Mb" #"min0Mb" for ath
+bin.len = 40000 #20000 #50000 
 
 #-------------------SELECT CONTACT MAPS
 
-#chr.v = c("chr3R", "chr3L") #"chr3L" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
+chr.v = "chr1" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
 
 # Map id format: <cell/tissue>-<metric name>. Metric name should match source 
 # directory name, e.g. for metric name Cs.norm directory is Cs.norm.dir. 
@@ -110,7 +104,7 @@ out.dir = paste0(wk.dir, "/out_generate_map_gcdmns")
 
 ct.v = param.v[["ct.v"]]
 metric.v = param.v[["metric.v"]]
- 
+  
 # Useful in case not whole chr is to be plotted
 out.id = gsub(x=paste(paste(ct.v, metric.v, sep="_"), collapse="_"), 
               pattern=".", replacement="", fixed=T)
@@ -157,19 +151,19 @@ limits.y = NULL
 symmetric = T
 
 # Mark bins along x- or/and y-axis
-#tmp = seq(1000, 1500, 100)
-mark.x = NULL #c(1, tmp, 2812-tmp+1, 2812)
-mark.y = NULL #mark.x
-#rm(tmp)
+tmp = seq(1000, 1500, 100)
+mark.x = c(1, tmp, 6232-tmp+1, 6232)
+mark.y = mark.x
+rm(tmp)
 
 # Output specifications
 
 # If scalebr.v==NULL, no scale bar
 # scalebr.v = c(xmin=1, xmax=100, ymin=1, ymax=50)
-scalebr.v = c(xmin=1, xmax=4e6/bin.len, ymin=1, ymax=50)
-res = 100
+scalebr.v = NULL #c(xmin=1, xmax=200, ymin=1, ymax=25)
+res = 300
 # Number of rows and columns plot will be displayed
-out.dim = c(nrow=1, ncol=2)
+out.dim = c(nrow=1, ncol=1)
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -319,7 +313,7 @@ for(M in 1:len){
     
     if(chr=="chr1"){
       
-      for( ind in 1:length(df) ){
+      for(ind in subj.ind){
         
         incl.TF <- filterContacts(ij.df=df[[ind]][,c("i","j")], gap.range=gap.range,
                                   incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y,  
@@ -330,7 +324,7 @@ for(M in 1:len){
       }
       
     }
-      
+    
   }
 
   # Plot

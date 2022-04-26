@@ -34,7 +34,7 @@ if( !is.null(whorunsit[1]) ){
 
 param.file = paste0(wk.dir, "/param.csv") #"/C2_generate_map/param.csv")
 param.v <- read.csv(file=param.file, stringsAsFactors=F, header=T)
-param.ind = 9
+param.ind = 11
 param.v <- param.v[param.ind,]
 
 species.id = param.v[["species.id"]]

@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 # Expands warnings
@@ -34,7 +34,7 @@ if( !is.null(whorunsit[1]) ){
 
 param.file = paste0(wk.dir, "/param.csv") #"/C2_generate_map/param.csv")
 param.v <- read.csv(file=param.file, stringsAsFactors=F, header=T)
-param.ind = 9 #PARAMREPLACE
+param.ind = PARAMREPLACE
 param.v <- param.v[param.ind,]
 
 species.id = param.v[["species.id"]]
@@ -46,6 +46,9 @@ if(species.id=="human"){
   Cs.norm.dir = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_primary_cohort")
   CII.dir = ifelse(whorunsit=="LiezelCluster", CII.dir, paste0(CII.dir, "/out_constraints/merged_final"))
   chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
+  bin.len = 40000
+  gcb = "min2Mb"
+  chr.v = paste0("chr", c(1:22, "X"))
   
 } else if(species.id=="ath"){
   
@@ -64,6 +67,9 @@ if(species.id=="human"){
   Cs.norm.dir = paste0(data.dir, "/drosophila_Chathoth2019_HiC/Chathoth2019_10kb_combined_contacts/KR_Chathoth")
   CII.dir = paste0(CII.dir, "/out_constraints_dme_10kb")
   chrlen.file = paste0(data.dir, "/genome_info/Dme_dm6_chr_info.txt")
+  bin.len = 10000
+  gcb = "min0Mb"
+  chr.v = paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
   
 } else {
   stop("Species data not available.")
@@ -75,12 +81,12 @@ CII.disc.kmer.10.dir = CII.disc.align.15.dir = CII.disc.G.15.dir = CII.dir
 CII.cont.kmer.15.dir = CII.cont.align.15.dir = CII.cont.G.15.dir = CII.dir
 out.dir = paste0(wk.dir, "/z_ignore_git/out_generate_map_test")
 ### OTHER SETTINGS #############################################################
-gcb = "min2Mb" #"min0Mb" for ath
-bin.len = 40000 #40000 #20000 #50000 
+#gcb = "min2Mb" #"min0Mb" for ath
+#bin.len = 40000 #40000 #20000 #50000 
 
 #-------------------SELECT CONTACT MAPS
 
-chr.v = "chr17" #"chr3L" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
+#chr.v = c("chr3R", "chr3L") #"chr3L" #paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
 
 # Map id format: <cell/tissue>-<metric name>. Metric name should match source 
 # directory name, e.g. for metric name Cs.norm directory is Cs.norm.dir. 
@@ -160,10 +166,10 @@ mark.y = NULL #mark.x
 
 # If scalebr.v==NULL, no scale bar
 # scalebr.v = c(xmin=1, xmax=100, ymin=1, ymax=50)
-scalebr.v = c(xmin=1, xmax=100, ymin=1, ymax=50)
-res = 300
+scalebr.v = c(xmin=1, xmax=4e6/bin.len, ymin=1, ymax=50)
+res = 100
 # Number of rows and columns plot will be displayed
-out.dim = c(nrow=1, ncol=1)
+out.dim = c(nrow=3, ncol=2)
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
