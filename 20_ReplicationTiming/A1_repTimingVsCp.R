@@ -14,8 +14,8 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
     data.dir = "/Users/ltamon/Database"
-    binmx.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation/binmx/out_bindata_1perc_HiCNorm"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/20_ReplicationTiming"
+    binmx.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/7_FeaturePermutation/binmx/out_bindata_1perc_HiCNorm"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/20_ReplicationTiming"
   } else if(whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     data.dir = "/t1-data/user/ltamon/Database"
