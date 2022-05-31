@@ -16,7 +16,7 @@ doVarTest <- function(xval, grp, out.dir, out.name){
     
     kwh <- kruskal.test(formula=xval~grp, data=data.frame(xval=xval, grp=grp))
     
-    TEST <- list(ano=ano, kwh=kwh)
+    TEST <- list(ano=summary(ano), kwh=kwh) # kwh[c("statistic", "p.value")]
     save(TEST, file=paste0(out.dir, "/", out.name, "_varbasedtest.RData"))
     
   }

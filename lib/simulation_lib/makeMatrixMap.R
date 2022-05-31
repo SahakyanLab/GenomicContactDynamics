@@ -102,7 +102,7 @@ makeMatrixMap <- function(df.lst = 'list of 1 (upper) or 2(upper and lower) data
          title=paste0(plot.title, "_MINMAXna.rmTRUE=", paste(unlist(minmax.lst), collapse="_"),
                       "_0valuesForMetricsOtherThanCIIsetToNA")),
     theme(
-      plot.title=element_text(size=2),
+      plot.title=element_text(size=4),
       axis.text.x=element_text(face="bold", size=5, angle=360, colour="black"),
       axis.text.y=element_text(face="bold", size=5, angle=360, colour="black"),
       axis.ticks=element_line(size=0.1), 

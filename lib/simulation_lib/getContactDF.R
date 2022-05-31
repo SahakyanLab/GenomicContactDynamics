@@ -194,7 +194,7 @@ getContactDF <- function(metric.dir='', metric='', gcb = '', chr = '',
   }
   
   # Check if all non-NA values are >=0 except for CII
-  if( !grepl(x=metric, pattern="CII.") & any(df$value<0 & !is.na(df$value)) ){
+  if( !grepl(x=metric, pattern="CII.") & any(df$value < 0 & !is.na(df$value)) ){
     stop("getContactDF(): Negative contact value.")
   }
   

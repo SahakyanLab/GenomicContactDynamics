@@ -14,9 +14,15 @@ doCorTest <- function(xval, yval, alt="two.sided", exactpval=T, out.dir, out.nam
     
     pear <- cor.test(x=xval, y=yval, method="pearson", alternative=alt, exact=exactpval)
     spea <- cor.test(x=xval, y=yval, method="spearman", alternative=alt, exact=exactpval)
+    kend <- cor.test(x=xval, y=yval, method="kendall", alternative=alt, exact=exactpval)
     
-    TEST <- list(pear=pear, spea=spea, alt=alt)
-    save(TEST, file=paste0(out.dir, "/", out.name, "_cortest.RData"))
+    TEST <- list(pear=pear, spea=spea, kend=kend, alt=alt)
+    
+    if( !is.null(out.dir) & !is.null(out.name) ){
+      save(TEST, file=paste0(out.dir, "/", out.name, "_cortest.RData"))
+    } else {
+      return(TEST)
+    }
     
   }
   
