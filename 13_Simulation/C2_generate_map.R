@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 # Expands warnings
@@ -34,7 +34,7 @@ if( !is.null(whorunsit[1]) ){
 
 param.file = paste0(wk.dir, "/param.csv") #"/C2_generate_map/param.csv")
 param.v <- read.csv(file=param.file, stringsAsFactors=F, header=T)
-param.ind = PARAMREPLACE
+param.ind = 13 #PARAMREPLACE
 param.v <- param.v[param.ind,]
 
 species.id = param.v[["species.id"]]
@@ -48,7 +48,7 @@ if(species.id=="human"){
   chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
   bin.len = 40000
   gcb = "min2Mb"
-  chr.v = paste0("chr", c(1:22, "X"))
+  chr.v = "chr17" #paste0("chr", c(1:22, "X"))
   
 } else if(species.id=="ath"){
   
@@ -258,7 +258,7 @@ for(M in 1:len){
     }
     
     # Convert to contact probability by dividing by max value per bin
-    if( !grepl(x=metric, pattern="CII.disc.") & contProb){
+    if( !grepl(x=metric, pattern="CII.disc.") & contProb ){
       
       df[[map]] <- convertToContactProb(df=df[[map]], metric=metric, 
                                         tot.bin=length(unique(c(df[[map]]$i, df[[map]]$j)))
@@ -270,21 +270,16 @@ for(M in 1:len){
     # CII continuous can have 0 if sequences are identical but
     # but check whether this happens.
     
-    if( !grepl(x=metric, pattern="CII.disc.|CII.cont.") ){
-      df[[map]][ !is.na(df[[map]]$value) & df[[map]]$value==0,"value" ] <- NA
-    } else if( grepl(x=metric, pattern="CII.cont.") ){
-      
-      if( max(df[[map]]$value, na.rm=T)>=0 ){
-        stop(paste0(map, ": 0 and/or positive values in CII continuous."))
-      }
-      
+    if( grepl(x=metric, pattern="CII.cont.") & max(df[[map]]$value, na.rm=T)>=0 ){
+      rm(df); stop(paste0(map, ": 0 and/or positive values in CII continuous."))
     }
     
+    if( !grepl(x=metric, pattern="CII.disc.|CII.cont.") ){
+      df[[map]]$value[ !is.na(df[[map]]$value) & df[[map]]$value==0 ] <- NA
+    } 
+    
     if( !grepl(x=metric, pattern="CII.disc.") & any(na.omit(df[[map]]$value)==0) ){
-      
-      rm(df)
-      stop(paste0(map, ": 0s present."))
-      
+      rm(df); stop(paste0(map, ": 0s present."))
     }
     
     rm(ct, metric, metric.dir)
@@ -302,36 +297,36 @@ for(M in 1:len){
   out.name <- paste(out.name0, paste0("contProb", contProb), chr, 
                     paste(map.v, collapse="_"), sep="_")
   
-  if(scaleContactByDist.TF){
-    
-    df <- scaleContactByDist(df.lst=df, bin.len=bin.len, 
-                             out.filepath=paste0(out.dir, "/", out.name, "_scaleContactByDistPlot"),
-                             plot.title=paste0(out.name, "_invalidij.actionNA"))
-    
-    subj.ind <- which(grepl(x=names(df), pattern="CII.cont", fixed=T))
-    if(scaled.disc.cutoff>0){
-      
-      df[[subj.ind]]$value <- categoriseValues(val.v=df[[subj.ind]]$value, cutoff=scaled.disc.cutoff)
-      names(df)[subj.ind] <- "All-CII.disc.kmer.5"
-      metric.p <- "CII.disc.kmer.5;Cs.norm"
-      
-    }
-    
-    if(chr=="chr1"){
-      
-      for( ind in 1:length(df) ){
-        
-        incl.TF <- filterContacts(ij.df=df[[ind]][,c("i","j")], gap.range=gap.range,
-                                  incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y,  
-                                  mask.bin.x=list(3563:6232), mask.bin.y=list(1:3563))
-        
-        df[[ind]]$value[!incl.TF] <- NA
-        
-      }
-      
-    }
-      
-  }
+  # if(scaleContactByDist.TF){
+  #   
+  #   df <- scaleContactByDist(df.lst=df, bin.len=bin.len, 
+  #                            out.filepath=paste0(out.dir, "/", out.name, "_scaleContactByDistPlot"),
+  #                            plot.title=paste0(out.name, "_invalidij.actionNA"))
+  #   
+  #   subj.ind <- which(grepl(x=names(df), pattern="CII.cont", fixed=T))
+  #   if(scaled.disc.cutoff>0){
+  #     
+  #     df[[subj.ind]]$value <- categoriseValues(val.v=df[[subj.ind]]$value, cutoff=scaled.disc.cutoff)
+  #     names(df)[subj.ind] <- "All-CII.disc.kmer.5"
+  #     metric.p <- "CII.disc.kmer.5;Cs.norm"
+  #     
+  #   }
+  #   
+  #   if(chr=="chr1"){
+  #     
+  #     for( ind in 1:length(df) ){
+  #       
+  #       incl.TF <- filterContacts(ij.df=df[[ind]][,c("i","j")], gap.range=gap.range,
+  #                                 incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y,  
+  #                                 mask.bin.x=list(3563:6232), mask.bin.y=list(1:3563))
+  #       
+  #       df[[ind]]$value[!incl.TF] <- NA
+  #       
+  #     }
+  #     
+  #   }
+  #     
+  # }
 
   # Plot
   p.lst[[paste0(M, map.id)]] <- makeMatrixMap(df.lst=df, check.dup=F, symmetric=symmetric,
@@ -343,7 +338,7 @@ for(M in 1:len){
                                               species.id=species.id)
                                    
   print(paste0(out.name, " done!"), quote=F)
-  #rm(df, map.v, chr, ct.p, metric.p, out.name)
+  rm(df, map.v, chr, ct.p, metric.p, out.name)
   gc()
   
 } # map.id.v for loop end
