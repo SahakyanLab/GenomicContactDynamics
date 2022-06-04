@@ -9,40 +9,36 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/11_Complementarity"
-    #wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/8_ShuffleContactBins"
-    data.dir =  "/Users/ltamon/Database"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/11_Constraints"
-    #wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/8_ShuffleContactBins"
-    data.dir =  "/t1-data/user/ltamon/Database"
+    home.dir = "/project/sahakyanlab/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-compl.dir = paste0(wk.dir, "/z_ignore_git/out_constraints_ath_20kb")
-hyb.dir = paste0(wk.dir, "/z_ignore_git/out_constraints_ath_20kb")
-out.dir = paste0(wk.dir, "/z_ignore_git/out_constraints_ath_20kb/merged_final")
-#persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
-persist.dir = paste0(data.dir, "/HiC_features_arabidopsis_HiC_NORMpc/features_20kb")
+data.dir = paste0(home.dir, "/Database")
+lib = paste0(home.dir, "/DPhil/lib")
+compl.dir = paste0(wk.dir, "/out_constraints_hg19_rm")
+hyb.dir = compl.dir
+out.dir = paste0(compl.dir, "/merged_final")
+persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 ### OTHER SETTINGS #############################################################
-chr.v = paste0("chr", 1:5) #paste("chr", c(1:16, 18:22, "X"), sep="")
-exclude = setNames(object=c(1522, 985, 1173, 930, 1349),
-                   nm=paste0("chr", 1:5))
-gcb = "min0Mb"
-possible.gcb = "min0Mb"
+chr.v = "chr22" #paste("chr", c(1:16, 18:22, "X"), sep="")
+exclude = NULL #setNames(object=c(1522, 985, 1173, 930, 1349), nm=paste0("chr", 1:5))
+gcb = "min2Mb"
+possible.gcb = c("min2Mb", "min05Mb")
 makeothergcb = FALSE
-type = "align" # kmer | align
+type = "kmer" # kmer | align
 kmer.len = 7L
-bin.len = 20000
+bin.len = 40000
 affix = "" #"_ijShuffled" 
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
@@ -80,7 +76,7 @@ for(chr in chr.v){
   }
   
   # Exclude contacts with bins differing in length
-  if( chr%in%names(exclude) ){
+  if( !is.null(exclude) & chr%in%names(exclude) ){
     
     exclij.TF <- CII.MX[,"i"]==exclude[[chr]] | CII.MX[,"j"]==exclude[[chr]]
     CII.MX[exclij.TF,"C||"] <- NA

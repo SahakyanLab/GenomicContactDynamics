@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 # Set recommended global options
@@ -36,17 +36,17 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
-genome.dir = paste0(data.dir, "/rice_genome_unmasked_IRGSP1.0")
+genome.dir = paste0(data.dir, "/human_genome_repeatmasked_37.73")
 # binkmer_divLen_all changed to binkmer_allBins
-out.dir = paste0(data.dir, "/HiC_features_Liu2017oryza_HiC_NORMpc/binkmer7_divLen_all_50kb")  
+out.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_allbins_rm")  
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
-chrLenfile = paste0(data.dir, "/genome_info/Osa_IRGSP1.0_chr_info.txt")
+chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
-chr.v = paste0("chr", 1:12) #c("X", "2L", "2R", "3L", "3R", "4", "Y", "MT")
-bin.len = 50000 #2000
+chr.v = paste0("chr", c(1:22, "X")) #c("X", "2L", "2R", "3L", "3R", "4", "Y", "MT")
+bin.len = 40000 
 kmer.len = 7
 nCPU = 2 # ~4G
-genome.prefix = "Oryza_sativa_Nipponbare.IRGSP1.0.dna.chromosome."
+genome.prefix = "Homo_sapiens.GRCh37.73.dna_rm.chromosome."
 fastafile.ending = ".fa"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 

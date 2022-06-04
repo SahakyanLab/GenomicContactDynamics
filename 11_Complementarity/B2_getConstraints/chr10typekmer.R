@@ -4,7 +4,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelLinuxDesk" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 # Set recommended global options
@@ -50,17 +50,17 @@ binkmer.dir = paste0(data.dir, "/HiC_features_Liu2017oryza_HiC_NORMpc/binkmer7_d
 ### OTHER SETTINGS #############################################################
 # both
 gcb = "min0Mb"
-chr.v = paste0("chr", 1:12)
+chr.v = "chr10" #paste0("chr", 1:12)
 bin.len = 50000 #2000 #4e4L
 kmer.len = 7
-type = "align" # "kmer" | "align"
+type = "kmer" # "kmer" | "align"
 # For type=align, nCPU based on number of chunks
 # For type=kmer, nCPU based on number of contacts, ~30G for chr1
 # chr21 - align - 368511 good contacts - 30G - 2 days
-nCPU = 3 # chr1 - 4L, chr21 - 2L
+nCPU = 2 # chr1 - 4L, chr21 - 2L
 allij = TRUE
 # align
-numChunks = 3 # human chr1 - 32L, chr21 - 2L
+numChunks = 2 # human chr1 - 32L, chr21 - 2L
 gfreeparfile = paste0(gfreepar.dir, "/Gfree_", kmer.len, "mer.par")
 genome.prefix = "Oryza_sativa_Nipponbare.IRGSP1.0.dna.chromosome." #"Homo_sapiens.GRCh37.73.dna.chromosome." 
 fastafile.ending = ".fa"

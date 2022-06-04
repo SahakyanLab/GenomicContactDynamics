@@ -10,20 +10,19 @@ whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/11_Constraints"
-    #wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/8_ShuffleContactBins"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/11_Constraints"
-    #wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/8_ShuffleContactBins"
+    home.dir = "/project/sahakyanlab/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-compl.dir = out.dir = paste0(wk.dir, "/out_constraints/merged_final")
+lib = paste0(home.dir, "/DPhil/lib")
+compl.dir = out.dir = paste0(wk.dir, "/out_constraints_hg19_rm/merged_final")
 ### OTHER SETTINGS #############################################################
-chr.v = paste("chr", c(1:22, "X"), sep="")
+chr.v = "chr22" #paste("chr", c(1:22, "X"), sep="")
 combineChr = TRUE
 gcb = "min2Mb"
 kmer.len = 7L
