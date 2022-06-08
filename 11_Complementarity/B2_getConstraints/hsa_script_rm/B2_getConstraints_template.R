@@ -23,8 +23,7 @@ if( !is.null(whorunsit[1]) ){
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
-    #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
     binkmer.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/12_MaskingFeatures/out_binkmer_maskingThreshold")
     os = "Linux"
   } else if(whorunsit == "LiezelLinuxDesk"){
@@ -41,7 +40,7 @@ data.dir = paste0(home.dir, "/Database")
 # both
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
 out.dir = paste0(wk.dir, "/out_constraints_hg19_rm")
-persist.dir = paste0(wk.dir, "/out_features") # paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 # align
@@ -67,7 +66,6 @@ gfreeparfile = paste0(gfreepar.dir, "/Gfree_", kmer.len, "mer.par")
 genome.prefix = "Homo_sapiens.GRCh37.73.dna_rm.chromosome." #"Homo_sapiens.GRCh37.73.dna.chromosome." 
 fastafile.ending = ".fa"
 affix.binkmer = "_hg19_rm"
-affix.persist = "_ijShuffled"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -117,7 +115,7 @@ getComplementarity(
   nCPU=nCPU,
   allij=allij,
   ct=NULL,
-  affix.persist=affix.persist,
+  affix.persist="",
   affix.binkmer=affix.binkmer, # paste0(chr, "_Hyb", kmer.len, "_", gcb, affix)
   affix.out="", 
   genome.prefix=genome.prefix,
