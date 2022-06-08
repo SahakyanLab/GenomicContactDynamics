@@ -1,0 +1,57 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+library(data.table)
+library(IRanges)
+library(Biostrings)
+library(foreach)
+library(doParallel)
+library(itertools)
+library(compiler)
+library(RColorBrewer)
+
+source(paste0(lib, "/UTL_doPar.R"))
+
+source(paste0(lib, "/getMaskedKmerCount/getMaskAffix.R"))
+
+source(paste0(lib.TrantoRextr, "/UTIL_readLinesFast.R"))
+source(paste0(lib.TrantoRextr, "/GEN_readfasta.R"))
+source(paste0(lib.TrantoRextr, "/GEN_loadGenome.R")) 
+
+source(paste0(lib, "/getMaskedKmerCount/maskGenome.R"))
+
+source(paste0(lib.TrantoRextr, "/GEN_getKmers.R"))                 
+source(paste0(lib.TrantoRextr, "/GEN_getKmerHybridisationGs.R")) 
+source(paste0(lib, "/getMaskedKmerCount/getKmerCountsPerIntervalMASK.R"))  
+
+source(paste0(lib, "/getMaskedKmerCount/getMaskedKmerCount.R"))  
+source(paste0(lib, "/getMaskedKmerCount/getMergedReducedMask.R")) 
+################################################################################
+# A. Masking
+################################################################################
+1. Mask a or any combination of features in genome and then re-calculate k-mer 
+counts per unique contacting bin (BINKMER.MX). Bins with missing sequence (N)
+populated with NAs unless masking character is N. Masking character should not be
+a DNA base (A,T,C,G). Genome used is unmasked version.
+
+K-mer counts calculated using custom getKmers(method="Biostrings"). With Biostrings,
+Masking character will not mess up counting and will just be ignored: 
+        # seq="ATCGCATCGTACA" 
+        # ATCGCAT ATCGTAC CATCGTA CGCATCG GCATCGT TCGCATC TCGTACA 
+        #    1       1       1       1       1       1       1
+        # seq="ATCGCATCGmmmm"
+        # ATCGCAT CGCATCG TCGCATC 
+        #    1       1       1
+
+The number of unmasked character is then determined (numUMChar column in BINKMER.MX).
+ 
+1.5. Adoption of A1 but using repeat-masked genome, where interspersed and low
+complexity repeats are masked with N. N is treated as the masking character. 
+
+2. Select the valid chromosome bins based on the fraction of bases masked. 
+Populate with NAs those bins with unmasked fraction less than unmskdThresh
+argument plus bins with any missing sequence in unmasked version of the genome.
+
+3. Diagnostics plots of masked chromosome bins
+
+################################################################################
