@@ -6,47 +6,45 @@
 ### DIRECTORY STRUCTURE ########################################################
 whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 
-# Avoid left to right partial matching by $
-options(warnPartialMatchDollar = T)
+options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
+options(warn=1) # Expands warnings
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    lib = paste0(home.dir, "/DPhil/lib")
-    data.dir = paste0(home.dir, "/Database")
     wk.dir = paste0(home.dir, "/DPhil/GCD_polished/12_Shuffling")
     orig.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity/z_ignore_git/out_constraints/merged_final")
     shuff.dir = paste0(wk.dir, "/z_ignore_git/out_constraints/merged_final")
   } else if(whorunsit == "LiezelCluster"){
-    home.dir = "/t1-data/user/ltamon"
-    lib = paste0(home.dir, "/DPhil/lib")
+    home.dir = "/project/sahakyanlab/ltamon"
     wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
-    data.dir = paste0(home.dir, "/Database")
-    orig.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/pending/11_Constraints/out_constraints/merged_final")
-    shuff.dir = paste0(wk.dir, "/out_constraints/merged_final")
+    orig.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints/out_constraints_hg19_rm/merged_final")
+    shuff.dir = paste0(wk.dir, "/out_constraints_hg19_rm/merged_final")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
 }
-persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+lib = paste0(home.dir, "/DPhil/lib")
+data.dir = paste0(home.dir, "/Database")
+persist.dir = NULL #paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 #persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
-out.dir = paste0(wk.dir, "/out_compare_new")
-foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
-foifile = paste0(wk.dir, "/foifile/foifile1")
+out.dir = paste0(wk.dir, "/out_compare_hg19_rm")
+foi.dir = NULL #paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
+foifile = NULL #paste0(wk.dir, "/foifile/foifile1")
 chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
-chr.v = paste0("chr", c(1:2), sep="")
+chr.v = "chr22" #paste0("chr", c(1:2), sep="")
 gcb = "min2Mb"
 bin.len = 40000L
 kmer.len = 7L
-type = "align" # kmer | align
+type = "kmer" # kmer | align
 affix = "_ijShuffled"
 plotOnly = F
-filterByFoi = T
-filterByCelltype = T
+filterByFoi = F
+filterByCelltype = F
 mannwhit = T
-out.id = "chrALL_1"
+out.id = "chr22"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################

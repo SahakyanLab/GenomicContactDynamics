@@ -1,6 +1,8 @@
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
+USE scripts in 11_Complementarity/ for C|| calculations including significance tests
+
 PERSIST.MX
 
 library(methods) #setRefClass()
