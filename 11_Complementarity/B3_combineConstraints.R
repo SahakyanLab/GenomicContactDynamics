@@ -14,7 +14,8 @@ if( !is.null(whorunsit[1]) ){
     wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
+    #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
@@ -22,13 +23,13 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 compl.dir = out.dir = paste0(wk.dir, "/out_constraints_hg19_rm/merged_final")
 ### OTHER SETTINGS #############################################################
-chr.v = "chr22" #paste("chr", c(1:22, "X"), sep="")
+chr.v = paste("chr", c(1:22, "X"), sep="")
 combineChr = TRUE
 gcb = "min2Mb"
 kmer.len = 7L
 bin.len = 4e4L
 type = "kmer"
-affix = "" # "" | "_ijShuffled"
+affix = "_ijShuffled"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -64,7 +65,7 @@ if(combineChr){
 } 
 #---------------------------------------
 for(chr in chr.v){
-  if(combineChr==FALSE){
+  if(!combineChr){
     load(file=paste0(out.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"))
   }
   cp.v <- CII.MX[,"Cp"]

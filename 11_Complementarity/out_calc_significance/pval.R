@@ -1,5 +1,5 @@
 ################################################################################
-# Get which Cp pairs have p-value >= 2.2e-16
+# Get which Cp pairs are not significant i.e. p-value >= alpha
 ################################################################################
 library(reshape2)
 alpha = 0.01

@@ -23,8 +23,9 @@ if( !is.null(whorunsit[1]) ){
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
-    CII.dir  = paste0(wk.dir, "/out_constraints/merged_final")
+    #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
+    CII.dir  = paste0(wk.dir, "/out_constraints_hg19_rm/merged_final")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
@@ -32,12 +33,12 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
-
-out.dir  = paste0(wk.dir, "/out_calc_significance")
+out.dir  = paste0(wk.dir, "/out_calc_significance_hg19_rm")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chrALL"
-type.v = c("Gfree", "sdDifference") #c("kmer", "align") #, "Gfree", "sdDifference")
+type.v = c("kmer", "Gfree", "sdDifference") #c("kmer", "align") #, "Gfree", "sdDifference")
+affix = "_ijShuffled"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -65,7 +66,7 @@ for(type in type.v){
     stop("Invalid argument.")
   } 
   
-  fle.id <- paste0(chr, "_", dtype.id, "_", gcb)
+  fle.id <- paste0(chr, "_", dtype.id, "_", gcb, affix)
   load(paste0(CII.dir, "/", fle.id, ".RData"))
   
   CII.MX <- CII.MX[! (is.na(CII.MX[,val.id]) | is.na(CII.MX[,"Cp"])), ]
@@ -93,10 +94,10 @@ for(type in type.v){
                 )
   
   # ANOVA, Kruskal-Wallis H-test
-  doVarTest(xval=vals, grp=Cps, out.dir, out.name)
+  #doVarTest(xval=vals, grp=Cps, out.dir, out.name)
     
   ## Post-hoc: Pairwise t-test and MWw test; takes longer
-  #compareManyDist(xval=vals, grp=Cps, alt="two.sided", out.dir, out.name)  
+  compareManyDist(xval=vals, grp=Cps, alt="two.sided", out.dir, out.name)  
     
   print(paste0(out.name, " done!"), quote=F)
   

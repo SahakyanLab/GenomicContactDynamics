@@ -60,7 +60,8 @@ type = "arr2.repl" # "kmer" | "align"
 # For type=kmer, nCPU based on number of contacts, ~30G for chr1
 # chr21 - align - 368511 good contacts - 30G - 2 days
 nCPU = 2 # chr1 - 4L (~40G), chr22 - 2L (~4G)
-allij = TRUE
+allij = FALSE
+ct = "hg19"
 # align
 numChunks = 2 # human chr1 - 32L, chr21 - 2L
 gfreeparfile = paste0(gfreepar.dir, "/Gfree_", kmer.len, "mer.par")
@@ -116,10 +117,10 @@ getComplementarity(
   type=type, 
   nCPU=nCPU,
   allij=allij,
-  ct=NULL,
+  ct=ct,
   affix.persist=affix.persist,
   affix.binkmer=affix.binkmer, # paste0(chr, "_Hyb", kmer.len, "_", gcb, affix)
-  affix.out="", 
+  affix.out=affix.persist, 
   genome.prefix=genome.prefix,
   fastafile.ending=fastafile.ending,
   # align
