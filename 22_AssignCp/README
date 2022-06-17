@@ -1,0 +1,38 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+library(foreach)
+library(doParallel)
+library(itertools)
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+
+source(paste0(lib, "/UTL_doPar.R"))
+source(paste0(lib, "/getConsensusCpOfPairs.R"))
+source(paste0(lib, "/GG_bgr.R"))
+source(paste0(lib, "/compareTwoDist.R"))
+################################################################################
+# A. Maximum Cp of pairs of regions (e.g. promoter-enhancer, protein-protein)
+################################################################################
+1. Maximum Cp of experimentally validated promoter-enhancer pairs from ENdb. 
+
+Only intrachromosomal pairs were considered and with target genes present in 
+UCSC table. The UCSC transcript table with multiple transcripts (hg19anno_ALL) 
+were used so per pair, all transcripts of genes considered when finding the maximum 
+Cp of contact linking them.
+
+2. Maximum Cp of protein-protein associations from FunCoup 4.0. Only intrachromosomal
+pairs were considered but the identification of Cp were simplified by using
+only the longest transcript per gene. FunCoup uses ensemble ENSG ids so this was
+converted to gene names and only those present in the UCSC table were considered.
+
+2.5 (append) Cp, chromosome and gene name information appended to the full format
+FunCoup table. The abridged version of the FunCoup table was used in A2.
+
+2.5 (plot) Plot FunCoup metrics vs. Cp to see any differences between dynamic and
+persistent contacts.
+
+Density plot - Compares values from Cp <=3 (dynamic, x) with Cp >= 19 (persistent,
+y)
+################################################################################
