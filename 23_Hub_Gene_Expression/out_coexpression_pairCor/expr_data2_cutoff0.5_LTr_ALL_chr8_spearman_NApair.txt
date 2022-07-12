@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+177991 381501 0.466554478232036

@@ -1,0 +1,9 @@
+#	Gene	Species	Kappa
+1	keratin associated protein 19-2(KRTAP19-2)	Homo sapiens	0.8571406245509193
+2	keratin associated protein 19-3(KRTAP19-3)	Homo sapiens	0.8571406245509193
+3	keratin associated protein 19-4(KRTAP19-4)	Homo sapiens	0.8571406245509193
+4	keratin associated protein 20-2(KRTAP20-2)	Homo sapiens	0.8571406245509193
+5	keratin associated protein 19-5(KRTAP19-5)	Homo sapiens	0.7499957266770388
+6	keratin associated protein 19-1(KRTAP19-1)	Homo sapiens	0.7499957266770388
+7	keratin associated protein 20-3(KRTAP20-3)	Homo sapiens	0.6666621084710911
+8	keratin associated protein 7-1 (gene/pseudogene)(KRTAP7-1)	Homo sapiens	0.4999914533510331

@@ -1,0 +1,7 @@
+#	Gene	Species	Kappa
+1	chromosome 9 open reading frame 135(C9orf135)	Homo sapiens	0.8571360351191466
+2	family with sequence similarity 189 member A2(FAM189A2)	Homo sapiens	0.6666507486121155
+3	equatorin(EQTN)	Homo sapiens	0.6249753203506627
+4	transmembrane protein 252(TMEM252)	Homo sapiens	0.5882207201903429
+5	leucine rich repeat and Ig domain containing 2(LINGO2)	Homo sapiens	0.3999518622385922
+6	transient receptor potential cation channel subfamily M member 3(TRPM3)	Homo sapiens	0.3589282049147238

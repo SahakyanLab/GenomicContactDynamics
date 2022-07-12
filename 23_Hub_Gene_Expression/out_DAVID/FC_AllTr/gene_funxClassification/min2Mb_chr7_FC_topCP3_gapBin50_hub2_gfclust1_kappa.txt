@@ -1,0 +1,5 @@
+#	Gene	Species	Kappa
+1	zinc finger protein 479(ZNF479)	Homo sapiens	0.847437590170084
+2	zinc finger protein 736(ZNF736)	Homo sapiens	0.8371937701533784
+3	zinc finger protein 716(ZNF716)	Homo sapiens	0.8371937701533784
+4	IKAROS family zinc finger 1(IKZF1)	Homo sapiens	0.5315725959654263

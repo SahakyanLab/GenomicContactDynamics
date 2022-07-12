@@ -1,0 +1,9 @@
+Gene Group 1	Enrichment Score: 8.3819397480063
+OFFICIAL_GENE_SYMBOL	Gene Name
+SERPINB7	serpin family B member 7(SERPINB7)
+SERPINB11	serpin family B member 11 (gene/pseudogene)(SERPINB11)
+SERPINB12	serpin family B member 12(SERPINB12)
+SERPINB13	serpin family B member 13(SERPINB13)
+SERPINB2	serpin family B member 2(SERPINB2)
+SERPINB8	serpin family B member 8(SERPINB8)
+

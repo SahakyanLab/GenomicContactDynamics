@@ -1,0 +1,116 @@
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: parallel
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:parallel’:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:base’:
+
+    expand.grid
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] hub 3
+[1] hub 4
+[1] chr1 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] hub 3
+[1] chr2 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] hub 3
+[1] chr3 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] hub 3
+[1] chr4 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] hub 3
+[1] chr5 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] chr6 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] chr7 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr8 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr9 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr10 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] hub 3
+[1] chr11 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr12 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr13 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr14 gapBin=50 done!
+[1] No center for chr15 gapBin=50
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr16 gapBin=50 done!
+[1] No center for chr17 gapBin=50
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] chr18 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr19 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr20 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] hub 2
+[1] hub 3
+[1] chr21 gapBin=50 done!
+[1] No filtering based on cell/tissue.
+[1] hub 1
+[1] chr22 gapBin=50 done!
+[1] No center for chrX gapBin=50

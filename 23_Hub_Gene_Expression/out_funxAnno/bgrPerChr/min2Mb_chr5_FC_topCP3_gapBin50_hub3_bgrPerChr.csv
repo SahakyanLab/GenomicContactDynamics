@@ -1,0 +1,2 @@
+ONTOLOGY,ID,Description,GeneRatio,BgRatio,pvalue,p.adjust,qvalue,geneID,Count
+GO_BP,GO:0034330,cell junction organization,2/2,14/818,0.00027233033969469,0.0108932135877876,0.00859990546404285,CDH10/CDH6,2

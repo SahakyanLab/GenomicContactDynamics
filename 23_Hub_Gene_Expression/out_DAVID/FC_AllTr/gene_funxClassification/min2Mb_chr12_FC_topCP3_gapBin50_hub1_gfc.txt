@@ -1,0 +1,10 @@
+Gene Group 1	Enrichment Score: 0.7500485874320668
+OFFICIAL_GENE_SYMBOL	Gene Name
+TMTC2	transmembrane and tetratricopeptide repeat containing 2(TMTC2)
+TMTC3	transmembrane and tetratricopeptide repeat containing 3(TMTC3)
+
+Gene Group 2	Enrichment Score: 0.5351138021783921
+OFFICIAL_GENE_SYMBOL	Gene Name
+POC1B-GALNT4	POC1B-GALNT4 readthrough(POC1B-GALNT4)
+GALNT4	polypeptide N-acetylgalactosaminyltransferase 4(GALNT4)
+

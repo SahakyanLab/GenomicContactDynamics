@@ -1,0 +1,2 @@
+Category	Term	Count	%	PValue	Genes	List Total	Pop Hits	Pop Total	Fold Enrichment	Bonferroni	Benjamini	FDR
+GOTERM_MF_DIRECT	GO:0005515~protein binding	3	18.75	0.9498712421451543	SEC61G, SEPT14, EGFR	8	8785	16881	0.7205890722822994	1.0	1.0	1.0

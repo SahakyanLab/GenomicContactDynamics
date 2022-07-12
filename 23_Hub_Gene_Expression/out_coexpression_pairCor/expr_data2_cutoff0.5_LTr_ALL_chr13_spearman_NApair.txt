@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+52356 124251 0.421372866214356

@@ -1,0 +1,11 @@
+Gene Group 1	Enrichment Score: 0.9593522158523189
+OFFICIAL_GENE_SYMBOL	Gene Name
+KLHDC2	kelch domain containing 2(KLHDC2)
+KLHDC1	kelch domain containing 1(KLHDC1)
+
+Gene Group 2	Enrichment Score: 0.2801010371522614
+OFFICIAL_GENE_SYMBOL	Gene Name
+SLC38A6	solute carrier family 38 member 6(SLC38A6)
+KTN1	kinectin 1(KTN1)
+ATL1	atlastin GTPase 1(ATL1)
+

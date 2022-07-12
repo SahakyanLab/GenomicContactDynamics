@@ -1,0 +1,2 @@
+Category	Term	Count	%	PValue	Genes	List Total	Pop Hits	Pop Total	Fold Enrichment	Bonferroni	Benjamini	FDR
+UP_KEYWORDS	Alternative splicing	3	30.0	0.7088117774827511	USP25, NCAM2, SAMSN1	5	10587	20581	1.1663927458203456	0.999999999999999	1.0	1.0

@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+307176 781875 0.392870983213429
