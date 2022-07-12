@@ -19,18 +19,18 @@ if( !is.null(whorunsit[1]) ){
     wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
-    #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
+    #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 data.dir = paste0(home.dir, "/Database")
 lib = paste0(home.dir, "/DPhil/lib")
-compl.dir = paste0(wk.dir, "/out_constraints_hg19_rm")
+compl.dir = paste0(wk.dir, "/out_constraints_hg19_rm_GfreeSingleNorm")
 hyb.dir = compl.dir
 out.dir = paste0(compl.dir, "/merged_final")
-persist.dir = paste0(wk.dir, "/out_features")
+persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc") 
 ### OTHER SETTINGS #############################################################
 chr.v = paste0("chr", c(1:22, "X")) #paste("chr", c(1:16, 18:22, "X"), sep="")
 exclude = NULL #setNames(object=c(1522, 985, 1173, 930, 1349), nm=paste0("chr", 1:5))
@@ -40,7 +40,7 @@ makeothergcb = FALSE
 type = "kmer" # kmer | align
 kmer.len = 7L
 bin.len = 40000
-affix = "_ijShuffled" 
+affix = "" 
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################

@@ -6,7 +6,7 @@ prefix1="chr"
 array2=(kmer)  #arr2.repl
 prefix2="type"
 #srcfile="/Users/ltamon/SahakyanLab/GenomicContactDynamics/11_Complementarity/B2_getConstraints/script/B2_getConstraints_template.R"
-srcfile="/project/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/11_Constraints/B2_getConstraints/hsa_script_rm/B2_getConstraints_template.R"
+srcfile="/project/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/11_Constraints/B2_getConstraints/hsa_script_rm_shuff/B2_getConstraints_template.R"
 ###################################################################################
 # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE #
 ###################################################################################

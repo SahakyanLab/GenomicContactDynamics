@@ -3,34 +3,31 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    data.dir = "/Users/ltamon/Database"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/11_Complementarity"
+    home.dir = "/Users/ltamon"
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity")
+    compl.dir = paste0(wk.dir, "/z_ignore_git/out_constraints/merged_final")
   } else if(whorunsit == "LiezelCluster"){
-    #lib = "/t1-data/user/ltamon/DPhil/lib"
-    #data.dir = "/t1-data/user/ltamon/Database"
-    #wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/pending/11_Constraints"
-    lib = "/stopgap/sahakyanlab/ltamon/DPhil/lib"
-    data.dir = "/stopgap/sahakyanlab/ltamon/Database"
-    wk.dir = "/stopgap/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/pending/11_Constraints"
+    home.dir = "/project/sahakyanlab/ltamon"
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
+    compl.dir = paste0(wk.dir, "/out_constraints_GfreeSingleNorm/merged_final")
+    compl.align.dir = paste0(wk.dir, "/out_constraints/merged_final")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
 }
-compl.dir = paste0(wk.dir, "/z_ignore_git/out_constraints/merged_final")
-#compl.dir = paste0(wk.dir, "/out_constraints/merged_final")
-out.dir = paste0(wk.dir, "/out_compare_metric_allChr")
+lib = paste0(home.dir, "/DPhil/lib")
+out.dir = paste0(wk.dir, "/out_compare_metric_allChr_GfreeSingleNorm")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr0.v = unique(paste("chr", c(1:22, "X"), sep="")) # Shuffled later on
-nCPU = 1 # chr and comb.v (n=9) below 
-plotOnly = TRUE
+nCPU = 2 # chr and comb.v (n=9) below 
+plotOnly = FALSE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -53,7 +50,7 @@ if(plotOnly==FALSE){
     stop("Checkpoint 1.")
   }
   
-  toExport <- c("chr.v", "compl.dir", "gcb")
+  toExport <- c("chr.v", "compl.dir", "compl.align.dir", "gcb")
   
   DF <- foreach(itr=isplitVector(1:chr.v.len, chunks=nCPU), 
                 .inorder=FALSE, .combine="rbind",
@@ -78,7 +75,8 @@ if(plotOnly==FALSE){
       len0 <- length(df[,1])
       
       # Load CII.MX align
-      load(file=paste0(compl.dir, "/", chr, "_align_", gcb, ".RData"))
+      #load(file=paste0(compl.dir, "/", chr, "_align_", gcb, ".RData"))
+      load(file=paste0(compl.align.dir, "/", chr, "_align_", gcb, ".RData"))
       if( len0!=length(CII.MX[,1]) ){
         stop(paste0(chr, ": kmer and align CII.MX have different dimensions."))
       }

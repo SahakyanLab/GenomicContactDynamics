@@ -19,8 +19,8 @@ if( !is.null(whorunsit[1]) ){
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
     wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
-    orig.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints/out_constraints_hg19_rm/merged_final")
-    shuff.dir = paste0(wk.dir, "/out_constraints_hg19_rm/merged_final")
+    orig.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints/out_constraints_hg19_rm_GfreeSingleNorm/merged_final")
+    shuff.dir = paste0(wk.dir, "/out_constraints_hg19_rm_GfreeSingleNorm/merged_final")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
@@ -29,22 +29,22 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 persist.dir = NULL #paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 #persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
-out.dir = paste0(wk.dir, "/out_compare_hg19_rm")
+out.dir = paste0(wk.dir, "/out_compare_hg19_rm_GfreeSingleNorm")
 foi.dir = NULL #paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
 foifile = NULL #paste0(wk.dir, "/foifile/foifile1")
 chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
-chr.v = "chr22" #paste0("chr", c(1:2), sep="")
+chr.v = "chrALL" #paste0("chr", c(1:2), sep="")
 gcb = "min2Mb"
 bin.len = 40000L
 kmer.len = 7L
 type = "kmer" # kmer | align
-affix = "_ijShuffled"
+affix = "_ijShuffled" # For shuffled set
 plotOnly = F
 filterByFoi = F
 filterByCelltype = F
 mannwhit = T
-out.id = "chr22"
+out.id = "chrALL"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################

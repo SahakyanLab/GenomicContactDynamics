@@ -25,7 +25,7 @@ if( !is.null(whorunsit[1]) ){
     home.dir = "/project/sahakyanlab/ltamon" 
     wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
     #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
-    CII.dir  = paste0(wk.dir, "/out_constraints_GfreeSingleNorm/merged_final")
+    CII.dir  = paste0(wk.dir, "/out_constraints_hg19_rm_GfreeSingleNorm/merged_final")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
@@ -33,7 +33,7 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
-out.dir  = paste0(wk.dir, "/out_calc_significance_GfreeSingleNorm")
+out.dir  = paste0(wk.dir, "/out_calc_significance_hg19_rm_GfreeSingleNorm")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chrALL"

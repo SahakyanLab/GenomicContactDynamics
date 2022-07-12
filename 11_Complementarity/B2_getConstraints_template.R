@@ -23,9 +23,7 @@ if( !is.null(whorunsit[1]) ){
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
-    #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
-    binkmer.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/12_MaskingFeatures/out_binkmer_maskingThreshold")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
     os = "Linux"
   } else if(whorunsit == "LiezelLinuxDesk"){
     home.dir = "/home/ltamon"
@@ -40,15 +38,16 @@ data.dir = paste0(home.dir, "/Database")
 
 # both
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
-out.dir = paste0(wk.dir, "/out_constraints_hg19_rm")
-persist.dir = paste0(wk.dir, "/out_features") # paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+out.dir = paste0(wk.dir, "/out_constraints_GfreeSingleNorm")
+persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 # align
-genome.dir = paste0(data.dir, "/human_genome_repeatmasked_37.73")
+genome.dir = paste0(data.dir, "/human_genome_unmasked_37.73")
 # kmer
 gfreepar.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
-#binkmer.dir = paste0(data.dir, "/HiC_features_Liu2017oryza_HiC_NORMpc/binkmer7_divLen_all_50kb")
+#binkmer.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/12_MaskingFeatures/out_binkmer_maskingThreshold")
+binkmer.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_allbins")
 ### OTHER SETTINGS #############################################################
 # both
 gcb = "min2Mb"
@@ -60,15 +59,15 @@ type = "arr2.repl" # "kmer" | "align"
 # For type=kmer, nCPU based on number of contacts, ~30G for chr1
 # chr21 - align - 368511 good contacts - 30G - 2 days
 nCPU = 2 # chr1 - 4L (~40G), chr22 - 2L (~4G)
-allij = FALSE
-ct = "hg19"
+allij = TRUE
 # align
 numChunks = 2 # human chr1 - 32L, chr21 - 2L
 gfreeparfile = paste0(gfreepar.dir, "/Gfree_", kmer.len, "mer.par")
-genome.prefix = "Homo_sapiens.GRCh37.73.dna_rm.chromosome." #"Homo_sapiens.GRCh37.73.dna.chromosome." 
+genome.prefix = "Homo_sapiens.GRCh37.73.dna.chromosome." #"Homo_sapiens.GRCh37.73.dna.chromosome." 
 fastafile.ending = ".fa"
-affix.binkmer = "_hg19_rm"
-affix.persist = "_ijShuffled"
+affix.binkmer = ""
+affix.persist = ""
+affix.out = ""
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -117,10 +116,10 @@ getComplementarity(
   type=type, 
   nCPU=nCPU,
   allij=allij,
-  ct=ct,
+  ct=NULL,
   affix.persist=affix.persist,
   affix.binkmer=affix.binkmer, # paste0(chr, "_Hyb", kmer.len, "_", gcb, affix)
-  affix.out=affix.persist, 
+  affix.out=affix.out, 
   genome.prefix=genome.prefix,
   fastafile.ending=fastafile.ending,
   # align

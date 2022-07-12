@@ -19,16 +19,16 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/12_Shuffling")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
     binkmer.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/12_MaskingFeatures/out_binkmer_maskingThreshold")
     os = "Linux"
   } else if(whorunsit == "LiezelLinuxDesk"){
     home.dir = "/home/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/12_Shuffling")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
@@ -40,7 +40,7 @@ data.dir = paste0(home.dir, "/Database")
 # both
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
 out.dir = paste0(wk.dir, "/out_constraints_hg19_rm_GfreeSingleNorm")
-persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+persist.dir = paste0(wk.dir, "/out_features") # paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 # align
@@ -58,16 +58,16 @@ type = "arr2.repl" # "kmer" | "align"
 # For type=kmer, nCPU based on number of contacts, ~30G for chr1
 # chr21 - align - 368511 good contacts - 30G - 2 days
 nCPU = 2 # chr1 - 4L (~40G), chr22 - 2L (~4G)
-allij = TRUE
-ct = NULL # Not applicable for allij = TRUE; Don't set to NULL if allij = FALSE
+allij = FALSE
+ct = "hg19" # Not applicable for allij = TRUE; Don't set to NULL if allij = FALSE
 # align
 numChunks = 2 # human chr1 - 32L, chr21 - 2L
 gfreeparfile = paste0(gfreepar.dir, "/Gfree_", kmer.len, "mer.par")
-genome.prefix = "Homo_sapiens.GRCh37.73.dna_rm.chromosome."
+genome.prefix = "Homo_sapiens.GRCh37.73.dna_rm.chromosome."  
 fastafile.ending = ".fa"
 affix.binkmer = "_hg19_rm"
-affix.persist = ""
-affix.out = ""
+affix.persist = "_ijShuffled"
+affix.out = "_ijShuffled"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################

@@ -19,15 +19,15 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/12_Shuffling")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
     os = "Linux"
   } else if(whorunsit == "LiezelLinuxDesk"){
     home.dir = "/home/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
+    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/12_Shuffling")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
@@ -38,32 +38,36 @@ data.dir = paste0(home.dir, "/Database")
 
 # both
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
-out.dir = paste0(wk.dir, "/out_constraints_osa_50kb")
-persist.dir = paste0(data.dir, "/HiC_features_Liu2017oryza_HiC_NORMpc/features_50kb")
+out.dir = paste0(wk.dir, "/out_constraints_GfreeSingleNorm")
+persist.dir = paste0(wk.dir, "/out_features")
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
-chrLenfile = paste0(data.dir, "/genome_info/Osa_IRGSP1.0_chr_info.txt")
+chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 # align
-genome.dir = paste0(data.dir, "/rice_genome_unmasked_IRGSP1.0")
+genome.dir = paste0(data.dir, "/human_genome_unmasked_37.73")
 # kmer
 gfreepar.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
-binkmer.dir = paste0(data.dir, "/HiC_features_Liu2017oryza_HiC_NORMpc/binkmer7_divLen_all_50kb")
+binkmer.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_allbins")
 ### OTHER SETTINGS #############################################################
 # both
-gcb = "min0Mb"
-chr.v = "chr10" #paste0("chr", 1:12)
-bin.len = 50000 #2000 #4e4L
+gcb = "min2Mb"
+chr.v = "chrarr1.repl"
+bin.len = 40000 #2000 #4e4L
 kmer.len = 7
-type = "kmer" # "kmer" | "align"
+type = "arr2.repl" # "kmer" | "align"
 # For type=align, nCPU based on number of chunks
 # For type=kmer, nCPU based on number of contacts, ~30G for chr1
 # chr21 - align - 368511 good contacts - 30G - 2 days
-nCPU = 2 # chr1 - 4L, chr21 - 2L
-allij = TRUE
+nCPU = 2 # chr1 - 4L (~40G), chr22 - 2L (~4G)
+allij = FALSE
+ct = "hg19" # Not applicable for allij = TRUE; Don't set to NULL if allij = FALSE
 # align
 numChunks = 2 # human chr1 - 32L, chr21 - 2L
 gfreeparfile = paste0(gfreepar.dir, "/Gfree_", kmer.len, "mer.par")
-genome.prefix = "Oryza_sativa_Nipponbare.IRGSP1.0.dna.chromosome." #"Homo_sapiens.GRCh37.73.dna.chromosome." 
+genome.prefix = "Homo_sapiens.GRCh37.73.dna.chromosome." 
 fastafile.ending = ".fa"
+affix.binkmer = ""
+affix.persist = "_ijShuffled"
+affix.out = "_ijShuffled"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -71,6 +75,7 @@ library(foreach)
 library(doParallel)
 library(itertools)
 library(compiler)
+library(gtools)
 library(Biostrings)
 source(paste0(lib.TrantoRextr, "/UTIL_readLinesFast.R"))
 source(paste0(lib.TrantoRextr, "/GEN_readfasta.R"))
@@ -111,10 +116,10 @@ getComplementarity(
   type=type, 
   nCPU=nCPU,
   allij=allij,
-  ct=NULL,
-  affix.persist="",
-  affix.binkmer="", # paste0(chr, "_Hyb", kmer.len, "_", gcb, affix)
-  affix.out="", 
+  ct=ct,
+  affix.persist=affix.persist,
+  affix.binkmer=affix.binkmer, # paste0(chr, "_Hyb", kmer.len, "_", gcb, affix)
+  affix.out=affix.out, 
   genome.prefix=genome.prefix,
   fastafile.ending=fastafile.ending,
   # align
