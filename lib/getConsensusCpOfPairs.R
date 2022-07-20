@@ -75,6 +75,9 @@ getConsensusCpOfPairs <- function(bin.len, nCPU,
     
   }
   
+  dimnames(PAIRCP.MX)[[2]] <- c("pair.ind", "value")
+  return(PAIRCP.MX)
+  
   ### END OF PARALLEL EXECUTION ###
   
 }

@@ -25,6 +25,8 @@ mapToHiCcontactPersistBins <- function(
   #---- if featSepByChr = TRUE
   # Program will look for each file on feat.dir using chr number eg. *chrX* as pattern
   # Beware of duplicate files for each chr
+  pattern.pref = NULL,
+  pattern.suff = NULL,
   
   #---- if featSepByChr = FALSE
   # Path to file
@@ -80,7 +82,7 @@ mapToHiCcontactPersistBins <- function(
     `%op%` <- `%do%`
   }
   
-  if(featSepByChr==FALSE){
+  if( !featSepByChr ){
     if(grepl(pattern=".RData", x=featurefile)){
       FEAT.df <- loadRData(fileName=featurefile)
     } else {
@@ -131,7 +133,7 @@ mapToHiCcontactPersistBins <- function(
       chr <- chr.v[i]
       
       if(featSepByChr){
-        featurefile=paste0(feat.dir, "/", dir(feat.dir, pattern=chr))
+        featurefile=paste0(feat.dir, "/", dir(feat.dir, pattern=paste0(pattern.pref, chr, pattern.suff)))
         if( grepl(".RData", x=featurefile) ){
           feat.df <- loadRData(fileName=featurefile)
         } else {
@@ -144,26 +146,30 @@ mapToHiCcontactPersistBins <- function(
      
       if(unique(feat.df[[chr.col]])!=chr){ stop(paste0(chr, ":Feature ranges from different chr.")) }
       
-      # Remove irrelevant columns
-      if( is.numeric( c(chr.col, drop.col) ) ){
-        feat.df <- feat.df[,-drop.ind]
-      } else if( is.character(c(chr.col, drop.col)) ){
-        drop.ind <- which(colnames(feat.df)%in%c(chr.col, drop.col))
-        feat.df <- feat.df[,-drop.ind]
-      } else {
-        stop(paste0(chr, ":Checkpoint."))
+      # Convert column numbers/indices to names, if applicable
+      lapply(X=list(start.coord, end.coord, chr.col, drop.col), FUN=is.numeric)
+      
+      for(objct in c("start.coord", "end.coord", "chr.col", "drop.col") ){
+        
+        eval(parse(text=paste0( "is_num <- is.numeric(", objct, ")")))
+        if(is_num){
+          eval(parse(text=paste0( objct, " <- colnames(feat.df)[", objct, "]")))
+        }
+        
       }
+      
+      # Remove irrelevant columns
+      feat.df <- feat.df[,setdiff(colnames(feat.df), c(chr.col, drop.col))]
       
       # Check for missing values in feat.df
       colNASums <- colSums(x=is.na(feat.df))
-      if(any(colNASums>0)){
+      if( any(colNASums>0) ){
         print( paste0(chr, ":Missing value/s in column/s ", 
                       paste(which(colNASums!=0), collapse=","), ".") )
       }
       
       # Change column names of feature coordinates/position
       if(start.coord==end.coord){
-        # Start coord can be column name or number
         setnames(x=feat.df, old=start.coord, new="pos")
       } else {
         # Lengths of features
@@ -189,7 +195,7 @@ mapToHiCcontactPersistBins <- function(
       bin.start <- bin.end-bin.len+1
       
       NAbin <- NULL
-      if(doLiftOver){
+      if( doLiftOver & !is.null(LOchain) ){
         print(paste0(chr, ":", LOchain, " liftover..."))
         # LO.mx$group corresponds to index of bin in bins.uniq
         LO.mx <- LO_mapToHiCcontactPersistBins(out.dir=out.dir, 
@@ -204,10 +210,9 @@ mapToHiCcontactPersistBins <- function(
         bin.start <- LO.mx$start
         bin.end <- LO.mx$end
         rm(LO.mx); gc()
-      } else if( doLiftOver==FALSE | is.null(doLiftOver) ){
-      } else {
-        stop(paste0(chr, ":doLiftOver: Invalid input."))
-      }
+      } else if( doLiftOver & is.null(LOchain) ){
+        stop(paste0(chr, ":Provide LOchain."))
+      } 
       
       if(start.coord==end.coord){
         feat.start <- feat.end <- feat.df$pos
@@ -269,7 +274,7 @@ mapToHiCcontactPersistBins <- function(
       if( length(NAbin)>0 ){
         appendd <- data.frame(matrix(data=NA, nrow=length(NAbin), ncol=ncol(FEATURE.BIN.MX),
                                      dimnames=list(NULL, c("chr", "bin", colnames(df), "countPerBin"))
-                                     )
+                                     ), check.names=F 
                               )
         appendd$bin <- NAbin
         appendd$chr <- chr

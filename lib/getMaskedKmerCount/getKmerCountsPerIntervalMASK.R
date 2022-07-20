@@ -30,7 +30,7 @@ K             = 4,                       # k in the k-mer
 PATH.genome   = "/Volumes/Data/Database/human_genome_unmasked_37.73",
 genome.prefix = "Homo_sapiens.GRCh37.73.dna.chromosome.",
 fastafile.ending = ".fa",
-silent        = FALSE,
+#silent        = FALSE,
 nCPU          = 2L,
 maskingChar   = NULL,
 # If an altered version of the chromosome sequence should be used, introduce it
@@ -51,8 +51,8 @@ sequence      = NULL
                                k=K, method="Biostrings"))
   kmer.len <- length(kmer.names)
   
-  toExport <- c("silent", "PATH.genome", "genome.prefix", "fastafile.ending",
-                "chr", "silent", "startpos", "endpos", "K", "kmer.len", 
+  toExport <- c("chr", "startpos", "endpos", "K", "kmer.len", 
+                "PATH.genome", "genome.prefix", "fastafile.ending",
                 "maskingChar", "sequence")
   
   bin.len <- length(startpos)
@@ -69,7 +69,7 @@ sequence      = NULL
       
       seq <- substr(sequence, start=startpos[i], stop=endpos[i])
       
-      if( length(grep("N", seq))==1 ){
+      if( length(grep("N", seq))==1 & maskingChar!="N"){
         # If there is N in the sequence populate the counts with NA
         kmers <- rep(NA, times=kmer.len) 
       } else {

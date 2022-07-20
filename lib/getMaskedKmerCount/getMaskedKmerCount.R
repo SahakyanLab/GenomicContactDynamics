@@ -47,8 +47,10 @@ getMaskedKmerCount <- function(
   # created by the current loadGenome call, <split> should
   # match the loaded genome split pattern.
   
+  # Masking of chromosome skipped if maskingChar or maskbed is NULL
   maskbed = "bed-format table",
-  maskingChar = "m"
+  maskingChar = "m" 
+  
 ){
 
   #-------------------------------------------------------------------------------
@@ -67,7 +69,7 @@ getMaskedKmerCount <- function(
   #-------------------------------------------------------------------------------
   # Masked version of chromosome
   #-------------------------------------------------------------------------------
-  if( !is.null(maskingChar) ){
+  if( !is.null(maskingChar) | is.null(maskbed) ){
     
     # Mask chromosome
     eval(parse(text=paste0(

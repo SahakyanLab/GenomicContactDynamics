@@ -72,7 +72,8 @@ getComplementarityKmer <- function(
                            difference <- kmerAall - kmerBall
                            return( c(
                              # everything is counted twice, hence 2 in the division
-                             sum(pmin(kmerAall, kmerBall)*gfree[,2])/(2*binlength),
+                             #sum(pmin(kmerAall, kmerBall)*gfree[,2])/(2*binlength),
+                             sum(pmin(kmerAall, kmerBall)*gfree[,2])/2, # kmer counts already normalised by binlength
                              # everything is twice in frequency
                              #hist(difference, breaks=100, col="navy")
                              sd( difference ),
