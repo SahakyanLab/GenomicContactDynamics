@@ -11,25 +11,25 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
-    #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity")
 lib = paste0(home.dir, "/DPhil/lib")
-compl.dir = out.dir = paste0(wk.dir, "/out_constraints_hg19_rm_GfreeSingleNorm/merged_final")
+compl.dir = paste0(wk.dir, "/out_constraints_GfreeSingleNorm/merged_final")
+out.dir = compl.dir
 ### OTHER SETTINGS #############################################################
-chr.v = paste("chr", c(1:22, "X"), sep="")
-combineChr = TRUE
+chr.v = paste("chr", c("ALL", 1:22, "X"), sep="")
+combineChr = FALSE
 gcb = "min2Mb"
 kmer.len = 7L
 bin.len = 4e4L
 type = "kmer"
 affix = ""
+gap.val = 50  # j - i - 1 # Set to NULL if not filtering
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -38,6 +38,11 @@ source(paste0(lib, "/HiCHybridPlot.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
+if( !is.null(gap.val) ){
+  out.dir <- paste0(out.dir, "/filter_gap_jMINUSiMINUS1equals", gap.val, "bins")
+  if( !dir.exists(out.dir) ){ dir.create(out.dir) }
+}
+
 if(type=="align"){
   ylab <- list(`C||`=bquote(bold( "c"["||"]~"align" )) )
 } else if(type=="kmer"){
@@ -62,11 +67,19 @@ if(combineChr){
   save(CII.MX, file=paste0(out.dir, "/chrALL_", type, "_", gcb, affix, ".RData"))
   chr.v <- "chrALL"
   print("Combined chr data.", quote=FALSE)
+  
+  if( !is.null(gap.val) ){
+    CII.MX <- CII.MX[ (CII.MX[,"j"] - CII.MX[, "i"] - 1) == gap.val, ]
+  }
+  
 } 
 #---------------------------------------
 for(chr in chr.v){
   if(!combineChr){
-    load(file=paste0(out.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"))
+    load(file=paste0(compl.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"))
+    if( !is.null(gap.val) ){
+      CII.MX <- CII.MX[ (CII.MX[,"j"] - CII.MX[, "i"] - 1) == gap.val, ]
+    }
   }
   cp.v <- CII.MX[,"Cp"]
   colnme <- colnames(CII.MX)[!colnames(CII.MX)%in%c("i", "j", "Cp", "group")]

@@ -2,9 +2,9 @@
 # Get which Cp pairs are not significant i.e. p-value >= alpha
 ################################################################################
 library(reshape2)
-alpha = 0.01
+alpha = 0.05
 
-pw.dir = "~/SahakyanLab/GenomicContactDynamics/11_Complementarity/out_calc_significance_GfreeSingleNorm"
+pw.dir = "~/SahakyanLab/GenomicContactDynamics/11_Complementarity/out_calc_significance_GfreeSingleNorm" #/filter_gap_jMINUSiMINUS1equals50bins"
 pw.files <- list.files(pw.dir, pattern="pairwisedifftest.RData")
 
 df <- list()

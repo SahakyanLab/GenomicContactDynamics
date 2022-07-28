@@ -3,13 +3,8 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-# Set recommended global options
-
-# Avoid left to right partial matching by $
-options(warnPartialMatchDollar=T)
-
-# Expands warnings
-options(warn=1)
+options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
+options(warn=1) # Expands warnings
 
 whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
@@ -18,27 +13,24 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/11_Complementarity")
-    CII.dir  = paste0(wk.dir, "/z_ignore_git/out_constraints/merged_final")
-    os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    home.dir = "/project/sahakyanlab/ltamon" 
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
-    #wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
-    CII.dir  = paste0(wk.dir, "/out_constraints_GfreeSingleNorm/merged_final")
-    os = "Linux"
+    home.dir = "/project/sahakyanlab/ltamon"
   } else {
-    stop("The supplied <whorunsit> option is not created in the script.", quote=F)
+    print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
+wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity")
+CII.dir  = paste0(wk.dir, "/out_constraints_GfreeSingleNorm/merged_final")
 out.dir  = paste0(wk.dir, "/out_calc_significance_GfreeSingleNorm")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chrALL"
-type.v = c("Gfree", "kmer", "sdDifference") #c("kmer", "align") #, "Gfree", "sdDifference")
+type.v = c("kmer", "Gfree", "sdDifference")
+mult.v = setNames(c(1, 1, 10^4), nm=type.v) # Multiplier before doing test, for less memory usage
 affix = ""
+gap.val = 50  # j - i - 1 # Set to NULL if not filtering
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -48,19 +40,25 @@ source(paste0(lib, "/compareManyDist.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
+if( !is.null(gap.val) ){
+  out.dir <- paste0(out.dir, "/filter_gap_jMINUSiMINUS1equals", gap.val, "bins")
+  if( !dir.exists(out.dir) ){ dir.create(out.dir) }
+}
+
 for(type in type.v){
   
+  mult <- mult.v[[type]]
   if( type %in% c("Gfree", "sdDifference") ){
     
     dtype.id <- "kmer"
     val.id <- type
-    if(type=="Gfree"){ mult <- 10^5 } else { mult <- 10^4 }
+    #if(type=="Gfree"){ mult <- 10^5 } else { mult <- 10^4 }
     
   } else if( type %in% c("kmer", "align") ){
     
     dtype.id <- type
     val.id <- "C||"
-    mult <- 1
+    #mult <- 1
     
   } else {
     stop("Invalid argument.")
@@ -69,7 +67,11 @@ for(type in type.v){
   fle.id <- paste0(chr, "_", dtype.id, "_", gcb, affix)
   load(paste0(CII.dir, "/", fle.id, ".RData"))
   
-  CII.MX <- CII.MX[! (is.na(CII.MX[,val.id]) | is.na(CII.MX[,"Cp"])), ]
+  is_valid_ij <- ! (is.na(CII.MX[,val.id]) | is.na(CII.MX[,"Cp"]))
+  if( !is.null(gap.val) ){
+    is_valid_ij <- is_valid_ij & (CII.MX[,"j"] - CII.MX[, "i"] - 1) == gap.val
+  }
+  CII.MX <- CII.MX[is_valid_ij,]
   
   vals <- CII.MX[,val.id] * mult
   if( type %in% c("Gfree", "sdDifference") ){

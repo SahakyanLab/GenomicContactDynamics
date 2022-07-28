@@ -150,6 +150,13 @@ values from PERSIST.MX
 
 3. Combine CII.MX of all chromosome and plot CII, Gfree, sd across Cp. 
 The script can also be used to plot for individual chromosome. 
+
+4. Calculate significance of trends by pairwise t-test and mann-whitney test,
+anova and correlation. For lower memory, sd values were multiplied by 10^4
+to increase value. 
+
+Initially, before Gfree normalisation was corrected, Gfree was mutiplied
+by 10^5 - rerun to correct this in the supp info.
 ###############################################################################
 # C. Catgorise complementarity scores into high, middle and low values
 1. Since the methods to assess complementarity do not reflect the actual
