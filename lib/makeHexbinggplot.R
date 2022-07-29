@@ -37,13 +37,13 @@ makeHexbinggplot <- function(xvar,
     geom_hex(bins=bins) +
     scale_fill_manual(values=col) + 
     #scale_y_continuous(breaks=breaks.y, limits=limits.y) + 
-    scale_x_continuous(breaks=1:21, 
-                       labels=as.vector(rbind(
-                         seq(from=1, to=21, by=2),
-                         rep("", 11)
-                       ))[-22]
+    #scale_x_continuous(breaks=1:21, 
+    #                   labels=as.vector(rbind(
+    #                     seq(from=1, to=21, by=2),
+    #                     rep("", 11)
+    #                   ))[-22]
  
-  ) +
+  #) +
     labs(title=title, x=xlab, y=ylab, fill="Count") +
     bgr2 +
     theme(legend.text=element_text(size=20, face="bold"),
