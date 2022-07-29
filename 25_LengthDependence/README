@@ -1,0 +1,37 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+library(ggplot2)
+library(ggpubr)
+library(hexbin)
+library(Hmisc)
+library(reshape2)
+library(viridis)
+library(RColorBrewer)
+
+source(paste0(lib, "/GG_bgr.R"))
+source(paste0(lib, "/makeHexbinggplot.R"))
+source(paste0(lib, "/compareTwoDist.R"))
+################################################################################
+# A. Association of contact complementarity and contact linear gap/length/distance
+################################################################################
+1. Pearson and spearman correlation of contact gap and complementarity (kmer, align).
+Outputs are hexbin plots for each chromosome, RData containing correlation
+coefficients from all chromosomes and density plot of these coefficients. 
+
+2. Compare gap distribution of original and shuffled contacts. N in title is
+number of all original and shuffled contacts.  
+
+3. Compare contact complementarity distribution of shortest most dynamic contacts
+with that of the longest most persistent contacts. perc.thresh defines percentage
+of longest persistent contacts to be considered. Because there are more dynamic
+contacts and I wanted to avoid overlapping of contact gaps between the considered
+persistent and dynamic subseet of contacts, for the dynamic set the perc.thresh
+is decreased by multiplying with mult.dyn.thresh that is ideally less than 1. 
+Dynamic and persistent contacts are defined by the set Cp values using the dyn.Cp
+and per.Cp arguments. The identification of contacts to be considered considers
+all chromosomes at once (not per chromosome) because we are more interested in 
+getting contacts at the extremes of the length distribution and we are not so
+concerned above representing all chromosomes in the subset. Gap is calculated
+as j-i-1 and is in terms of bins. 
+################################################################################
