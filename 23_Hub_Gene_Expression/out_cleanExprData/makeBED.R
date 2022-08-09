@@ -37,18 +37,22 @@ if( any(duplicated(df$Gene.Name)) ){
   rm(df)
 }
 
-#
-ntiss.val <- apply( X=df[,-(1:3)], MARGIN=1, FUN=function(rw) sum(!is.na(rw)) )
+# (10, 1000} TPM/FPKM EMBL-EBI medium expression
+ntiss.nonNA <- apply( X=df[,-(1:3)], MARGIN=1, FUN=function(rw) sum(!is.na(rw)) )
+ntiss.medExpressed <- apply( X=df[,-(1:3)], MARGIN=1, FUN=function(rw) sum((rw > 10) & (rw <= 1000), na.rm=T) )
+ntiss.highExpressed <- apply( X=df[,-(1:3)], MARGIN=1, FUN=function(rw) sum(rw > 1000, na.rm=T) )
 eval(parse(text=paste0(
   'consensus.val <- apply( X=df[,-(1:3)], MARGIN=1, FUN=', consensus.funx,', na.rm=T)'
 )))
 
 #
+fourthcol <-  paste0(df$Gene.Name, "_", ntiss.nonNA, "_", ntiss.medExpressed, "_", ntiss.highExpressed, "_", consensus.val)
 df <- cbind.data.frame(GENE.NAME=df$GENE.NAME, 
-                       ntiss.val_consensus.val=paste0(ntiss.val, "_", consensus.val), 
+                       ntiss.nonNA_ntiss.medExpressed_ntiss.highExpressed_consensus.val=fourthcol, 
                        consensus.val=consensus.val)
 bed <- merge(x=anno.df, y=df, by.x="NAME2", by.y="GENE.NAME", all=T)
-bed <- bed[,c("chrom", "txStart", "txEnd", "ntiss.val_consensus.val", "consensus.val", "name2", "name")]
+bed <- bed[,c("chrom", "txStart", "txEnd", "ntiss.nonNA_ntiss.medExpressed_ntiss.highExpressed_consensus.val", 
+              "consensus.val", "name2", "name")]
 
 write.table(bed, file=paste0(out.dir, "/", out.id, ".bed"), sep="\t", row.names=F, col.names=F, quote=F)
 ################################################################################
