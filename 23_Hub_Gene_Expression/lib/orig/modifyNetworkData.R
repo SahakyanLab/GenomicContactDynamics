@@ -27,8 +27,7 @@ modifyNetworkData <- function(
   addNodes = TRUE,
   # Marking centromores
   centrobed.file = NULL, #'bed file of centromere position'
-  colouring.style = "binary", # "binary" | "discrete" | "gradient" | "gradient.numolap"
-  colour.nme = "#313695" # Valid R colour text for binary, RColorBrewer palette name for the rest of styles
+  colouring.style = "discrete" # "binary" | "discrete" | "gradient"
 ){
   
   if(bed.CS == "0-based"){
@@ -44,7 +43,6 @@ modifyNetworkData <- function(
   row.len <- nrow(mark.df)
   if(col.len >= 5){
     mark.df <- mark.df[,1:5]
-    if( !is.numeric(mark.df[,5]) ){ mark.df[,5] <- 1 }
   } else if(col.len == 4){
     mark.df$score.val <- 1
   } else if(col.len == 3){
@@ -104,7 +102,7 @@ modifyNetworkData <- function(
                             space.subject=mark.df$chr, 
                             maxgap=-1L, minoverlap=1L, type="any")
     colnames(hits.df) <- c("netwrk.ind", "marker.ind")
-  
+    
     NETWRK[[x]][,"num.olap"] <- 0
     NETWRK[[x]][,"marker.olap"] <- NA
     NETWRK[[x]][,"name.feat.olap"] <- NA
@@ -134,18 +132,13 @@ modifyNetworkData <- function(
       # subject swapped. 
       # query in hits.df, netwrk.ind in edge.cp.hits.df
       # subject in hits.df, marker.ind in edge.cp.hits.df
-      hits.df <- hits.df[!hits.df[,"netwrk.ind"] %in% edge.cp.ind,, drop=FALSE]
+      hits.df <- hits.df[!hits.df[,"netwrk.ind"] %in% edge.cp.ind,]
       rm(edge.cp.ind)
-      hits.df <- rbind(hits.df, edge.cp.hits.df[,c("netwrk.ind","marker.ind"), drop=FALSE])
-      hits.df <- hits.df[order(hits.df[,"netwrk.ind"]),, drop=FALSE]
+      hits.df <- rbind(hits.df, edge.cp.hits.df[,c("netwrk.ind","marker.ind")])
+      hits.df <- hits.df[order(hits.df[,"netwrk.ind"]),]
       rm(edge.cp.hits.df)
       
     } 
-
-    if( nrow(hits.df) == 0){
-      print(paste0("No valid overlap with ", x, "!"), quote=FALSE)
-      next
-    }
     
     hits.df <- data.frame(hits.df, 
                           uniqueID=mark.df[,"uniqueID"][hits.df[,"marker.ind"]],
@@ -153,7 +146,7 @@ modifyNetworkData <- function(
                           score.val=mark.df[,"score.val"][hits.df[,"marker.ind"]],
                           stringsAsFactors=FALSE)
     
-    hits.df <- by(data=hits.df[,c("marker.ind", "uniqueID", "name.feat", "score.val"), drop=FALSE], 
+    hits.df <- by(data=hits.df[,c("marker.ind", "uniqueID", "name.feat", "score.val")], 
                   INDICES=hits.df[,"netwrk.ind"], 
                   FUN=function(x){
                     
@@ -176,11 +169,6 @@ modifyNetworkData <- function(
     }
     
     NETWRK[[x]][netwrk.ind,colnames(hits.df)] <- hits.df
-    
-    if(colouring.style == "gradient.numolap"){
-      NETWRK[[x]][,"score.olap.mean"] <- NETWRK[[x]][,"num.olap"]
-      NETWRK[[x]][ NETWRK[[x]][,"num.olap"] == 0,"score.olap.mean" ] <- NA_integer_
-    }
     
     # Check if nodes/edges with num.olap==0 has no marker.olap (NA)
     if(! identical( NETWRK[[x]][,"num.olap"] == 0, is.na(NETWRK[[x]][,"marker.olap"]) )){
@@ -266,15 +254,12 @@ modifyNetworkData <- function(
       grp.TF <- lengths(nonijfinite.val) == 1
       val.grps <- unique(unlist(nonijfinite.val[grp.TF]))
       
-      if( !colour.nme %in% rownames(brewer.pal.info) ){
-        stop("modifyNetworkData(): Only RCOlorBrewer palettes accepted.")
-      } else {
-        col.pal <- setNames(colorRampPalette(brewer.pal(n=11, name=colour.nme))(length(val.grps)), nm=val.grps)
-      }
+      col.pal <- setNames(colorRampPalette(brewer.pal(n=8, name="Dark2"))(length(val.grps)),
+                          nm=val.grps)
       col.hex[grp.TF] <- col.pal[unlist(nonijfinite.val[grp.TF])]
       col.hex <- adjustcolor(col.hex, alpha.f=0.7)
       
-    } else if( colouring.style %in% c("binary", "gradient", "gradient.numolap") ){
+    } else if( colouring.style %in% c("binary", "gradient") ){
       
       print("modifyNetworkData(): Binary/Gradient colouring style.")
       
@@ -287,18 +272,7 @@ modifyNetworkData <- function(
       if(denom > 0){
         col.val <- col.val / denom
       }
-      
-      if(colouring.style == "binary"){
-        col.pal <- colorRamp(colour.nme)
-      } else {
-        
-        if( !colour.nme %in% rownames(brewer.pal.info) ){
-          stop("modifyNetworkData(): Only RCOlorBrewer palettes accepted.")
-        } else {
-          col.pal <- colorRamp(rev(brewer.pal(n=11, colour.nme))) #viridis(5))
-        }
-        
-      }
+      col.pal <- colorRamp(viridis(5))
       col.hex <- adjustcolor( rgb(col.pal(col.val), max=255), alpha.f=0.7 )
       
     } else {

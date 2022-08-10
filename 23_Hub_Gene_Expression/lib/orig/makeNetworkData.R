@@ -56,9 +56,9 @@ makeNetworkData <- function(
     col.v <- brewer.pal(n=5, name="Reds")
     names(col.v) <- 17:21
     NETWRK$edges <- data.frame(#id=1:length(contact.mx[,1]), 
-                               label=as.character(cp.v), title=cp.v, from=contact.mx[,1], 
+                               label=cp.v, title=cp.v, from=contact.mx[,1], 
                                to=contact.mx[,2], length=edgelen.mult, width=20, 
-                               color=NA, arrows=NA, font.size=40, #font=NA, 
+                               color=NA, font="60px arial", arrows=NA,
                                stringsAsFactors=FALSE) 
     NETWRK$edges$color <- col.v[as.character(NETWRK$edges$label)]
     rm(contact.mx, cp.v, uniq.cp, col.v); gc()
@@ -82,13 +82,13 @@ makeNetworkData <- function(
   # Nodes final dataframe
   NETWRK$nodes <- data.frame(id=ubins, label=NA, title=as.character(ubins), 
                              shape="dot", size=12, color="black", 
-                             font.size=NA, borderWidth=0, stringsAsFactors=FALSE)
+                             font=NA, borderWidth=0, stringsAsFactors=FALSE)
   
   if( !is.null(ubins.ij) ){
     
     # Special format for persistent contact nodes
-    ubins.ij.TF <- ubins%in%ubins.ij
-    NETWRK$nodes$color[ubins.ij.TF] <- adjustcolor("black", alpha.f=0.5) #"#d93229"
+    ubins.ij.TF <- ubins%in%unique(c(1, ubins.ij, bin.last))
+    NETWRK$nodes$color[ubins.ij.TF] <- adjustcolor("#d93229", alpha.f=0.5)
     rm(ubins.ij.TF); gc()
     
   }
@@ -98,7 +98,7 @@ makeNetworkData <- function(
   NETWRK$nodes$shape[c(1, node.last)] <- "circle"
   NETWRK$nodes$label[c(1, node.last)] <- "----"
   NETWRK$nodes$color[c(1, node.last)] <- "#ba9c4a"
-  NETWRK$nodes$font.size[c(1, node.last)] <- 14 #NETWRK$nodes$font[c(1, node.last)] <- "14px arial white"
+  NETWRK$nodes$font[c(1, node.last)] <- "14px arial white"
   rm(node.last)
   
   #---------------------------------------
@@ -108,7 +108,7 @@ makeNetworkData <- function(
   base <- data.frame(label=NA, title=NA, from=ubins[-(ubins.len)],
                      to=ubins[-1], length=(diff(ubins)-1)*edgelen.mult, 
                      width=15, color=adjustcolor("#aaadad", alpha.f=0.5),
-                     font.size=NA, arrows=NA, stringsAsFactors=FALSE)
+                     font=NA, arrows=NA, stringsAsFactors=FALSE)
   
   if( !is.null(ubins.ij) ){
     NETWRK$edges <- rbind(NETWRK$edges, base)
@@ -116,7 +116,7 @@ makeNetworkData <- function(
     NETWRK$edges <- base
   }
 
-  #NETWRK$edges$font[!is.na(NETWRK$edges$label)] <- "20px arial"
+  NETWRK$edges$font[!is.na(NETWRK$edges$label)] <- "40px arial"
   NETWRK$edges <- NETWRK$edges[order(NETWRK$edges$from, NETWRK$edges$to, decreasing=FALSE),]
   NETWRK$edges$arrows[NETWRK$edges$to%in%c(ubins.ext, bin.last) & is.na(NETWRK$edges$label)] <- "to"
   

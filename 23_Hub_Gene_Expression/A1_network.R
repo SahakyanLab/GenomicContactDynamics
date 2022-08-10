@@ -11,20 +11,19 @@ whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    wk.dir = "/Users/ltamon/SahakyanLab/CoreGenomeExplorer"
-    data.dir= "/Users/ltamon/Database"
+    home.dir = "/Users/ltamon"
   } else if(whorunsit == "LiezelCluster"){
-    wk.dir = "/t1-data/user/ltamon/SahakyanLab/CoreGenomeExplorer"
-    data.dir= "/t1-data/user/ltamon/Database"
+    home.dir = "/project/sahakyanlab/ltamon"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-#persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+data.dir = paste0(home.dir, "/Database")
+wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/23_Hub_Gene_Expression")
 persist.dir = paste0(wk.dir, "/out_basePersist")
 out.dir = paste0(wk.dir, "/out_network_test")
 centrobed.file = paste0(wk.dir, "/txTable/ct_hg19_foi_centromoreonly_desc_DNA")
-chrLenfile = paste0(wk.dir, "/Hsa_GRCh37_73_chr_info.txt")
+chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr.v = "chr21" #paste0("chr", c(1:22, "X"), sep="")
@@ -36,14 +35,14 @@ ct = NULL; ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", 
                     "AG", "Ov", "Bl", "MesC","MSC", "NPC", "TLC", "ESC", "FC", "LC")
 # Gap in terms of % of chr length ("Perc") or bin ("Bin")
 gap.type = "Bin" 
-gap.val = 650
+gap.val = 200
 # Number of bins in between non-contact bins (filler nodes)
 edge.res = 50
 # Multiplier to length of edges to make the difference in lengths more obvious;
 # default=2L
 edgelen.mult = 2L
 #-------------------
-marking = TRUE
+marking = FALSE
 # Bed file format (chr, start, end). Ranges will not be reduced to make them
 # non-overlapping. Ideally, each range should corrrespond to a unique feature/marker.
 # Internally, row numbers are added as uniqueID of the feature (before removing
@@ -179,6 +178,5 @@ for(chr in chr.v){
 }
 
 # rm(list=ls()); gc()
-
 
 

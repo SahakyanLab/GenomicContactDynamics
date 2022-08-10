@@ -13,7 +13,7 @@ addNodesToNetwork <- function(mark.df, NETWRK, edgelen.mult){
                         data.frame(id=add, label=NA, title=paste0("Bin: ", add), 
                                    shape="square", 
                                    size=dot.sample$size, color=edge.sample$color, 
-                                   borderWidth=dot.sample$borderWidth, font=dot.sample$font, 
+                                   borderWidth=dot.sample$borderWidth, font.size=dot.sample$font.size, #font=dot.sample$font, 
                                    stringsAsFactors=FALSE)
   )
   rm(dot.sample)
@@ -31,7 +31,7 @@ addNodesToNetwork <- function(mark.df, NETWRK, edgelen.mult){
                           label=NA, title=NA, from=ubins[-(length(ubins))], 
                           to=ubins[-1], length=(diff(ubins)-1)*edgelen.mult,  
                           width=nonij.sample$width, color=nonij.sample$color, 
-                          arrows=nonij.sample$arrows, font=NA, 
+                          arrows=nonij.sample$arrows, font.size=NA, #font=NA, 
                           stringsAsFactors=FALSE)
   )
   rm(nonij.sample)
