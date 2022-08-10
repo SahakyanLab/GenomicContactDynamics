@@ -1,0 +1,2 @@
+Category	Term	Count	%	PValue	Genes	List Total	Pop Hits	Pop Total	Fold Enrichment	Bonferroni	Benjamini	FDR
+GOTERM_BP_FAT	GO:0045449~regulation of transcription	3	30.0	0.47380733457387797	IL17A, KHDRBS2, TFAP2D	9	2601	13528	1.7336921696783287	1.0	0.9999999946630216	99.9060401764594

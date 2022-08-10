@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+172767 497503 0.347268257678848

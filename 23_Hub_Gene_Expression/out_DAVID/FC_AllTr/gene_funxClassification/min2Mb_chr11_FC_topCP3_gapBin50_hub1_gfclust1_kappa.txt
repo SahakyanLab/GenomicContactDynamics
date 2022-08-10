@@ -1,0 +1,18 @@
+#	Gene	Species	Kappa
+1	olfactory receptor family 8 subfamily K member 3 (gene/pseudogene)(OR8K3)	Homo sapiens	0.9818159032186878
+2	olfactory receptor family 5 subfamily R member 1 (gene/pseudogene)(OR5R1)	Homo sapiens	0.9818159032186878
+3	olfactory receptor family 5 subfamily L member 2(OR5L2)	Homo sapiens	0.9818159032186878
+4	olfactory receptor family 8 subfamily K member 5(OR8K5)	Homo sapiens	0.9818159032186878
+5	olfactory receptor family 5 subfamily D member 18(OR5D18)	Homo sapiens	0.9818159032186878
+6	olfactory receptor family 5 subfamily L member 1 (gene/pseudogene)(OR5L1)	Homo sapiens	0.9818159032186878
+7	olfactory receptor family 5 subfamily J member 2(OR5J2)	Homo sapiens	0.9818159032186878
+8	olfactory receptor family 5 subfamily D member 14(OR5D14)	Homo sapiens	0.9433893908219975
+9	olfactory receptor family 8 subfamily K member 1(OR8K1)	Homo sapiens	0.9433893908219975
+10	olfactory receptor family 4 subfamily A member 15(OR4A15)	Homo sapiens	0.9285623227695491
+11	olfactory receptor family 4 subfamily X member 1 (gene/pseudogene)(OR4X1)	Homo sapiens	0.9285623227695491
+12	olfactory receptor family 4 subfamily S member 1(OR4S1)	Homo sapiens	0.9285623227695491
+13	olfactory receptor family 4 subfamily B member 1(OR4B1)	Homo sapiens	0.9285623227695491
+14	olfactory receptor family 4 subfamily A member 16(OR4A16)	Homo sapiens	0.9285623227695491
+15	olfactory receptor family 4 subfamily C member 3(OR4C3)	Homo sapiens	0.9122693365120291
+16	olfactory receptor family 4 subfamily X member 2 (gene/pseudogene)(OR4X2)	Homo sapiens	0.8888752128023845
+17	olfactory receptor family 4 subfamily C member 45(OR4C45)	Homo sapiens	0.7916442296827666

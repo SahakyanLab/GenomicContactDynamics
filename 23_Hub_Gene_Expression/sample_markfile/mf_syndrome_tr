@@ -1,0 +1,245 @@
+chr1	1	28000000	chr1_p36_Dandy-Walker syndrome (DWS)
+chr1	34600001	46800000	chr1_p34_Moebius syndrome 1 (MBS1)
+chr1	61300001	84900000	chr1_p31_Mucopolysaccharidosis type IIIA (Sanfilippo syndrome A)
+chr1	84900001	94700000	chr1_p22_Moebius syndrome 1 (MBS1)
+chr1	84900001	88400000	chr1_p22.3_Moebius syndrome 1 (MBS1)
+chr1	107200001	117800000	chr1_p13_Holt-Oram syndrome with lung hypolasia and cardiomyopathy
+chr1	107200001	111800000	chr1_p13.3_Rett-like syndrome
+chr1	128900001	142600000	chr1_q12_Beckwith-Wiedemann syndrome (BWS);Menkes syndrome;Simpson-Golabi-Behmel syndrome, type 1 (SGBS1)
+chr1	142600001	147000000	chr1_q21.1_Gilles de la tourette syndrome (GTS)
+chr1	150300001	155000000	chr1_q21.3_Fifth Digit syndrome (Coffin-Siris)
+chr1	156500001	165500000	chr1_q23_Cerebro-oculo-facio-skeletal syndrome (COFS)
+chr1	156500001	159100000	chr1_q23.1_Rieger syndrome
+chr1	165500001	167200000	chr1_q24.1_Mowat-Wilson syndrome
+chr1	165500001	172900000	chr1_q24_Silver-Russell syndrome
+chr1	172900001	185800000	chr1_q25_Costello syndrome
+chr1	190800001	193800000	chr1_q31.2_Hypertelorism, microtia, and facial clefting syndrome (HMC)
+chr1	198700001	207200000	chr1_q32.1_Nail-Patella syndrome (NPS)
+chr1	211500001	214500000	chr1_q32.3_Waardenburg syndrome, type I
+chr1	227000001	230700000	chr1_q42.13_Wilms tumour, skeletal abnormalities similar to thrombocytopenia and absent radii (TAR) syndrome
+chr10	12200001	17300000	chr10_p13_Beckwith Weidemann syndrome (BWS)
+chr10	42300001	52900000	chr10_q11.2_Holt-Oram syndrome;Holt-Oram syndrome
+chr10	61200001	64500000	chr10_q21.2_Saethre-Chotzen syndrome
+chr10	97000001	105800000	chr10_q24_Adrenogenital syndrome;Hypoplastic left heart syndrome
+chr10	101900001	105800000	chr10_q24.3_Papillorenal syndrome
+chr10	119100001	135534747	chr10_q26_3p deletion syndrome
+chr11	1	2800000	chr11_p15.5_Beckwith Weidemann syndrome (BWS);Beckwith Weidemann syndrome (BWS);Beckwith Weidemann syndrome (BWS);Beckwith-Wiedemann syndrome (BWS);Beckwith-Wiedemann syndrome (BWS)
+chr11	2800001	10700000	chr11_p15.4_Beckwith Weidemann syndrome (BWS)
+chr11	16200001	21700000	chr11_p15.1_Klippel-Trenaunay-Weber syndrome
+chr11	31000001	36400000	chr11_p13_Moebius syndrome 1 (MBS1);Silver-Russell syndrome
+chr11	43500001	48800000	chr11_p11.2_Gillespie syndrome
+chr11	63400001	77100000	chr11_q13_Holt-Oram syndrome with lung hypolasia and cardiomyopathy
+chr11	92800001	97200000	chr11_q21_Alstrom syndrome;Rieger syndrome;Tricho-rhino-phalangeal syndrome, type 1 (TRPS1)
+chr11	110400001	121200000	chr11_q23_Hypoplastic left heart syndrome
+chr11	130800001	135006516	chr11_q25_Jacobsen syndrome (JBS)
+chr11	NA	NA	chr11_p12q21_Tricho-rhino-phalangeal syndrome, type 1 (TRPS1)
+chr12	46400001	54900000	chr12_q13.1_Beckwith Weidemann syndrome (BWS)
+chr12	67700001	71500000	chr12_q15_Glycogen storage disease type Ia and Sanfilippo syndrome type B;Rieger syndrome;Sotos syndrome
+chr12	75700001	80300000	chr12_q21.2_Male infertility due to tail stump syndrome failure of flagella assembly);Shwachman-Diamond syndrome
+chr12	92600001	96200000	chr12_q22_Mowat-Wilson syndrome
+chr12	109000001	114300000	chr12_q24.1_22q13.3 deletion syndrome
+chr12	109000001	133851895	chr12_q24_Dandy-Walker syndrome (DWS);Fifth Digit syndrome (Coffin-Siris);Holt-Oram syndrome;Kallmann syndrome
+chr12	114300001	120700000	chr12_q24.2_Ectrodactyly, Ectodermal Dysplasia and cleft lip;palate syndrome 1 (EEC1)
+chr12	120700001	133851895	chr12_q24.3_Prader-willi syndrome
+chr12	NA	NA	chr12_12q15_Holt-Oram syndrome
+chr13	10000001	17900000	chr13_p11_Treacher Collins syndrome
+chr13	19500001	27800000	chr13_q12.1_Cornelia de Lange syndrome
+chr13	19500001	32200000	chr13_q12_Ectrodactyly, Ectodermal Dysplasia and cleft lip;palate syndrome 1 (EEC1)
+chr13	28900001	32200000	chr13_q12.3_Papillorenal syndrome
+chr13	32200001	40100000	chr13_q13_Moebius syndrome 1 (MBS1);Wilms Tumour, malformative syndrome, mental retardation
+chr13	50900001	55300000	chr13_q14.3_Menkes syndrome
+chr13	73300001	79000000	chr13_q22_CHARGE syndrome;Multiple congenital malformations and minor abnormalities characteristic of 13q- and 21q-syndromes
+chr14	8100001	17600000	chr14_p11_Prader-willi syndrome
+chr14	17600001	24600000	chr14_q11_Anophthalmia (bilateral) with anomalies of the face and cervical vertebrae (1st arch syndrome)
+chr14	33300001	35300000	chr14_q13.1_Hyper-IgM syndrome (HIGM)
+chr14	33300001	37800000	chr14_q13_Klippel-Trenaunay-Weber syndrome
+chr14	37800001	50900000	chr14_q21_Alagille syndrome
+chr14	50900001	58100000	chr14_q22_Toriello-Carey syndrome (TCS)
+chr14	67900001	70200000	chr14_q24.1_Myelodysplastic syndrome with erythroid hypoplasia
+chr14	89800001	107349540	chr14_q32_Cornelia de Lange syndrome;Fifth Digit syndrome (Coffin-Siris)
+chr14	NA	NA	chr14_NA_Mucopolysaccharidosis type IIIC (Sanfilippo syndrome C)
+chr15	19000001	25700000	chr15_q11_Prader-willi syndrome;Prader-willi syndrome;Prader-Willi syndrome
+chr15	20700001	25700000	chr15_q11.2_Prader-willi syndrome;Prader-Willi syndrome;Prader-Willi syndrome (atypical)
+chr15	25700001	28100000	chr15_q12_Prader-willi syndrome;Prader-willi syndrome;Prader-willi syndrome;Prader-willi syndrome;Prader-Willi syndrome;Prader-Willi syndrome
+chr15	28100001	33600000	chr15_q13_Prader-Willi syndrome
+chr15	40100001	44800000	chr15_q15_Kabuki syndrome
+chr15	49500001	52900000	chr15_q21.2_Prader-Willi syndrome
+chr15	59100001	67500000	chr15_q22_Sotos syndrome
+chr15	89100001	94300000	chr15_q26.1_Peters-plus syndrome
+chr16	1	16800000	chr16_p13_Rett syndrome
+chr16	1	7900000	chr16_p13.3_Rubinstein-Taybi syndrome;Rubinstein-Taybi syndrome;Rubinstein-Taybi syndrome;Rubinstein-Taybi syndrome (RTS)
+chr16	14800001	16800000	chr16_p13.11_Treacher Collins syndrome
+chr16	47000001	56700000	chr16_q12_Beckwith Weidemann syndrome (BWS)
+chr16	47000001	52600000	chr16_q12.1_Townes-Brocks syndrome (TBS)
+chr16	56700001	57400000	chr16_q13_Cerebro-oculo-facio-skeletal syndrome (COFS);Williams-Beuren syndrome (WBS)
+chr16	66700001	74100000	chr16_q22_Rieger syndrome
+chr16	84200001	90354753	chr16_q24_Silver-Russell syndrome
+chr16	88700001	90354753	chr16_q24.3_Lymphedema-distichiasis syndrome;Silver-Russell syndrome
+chr17	1	3300000	chr17_p13.3_Asperger syndrome
+chr17	1	24000000	chr17_p_Bardet-Biedl syndrome
+chr17	38100001	50200000	chr17_q21_Kabuki syndrome;Rett syndrome
+chr17	57600001	58300000	chr17_q23.1_Cornelia de Lange syndrome
+chr17	57600001	62600000	chr17_q23_Silver-Russell syndrome;Stickler syndrome
+chr17	62600001	70900000	chr17_q24_Silver-Russell syndrome
+chr17	70900001	81195210	chr17_q25_Nail-Patella syndrome (NPS);Silver-Russell syndrome
+chr18	7100001	15400000	chr18_p11.2_Infantile spasm syndrome (West syndrome)
+chr18	25000001	32700000	chr18_q12.1_Opitz trigonocephaly C syndrome
+chr18	43500001	61600000	chr18_q21_Hypoplastic left heart syndrome
+chr18	59000001	61600000	chr18_q21.33_Mowat-Wilson syndrome
+chr18	61600001	66800000	chr18_q22.1_Gilles de la tourette syndrome (GTS)
+chr18	73100001	78077248	chr18_q23_Saethre-Chotzen syndrome;Tricho-rhino-phalangeal syndrome, type 1 (TRPS1)
+chr19	24400001	26500000	chr19_p11_Asperger syndrome
+chr19	51400001	53600000	chr19_q13.41_Prader-willi syndrome
+chr2	1	93300000	chr2_p_Bardet-Biedl syndrome
+chr2	12200001	24000000	chr2_p24_Temtamy-like syndrome
+chr2	24000001	32100000	chr2_p23_Saethre-Chotzen syndrome
+chr2	61300001	64100000	chr2_p15_Holt-Oram syndrome
+chr2	64100001	68600000	chr2_p14_CHARGE syndrome
+chr2	68600001	75000000	chr2_p13_Alstrom syndrome;Dysmorphic syndrome
+chr2	68600001	71500000	chr2_p13.3_Rubinstein-Taybi syndrome
+chr2	75000001	83300000	chr2_p12_Dandy-Walker syndrome (DWS);Dandy-Walker syndrome (DWS);Dandy-Walker syndrome (DWS);Dandy-Walker syndrome (DWS)
+chr2	83300001	90500000	chr2_p11.2_Apert syndrome
+chr2	83300001	93300000	chr2_p11_Prader-Willi syndrome
+chr2	114400001	129900000	chr2_q14_Di George syndrome (DGS)
+chr2	129900001	132500000	chr2_q21.1_Ectrodactyly, Ectodermal Dysplasia and cleft lip;palate syndrome 1 (EEC1);Moebius syndrome 1 (MBS1);Saethre-Chotzen syndrome
+chr2	129900001	136800000	chr2_q21_Peters-plus syndrome
+chr2	135100001	136800000	chr2_q21.3_Alagille syndrome
+chr2	136800001	148700000	chr2_q22_Hypoplastic left heart syndrome
+chr2	144100001	148700000	chr2_q22.3_Mowat-Wilson syndrome
+chr2	169700001	178000000	chr2_q31.1_Mowat-Wilson syndrome
+chr2	169700001	183000000	chr2_q31_Myasthenic syndrome, slow-channel congenital (SCCMS)
+chr2	189400001	191900000	chr2_q32.2_Menkes syndrome
+chr2	197400001	209000000	chr2_q33_Blepharophimosis-ptosis-epicanthus inversus syndrome;Toriello-Carey syndrome (TCS)
+chr2	204900001	209000000	chr2_q33.3_Sotos syndrome
+chr2	226100001	231000000	chr2_q36.3_Rubinstein-Taybi syndrome;Rubinstein-Taybi syndrome (RTS)
+chr2	235600001	237300000	chr2_q37.2_Prader-Willi syndrome (atypical)
+chr20	5100001	17900000	chr20_p12_Alagille syndrome
+chr20	9200001	12100000	chr20_p12.2_Alagille syndrome
+chr20	41700001	49800000	chr20_q13.1_Glycogen storage disease type Ia and Sanfilippo syndrome type B
+chr20	41700001	63025520	chr20_q13_Silver-Russell syndrome
+chr20	49800001	55000000	chr20_q13.2_Smith-Lemli-Opitz syndrome (SLOS)
+chr20	NA	NA	chr20_q21_McDonough syndrome (mental retardation, peculiar facies, kyphoscoliosis, diastasis recti, cryptorchidism, and congenital heart defect)
+chr21	2800001	6800000	chr21_p12_Di George syndrome (DGS)
+chr21	6800001	13200000	chr21_p11_Melkersson-Rosenthal syndrome
+chr21	10900001	13200000	chr21_p11.1_Menkes syndrome
+chr21	13200001	16400000	chr21_q11_Cornelia de Lange syndrome
+chr21	16400001	31500000	chr21_q21_Hypoplastic left heart syndrome
+chr21	31500001	48129895	chr21_q22_Mucopolysaccharidosis type IIIA (Sanfilippo syndrome A);Multiple congenital malformations and minor abnormalities characteristic of 13q- and 21q-syndromes
+chr21	NA	NA	chr21_NA_Mucopolysaccharidosis type IIIC (Sanfilippo syndrome C)
+chr22	8300001	14700000	chr22_p11_Rett syndrome
+chr22	14700001	25900000	chr22_q11_Di George syndrome (DGS)
+chr22	17900001	22200000	chr22_q11.21_Di George syndrome (DGS)
+chr22	17900001	25900000	chr22_q11.2_Fifth Digit syndrome (Coffin-Siris)
+chr22	25900001	37600000	chr22_q12_Beckwith-Wiedemann syndrome (BWS)
+chr22	37600001	41000000	chr22_q13.1_Costello syndrome
+chr22	44200001	51304566	chr22_q13.3_22q13.3 deletion syndrome
+chr3	1	8700000	chr3_p26_3p deletion syndrome
+chr3	8700001	16400000	chr3_p25_3p deletion syndrome
+chr3	43700001	50600000	chr3_p21.3_Gilles de la tourette syndrome (GTS)
+chr3	43700001	54400000	chr3_p21_Sotos syndrome
+chr3	50600001	52300000	chr3_p21.2_Zimmermann-Laband syndrome
+chr3	52300001	54400000	chr3_p21.1_Greig cephalo-polysyndactyly syndrome (GCPS);Myelodysplastic syndrome with erythroid hypoplasia
+chr3	98300001	102800000	chr3_q12_Aicardi syndrome
+chr3	102800001	121900000	chr3_q13_Tricho-rhino-phalangeal syndrome, type 1 (TRPS1)
+chr3	107900001	111300000	chr3_q13.13_Opitz trigonocephaly C syndrome
+chr3	113500001	121900000	chr3_q13.3_Alagille syndrome
+chr3	113500001	117300000	chr3_q13.31_Rett syndrome
+chr3	121900001	129200000	chr3_q21_Cornelia de Lange syndrome
+chr3	138700001	142800000	chr3_q23_Blepharophimosis-ptosis-epicanthus inversus syndrome
+chr3	170900001	182700000	chr3_q26.3_Cornelia de Lange syndrome
+chr3	187900001	192300000	chr3_q28_Anophthalmia, esophageal atresia, genital malformation (AEG) syndrome
+chr3	192300001	198022430	chr3_q29_Prader-willi syndrome
+chr4	1	11300000	chr4_p16_Waardenburg syndrome, type IIC
+chr4	11300001	21300000	chr4_p15.3_Anophthalmia (bilateral) with anomalies of the face and cervical vertebrae (1st arch syndrome)
+chr4	21300001	27700000	chr4_p15.2_Beckwith Weidemann syndrome (BWS)
+chr4	76300001	88000000	chr4_q21_Alagille syndrome
+chr4	107700001	114100000	chr4_q25_Rieger syndrome;Rieger syndrome
+chr4	114100001	120800000	chr4_q26_Rieger syndrome
+chr4	120800001	123800000	chr4_q27_Prader-willi syndrome;Prader-Willi syndrome;Rieger syndrome
+chr5	1	9800000	chr5_p15.3_Prader-willi syndrome;Saethre-Chotzen syndrome;Townes-Brocks syndrome (TBS)
+chr5	15000001	18400000	chr5_p15.1_Male infertility due to tail stump syndrome failure of flagella assembly)
+chr5	28900001	42500000	chr5_p13_Cornelia de Lange syndrome
+chr5	38400001	42500000	chr5_p13.1_Cornelia de Lange syndrome
+chr5	48400001	58900000	chr5_q11_Treacher Collins syndrome
+chr5	73300001	76900000	chr5_q13.3_Klippel-Trenaunay-Weber syndrome
+chr5	82800001	92300000	chr5_q14.3_Haemolytic anaemia, Turner syndrome, prenatal onset short stature, ?developmental delay
+chr5	92300001	98200000	chr5_q15_Holt-Oram syndrome;Stickler syndrome
+chr5	149800001	152700000	chr5_q33.1_Cohen syndrome
+chr5	168500001	180915260	chr5_q35_Dandy-Walker syndrome (DWS);Sotos syndrome;Sotos syndrome;Walker-Warburg syndrome
+chr6	1	7100000	chr6_p25_Dysmorphic syndrome
+chr6	13400001	15200000	chr6_p23_Gilles de la tourette syndrome (GTS)
+chr6	30400001	46200000	chr6_p21_Jacobsen syndrome (JBS);Sotos syndrome
+chr6	33500001	36600000	chr6_p21.31_Treacher Collins syndrome
+chr6	40500001	46200000	chr6_p21.1_Williams-Beuren syndrome (WBS)
+chr6	61000000	61000000	chr6_p10_CHARGE syndrome
+chr6	61000001	171115067	chr6_q_Bartter syndrome associated with 21-hydroxylase deficiency
+chr6	75900001	88000000	chr6_q14_Infantile spasm syndrome (West syndrome)
+chr6	88000001	93100000	chr6_q15_Pterygium syndrome
+chr6	99500001	100600000	chr6_q16.2_Saethre-Chotzen syndrome;Shwachman-Diamond syndrome
+chr6	105500001	114600000	chr6_q21_Ectrodactyly, Ectodermal Dysplasia and cleft lip;palate syndrome 1 (EEC1);Walker-Warburg syndrome
+chr6	139000001	149000000	chr6_q24_Gilles de la tourette syndrome (GTS)
+chr6	161000001	164500000	chr6_q26_Duane retraction syndrome
+chr6	164500001	171115067	chr6_q27_Dandy-Walker syndrome (DWS);Greig cephalo-polysyndactyly syndrome (GCPS);Supravalvular aortic stenosis; William's syndrome
+chr7	1	7300000	chr7_p22_Saethre-Chotzen syndrome
+chr7	7300001	13800000	chr7_p21.3_Anophthalmia, esophageal atresia, genital malformation (AEG) syndrome
+chr7	7300001	20900000	chr7_p21_Saethre-Chotzen syndrome;Saethre-Chotzen syndrome
+chr7	13800001	16500000	chr7_p21.2_Saethre-Chotzen syndrome;Saethre-Chotzen syndrome;Saethre-Chotzen syndrome
+chr7	20900001	25500000	chr7_p15.3_Hypertelorism, microtia, and facial clefting syndrome (HMC);Saethre-Chotzen syndrome
+chr7	20900001	28800000	chr7_p15_Infantile spasm syndrome (West syndrome)
+chr7	28000001	28800000	chr7_p15.1_Cohen syndrome;Hypertelorism, microtia, and facial clefting syndrome (HMC)
+chr7	28800001	35000000	chr7_p14.3_Wilms tumour, skeletal abnormalities similar to thrombocytopenia and absent radii (TAR) syndrome
+chr7	37200001	43300000	chr7_p14.1_Kallmann syndrome with bone anomalies
+chr7	43300001	45400000	chr7_p13_Greig cephalo-polysyndactyly syndrome (GCPS);Greig cephalo-polysyndactyly syndrome (GCPS)
+chr7	72200001	77500000	chr7_q11.23_Supravalvular aortic stenosis; William's syndrome;Williams-Beuren syndrome (WBS);Williams-Beuren syndrome (WBS)
+chr7	77500001	86400000	chr7_q21.11_CHARGE syndrome
+chr7	77500001	98000000	chr7_q21_Silver-Russell syndrome
+chr7	92800001	98000000	chr7_q21.3_Ectrodactyly, Ectodermal Dysplasia and cleft lip;palate syndrome 1 (EEC1);Ectrodactyly, Ectodermal Dysplasia and cleft lip;palate syndrome 1 (EEC1)
+chr7	98000001	107400000	chr7_q22_Gilles de la tourette syndrome (GTS);Kallmann syndrome
+chr7	98000001	103800000	chr7_q22.1_Haemolytic anaemia, Turner syndrome, prenatal onset short stature, ?developmental delay
+chr7	104500001	107400000	chr7_q22.3_Ectrodactyly, Ectodermal Dysplasia and cleft lip;palate syndrome 1 (EEC1)
+chr7	117400001	127100000	chr7_q31.3_Rett-like syndrome
+chr7	127100001	132600000	chr7_q32_Fifth Digit syndrome (Coffin-Siris);Pterygium syndrome
+chr7	127100001	129200000	chr7_q32.1_Smith-Lemli-Opitz syndrome (SLOS)
+chr7	138200001	143100000	chr7_q34_Fifth Digit syndrome (Coffin-Siris);Rubinstein-Taybi syndrome
+chr7	147900001	159138663	chr7_q36_Wilms Tumour, malformative syndrome, mental retardation
+chr8	1	12700000	chr8_p23_Waardenburg syndrome, type IIC
+chr8	45600000	45600000	chr8_p10_CHARGE syndrome
+chr8	48100001	55500000	chr8_q11.2_CHARGE syndrome
+chr8	48100001	52200000	chr8_q11.21_Faciogenital Dysplasia (Aarskog-Scott syndrome)
+chr8	66000001	73900000	chr8_q13_Duane retraction syndrome;Gilles de la tourette syndrome (GTS);Gilles de la tourette syndrome (GTS);Saethre-Chotzen syndrome
+chr8	73900001	93300000	chr8_q21_Adrenogenital syndrome
+chr8	93300001	99000000	chr8_q22.1_Gilles de la tourette syndrome (GTS)
+chr8	101600001	106200000	chr8_q22.3_Klippel-Trenaunay-Weber syndrome
+chr8	117700001	127300000	chr8_q24.1_Gilles de la tourette syndrome (GTS);Prader-Willi syndrome;Sotos syndrome;Waardenburg syndrome, type I
+chr8	117700001	119200000	chr8_q24.11_Tricho-rhino-phalangeal syndrome, type 1 (TRPS1);Tricho-rhino-phalangeal syndrome, type 1 (TRPS1)
+chr8	139900001	146364022	chr8_q24.3_Prader-willi syndrome;Zimmermann-Laband syndrome
+chr8	NA	NA	chr8_p22q13_Tricho-rhino-phalangeal syndrome, type 1 (TRPS1)
+chr9	1	49000000	chr9_p_Bartter syndrome associated with 21-hydroxylase deficiency
+chr9	14200001	19900000	chr9_p22_Tricho-rhino-phalangeal syndrome, type 1 (TRPS1)
+chr9	19900001	33200000	chr9_p21_Duchenne muscular dystrophy (DMD), Turner's syndrome, epilepsy and mental retardation
+chr9	41000001	43600000	chr9_p12_Ectrodactyly, Ectodermal Dysplasia and cleft lip;palate syndrome 1 (EEC1)
+chr9	43600001	49000000	chr9_p11_Beckwith-Wiedemann syndrome (BWS);Melkersson-Rosenthal syndrome
+chr9	68700001	90400000	chr9_q21_Prader-Willi syndrome
+chr9	102600001	108200000	chr9_q31.1_Kallmann syndrome with bone anomalies
+chr9	114900001	117700000	chr9_q32_Temtamy-like syndrome
+chr9	125800001	130300000	chr9_q33.3_Tricho-rhino-phalangeal syndrome, type 1 (TRPS1)
+chr9	130300001	135900000	chr9_q34.1_Nail-Patella syndrome (NPS)
+chr9	130300001	141213431	chr9_q34_Nail-Patella syndrome (NPS)
+chr9	135900001	137400000	chr9_q34.2_Apert syndrome
+chr9	137400001	141213431	chr9_q34.3_Features similar to 9q34 subtelomeric deletion syndrome
+chr9	NA	NA	chr9_p27_Myasthenic syndrome, slow-channel congenital (SCCMS)
+chrX	1	24900000	chrX_p22_Aicardi syndrome;Infantile spasm syndrome (West syndrome);McDonough syndrome (mental retardation, peculiar facies, kyphoscoliosis, diastasis recti, cryptorchidism, and congenital heart defect)
+chrX	1	9500000	chrX_p22.3_Infantile spasm syndrome (West syndrome);Infantile spasm syndrome (West syndrome)
+chrX	24900001	37600000	chrX_p21_Duchenne muscular dystrophy (DMD), Turner's syndrome, epilepsy and mental retardation
+chrX	24900001	29300000	chrX_p21.3_Rett syndrome
+chrX	46400001	58100000	chrX_p11.2_3p deletion syndrome;Faciogenital Dysplasia (Aarskog-Scott syndrome)
+chrX	46400001	49800000	chrX_p11.23_Features similar to 9q34 subtelomeric deletion syndrome
+chrX	49800001	54800000	chrX_p11.22_Rett syndrome
+chrX	67800001	71800000	chrX_q13.1_Menkes syndrome
+chrX	67800001	76000000	chrX_q13_Menkes syndrome
+chrX	73900001	76000000	chrX_q13.3_Menkes syndrome;Menkes syndrome
+chrX	128700001	138000000	chrX_q26_Beckwith-Wiedemann syndrome (BWS);Simpson-Golabi-Behmel syndrome, type 1 (SGBS1)
+chrX	133600001	138000000	chrX_q26.3_Hyper-IgM syndrome (HIGM)
+chrX	147100001	155270560	chrX_q28_Prader-Willi syndrome
+chrX	NA	NA	chrX_p22.22_Gillespie syndrome
+chrY	NA	NA	chrY_q11.2_Lymphedema-distichiasis syndrome

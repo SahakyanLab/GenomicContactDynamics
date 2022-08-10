@@ -1,0 +1,219 @@
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+[1] min2Mb_chr1_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr1_All_topCP3_gapBin50_hub2 done!
+[1] min2Mb_chr1_All_topCP3_gapBin50_hub3 done!
+[1] min2Mb_chr10_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr12_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr14_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr18_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr19_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr20_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr22_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr3_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr3_All_topCP3_gapBin50_hub3 done!
+[1] min2Mb_chr5_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr5_All_topCP3_gapBin50_hub2 done!
+[1] min2Mb_chr6_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr8_All_topCP3_gapBin50_hub1 done!
+[1] min2Mb_chr9_All_topCP3_gapBin50_hub1 done!
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_MEAN.pdf
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_MEDIAN.pdf
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_SD.pdf
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_VAR.pdf
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_NE.pdf
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_LE.pdf
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_ME.pdf
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_HE.pdf
+file saved to /Users/ltamon/SahakyanLab/CoreGenomeExplorer/out_hubVsNonhub/All_LTr/exprCutoff_05_acchubs/min2Mb_All_topCP3_gapBin50_data2_SDdivMEAN.pdf
+          used (Mb) gc trigger  (Mb) limit (Mb) max used  (Mb)
+Ncells 1200878 64.2    2626491 140.3         NA  2626491 140.3
+Vcells 4772245 36.5   10146329  77.5      16384  8372615  63.9
+[1] chr1_hub1
+[1] chr1_hub2
+[1] chr1_hub3
+[1] chr10_hub1
+[1] chr12_hub1
+[1] chr14_hub1
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1
+[1] chr22_hub1
+[1] chr3_hub1
+[1] chr3_hub3
+[1] chr5_hub1
+[1] chr5_hub2
+[1] chr6_hub1
+[1] chr8_hub1
+[1] chr9_hub1
+[1] chr1_hub1
+[1] chr1_hub2
+[1] chr1_hub3
+[1] chr10_hub1
+[1] chr12_hub1
+[1] chr14_hub1
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1
+[1] chr22_hub1
+[1] chr3_hub1
+[1] chr3_hub3
+[1] chr5_hub1
+[1] chr5_hub2
+[1] chr6_hub1
+[1] chr8_hub1
+[1] chr9_hub1
+[1] chr1_hub1
+[1] chr1_hub2
+[1] chr1_hub3
+[1] chr10_hub1
+[1] chr12_hub1
+[1] chr14_hub1
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1
+[1] chr22_hub1
+[1] chr3_hub1
+[1] chr3_hub3
+[1] chr5_hub1
+[1] chr5_hub2
+[1] chr6_hub1
+[1] chr8_hub1
+[1] chr9_hub1
+[1] chr1_hub1
+[1] chr1_hub2
+[1] chr1_hub3
+[1] chr10_hub1
+[1] chr12_hub1
+[1] chr14_hub1
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1
+[1] chr22_hub1
+[1] chr3_hub1
+[1] chr3_hub3
+[1] chr5_hub1
+[1] chr5_hub2
+[1] chr6_hub1
+[1] chr8_hub1
+[1] chr9_hub1
+[1] chr1_hub1
+[1] chr1_hub2
+[1] chr1_hub3
+[1] chr10_hub1
+[1] chr12_hub1
+[1] chr14_hub1
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1
+[1] chr22_hub1
+[1] chr3_hub1
+[1] chr3_hub3
+[1] chr5_hub1
+[1] chr5_hub2
+[1] chr6_hub1
+[1] chr8_hub1
+[1] chr9_hub1
+[1] chr1_hub1
+[1] chr1_hub2
+[1] chr1_hub3
+[1] chr10_hub1
+[1] chr12_hub1
+[1] chr14_hub1
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1
+[1] chr22_hub1
+[1] chr3_hub1
+[1] chr3_hub3
+[1] chr5_hub1
+[1] chr5_hub2
+[1] chr6_hub1
+[1] chr8_hub1
+[1] chr9_hub1
+[1] chr1_hub1
+[1] chr1_hub2
+[1] chr1_hub3
+[1] chr10_hub1
+[1] chr12_hub1
+[1] chr14_hub1
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1
+[1] chr22_hub1
+[1] chr3_hub1
+[1] chr3_hub3
+[1] chr5_hub1
+[1] chr5_hub2
+[1] chr6_hub1
+[1] chr8_hub1
+[1] chr9_hub1
+[1] chr1_hub1_HE: 12 tie datapoints removed.
+[1] chr1_hub1
+[1] chr1_hub2_HE: 12 tie datapoints removed.
+[1] chr1_hub2
+[1] chr1_hub3_HE: 12 tie datapoints removed.
+[1] chr1_hub3
+[1] chr10_hub1_HE: 19 tie datapoints removed.
+[1] chr10_hub1
+[1] chr12_hub1_HE: 7 tie datapoints removed.
+[1] chr12_hub1
+[1] chr14_hub1_HE: 38 tie datapoints removed.
+[1] chr14_hub1
+[1] chr18_hub1_HE: 46 tie datapoints removed.
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1_HE: 26 tie datapoints removed.
+Warning in wilcox.test.default(x = nh.v, y = h.v, paired = T, alternative = "two.sided") :
+  cannot compute exact p-value with ties
+[1] chr20_hub1
+[1] chr22_hub1_HE: 27 tie datapoints removed.
+Warning in wilcox.test.default(x = nh.v, y = h.v, paired = T, alternative = "two.sided") :
+  cannot compute exact p-value with ties
+[1] chr22_hub1
+[1] chr3_hub1_HE: 30 tie datapoints removed.
+Warning in wilcox.test.default(x = nh.v, y = h.v, paired = T, alternative = "two.sided") :
+  cannot compute exact p-value with ties
+[1] chr3_hub1
+[1] chr3_hub3_HE: 30 tie datapoints removed.
+Warning in wilcox.test.default(x = nh.v, y = h.v, paired = T, alternative = "two.sided") :
+  cannot compute exact p-value with ties
+[1] chr3_hub3
+[1] chr5_hub1_HE: 26 tie datapoints removed.
+Warning in wilcox.test.default(x = nh.v, y = h.v, paired = T, alternative = "two.sided") :
+  cannot compute exact p-value with ties
+[1] chr5_hub1
+[1] chr5_hub2_HE: 26 tie datapoints removed.
+Warning in wilcox.test.default(x = nh.v, y = h.v, paired = T, alternative = "two.sided") :
+  cannot compute exact p-value with ties
+[1] chr5_hub2
+[1] chr6_hub1_HE: 14 tie datapoints removed.
+[1] chr6_hub1
+[1] chr8_hub1_HE: 14 tie datapoints removed.
+[1] chr8_hub1
+[1] chr9_hub1_HE: 14 tie datapoints removed.
+[1] chr9_hub1
+[1] chr1_hub1
+[1] chr1_hub2
+[1] chr1_hub3
+[1] chr10_hub1
+[1] chr12_hub1
+[1] chr14_hub1
+[1] chr18_hub1
+[1] chr19_hub1
+[1] chr20_hub1
+[1] chr22_hub1
+[1] chr3_hub1
+[1] chr3_hub3
+[1] chr5_hub1
+[1] chr5_hub2
+[1] chr6_hub1
+[1] chr8_hub1
+[1] chr9_hub1
+null device 
+          1 

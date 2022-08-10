@@ -1,0 +1,14 @@
+Gene Group 1	Enrichment Score: 6.918428987390697
+OFFICIAL_GENE_SYMBOL	Gene Name
+DUX4L3	double homeobox 4 like 3(DUX4L3)
+DUX4	double homeobox 4(DUX4)
+DUX4L5	double homeobox 4 like 5(DUX4L5)
+DUX4L2	double homeobox 4 like 2(DUX4L2)
+DUX4L6	double homeobox 4 like 6(DUX4L6)
+DUX4L4	double homeobox 4 like 4(DUX4L4)
+
+Gene Group 2	Enrichment Score: 1.2205145697900621
+OFFICIAL_GENE_SYMBOL	Gene Name
+ZNF595	zinc finger protein 595(ZNF595)
+ZNF718	zinc finger protein 718(ZNF718)
+

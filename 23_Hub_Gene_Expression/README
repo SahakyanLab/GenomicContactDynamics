@@ -1,0 +1,493 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX 
+Hsa_GRCh37_73_chr_info
+bed files for marking network (optional)
+gene annotation files for GO analysis of genes in hubs
+
+./lib/makeNetworkData.R
+./lib/modifyNetworkData.R
+source(paste0(lib, "/funxAnno.R"))
+TrantoRextr/GEN_WhichOverlap.R
+
+library(RColorBrewer)
+library(visNetwork)
+library(compiler)
+library(GenomicRanges)
+library(dplyr)
+library(reshape2)
+library(stringr)
+library(ComplexHeatmap)
+library(grid)
+library(org.Hs.eg.db)
+library(clusterProfiler)
+library(gplots)
+################################################################################
+# General notes
+################################################################################
+Analyses were initially done filtering for contacts present in FC. But then I
+realised I should not do any filtering based on cell/tissue because I am working
+with contact with Cp=19:21 anyway and I want to focus on persistent hubs dominantly 
+present across tissues. Luckily, after repeating section C analyses, All tissues 
+yielded same set of genes as FC for the selected 38 hubs so I did not have 
+to repeat the section D analyses. This is because the FC Cp=19:20 contacts lack 
+only 5 2Mb contacts vs. the All tissue set (lack 1 contact for gap 650 and 200
+bins). But I did have to create a new atlas of network susbstructures using the 
+All tissue set. 
+################################################################################
+# A. Represent chromosome persistent substructure as a network plot
+################################################################################
+Network plot terminology:
+nodes - objects connected
+edges - connection
+
+1. Make nodes and edges dataframe stored in a list called NETWRK using the 
+function, makeNetworkData(). 
+
+A node represents a bin of length equal to the Hi-C resolution. The nodes dataframe 
+ideally should contain all bins but the network may look 
+very messy esp. for those long chr. What I did is to define a parameter called
+edge.res, whose value is the interval at which nodes are displayed. When edge.res=50
+(as in the sample nodes dataframe below), two consecutive nodes will have 50 bins 
+in between; bin 1 therefore is connected to bin 52 by an edge). 
+
+Nodes dataframe:
+     id label title  shape size   color             font borderWidth
+1     1  ----     1 circle   NA   black 14px arial white           0
+2    52  <NA>    52    dot    5 #aaadad             <NA>           0
+3   103  <NA>   103    dot    5 #aaadad             <NA>           0
+4   154  <NA>   154    dot    5 #aaadad             <NA>           0
+5   205  <NA>   205    dot    5 #aaadad             <NA>           0
+6   256  <NA>   256    dot    5 #aaadad             <NA>           0
+7   268  ----   268 circle   NA #aaadad 14px arial black           0
+Nodes parameters:
+a. id = Identifier of the node, this is the same as bin number.
+b. label = Text shown within (circle)/under (dot) node depending on shape
+I set dots to not show a label while circles to show the same label "----". 
+The labels for circles used to be the bin number. I had to abandon this idea
+and resort to uniform labelling with "----" (so it's not so obvious) to scale the size 
+of circle nodes between networks/chr. This is explained in the later section
+"Scaling chromosome network plots".
+c. title = Text shown when you hover on the node.
+d. shape = In the table, nodes/bins that are not involved in a contact AS SEEN
+IN THE DRAWN NETWORK are represented as dots. Those involved are represented
+as circles. 
+e. size = Size are for nodes shapes without the label inside (e.g. dots). I think
+for shapes with label inside (e.g circle), value is controlled by the label.
+f. color = The first and last bins are black while the rest are #aaadad.
+g. font
+h. borderWidth - The width of the border of the node when it is not selected.
+All set to 0. 
+#-------------------------------------------------------------------------------
+Every row in the edges dataframe is a connection seen in the network. The edges
+dataframe in our case therefore represents the persistent contacts chosen based 
+on a set thershold of gap between contacting regions and the chosen Cp values.
+Also it includes connection between consecutive nodes/bins. 
+
+   label title from   to length width     color       font arrows
+13    NA    NA    1   52    100    15 #AAADAD80       <NA>     to
+14    NA    NA   52  103    100    15 #AAADAD80       <NA>     to
+15    NA    NA  103  154    100    15 #AAADAD80       <NA>     to
+16    NA    NA  154  205    100    15 #AAADAD80       <NA>     to
+17    NA    NA  205  256    100    15 #AAADAD80       <NA>     to
+18    NA    NA  256  268     22    15 #AAADAD80       <NA>     to
+19    NA    NA  268  307     76    15 #AAADAD80       <NA>     to
+1     19    19  268  614    300    20   #DE2D26 40px arial     to
+Edges can also have ids and useful for selecting edges on shiny but for now it's unnecessary. 
+
+To understand some of the parameters, note that edges are represented as a spring. 
+Edges parameters:
+a. label = Label here is the Cp so NA for non-contact edges. 
+b. title = Same with label
+c. and d. from-to = nodes/bins connected by the edge
+e. length = The physics simulation gives edges a spring length. This value can 
+override the length of the spring in rest. 
+For non-contact edges, length=(to-from-1)*edgelen.mult.
+edgelen.mult is multiplier parameter to scale the absolute length for non-contact edges, which
+is equal to the number of bins in between connected bins. The package suggests length of
+c(100,500). I thought this is because the default spring length for a chosen solver, barnesHut,
+(default, physics simulation related parameter) is 95. The spring length is the length of the
+spring at rest. It is not clear how exactly the length value influences the spring length. 
+With the default length at rest equal to 95, I thought that using edgelen.mult, I should
+make sure that edge lengths in the network should be greater than 95 so that the
+difference in lengths is seen. However when I tested with a sample network, an edge length
+of 1 is still significantly shorter than an edge length of 50. 
+
+For contact edges, length is currently fixed to 300. It used to be 1 but I had problems 
+with scaling with very short lengths for contact edges. later section
+"Scaling chromosome network plots". 
+f. width = Width for non-contact edges is 15, 20 for contact edges.
+g. font = 40px arial only for contact edges, which have labels
+h. arrows = Arrows pointing to "to" node
+
+Simulation:
+The solver for the physics simulation is barnesHut (default). 
+Default values:
+barnesHut: {
+      theta: 0.5,
+      gravitationalConstant: -2000,
+      centralGravity: 0.3,
+      springLength: 95,
+      springConstant: 0.04,
+      damping: 0.09,
+      avoidOverlap: 0
+    }
+	
+2. Shiny app
+################################################################################
+# B. Minimal PERSIST.MX needed for visualisation and downstream analyses
+################################################################################
+1. Prepare a subset of PERSIST.MX containing only contacts of Cp of interest
+to lessen loading time when using the shiny app (see below). topCP=4 means taking
+the top 4 values of cp.v (vector of all possible persistence scores in increasing
+order) therefore code will only take contacts of Cp=18:21 from PERSIST.MX. I also
+revised the code to automatically include the most dynamic contacts (Cp=1) regardless
+of the topCP argument for the study of dynamic hubs. Also, I added ct.v parameter
+to only include some cell/tissue of interest making the output file smaller. 
+Output has the same format as PERSIST.MX list but only containing PERSIST.MX$hits 
+and PERSIST.MX$ntis.
+
+2. Compare set of contacts present in a tissue with set without tissue filtering.
+Define contacts to be compared based on contact gap. 
+################################################################################
+# C. Persistent hubs formed by persistent contacts
+################################################################################ 
+1. Plot number of contacts formed by each bin per chr. Contacts are filtered
+based on cell/tissue (All means no filtering, uses all 21) and gapBin. For each 
+chr, a plot of Nij vs. bin is generated for each gapBin specified. The code also 
+produces a csv file listing the the top N (lab.top argument) bins with the highest 
+number of contacts. Nij.thresh specifies the minimum number of contacts that the bin 
+should have to be considered in the top N. 
+
+Using the plots from C1, I tried to identify centers of prominent hubs per chr.
+I chose a few prominent ones per chromosome by visual inspection based on the number 
+of super long-range contacts formed by the hub center. These hubs may not contain 
+the most number of persistent contacts but they should have greater influence on the 
+global architecture of the chromosome as they contain contacts with the longest distance 
+between contacting loci.
+
+I manually made hubcenter.csv of my chosen centers of prominent hubs per chr per gapBin.
+The csv file is in ./out_hubfile/
+
+2. The code reads the csv file generated by C1 to make a hub file per hub center
+that is the same format as in what you can download in the shiny app. 
+Ex:
+bin	gene	accession	uniqueID	partner	Nij
+2150	DDAH1	NM_001134445	100	NA	1
+2552	NA	NA	NA	NA	1
+2742	KIAA1324;KIAA1324;KIAA1324;SCARNA2;C1orf194	NM_001267048;NM_020775;NM_001284352;NR_003023;NM_001122961	 738; 739; 747;2817;2819	NA	1
+2748	SORT1;SORT1	NM_001205228;NM_002959	2827;2831	NA	1
+
+The code takes all the long-range contacts formed by the hubcenter and gets all the genes
+overlapping (any type of overlap) with the contact regions. In other words, no 
+filtering of contacts based on gapBin.  
+
+3. The code summarizes the hub files from C2 into a big table. 
+
+4. Enrichment of GO and KEGG terms in hub genes. 
+
+5. Plot DAVID functional term clustering results on a heatmap to give identity
+to selected hubs.
+
+Per hub, verify that Annotation Cluster 1 has highest enrichment score (EASE). 
+Then, get top 3 terms from Annotation Cluster 1 with highest PValue. If cluster 1
+has less than 3 terms then display all. In FUNX RData with data on the top 3 terms, 
+hubs with no clustering result (no file) are marked by NAs in relevant columns.
+A binary heatmap is then created of p-values per term-hub pair. No p-value cutoff
+is applied meaning all terms (set to 1, rest are 0s) are displayed on the heatmap.
+Hubs with no reds are those without files/clustering results. 
+
+6. Generate .RData containing terms of the most enriched DAVID functional annotation 
+# cluster (Annotation Cluster 1) per hub. Use results from functional clustering 
+# medium stringency but use custom for those with no results from the medium setting. 
+# Append topN (argument) terms to hubsum.csv with highest Benjamini p-adjusted value. 
+
+################################################################################
+# D. Study gene expression at hubs
+################################################################################
+1. Clean and reformat expression data for subsequent use.
+# 1. Duplicated genes. There are very few duplicated genes in the expression data.
+# I assumed them to correspond to multiple variants of the gene instead of being
+# technical replicates because when comparing the values of some duplicated
+# genes per tissue the values are so different e.g. 0.1 vs3 that it's dangerous
+# to treat them as replicates and take the mean. We therefore just treated them
+# as variant and took the sum of values per tissue. 
+# 2. expr.cutoff argument. Expression below this cut-off is set to 0.
+# 3. Histogram plots. Histogram plots were generated to show per gene, the number
+# of tissues with data. Two histrograms were made, the first one uses unique genes
+# in expression data and the other one uses only unique genes present in both 
+# expression data and UCSC hg19 annotation table. 
+# 4. chr. Using the UCSC annotation table, we added chr data to expression data.
+# Genes with multiple transcripts in different chromosomes have their chromosomes
+# written as a string separated by a period and genes not in the UCSC hg19 
+# annotation table have NA or missing chr.
+# 5. Final data. Final output is a csv file with chr, gene names and expression
+# value for each tissue with expr.cutoff applied. The final table contains
+# all genes in the original expression except that duplicated genes were resolved
+# as described above. 
+# 6. Expression datasets. I worked with two sets of baseline expression data 
+# from EMBL-EBI expression atlas. data1 has 27 tissues while data2 has 53 tissues. 
+# Values are in TPM. 
+
+According to EMBL-EBI Expression atlas, gene ids should be unique as I have
+confirmed in their dataset but it is really expected that some gene ids will
+have the same names. Can't really do anything about this but I think I can proceed
+with taking the sum as the duplicated genes are so few.
+
+Output:
+chr	Gene.Name	adipose.tissue	adrenal.gland	animal.ovary
+chrX.	TSPAN6	46	30	113
+chrX.	TNMD	38	0.4	6
+chr20.	DPM1	73	136	112
+chr1.	SCYL3	6	10	15
+chr1.	C1orf112	2	3	5
+
+1.5. Plot proportion of not, lowly-, mediumly- and highly-expressed genes per tissue
+# per expression dataset. Two plots are available (a) all genes with data in at
+least 1 tissue in the expression datasets (2) only genes in the hg19 UCSC table.
+
+2. Get these hub info for each expression dataset:
+a. A csv file of pertinent number for each hub. In the output csv file, n0 means 
+the actual number of genes overlapping with hub. nWithData means number of genes 
+out of n0 that have expression data for at least 1 tissue. nWithData for each tissue 
+is the number of genes per tissue with expression data (non-NA, can be expressed or not). 
+nEq1 indicates hubs with n=1 for at least one of the tissues. These numbers provide 
+a way to filter a hub. The nWithData for each tissue is 
+followed when drawing random bootstrapped samples. 
+
+b. A csv file of unique genes overlapping with all the identified hubs. 
+
+c. Per hub, make a heatmap of genes vs. tissue showing the level of expression
+of each hub gene. The categorical level of gene expression came from EBI (the
+source of expression data).
+
+Not expressed (NE)      - FPKM/TPM < 0.5
+Lowly expressed (LE)    - 0.5 <= FPKM/TPM <= 10
+Mediumly expressed (ME) - 10 < FPKM/TPM <=1000
+Highly expressed (HE)   - 1000 < FPKM/TPM
+
+Heatmap is color coded based on the level and represented by integers.
+NE - light gray, -2
+LE - dark blue, -1
+ME - light blue, 0 
+HE - red, 1
+NA - dark gray, NA
+
+Genes are arranged from bottom to top by increasing sum of integers representing
+the categories of gene expression. Hub genes with no data for at least 1 tissue
+are all on top of the heatmap. 
+
+The heatmap is useful to closely examine how expression of genes varies across tissue.  
+
+d. Boxplot of fraction of genes with no data in each tissue (n0-nWithData per tissue) 
+per hub. 
+
+I used the csv file from (a) and the boxplot from (d) to choose hubs for subsequent
+expression analysis. Only hubs with >=50% of genes having data across tissues, were 
+used. Hubs with largely varied number of nWithData across tissue should not be considered. 
+Using the csv file, I ignored hubs with only one gene with data for at least one tissue. 
+
+e. Generate csv file combining pertinent columns from *nvalues.csv.
+
+2.5. Categorise hubs based on level of expression of genes.  EMBL-EBI defines the 
+categories as not expressed (TPM/FPKM<0.5), lowly-expressed (TPM/FPKM within 
+[0.5,10]), mediumly-expressed (TPM/FPKM within (10,1000]) and highly-expressed 
+(TPM/FPKM>1000).  
+
+3. Generate bootstrapped estimates for mean, sd, var, sd/mean, fraction of NE, 
+LE, ME, HE of gene expression expected by random chance. Bootstrapping with replacement 
+is done per hub and per tissue because n or the number of genes with data per hub per
+tissue varies. A random sample of n size is drawn from the genes of the 
+corresponding hub chr only considering genes with expression data for the
+corresponding tissue. Also, To simplify the process of drawing the random 
+sample, I only considered genes whose transcripts are located in the one chr.
+Values in the random sample below the set expression cut-off
+(in our case 0.5) is converted to 0. Bootstrapping is always done 10000 times. 
+Different 10,000 seeds are generated per hub, per tissue.
+
+Note that boot estimates for sd and var is NA when n=1. Accordingly, sd/mean is
+NA. When sd/mean is NaN when sd=mean=0, the value is converted to 0, 
+meaning that there is no variation. It will never happen that sd is a positive
+non-zero integer when mean is 0 therefore there should be no Inf values. 
+
+Output:
+BOOT.MX is generated per hub and contains bootstrappping data for all tissues. 
+> head(BOOT.MX)
+                n     MEAN   sd.MEAN        SD      sd.SD         VAR     sd.VAR
+adipose.tissue 67 30.42972  16.95744  80.11463  108.39823   18167.355   77441.77
+adrenal.gland  75 36.21381  13.95280  92.90661   83.82138   15656.959   38436.38
+animal.ovary   75 48.46993  22.91545 139.85543  146.83478   41117.837   84984.40
+appendix       75 48.35055  19.69308 124.51668  109.06522   27398.436   64000.61
+bladder        72 41.78948  11.45880  84.97949   45.73236    9312.753   10636.89
+bone.marrow    63 77.51815 163.08327 383.06237 1214.11860 1620673.344 8331450.94
+
+sd of each test statistic will be standard error of the bootstrapped estimate. The
+value for each statistic is the mean of the values from the 10000 iterations/random
+sample.
+
+4. Compare boot estimates vs. hub values by generating these plots:
+a. Test statistic value vs. tissue plotting mean of boot estimate and value for the
+hub side by side. This plot is generated per hub per test statistic. 
+
+b. Heatmap of hub vs. tissue per test statistic summarising the plots from (a). 
+In the heatmap, blue means that the test statistic value is significantly less
+than the boot estimate (meaning that the value is not within the closed range defined
+by the boot standard errors). Pink means significantly greater. Light gray means 
+not significant while dark gray means that there is no value for the hub and boot 
+estimate (happens when n={0,1} as described in D3). Significantly less, sig. greater
+and not. sig. is represented as integers in the heatmap, 1,0,-1, respectively.
+Dendogram clustering based on euclidean distance is applied to columns (tissues)
+while hubs (rows) are arrange from bottom to top by increasing rowsum of integers
+representing significance. Therefore at the bottom of the heatmap should be the
+hub with that has significantly less values for most tissues.
+
+The key of the heatmap is meant for continuous values
+so has to be edited when finalising the plot. Hubs with no genes overlapping and those with
+missing statistic value for all tissues are removed to make clustering (dendogram) possible.
+For the rownames, I included n0 and nWD (nWithData), explained above, as well as
+nAVE which is the average of n across tissues.
+
+hmap data is saved as:
+> head(hmap)
+                             h.id stat Brodmann..1909..area.24 Brodmann..1909..area.9
+1 chr1_hub1  n098_nWD86_nAve74.28 MEAN                       0                      0
+2 chr1_hub1  n098_nWD86_nAve74.28   SD                       0                      0
+3 chr1_hub1  n098_nWD86_nAve74.28  VAR                       0                      0
+4 chr1_hub1  n098_nWD86_nAve74.28   NE                       0                      1
+5 chr1_hub1  n098_nWD86_nAve74.28   LE                       0                      0
+6 chr1_hub1  n098_nWD86_nAve74.28   ME                       0                      0
+
+c. Boxplot of test statistic values from all tissues per hub, with boxplot for
+the boot estimates and hub estimate drawn side by side. The boxplot for each hub
+contains hub test statistic values from all tissues. The boot boxplot contains
+the mean of the boot estimates from all tissues (standard error not indicated then). 
+
+I compared the boot and hub estimates by doing a wilcoxon signed test which is the
+nonparametric counterpart of the paired t-test. I did paired because n values vary
+across tissues per hub so it is important to pair hub estimate for a particular tissue
+to the boot estimate of that tissue. Alternative is two-sided and I used median to
+determine trend. This grouped the hubs into significantly lower, 
+higher, n.s. median than the boot estimate. 
+
+Warning:
+In wilcox.test.default(x = bp[stat.TF & bp$hub == hub &  ... :
+  cannot compute exact p-value with zeroes
+- This is due to pairs with difference=0 Why are zeros a problem? Remember that the 
+null hypothesis is that the differences of the pairs are centered around 0. However, 
+observing differences where the value is exactly 0 do not give us any information for 
+the rejection of the null. Therefore, these pairs are discarded when computing the 
+test statistic. If this is the case for many of the pairs, the statistical power 
+of the test would drop considerably. Again, this is not a problem for us as only 
+a single zero value is present.
+Reference:
+https://www.datascienceblog.net/post/statistical_test/signed_wilcox_rank_test/
+
+To solve this warning, I added code to remove ties. No problem about most of the 
+pairs being tied because ties only occur for HE. This is because only a few genes
+are HE so both hubs and non-hubs mostly don't have any HE genes.
+
+
+bp data is saved as:
+> head(bp)
+        hub  nAve type stat                  tissue        value           se
+1 chr1_hub1 74.28  non MEAN Brodmann..1909..area.24   16.6754619 5.359132e+00
+2 chr1_hub1 74.28  non   SD Brodmann..1909..area.24   37.8670136 2.185117e+01
+3 chr1_hub1 74.28  non  VAR Brodmann..1909..area.24 1911.3365489 2.487528e+03
+4 chr1_hub1 74.28  non   NE Brodmann..1909..area.24    0.1675315 4.392418e-02
+5 chr1_hub1 74.28  non   LE Brodmann..1909..area.24    0.5000329 5.783739e-02
+6 chr1_hub1 74.28  non   ME Brodmann..1909..area.24    0.3324356 5.539283e-02
+
+type is non-hub or hub. se for hubs is 0. 
+
+d. Since I wanted to compare the behavior of mean, sd, var, sd/mean to 
+the fraction of NE, LE, ME and HE genes in the hub, I made a summary boxplot
+of fraction values across hubs. Each boxplot is drawn for the 4 levels of
+gene expressioin per hub. 
+
+The code also saves as .RData file the results of the wilcoxon test.
+> WXTEST$MEAN[1:5,]
+                  hub      wx.pval trend
+chr1_hub1   chr1_hub1 9.429334e-02    -1
+chr1_hub2   chr1_hub2 4.944271e-08    -1
+chr1_hub3   chr1_hub3 1.946924e-09    -1
+chr1_hub4   chr1_hub4 4.703870e-08    -1
+chr10_hub1 chr10_hub1 4.613917e-09    -1
+> WXTEST$NE[1:5,]
+                  hub      wx.pval trend
+chr1_hub1   chr1_hub1 9.737694e-03     1
+chr1_hub2   chr1_hub2 7.499544e-01     1
+chr1_hub3   chr1_hub3 3.080068e-06     1
+chr1_hub4   chr1_hub4 4.613917e-09    -1
+chr10_hub1 chr10_hub1 1.310940e-04    -1
+
+trend can either be 0, meaning that median of values in boot boxplot is equal
+to hub boxplot. 1 means median of hub boxplot is greater than
+boot booxplot. -1 is less. The wx.pval is from the test and it indicates if the
+trend is significant based on the test. 
+
+5. Plot relating mean,sd, var and sd/mean to level of expression of hub genes.
+Boxplot of NE, LE, ME and HE values per hub grouped based on the trend of
+mean, sd, var, sd/mean of hub in comparison to boot. The grouping of the hub
+is based on the wilcoxon test not the bootstrap standard errors. Test statistic
+is median. The "n", "l","g" on top of the boxplot signifies if the value is not 
+significantly different, significantly less or significantly greater than the boot 
+estimates from tissues based on the wilcoxon test.
+################################################################################
+# E. Gene expression vs. Cp
+################################################################################
+1. # Associate expression (across tissues )of genes co-localised with unique bins 
+# per Cp using two ways.
+# The metrics calculated were counts of tissues or genes with no data (nND),
+# tissues or genes with no data in the context of expression data only (nExprND),
+# not-expressed values (nNE), low-expressed values (nLE), medium-expressed values
+# (nME), high-expressed values (nHE), mean, median, sd, and coefficient of 
+# variation (sd/mean). Count of no data differs between two ways as described
+# below. Metrics unique to each way are described below also. 
+# a. Cross-tissue calculation of metrics per gene, such that each boxplot per Cp
+# contains gene values calculated across tissues. This looks at the influence of 
+# Cp on the expression pattern of each gene across tissues. Calculate metrics
+# with values of gene across tissues. In this case, nND and nExprND are the same
+# and are equal to the number of tissues without data for that gene. This way
+# also needs nTiss, the number of tissues in the expression data, because it
+# was used to standardise metrics to convert to fractional values. 
+# b. Per-tissue calculation of metrics per Cp gene set, such that each boxplot 
+# per Cp contains tissue values calculated for the Cp gene set. The first method 
+# looks at the influence of Cp on the expression pattern of each gene across 
+# tissues. This investigates the influence of Cp on the collective expression 
+# pattern of gene sets per $c_p$, and how this pattern behaves across tissues.
+# This method calculates metric per tissue using each cp gene set. Therefore
+# it takes note of nCp, the number of unique genes per Cp, and nCpNDAnyTiss,
+# the number of Cp genes not in expression data. nExprND in this case is
+# equal to number of genes in expression data that have no expression value
+# per tissue. nND is then given by nCpNDAnyTiss + nExprND. Standardisation
+# to convert to fractional value is done using nCp. 
+# Note 1. The code allows to filter values based on the allowable percentage
+# of no data, for Method a this filters genes based on the number of tissues
+# the gene have a value while for Method b this filters tissue data based
+# on the number of cp genes it has data. 
+# Note 2. The output for the two methods have the same columns but use
+# this description to identify which columns matter to that specific method. 
+# Which to present. The original code actually calculated method b likely
+# because I was influenced by the hub-based calculation. I later on decided
+# to present both because they do measure different things and they differ
+# in the coefficient of variation trend, which could be commented on, but
+# I realised now that it'd be better to use only method a or the cross-tissue
+# calculation because method b assumes that all the genes in a cp gene set
+# somehow are coregulated, which likely many not be the case, because
+# we're talking about thousands of genes, and the other reason is that
+# the fraction of genes without data per cp gene set is around 30-40%,
+# which is a lot. Meanwhile the number of tissues without data is <10%
+# for all the genes. 
+################################################################################
+# F. Coexpression vs. Cp
+################################################################################
+1. Pairwise correlation of cross-tissue expression values of all possible gene 
+# pairs in expression data. Use correlation as a measure of coexpression. 
+# percNDopenUpperLimPair argument is an open upper limit for allowable fraction
+# of tissues with no expression value for the gene pair. If percNDopenUpperLimPair
+# equal to 0.2, only gene pairs with no expression values < 0.2 of tissues 
+# are selected. Expression values < expr.cutoff converted to 0. 
+# Output is a unique genes x unique genes matrix of correlation values with 
+# only the lower triangle filled. 
+################################################################################

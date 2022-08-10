@@ -1,0 +1,2 @@
+Category	Term	Count	%	PValue	Genes	List Total	Pop Hits	Pop Total	Fold Enrichment	Bonferroni	Benjamini	FDR
+UP_KEYWORDS	Metal-binding	3	50.0	0.08276237414823504	THRB, CMC1, ZNF385D	4	3640	20581	4.2405906593406595	0.8505138509773065	1.0	1.0

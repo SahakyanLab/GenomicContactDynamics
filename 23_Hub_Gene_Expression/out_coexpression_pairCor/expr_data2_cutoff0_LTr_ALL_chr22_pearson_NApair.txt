@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+66729 165025 0.404356915618846

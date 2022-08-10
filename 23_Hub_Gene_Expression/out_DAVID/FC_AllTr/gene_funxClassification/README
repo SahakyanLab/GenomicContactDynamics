@@ -1,0 +1,32 @@
+################################################################################
+Gene Functional Classification
+
+Classification Stringency:
+1. Medium-2 (default except for Initial and Final Group Membership)
+Similarity Term Overlap    - 4
+Similarity Threshold       - 0.35
+Initial Group Membership   - 2 (DEF is 4)
+Final Group Membership     - 2 (DEF is 4)
+Multiple Linkage Threshold - 0.50
+
+If no result for Medium-2, I go for the Low-2 Classification Stringency
+
+2. Low-2
+Similarity Term Overlap    - 4
+Similarity Threshold       - 0.30
+Initial Group Membership   - 2 (DEF is 3)
+Final Group Membership     - 2 (DEF is 3)
+Multiple Linkage Threshold - 0.50
+
+If no clusters are detected under Low stringency, hub should have no output file.
+################################################################################
+
+gapBin50:
+chr1_FC_hub1-1
+chr1_FC_hub2-1
+chr1_FC_hub3-none
+chr1_FC_hub4-none
+chr1_FC_hub4-none
+chr2_FC_hub1-none
+
+ 

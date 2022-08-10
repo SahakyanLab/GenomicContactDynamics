@@ -1,0 +1,48 @@
+################################################################################
+# Functional annotation clustering
+################################################################################
+chr1_hub1 - NBPF cluster; ion binding/transport related
+chr1_hub2 - NBPF cluster; mitochondria (n.s.)
+chr1_hub3 - FCH, neurogenesis
+chr1_hub4 - None
+chr2_hub1 - None
+chr2_hub2 - [Membrane, phosphoprotein] (n.s.)
+chr2_hub3 - Alternative splicing (1 term result)
+chr3_hub1 - Alternative splicing (n.s.)
+chr3_hub2 - Metal/ion binding (n.s.)
+chr3_hub3 - Sequence variant/polymorphism (n.s.)
+chr4_hub1 - Transcription regulation
+chr4_hub2 - Integral/intrinsic to membrane (n.s.)
+chr4_hub3 - None (only 2 out of 4 genes mapped to DAVID IDs)
+chr5_hub1 - Cytoplasmic, Integral/intrinsic to membrane (n.s.)
+chr5_hub2 - None (only 3 out of 5 genes mapped to DAVID IDs)
+chr5_hub3 - None (only 2 genes)
+chr6_hub1 - Transcription regulation (n.s.) 
+chr6_hub2 - Signal peptide, disulfide bond; [transcription, sequence variant] (n.s.)
+chr7_hub1 - [DNA binding, zinc finger region] (n.s.)
+chr7_hub2 - [DNA binding, regualation of transcription] (n.s.)
+chr8_hub1 - [membrane (n.s.), disulfide bond (n.s.), integral to membrane (n.s.)] (n.s.)
+chr9_hub1 - phosphoprotein, PDZ
+chr10_hub1 - Alternative splicing; [cell motion, neuron development]
+chr11_hub1 - Olfaction
+chr11_hub2 - Olfaction; Sequence variant/polymorphism
+chr11_hub3 - Olfaction
+chr12_hub1 - Alternative splicing (n.s.)
+chr13_hub1 - Glycosylation (n.s.); [splicing, sequence variant] (n.s.)
+chr14_hub1 -Phosphoprotein (n.s.); [cell projection] (n.s.)
+chr16_hub1 - [Transferase, membrane (n.s.)]
+chr18_hub1 - [Organelle membrane (n.s.), integral to membrane (n.s.)] (n.s.)
+chr18_hub2 - Reactive bond site, Protease inhibitor
+chr19_hub1 - Zinc finger/KRAB cluster
+chr20_hub1 - Phosphoprotein (n.s.); Sequence variant/polymorphism (n.s.)
+chr21_hub1 - [Transmembrane region (n.s.), integral/intrinsic to membrane (n.s.)] (n.s.)
+chr21_hub2 - [Phosphoprotein (n.s.), sequence variant/polymorphism (n.s.)] (n.s.)
+chr21_hub3 - [Keratin, intermediate filament, cytoskeleton]
+chr22_hub1 - [Polymorphism (n.s.), alternative splicing (n.s.)] (n.s.)
+################################################################################
+
+n.s. - <1.3 EASE (significance as a cluster)
+; - separates terms from different clusters
+[] - terms belonging to a cluster
+[] (n.s.) - as a cluster not significant but terms inside is significant
+unless otherwise indicated

@@ -1,0 +1,4 @@
+#	Gene	Species	Kappa
+1	neuroblastoma breakpoint family member 9(NBPF9)	Homo sapiens	1.0
+2	neuroblastoma breakpoint family member 8(NBPF8)	Homo sapiens	1.0
+3	neuroblastoma breakpoint family member 7(NBPF7)	Homo sapiens	0.4444102563325523

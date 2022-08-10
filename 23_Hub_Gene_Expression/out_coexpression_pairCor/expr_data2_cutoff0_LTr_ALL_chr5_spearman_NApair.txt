@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+286505 664128 0.431400272236677

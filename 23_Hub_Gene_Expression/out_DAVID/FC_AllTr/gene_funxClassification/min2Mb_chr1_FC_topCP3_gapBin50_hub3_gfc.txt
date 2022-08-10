@@ -1,0 +1,5 @@
+Gene Group 1	Enrichment Score: 1.2715051018977366
+OFFICIAL_GENE_SYMBOL	Gene Name
+SRGAP2C	SLIT-ROBO Rho GTPase activating protein 2C(SRGAP2C)
+SRGAP2B	SLIT-ROBO Rho GTPase activating protein 2B(SRGAP2B)
+

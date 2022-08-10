@@ -1,0 +1,11 @@
+CBB Profiling started Thu Nov 11 21:16:32 2021
+SLURM_JOB_ID		2929203_21
+REQ_CPU_CORES		3
+REQ_MEMORY_KB		0
+CPU_OUT_FILE		sps-2929203_21/sps-2929203_21-cpu.tsv
+MEM_OUT_FILE		sps-2929203_21/sps-2929203_21-mem.tsv
+READ_OUT_FILE		sps-2929203_21/sps-2929203_21-read.tsv
+WRITE_OUT_FILE		sps-2929203_21/sps-2929203_21-write.tsv
+SPS_PROCESS		23631
+Starting profiling...
+SPS_AUTO_RESOURCES: Compacted data and reduced sampling rate to 2s

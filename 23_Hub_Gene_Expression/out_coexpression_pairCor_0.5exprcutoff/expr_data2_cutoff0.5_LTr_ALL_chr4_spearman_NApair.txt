@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+144701 411778 0.351405368912375
