@@ -1,3 +1,0 @@
-#	Gene	Species	Kappa
-1	SLIT-ROBO Rho GTPase activating protein 2C(SRGAP2C)	Homo sapiens	0.9677396586271984
-2	SLIT-ROBO Rho GTPase activating protein 2B(SRGAP2B)	Homo sapiens	0.4761722843638446

@@ -1,2 +1,0 @@
-Category	Term	Count	%	PValue	Genes	List Total	Pop Hits	Pop Total	Fold Enrichment	Bonferroni	Benjamini	FDR
-UP_KEYWORDS	Alternative splicing	3	42.857142857142854	0.5216048063379917	IL1RL2, ANKRD30BL, ANKRD20A8P	4	10587	20581	1.457990932275432	0.9999982774868772	1.0	1.0

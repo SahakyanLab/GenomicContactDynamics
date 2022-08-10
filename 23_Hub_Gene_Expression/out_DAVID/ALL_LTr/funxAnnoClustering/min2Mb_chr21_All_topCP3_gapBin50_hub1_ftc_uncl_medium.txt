@@ -1,2 +1,0 @@
-Category	Term	Count	%	PValue	Genes	List Total	Pop Hits	Pop Total	Fold Enrichment	Bonferroni	Benjamini	FDR
-UP_SEQ_FEATURE	splice variant	3	42.857142857142854	0.3330669810752026	CHODL, SAMSN1, ABCC13	4	7760	20063	1.9390786082474225	0.9998651630799326	1.0	1.0

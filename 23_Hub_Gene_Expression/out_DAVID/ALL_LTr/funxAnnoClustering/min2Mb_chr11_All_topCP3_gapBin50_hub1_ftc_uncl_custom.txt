@@ -1,2 +1,0 @@
-Category	Term	Count	%	PValue	Genes	List Total	Pop Hits	Pop Total	Fold Enrichment	Bonferroni	Benjamini	FDR
-SP_PIR_KEYWORDS	phosphoprotein	3	12.0	0.9997272733314689	PTPRJ, OR4S2, TTC17	24	7263	19235	0.33104433429712243	1.0	0.9999988530459681	100.0

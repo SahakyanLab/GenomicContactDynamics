@@ -1,7 +1,0 @@
-#	Gene	Species	Kappa
-1	double homeobox 4 like 6(DUX4L6)	Homo sapiens	1.0
-2	double homeobox 4 like 5(DUX4L5)	Homo sapiens	1.0
-3	double homeobox 4 like 3(DUX4L3)	Homo sapiens	1.0
-4	double homeobox 4 like 4(DUX4L4)	Homo sapiens	1.0
-5	double homeobox 4 like 2(DUX4L2)	Homo sapiens	1.0
-6	double homeobox 4(DUX4)	Homo sapiens	0.6153506286573255

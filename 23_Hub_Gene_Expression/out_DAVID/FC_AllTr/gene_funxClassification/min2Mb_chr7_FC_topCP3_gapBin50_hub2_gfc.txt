@@ -1,7 +1,0 @@
-Gene Group 1	Enrichment Score: 1.7263656757912427
-OFFICIAL_GENE_SYMBOL	Gene Name
-ZNF716	zinc finger protein 716(ZNF716)
-IKZF1	IKAROS family zinc finger 1(IKZF1)
-ZNF736	zinc finger protein 736(ZNF736)
-ZNF479	zinc finger protein 479(ZNF479)
-

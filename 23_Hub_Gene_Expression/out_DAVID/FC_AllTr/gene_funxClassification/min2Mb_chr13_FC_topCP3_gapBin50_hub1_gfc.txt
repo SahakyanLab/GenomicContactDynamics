@@ -1,5 +1,0 @@
-Gene Group 1	Enrichment Score: 0.1287106104209523
-OFFICIAL_GENE_SYMBOL	Gene Name
-HS6ST3	heparan sulfate 6-O-sulfotransferase 3(HS6ST3)
-FAM155A	family with sequence similarity 155 member A(FAM155A)
-

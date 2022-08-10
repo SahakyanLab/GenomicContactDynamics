@@ -1,3 +1,0 @@
-ONTOLOGY,ID,Description,GeneRatio,BgRatio,pvalue,p.adjust,qvalue,geneID,Count
-KEGG,hsa00534,Glycosaminoglycan biosynthesis - heparan sulfate / heparin,1/2,24/7715,0.00621237093896809,0.0124247418779362,NA,HS6ST3,1
-KEGG,hsa05017,Spinocerebellar ataxia,1/2,129/7715,0.0331638984156705,0.0331638984156705,NA,FGF14,1
