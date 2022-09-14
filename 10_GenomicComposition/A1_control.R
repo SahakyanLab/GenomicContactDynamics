@@ -20,7 +20,7 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-binkmer.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_orig_persist")
+binkmer.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_orig_persist") # DON'T CHANGE, required for source(paste0(wk.dir, "/lib/makeKmerStrandInvar.R"))
 out.dir = paste0(wk.dir, "/out_control")
 ### OTHER SETTINGS #############################################################
 chr.v = paste("chr", c(17, 22:18, 16:1, "X"), sep="")
