@@ -1,0 +1,24 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+/Database/genome_info/Hsa_GRCh37_73_chr_info.txt
+
+library(foreach)
+library(doParallel)
+library(itertools)
+source(paste0(lib, "/UTL_doPar.R"))
+library(Biostrings)
+source(paste0(lib, "/TrantoRextr/UTIL_readLinesFast.R"))   
+source(paste0(lib, "/TrantoRextr/GEN_readfasta.R"))  
+source(paste0(lib, "/TrantoRextr/GEN_loadGenome.R"))                             
+source(paste0(lib, "/TrantoRextr/GEN_getGenomicSeq.R"))  
+library(Rcpp)
+sourceCpp(file=paste0(wk.dir, "/lib/anv_encoding.cpp")) - from James Ashford
+################################################################################
+# A. Features
+################################################################################
+1. Get accumulated natural vector (ANV) (doi: 10.3389/fgene.2019.00234) for all 
+40-kb regions of human genome. Regions with at least one missing base are 
+populated with NAs. Output is ANV.MX with 18 element ANV plus bin number and
+coordinates (same first columns with BIN.MX).
+################################################################################
