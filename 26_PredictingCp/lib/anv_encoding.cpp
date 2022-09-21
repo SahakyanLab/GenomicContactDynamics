@@ -43,7 +43,6 @@ Rcpp::NumericVector rcpp_anv_encode( Rcpp::CharacterVector char_string ) {
     float sequence_length = dna_string.size();
     float base_count = 4;
 
-
     // Generate the indicator functions (IF) and accumulated IF (AIF)
     Rcpp::NumericMatrix IF(4, sequence_length);
     Rcpp::NumericMatrix padded_AIF(4, sequence_length+1);
@@ -58,139 +57,34 @@ Rcpp::NumericVector rcpp_anv_encode( Rcpp::CharacterVector char_string ) {
     }
     Rcpp::NumericMatrix AIF = padded_AIF(_,Range(1,sequence_length));
 
-
     // Extract base counts
     Rcpp::NumericVector all_base_counts = AIF(_,sequence_length-1);
-
-
-    // Extract average positions from end
-    Rcpp::NumericVector omega(4);
-    for (int base=0; base<base_count; ++base)  {
-        Rcpp::NumericVector base_ifs = IF(base,_);
-        float position_sum = 0;
-        for (int ind=0; ind<sequence_length; ind++) {
-            if (base_ifs[ind] == 1) {
-                position_sum += ind;
-            }
-        }
-        omega[base] = position_sum; // Liezel: I think omega is equal to sum of AIF base vector?
-    }
-    Rcpp::NumericVector average_position = omega / all_base_counts;
-
-
-    // Calculate nucleotide divergences
-    Rcpp::NumericVector divergences(4);
-    for (int base=0; base<base_count; ++base)  {
-        Rcpp::NumericVector base_aifs = AIF(base,_);
-        int base_count = all_base_counts[base];
-        
-        float base_theta = 0;
-        for (int ind=0; ind<sequence_length; ind++) { // Liezel: simplify to accumulate or store AIF rowsum beforehand (used in many places)
-            base_theta += base_aifs[ind];
-        }
-        base_theta = base_theta/sequence_length;
-
-        // Rcpp::NumericVector position_divergences(sequence_length);
-        // for (int ind=0; ind<sequence_length; ind++) {
-        //     position_divergences[ind] = (base_aifs[ind] - base_theta);
-        // }
-        Rcpp::NumericVector position_divergences = base_aifs - base_theta;
-        
-        Rcpp::NumericVector divergence = pow(position_divergences/base_count, 2);
-        float cumulative_divergence = accumulate(divergence.begin(), divergence.end(), 0.0);
-
-        divergences[base] = cumulative_divergence;
-    }
-
+		
+    // Extract average distances from end -> sum(AIF) / base count
+	Rcpp::NumericVector average_distance(4);
+	for (int base=0; base<base_count; ++base)  {
+		Rcpp::NumericVector aif_base = AIF(base,_);
+		float base_ave_dist = accumulate(aif_base.begin(), aif_base.end(), 0.0) / all_base_counts[base];
+	    average_distance[base] = base_ave_dist;
+	}
+	
     // Return combined Accumulated Natural Vector
     Rcpp::NumericVector anv = NumericVector::create(
         all_base_counts[0],
         all_base_counts[1],
         all_base_counts[2],
         all_base_counts[3],
-        average_position[0],
-        average_position[1],
-        average_position[2],
-        average_position[3],
-        divergences[0],
-        divergences[1],
-        divergences[2],
-        divergences[3],
-        base_covariances(AIF(0,_), AIF(1,_)), // AC
-        base_covariances(AIF(0,_), AIF(2,_)), // AG
-        base_covariances(AIF(0,_), AIF(3,_)), // AT
-        base_covariances(AIF(1,_), AIF(2,_)), // CG
-        base_covariances(AIF(1,_), AIF(3,_)), // CG
-        base_covariances(AIF(2,_), AIF(3,_))  // GT
-    );
-    return anv;
-}
-
-
-
-// [[Rcpp::export]]
-Rcpp::NumericVector rcpp_anv_oneloop_encode( Rcpp::CharacterVector char_string ) {
-
-    // Create mapping between base-pairs important vectors
-    std::map<char, int> base_index_map = {
-        { 'A', 0 },
-        { 'C', 1 },
-        { 'G', 2 },
-        { 'T', 3 }
-    };
-
-    // Convert R character vector to string
-    std::string dna_string = Rcpp::as<std::string>(char_string);
-
-    // Extract length
-    float sequence_length = dna_string.size();
-    float num_bases = 4;
-
-    // Create storage for all the outputs
-    Rcpp::NumericVector all_base_counts(num_bases);
-    Rcpp::NumericVector sum_base_distances(num_bases);
-    Rcpp::NumericVector aif_sums(num_bases);
-
-    // Iterate along the sequence
-    Rcpp::NumericMatrix AIF(num_bases, sequence_length);
-    for (int ind=0; ind<sequence_length; ++ind) {
-        // Get current character
-        int this_base_index = base_index_map[dna_string[ind]];
-
-        // Update running total, and storage
-        all_base_counts[this_base_index] += 1;
-        AIF(_,ind) = all_base_counts;
-
-        // Update distance and sum storage
-        sum_base_distances[this_base_index] += ind;
-        aif_sums += all_base_counts;
-    }
-
-    // Average the positions from start
-    Rcpp::NumericVector average_position = sum_base_distances / all_base_counts;
-
-    // Calculate the position-wise divergences
-    Rcpp::NumericVector divergences(num_bases);
-    for (int base=0; base<num_bases; ++base)  {
-        Rcpp::NumericVector position_divergences =  AIF(base,_) - (aif_sums[base]/sequence_length);
-        Rcpp::NumericVector divergence = pow(position_divergences / all_base_counts[base], 2);
-        divergences[base] = accumulate(divergence.begin(), divergence.end(), 0.0);
-    }
-
-    // Return combined Accumulated Natural Vector
-    Rcpp::NumericVector anv = NumericVector::create(
-        all_base_counts[0],
-        all_base_counts[1],
-        all_base_counts[2],
-        all_base_counts[3],
-        average_position[0],
-        average_position[1],
-        average_position[2],
-        average_position[3],
-        divergences[0],
-        divergences[1],
-        divergences[2],
-        divergences[3],
+		
+        average_distance[0],  							
+        average_distance[1],
+        average_distance[2],
+        average_distance[3],
+		
+        base_covariances(AIF(0,_), AIF(0,_)), // A divergences[0],
+        base_covariances(AIF(1,_), AIF(1,_)), // C divergences[1],
+        base_covariances(AIF(2,_), AIF(2,_)), // G divergences[2],
+        base_covariances(AIF(3,_), AIF(3,_)), // T divergences[3],
+		
         base_covariances(AIF(0,_), AIF(1,_)), // AC
         base_covariances(AIF(0,_), AIF(2,_)), // AG
         base_covariances(AIF(0,_), AIF(3,_)), // AT
@@ -199,4 +93,5 @@ Rcpp::NumericVector rcpp_anv_oneloop_encode( Rcpp::CharacterVector char_string )
         base_covariances(AIF(2,_), AIF(3,_))  // GT
     );
     return anv;
+	
 }

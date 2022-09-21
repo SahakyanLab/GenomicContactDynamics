@@ -6,7 +6,7 @@
 options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
 options(warn=1) # Expands warnings
 
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -14,10 +14,12 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
     CII.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/z_ignore_git/out_constraints/merged_final")
+    out.dir = paste0(wk.dir, "/z_ignore_git/out_makeTable")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
     CII.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/out_constraints_GfreeSingleNorm/merged_final")
+    out.dir = paste0(wk.dir, "/out_makeTable")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
@@ -30,10 +32,9 @@ anv.dir = paste0(wk.dir, "/out_getANV")
 persist.dir  = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 binkmer3.dir = paste0(persist.dir, "/binkmer3_allbins")
 binkmer1.dir = paste0(persist.dir, "/out_binBaseContent/maskfile0") 
-out.dir = paste0(wk.dir, "/out_makeTable")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr = "chr21" #"chrCHRREPLACE"
+chr = "chrCHRREPLACE"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -55,7 +56,7 @@ TBL <- feat_makeTablePerChr(anv.dir=anv.dir, binkmer3.dir=binkmer3.dir,
                             persist.dir=persist.dir, chr=chr, gcb=gcb)
 
 # Remove rows with NA for smaller CSV file
-TBL <- TBL[!is.na(TBL$grp.compl.ij_CIIkmer),]
+TBL <- TBL[! (is.na(TBL$grp.compl.ij_CIIkmer) | is.na(TBL$grp.compl.ij_CIIalign)),]
 if( any(is.na(TBL)) ){
   rm(TBL); stop("Missing values in TBL.")
 } else {
