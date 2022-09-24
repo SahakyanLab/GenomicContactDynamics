@@ -14,12 +14,10 @@ if( !is.null(whorunsit[1]) ){
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
     CII.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/z_ignore_git/out_constraints/merged_final")
-    out.dir = paste0(wk.dir, "/z_ignore_git/out_makeTable")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
     CII.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/out_constraints_GfreeSingleNorm/merged_final")
-    out.dir = paste0(wk.dir, "/out_makeTable")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
@@ -32,6 +30,7 @@ anv.dir = paste0(wk.dir, "/out_getANV")
 persist.dir  = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 binkmer3.dir = paste0(persist.dir, "/binkmer3_allbins")
 binkmer1.dir = paste0(persist.dir, "/out_binBaseContent/maskfile0") 
+out.dir = paste0(wk.dir, "/out_makeTable")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chrCHRREPLACE"

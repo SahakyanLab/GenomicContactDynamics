@@ -15,7 +15,7 @@ out="mktbl"
 
 # String to be replaced with var in varArray
 orig=CHRREPLACE
-lineNum=37
+lineNum=36
 ###################################################################################
 # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE #
 ###################################################################################
