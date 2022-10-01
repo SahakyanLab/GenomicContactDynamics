@@ -1,5 +1,5 @@
 ################################################################################
-# Correlation of contact gap and complementarity
+# Correlation of contact gap ( j-i not j-i-1 to avoid log10(0) ) and complementarity
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -29,7 +29,7 @@ out.dir = paste0(wk.dir, "/out_gap_complementarity_COR")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr.v = paste0("chr", c("ALL", 1:22, "X"))
-compl.type = "Gfree" # kmer | Gfree | sdDifference | align
+compl.type = "kmer" # kmer | Gfree | sdDifference | align
 bins.val = 30
 cuts.val = 12
 ################################################################################
@@ -67,9 +67,9 @@ for(chr in chr.v){
   rownames(CII.MX) <- NULL
   
   is_nonNA_compl <- !is.na(CII.MX[,val.id])
-  gaps <- CII.MX[,"j"] - CII.MX[,"i"] - 1
+  gaps <- CII.MX[,"j"] - CII.MX[,"i"]
 
-  p.lst[[chr]] <- makeHexbinggplot(xvar=gaps[is_nonNA_compl], 
+  p.lst[[chr]] <- makeHexbinggplot(xvar=log10(gaps[is_nonNA_compl]), 
                                    yvar=CII.MX[is_nonNA_compl,val.id], 
                                    bins=bins.val, 
                                    cuts=cuts.val,
