@@ -18,9 +18,9 @@ if( !is.null(whorunsit[1]) ){
     shuff.dir = paste0(wk.dir, "/z_ignore_git/out_constraints/merged_final")
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/8_ShuffleContactBins")
-    orig.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints/out_constraints_hg19_rm_GfreeSingleNorm/merged_final")
-    shuff.dir = paste0(wk.dir, "/out_constraints_hg19_rm_GfreeSingleNorm/merged_final")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/12_Shuffling")
+    orig.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/out_constraints_GfreeSingleNorm/merged_final")
+    shuff.dir = paste0(wk.dir, "/out_constraints_GfreeSingleNorm/merged_final")
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
@@ -29,12 +29,12 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 persist.dir = NULL #paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 #persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
-out.dir = paste0(wk.dir, "/out_compare_hg19_rm_GfreeSingleNorm")
+out.dir = paste0(wk.dir, "/out_compare_GfreeSingleNorm_gaptest")
 foi.dir = NULL #paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw")
 foifile = NULL #paste0(wk.dir, "/foifile/foifile1")
 chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
-chr.v = "chrALL" #paste0("chr", c(1:2), sep="")
+chr.v = paste0("chr", c(22), sep="")
 gcb = "min2Mb"
 bin.len = 40000L
 kmer.len = 7L
@@ -44,7 +44,8 @@ plotOnly = F
 filterByFoi = F
 filterByCelltype = F
 mannwhit = T
-out.id = "chrALL"
+gap.range.bins.closed = c(50,50) # j - i - 1, closed range
+out.id = paste0(chr.v, "_gaprange_", gap.range.bins.closed[1], "_", gap.range.bins.closed[2])  #"chrALL"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -92,7 +93,9 @@ HicHybridCompare <- function(orig.dir = '/dir',
     for(chr in chr.v){
       
       load(file=paste0(orig.dir, "/", chr, "_", type, "_", gcb, ".RData"))
-      CII.MX <- CII.MX[!is.na(CII.MX[,"Cp"]),]
+      gaps <- unname(CII.MX[,"j"] - CII.MX[,"i"] - 1)
+      CII.MX <- CII.MX[ gaps >= gap.range.bins.closed[1] & gaps <= gap.range.bins.closed[2] & 
+                          !is.na(CII.MX[,"Cp"]), ]
       
       # Filter by cell type if required
       if(filterByCelltype & filterByFoi){
@@ -124,7 +127,9 @@ HicHybridCompare <- function(orig.dir = '/dir',
       # Shuffled
       load(file=paste0(shuff.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"))
       rownames(CII.MX) <- NULL
-      CII.MX <- CII.MX[!is.na(CII.MX[,"Cp"]),]
+      gaps <- unname(CII.MX[,"j"] - CII.MX[,"i"] - 1)
+      CII.MX <- CII.MX[gaps >= gap.range.bins.closed[1] & gaps <= gap.range.bins.closed[2] &
+                         !is.na(CII.MX[,"Cp"]),]
       HYBCOMB.DF[[chr]] <- rbind(HYBCOMB.DF[[chr]], data.frame(chr=chr, CII.MX, set="2",
                                                                stringsAsFactors=F))
       
@@ -180,6 +185,8 @@ HicHybridCompare <- function(orig.dir = '/dir',
       }
       
       rm(fchr.TF)
+      
+      print(paste0(chr, ": Data obtained."))
       
     } # chr.v for loop end
     
@@ -303,12 +310,19 @@ HicHybridCompare <- function(orig.dir = '/dir',
       for(cp in cp.v){
         
         cp <- as.character(cp)
-        mw <- wilcox.test(as.formula(paste0(feat, "~set")), alternative="two.sided",
-                          data=HYBCOMB.DF[as.character(HYBCOMB.DF$Cp)==cp & !is.na(HYBCOMB.DF[[feat]]), 
-                                          c(feat, "set")],
-                          paired=F)
-        # tt <- t.test("set", feat)
-        pval.mx[cp,colnames(pval.mx)==feat] <- mw$p.value
+        cp.TF <- as.character(HYBCOMB.DF$Cp)==cp & !is.na(HYBCOMB.DF[[feat]])
+        
+        if( !all( c("1", "2") %in% as.character(unique(HYBCOMB.DF[cp.TF, "set"])) ) ){
+          pval.mx[cp,colnames(pval.mx)==feat] <- -1 # No elements for either orig or shuff
+        } else {
+          
+          mw <- wilcox.test(as.formula(paste0(feat, "~set")), alternative="two.sided",
+                            data=HYBCOMB.DF[cp.TF, c(feat, "set")], paired=F)
+          # tt <- t.test("set", feat)
+          pval.mx[cp,colnames(pval.mx)==feat] <- mw$p.value
+          
+        }
+        
         rm(mw, cp)
         
       }
