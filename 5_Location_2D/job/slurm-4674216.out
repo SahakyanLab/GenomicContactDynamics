@@ -1,0 +1,310 @@
+Loading R-cbrg/current
+  Loading requirement: gsl/2.6 hdf5/1.10.7 gdal/3.4.1 sqlite/3.37.2 proj/8.1.1
+    geos/3.9.0 jags/4.3.0 java/17.0.1 cmake/3.17.2
+
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ################################################################################
+> # Distance of bin midpoints to reference points in the genome marking certain 
+> # areas i.e. chr ends, centromere midpoints. Note that R rounds up >= XXXXXXX.5 
+> # values to nearest integer when printing which could also happen when saving.
+> # If last bin shorter than bin resolute, populate output matrix row with NAs.
+> ################################################################################
+> # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
+> ### DIRECTORY STRUCTURE ########################################################
+> options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
+> options(warn=1) # Expands warnings
+> 
+> whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+> # "AlexMac", "AlexCluster"
+> 
+> if( !is.null(whorunsit[1]) ){
++   # This can be expanded as needed ...
++   if(whorunsit == "LiezelMac"){
++     home.dir = "/Users/ltamon"
++     os = "Mac"
++   } else if(whorunsit == "LiezelCluster"){
++     home.dir = "/project/sahakyanlab/ltamon" #"/stopgap/sahakyanlab/" #"/t1-data/user"
++     os = "Linux"
++   } else {
++     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
++   }
++ }
+> lib = paste0(home.dir, "/DPhil/lib")
+> data.dir = paste0(home.dir, "/Database")
+> wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/5_Location_2D")
+> persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+> 
+> out.dir  = paste0(wk.dir, "/out_distToRefPoints")
+> chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt") 
+> # 1-based, constant centromere length of 3Mb
+> centro.file = paste0(data.dir, "/ucsc_tables/hsa_centromere/ct_hg19_foi_centromereonly_desc_DNA")
+> ### OTHER SETTINGS #############################################################
+> gcb = "min2Mb"
+> chr.v = paste0("chr", c(1:22, "X"))
+> nCPU = 2
+> bin.len = 40000
+> # Should match ref.points order
+> ref.points.name = c("chr.start.bp", "chr.end.bp", "centromere.midP.bp") 
+> options(digits=15) # Digits beyond 15 could be unreliable
+> ################################################################################
+> # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
+> ################################################################################
+> library(foreach)
+> library(doParallel)
+Loading required package: iterators
+Loading required package: parallel
+> library(itertools)
+> source(paste0(lib, "/UTL_doPar.R"))
+[1] Running with 2 cores.
+> ################################################################################
+> # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
+> #################################################################################
+> # Build list of reference points
+> 
+> centro.df <- read.delim(file=centro.file, header=F, sep="\t", stringsAsFactors=F)
+> centro.len <- unique( centro.df$V3 - centro.df$V2 + 1 ) # = 3e+06 bp
+> centro.points <- centro.df$V2 + ((centro.len - 1) / 2) # R rounding off
+> centro.points <- as.list(centro.points)
+> names(centro.points) <- centro.df$V1
+> 
+> chrlen.df <- read.delim(file=chrlen.file, header=T, sep="\t", stringsAsFactors=F)
+> chrlen.df <- chrlen.df[chrlen.df$chromosome != "chrMT",]
+> chrlen.points <- sapply(names(centro.points), simplify=F, USE.NAMES=T, FUN=function(chr){
++   c(1, chrlen.df$length.bp[chrlen.df$chromosome == chr])
++ })
+> 
+> ref.points <- Map(chrlen.points[names(centro.points)], centro.points[names(centro.points)], f=append)
+> 
+> #
+> 
+> ref.points.id <- paste(ref.points.name, collapse="_")
+> #chr.v <- unique(centro.df$V1)
+> chr.v.len <- length(chr.v)
+> getMidPbin <- (bin.len - 1) / 2 
+> toExport <- c("chr.v", "chrlen.df", "bin.len", "getMidPbin", "ref.points", "ref.points.name",
++               "persist.dir", "gcb", "ref.points.id")
+> 
+> #### PARALLEL EXECUTION #########
+> foreach(itr=isplitVector(1:chr.v.len, chunks=nCPU), .inorder=F,
++         .export=toExport, .noexport=ls()[!ls()%in%toExport]
++ 
++ ) %op% {
++   
++   #chunk <- sapply(X=itr, simplify=F, FUN=function(i){
++ 
++   for(i in itr){
++     
++     chr <- chr.v[i]
++     chr.end.bp <- chrlen.df$length.bp[chrlen.df$chromosome == chr]
++     chr.bin.end <- ceiling(chr.end.bp / bin.len)
++     ubins <- 1:chr.bin.end
++     bin.start <- (ubins * bin.len) - bin.len + 1
++     bin.midP <- bin.start + getMidPbin
++     
++     disttoref.mx <- matrix(data=NA, nrow=length(ubins), ncol=length(ref.points[[1]]), 
++                            dimnames=list(NULL, ref.points.name))
++     for(bin.num in ubins){
++       disttoref.mx[bin.num, ] <- bin.midP[bin.num] - ref.points[[chr]] 
++     }
++     
++     # If last bin shorter than bin resolute, populate with NAs.
++     if( abs(bin.start[chr.bin.end] - chr.end.bp + 1) < bin.len ){
++       disttoref.mx[chr.bin.end,] <- NA
++       print(paste0(chr, ": Populating last bin with NAs in disttoref.mx."))
++     }
++     
++     load(paste0(persist.dir, "/", chr, "_Persist_", gcb, ".RData"))
++     ij.mx <- cbind(i=PERSIST.MX$hits$i, j=PERSIST.MX$hits$j, Cp=PERSIST.MX$ntis)
++     rm(PERSIST.MX)
++     
++     IJDISTTOREF.MX <- rbind( disttoref.mx[ ij.mx[,"i"], ], 
++                               disttoref.mx[ ij.mx[,"j"], ] )
++     IJDISTTOREF.MX <- cbind( IJDISTTOREF.MX, Cp=c(ij.mx[,"Cp"], ij.mx[,"Cp"]) )
++     
++     save(IJDISTTOREF.MX, file=paste0(out.dir, "/", gcb, "_", chr, "_ijdisttoref_", ref.points.id, ".RData"))
++     
++     rm(disttoref.mx, IJDISTTOREF.MX, ij.mx)
++     gc()
++     
++   }
++ 
++ }
+[1] "chr13: Populating last bin with NAs in disttoref.mx."
+[1] "chr1: Populating last bin with NAs in disttoref.mx."
+[1] "chr14: Populating last bin with NAs in disttoref.mx."
+[1] "chr15: Populating last bin with NAs in disttoref.mx."
+[1] "chr16: Populating last bin with NAs in disttoref.mx."
+[1] "chr17: Populating last bin with NAs in disttoref.mx."
+[1] "chr18: Populating last bin with NAs in disttoref.mx."
+[1] "chr19: Populating last bin with NAs in disttoref.mx."
+[1] "chr20: Populating last bin with NAs in disttoref.mx."
+[1] "chr21: Populating last bin with NAs in disttoref.mx."
+[1] "chr22: Populating last bin with NAs in disttoref.mx."
+[1] "chrX: Populating last bin with NAs in disttoref.mx."
+[1] "chr2: Populating last bin with NAs in disttoref.mx."
+[1] "chr3: Populating last bin with NAs in disttoref.mx."
+[1] "chr4: Populating last bin with NAs in disttoref.mx."
+[1] "chr5: Populating last bin with NAs in disttoref.mx."
+[1] "chr6: Populating last bin with NAs in disttoref.mx."
+[1] "chr7: Populating last bin with NAs in disttoref.mx."
+[1] "chr8: Populating last bin with NAs in disttoref.mx."
+[1] "chr9: Populating last bin with NAs in disttoref.mx."
+[1] "chr10: Populating last bin with NAs in disttoref.mx."
+[1] "chr11: Populating last bin with NAs in disttoref.mx."
+[1] "chr12: Populating last bin with NAs in disttoref.mx."
+[[1]]
+NULL
+
+[[2]]
+NULL
+
+> ### END OF PARALLEL EXECUTION ###
+> 
+> # rm(list=ls()); gc()
+> 
+CBB Profiling started Mon Oct  3 14:09:11 2022
+SLURM_JOB_ID		4674216
+REQ_CPU_CORES		3
+REQ_MEMORY_GB		20.000000
+Starting profiling...
+
+                                                                                
+                                                                                
+                                    CPU (cores)                                 
+    3 +---------------------------------------------------------------------+   
+      |         +         +         +         +         +         +         |   
+      |                                                                     |   
+      |                                                                     |   
+  2.5 |-+                                                                 +-|   
+      |                                                                     |   
+      |                                                                     |   
+      |                                                                     |   
+    2 |-+ ###########                                                     +-|   
+      | ###    ###  #                                                       |   
+      |#            #                                                       |   
+  1.5 |#+           #                                                     +-|   
+      |#            #                                                       |   
+      |#            #                                                       |   
+      |#            #                                                       |   
+    1 |-+           #################################################     +-|   
+      |             ##    #                                                 |   
+      |                                                                     |   
+      |                                                                     |   
+  0.5 |-+                                                                 +-|   
+      |                                                                     |   
+      |                                                                     |   
+      |         +         +         +         +         +         +         |   
+    0 +---------------------------------------------------------------------+   
+      0         50       100       150       200       250       300       350  
+                                Job profiling step                              
+                                                                                
+
+                                                                                
+                                                                                
+                                   Memory (GB)                                  
+  20 +----------------------------------------------------------------------+   
+     |         +         +         +          +         +         +         |   
+  18 |-+                                                                  +-|   
+     |                                                                      |   
+     |                                                                      |   
+  16 |-+                                                                  +-|   
+     |                                                                      |   
+  14 |-+                                                                  +-|   
+     |                                                                      |   
+  12 |-+                                                                  +-|   
+     |                                                                      |   
+  10 |-+                                                                  +-|   
+     |                                                                      |   
+     |                                                                      |   
+   8 |-+                                                                  +-|   
+     |                                                                      |   
+   6 |-+                                                                  +-|   
+     |     #                                                                |   
+   4 |-+  ##    # ## #######                                              +-|   
+     |  ##  ##########      # #####  ###  ###                               |   
+     | ###  #   ##          ###   ###   ### ###### ### ###                  |   
+   2 |#+                                         ### ### ############     +-|   
+     |#        +         +         +          +         +         +         |   
+   0 +----------------------------------------------------------------------+   
+     0         50       100       150        200       250       300       350  
+                               Job profiling step                               
+                                                                                
+
+                                                                                
+                                                                                
+                                  Data read (GB)                                
+  1.2 +---------------------------------------------------------------------+   
+      |         +         +         +         +         +         ###       |   
+      |                                                        ###          |   
+      |                                                     ###             |   
+    1 |-+                                              ######             +-|   
+      |                                             ####                    |   
+      |                                           ##                        |   
+      |                                       #####                         |   
+  0.8 |-+                                 #####                           +-|   
+      |                                  ##                                 |   
+      |                             #####                                   |   
+  0.6 |-+                          ##                                     +-|   
+      |                       ######                                        |   
+      |                     ###                                             |   
+      |             #########                                               |   
+  0.4 |-+         ###                                                     +-|   
+      |           #                                                         |   
+      |         ##                                                          |   
+      |     #####                                                           |   
+  0.2 |-+ ###                                                             +-|   
+      |  ##                                                                 |   
+      | ##                                                                  |   
+      |#        +         +         +         +         +         +         |   
+    0 +---------------------------------------------------------------------+   
+      0         50       100       150       200       250       300       350  
+                                Job profiling step                              
+                                                                                
+
+                                                                                
+                                                                                
+                                 Data written (GB)                              
+   0.4 +--------------------------------------------------------------------+   
+       |         +         +         +        +         +       #####       |   
+       |                                                   ######           |   
+  0.35 |-+                                              ####              +-|   
+       |                                             ####                   |   
+       |                                         #####                      |   
+   0.3 |-+                                  #####                         +-|   
+       |                                #####                               |   
+       |                               ##                                   |   
+  0.25 |-+                         #####                                  +-|   
+       |                         ##                                         |   
+   0.2 |-+                      ##                                        +-|   
+       |                   ######                                           |   
+       |                  ##                                                |   
+  0.15 |-+               ##                                               +-|   
+       |                ##                                                  |   
+       |               ##                                                   |   
+   0.1 |-+          ####                                                  +-|   
+       |        ####                                                        |   
+       |        #                                                           |   
+  0.05 |-+     #                                                          +-|   
+       |      ##                                                            |   
+       |   ####  +         +         +        +         +         +         |   
+     0 +--------------------------------------------------------------------+   
+       0         50       100       150      200       250       300       350  
+                                Job profiling step                              
+                                                                                
