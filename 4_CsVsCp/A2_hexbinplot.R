@@ -32,7 +32,7 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
-out.dir = paste0(wk.dir, "/z_ignore_git/out_hexbin_HiCNormCs")
+out.dir = paste0(wk.dir, "/out_CsVsCpobj")
 ### OTHER SETTINGS #############################################################
 ct.v = sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG",
               "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "LC", "FC"))
