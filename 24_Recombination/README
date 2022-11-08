@@ -1,4 +1,15 @@
 ################################################################################
+# Thoughts
+################################################################################
+Recombination rates is more likely influenced by the meiotic crossover genome
+organisation. But if we argue that likely persistent contacts will exist in
+meiotic genome conformation, the recombination rate vs. Cp association makes sense.
+Initially, we hypothesized that persistent contacts with high contact strength
+will have higher recombination  rates but one can argue that perhaps persistent
+regions have evolved to have lower meiotic recombination rates to preserve their
+sequence similarity? We do see that recombination rate slightly decrease with Cp.
+All speculative though. I think I will leave this out in my thesis.
+################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
 PERSIST.MX
