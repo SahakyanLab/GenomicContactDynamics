@@ -23,7 +23,7 @@ if( !is.null(whorunsit[1]) ){
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Constraints")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Constraints")
     os = "Linux"
   } else if(whorunsit == "LiezelLinuxDesk"){
     home.dir = "/home/ltamon"
@@ -38,16 +38,17 @@ data.dir = paste0(home.dir, "/Database")
 
 # both
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
-out.dir = paste0(wk.dir, "/out_constraints_GfreeSingleNorm")
-persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
+out.dir = paste0(wk.dir, "/out_constraints_hg38_GfreeSingleNorm")
+persist.dir = NULL #paste0(data.dir, "/HiC_features_GSE87112_RAWpc")  # NULL if not relevant, populate Cp with NAs
+
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
-chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
+chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh38_chr_info.txt")
 # align
-genome.dir = paste0(data.dir, "/human_genome_unmasked_37.73")
+genome.dir = paste0(data.dir, "/human_genome_unmasked_38.108")
 # kmer
 gfreepar.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 #binkmer.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/12_MaskingFeatures/out_binkmer_maskingThreshold")
-binkmer.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_allbins")
+binkmer.dir = paste0(data.dir, "/HiC_features_human_hg38.108/binkmer_allbins")
 ### OTHER SETTINGS #############################################################
 # both
 gcb = "min2Mb"
@@ -63,7 +64,7 @@ allij = TRUE
 # align
 numChunks = 2 # human chr1 - 32L, chr21 - 2L
 gfreeparfile = paste0(gfreepar.dir, "/Gfree_", kmer.len, "mer.par")
-genome.prefix = "Homo_sapiens.GRCh37.73.dna.chromosome." #"Homo_sapiens.GRCh37.73.dna.chromosome." 
+genome.prefix = "Homo_sapiens.GRCh38.dna.chromosome." #"Homo_sapiens.GRCh37.73.dna.chromosome." 
 fastafile.ending = ".fa"
 affix.binkmer = ""
 affix.persist = ""

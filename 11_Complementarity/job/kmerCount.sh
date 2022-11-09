@@ -4,15 +4,14 @@
 ## Please note that anything after "#SBATCH" on a line will be treated as
 ## SLURM command.
 ##########################################################################
-#SBATCH -p batch
-#SBATCH --mem-per-cpu=4G
-#SBATCH -n 5
-#SBATCH --cpus-per-task=5
+#SBATCH --mem=20G
+#SBATCH -n 2
+#SBATCH --mail-user=ltamon
+#SBATCH --mail-type=ALL
 #########################################################################
 ## JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS ##
 #########################################################################
-module load R-base/4.0.1
+module load R-base/4.1.2
 module load R-cbrg/current
-module load gcc/9.3.0
 
-Rscript --vanilla /t1-data/user/ltamon/DPhil/GenomicContactDynamics/11_Complementarity/B1_kmerCounts.R
+Rscript --vanilla /project/sahakyanlab/ltamon/SahakyanLab/GenomicContactDynamics/11_Complementarity/B1_kmerCounts.R

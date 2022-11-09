@@ -22,7 +22,7 @@ if( !is.null(whorunsit[1]) ){
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/11_Complementarity")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity")
     os = "Linux"
   } else if(whorunsit == "LiezelLinuxDesk"){
     home.dir = "/home/ltamon"
@@ -36,17 +36,17 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 
 lib.TrantoRextr = paste0(lib, "/TrantoRextr")
-genome.dir = paste0(data.dir, "/human_genome_repeatmasked_37.73")
+genome.dir = paste0(data.dir, "/human_genome_unmasked_38.108")
 # binkmer_divLen_all changed to binkmer_allBins
-out.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_allbins_rm")  
+out.dir = paste0(data.dir, "/HiC_features_human_hg38.108/binkmer_allbins")  
 # File with chromosome lengths (use right genome build), Columns: chromosome-length.bp
-chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
+chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh38_chr_info.txt")
 ### OTHER SETTINGS #############################################################
 chr.v = paste0("chr", c(1:22, "X")) #c("X", "2L", "2R", "3L", "3R", "4", "Y", "MT")
-bin.len = 40000 
+bin.len = 50000 
 kmer.len = 7
 nCPU = 2 # ~4G
-genome.prefix = "Homo_sapiens.GRCh37.73.dna_rm.chromosome."
+genome.prefix = "Homo_sapiens.GRCh38.dna.chromosome."
 fastafile.ending = ".fa"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
