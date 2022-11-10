@@ -1,0 +1,46 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+
+################################################################################
+# Assign Cp to Phylo-HMRF orthologous contacts (hg38)
+################################################################################
+1. Liftover Phylo-HMRF hg38 contacts to hg19. Source coordinates was converted
+to 1-based and subsequent analyses took into account this e.g. length calculation.
+Conversion is done for i and then j regions, inputting start and end coordinates
+at the same time. Strand not relevant for contact data so I used "*". 
+
+LOwidth.min.bp parameter
+- Take only regions maintaining bin resolution (50000 in our case) after liftover 
+as well as output regions >= LOwidth.min.bp (latter is relevant for regions broken 
+down into multiple regions after conversion i.e. 1 long plus few short ones). 
+Ideally, choose value > half of original bin resolution to get 1 output region for 
+1 input region.
+- Per chromosome, plot of density of widths each for i and j is produced before
+filtering based on LOwidth.min.bp for visual assessment of LOwidth.min.bp value. 
+Reassurring if peaks are close to 50000 and very small lengths. 
+
+Coordinates checked for negative or zero region lengths.
+
+Contacts with non-overlapping regions but i is downstream of j were switched.
+Although this is not necessary because getConsensusCpOfPairs() is agnostic to
+i and j order. 
+
+Output is per chromosome
+- Contains chromosome and region i and region j converted coordinates (format
+is meant for getConsensusCpOfPairs() )
+- Row order corrresponds with source file i.e. Phylo-HMRF regions per chromosome
+- NA coordinates could mean (1) contacts with one or both regions not converted 
+over given LOwidth.min.bp and other parameters, (2) contacts with at least 1 bp
+overlap of regions 
+
+2. Assign consensus Cp value to converted hg38 to hg19 Phylo-HMRF contacts. 
+Take the mean Cp instead of median because we care about the outlying values
+like bunch of 1s with few 21s vs. just a bunch of 1s. 
+
+Output
+- 1 column matrix with consensus Cp value with order corresponding to the 
+converted dataframe and hence the orig Phylo-HMRF data.
+- NAs correspond to contacts with missing coordinates in one or two regions and
+those with no corresponding Cp values
+################################################################################
