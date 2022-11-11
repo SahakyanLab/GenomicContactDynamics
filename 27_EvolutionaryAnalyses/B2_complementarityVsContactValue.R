@@ -7,7 +7,7 @@
 options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
 options(warn=1) # Expands warnings
 
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -24,18 +24,21 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
-wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity")
+wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/27_EvolutionaryAnalyses")
 
-CII.dir = paste0(wk.dir, "/out_constraints_hg38_GfreeSingleNorm/merged_final")
+CII.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/out_constraints_hg38_GfreeSingleNorm/merged_final")
+consensusCp.dir = paste0(wk.dir, "/out_assignCp")
 value.dir = paste0(data.dir, "/Phylo-HMRF/out_combine_splitPerChr") # Path to a directory
 out.dir = paste0(wk.dir, "/out_complementarityVsContactValue") 
 chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh38_chr_info.txt")
 ### OTHER SETTINGS #############################################################
+consensusCp.id = "hg38ToHg19_LOwidth.min.bp30000"
+consensus.FUN = "mean"
 value.id = "genome_state_Phylo-HMRF_mapping_contact50K_norm"
 coord.system = "zero-based"
 gcb = "min2Mb"
 type = "kmer"
-chr.v = paste0("chr", c(1:22, "X"))
+chr.v = paste0("chr", c(17, 19, 21, 22))
 bin.len = 50000
 value.header = T
 options(scipen=999) # To prevent CII.MX and VALUE.df rownames to become sci note
@@ -53,6 +56,13 @@ for(chr in chr.v){
   
   value.df <- fread(file=paste0(value.dir, "/", chr, "_", value.id, ".txt"), 
                     header=value.header, stringsAsFactors=F, data.table=F)
+  
+  # Add consensus Cp data
+  load(paste0(consensusCp.dir, "/", chr, "_", consensusCp.id, "_", value.id, "_", 
+              consensus.FUN, "Cp.RData"))
+  dimnames(consensusCp)[[2]] <- paste0(consensus.FUN, ".consCp")
+  
+  value.df <- cbind(value.df, consensusCp)
   
   #
   
@@ -77,7 +87,7 @@ for(chr in chr.v){
     stop(paste0(chr, ": Wrong bin length or coord.system argument."))
   }
    
-  #
+  # Convert coordinates to bin numbers
   
   value.df[,2:5] <- ceiling(value.df[,2:5] / bin.len)
   check.val <- unique(unique(c(value.df[,3] - value.df[,2])), unique(c(value.df[,5] - value.df[,4])))
@@ -103,7 +113,7 @@ for(chr in chr.v){
     stop(paste0(chr, ": i > j entries."))
   }
   
-  #
+  # Merge value.df with VALUE.df keeping order of latter, which should match with CII.MX
   
   tot.bin <- ceiling( chrlen.df$length.bp[chrlen.df$chromosome == chr] / bin.len )
   mx <- matrix(data=NA, nrow=tot.bin, ncol=tot.bin, dimnames=list(i=1:tot.bin, j=1:tot.bin))
@@ -120,7 +130,7 @@ for(chr in chr.v){
   VALUE.df$i <- as.numeric(VALUE.df$i)
   VALUE.df$j <- as.numeric(VALUE.df$j)
   
-  # Merge value.df with VALUE.df keeping order of latter, which should match with CII.MX
+  # Actual merging
   
   VALUE.df$row.num <- as.numeric(rownames(VALUE.df))
   merged.tmp <- merge(x=VALUE.df, y=value.df[,setdiff(colnames(value.df), c("i", "j"))],
