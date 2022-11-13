@@ -60,9 +60,9 @@ getComplementarityAlign <- function(
     
     bin.end <- ubins*binlength
     bin.start <- bin.end-binlength+1
-    bin.len <- length(bin.end)
+    tot.bin <- length(bin.end) # bin.len changed to tot.bin to avoid confusion with bin resolution
     
-    ubinsSeq.v <- sapply(X=1:bin.len, simplify=TRUE, FUN=function(i){
+    ubinsSeq.v <- sapply(X=1:tot.bin, simplify=TRUE, FUN=function(i){ # bin.len changed to tot.bin
       getGenomicSeq(PATH.genome=PATH.genome,
                     genome.prefix=genome.prefix,
                     fastafile.ending=fastafile.ending,

@@ -19,6 +19,10 @@
 ## strands will give you same number of regions.
 ## (4) Output is one-based becacuse start and end can be the same coordinate 
 ## when referring to a base (width=1). 
+## UPDATE: Output will match the coordinate system of the input
+## but width reported will always be (end - start + 1) which suggests that 
+## inputting one-based coordinates is better and less confusing.
+## (5) Note that seqnames and strand are returned as factors.
 ################################################################################
 liftOveR <- function(conversion = "hg19ToHg38", # "hg19ToHg38", "hg19ToDanRer10"
                      space = c("chr2", "chr2", "chr1", "chr3"), # same as chrom
