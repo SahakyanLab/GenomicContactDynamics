@@ -1,5 +1,5 @@
 ################################################################################
-# Correlate C||align vs. C||kmer 
+# Plot correlation coefficients of C|| metrics 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################

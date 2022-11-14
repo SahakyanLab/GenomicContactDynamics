@@ -200,8 +200,17 @@ two methods agree. Only contacts with both types of scores were included. This
 is relevant for chr17's last bin, whose contacts only have k-mer-based scores.
 The number of ij in the plot is the number of all contacts in CII.MX. The nonNA
 percentage corresponds to contact with both types of scores.
+3.5. Plot correlation coefficients from (3) vs. chromosome and differentiating
+amongst all, long-range and short-range contacts.
+4. Correlate C|| metrics combining contacts from all chromosomes. (3) and (3.5)
+do it per chromosome.  
+################################################################################
+# E. 
+################################################################################
+1. Code for generating .RData and .csv per chromosome containing complementarity 
+values from all 3 methods. Format intended for sharing data.
 ################################################################################
 LOG
 
-17/02/2020 - updated
+14/11/2022 - updated
 13/12/2019 - written
