@@ -39,7 +39,7 @@ LOwidth.min.bp = 30000 # Take only regions maintaining length (50000) after lift
 # Ideally, choose value > half of original length to get 1 output region for 1
 # input region.
 coord.system = 1 
-consensus.FUN = "mean"
+consensus.FUN = c("mean", "median", "max")
 # PERSIST.MX
 gcb = "min2Mb"
 bin.len = 40000 
@@ -84,9 +84,10 @@ for(chr in chrs){
     stop(paste(chr, ": consensusCp order not consistent with ijLO.df/mx."))
   }
 
-  consensusCp <- consensusCp[,"value", drop=F]
+  consensusCp <- consensusCp[,setdiff(colnames(consensusCp), "pair.ind"), drop=F]
+  consensus.FUN.id <- paste(consensus.FUN, collapse="_")
   save(consensusCp, file=paste0(out.dir, "/", chr, "_", LOchain, "_LOwidth.min.bp", 
-                                LOwidth.min.bp, "_", src.id, "_", consensus.FUN, "Cp.RData"))
+                                LOwidth.min.bp, "_", src.id, "_", consensus.FUN.id, "Cp.RData"))
   
   print(paste0(chr, ": done!"), quote=F)
   
