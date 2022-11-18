@@ -52,6 +52,11 @@ complexity repeats are masked with N. N is treated as the masking character.
 Populate with NAs those bins with unmasked fraction less than unmskdThresh
 argument plus bins with any missing sequence in unmasked version of the genome.
 
-3. Diagnostics plots of masked chromosome bins
+3. Diagnostics plots of masked chromosome bins. Violin plots where points mark
+median and dashed line correspond to stat_boxplot(errorbar) which adds segment
+representing lower and upper whiskers if a ggplot default boxplot is drawn.
 
+4. Alternative way to show diagnostic plot. Current output compares per Cp the 
+density distribution of total 7-mer counts and total non-repeat lengths of 
+non-repeat areas of contact regions (unique not taken as in A3).
 ################################################################################

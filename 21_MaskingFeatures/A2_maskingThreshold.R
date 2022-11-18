@@ -40,6 +40,11 @@ affix.binkmer = "_hg19_rm"
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
+if( !is.null(unmskdThresh) ){
+  out.dir <- paste0(out.dir, "/unmskdThresh", unmskdThresh)
+  if( !dir.exists(out.dir) ){ dir.create(out.dir) }
+}
+
 req.bp <- bin.len * unmskdThresh
 
 for(chr in chr.v){

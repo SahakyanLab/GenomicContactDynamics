@@ -4,7 +4,7 @@
 ## Please note that anything after "#SBATCH" on a line will be treated as
 ## a SLURM command.
 ##########################################################################
-#SBATCH --mem=20G
+#SBATCH --mem=60G
 #SBATCH -n 1
 #SBATCH --mail-user=ltamon
 #SBATCH --mail-type=ALL
@@ -12,4 +12,4 @@
 module load R-base/4.1.2
 module load R-cbrg/current
 
-R --vanilla < /project/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/12_MaskingFeatures/A3_diagnostic_plots.R
+R --vanilla < /project/sahakyanlab/ltamon/SahakyanLab/GenomicContactDynamics/21_MaskingFeatures/A3_diagnostic_plots.R
