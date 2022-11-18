@@ -1,0 +1,3 @@
+repeat masked opposite trend (lower p-value, check both gap filters):
+chrALL_kmer_min2Mb_Gfree_cortest.RData
+chrALL_kmer_min2Mb_Gfree_varbasedtest.RData

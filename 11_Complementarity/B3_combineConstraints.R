@@ -4,7 +4,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -22,14 +22,14 @@ lib = paste0(home.dir, "/DPhil/lib")
 compl.dir = paste0(wk.dir, "/out_constraints_GfreeSingleNorm/merged_final")
 out.dir = compl.dir
 ### OTHER SETTINGS #############################################################
-chr.v = paste("chr", c("ALL", 1:22, "X"), sep="")
+chr.v = "chr18" #paste("chr", c("ALL", 1:22, "X"), sep="")
 combineChr = FALSE
 gcb = "min2Mb"
 kmer.len = 7L
 bin.len = 4e4L
 type = "kmer"
 affix = ""
-gap.val = 50  # j - i - 1 # Set to NULL if not filtering
+gap.rng = c(50,100) # j - i - 1, closed range, Set to NULL if not filtering
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -38,8 +38,8 @@ source(paste0(lib, "/HiCHybridPlot.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-if( !is.null(gap.val) ){
-  out.dir <- paste0(out.dir, "/filter_gap_jMINUSiMINUS1equals", gap.val, "bins")
+if( !is.null(gap.rng) ){
+  out.dir <- paste0(out.dir, "/filter_gap_jMINUSiMINUS1equals", paste(gap.rng, collapse="To"), "bins")
   if( !dir.exists(out.dir) ){ dir.create(out.dir) }
 }
 
@@ -68,22 +68,24 @@ if(combineChr){
   chr.v <- "chrALL"
   print("Combined chr data.", quote=FALSE)
   
-  if( !is.null(gap.val) ){
-    CII.MX <- CII.MX[ (CII.MX[,"j"] - CII.MX[, "i"] - 1) == gap.val, ]
-  }
-  
 } 
 #---------------------------------------
 for(chr in chr.v){
   if(!combineChr){
     load(file=paste0(compl.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"))
-    if( !is.null(gap.val) ){
-      CII.MX <- CII.MX[ (CII.MX[,"j"] - CII.MX[, "i"] - 1) == gap.val, ]
-    }
   }
-  cp.v <- CII.MX[,"Cp"]
+  
+  if( !is.null(gap.rng) ){
+    print(paste0(out.dir, ": Filtering contacts based on given closed gap range."))
+    gaps <- CII.MX[,"j"] - CII.MX[, "i"] - 1
+    CII.MX <- CII.MX[ gaps >= gap.rng[[1]] & gaps <= gap.rng[[2]] & 
+                      !is.na(CII.MX[,"Cp"]), ]
+  }
+  
+  cp.v <- unname(CII.MX[,"Cp"])
   colnme <- colnames(CII.MX)[!colnames(CII.MX)%in%c("i", "j", "Cp", "group")]
-  CII.MX <- matrix(CII.MX[,colnme], ncol=length(colnme), dimnames=list(NULL,colnme))
+  CII.MX <- CII.MX[,colnme, drop=F]
+  dimnames(CII.MX) <- list(NULL, colnme)
                    
   ylab <- ylab[colnames(CII.MX)]
   HiCHybridPlot(

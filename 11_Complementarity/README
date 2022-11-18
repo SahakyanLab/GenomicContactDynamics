@@ -149,7 +149,18 @@ c. For both kmer and align, make a 0.5Mb version of CII.MX by adding the right C
 values from PERSIST.MX
 
 3. Combine CII.MX of all chromosome and plot CII, Gfree, sd across Cp. 
-The script can also be used to plot for individual chromosome. 
+The script can also be used to plot for individual chromosome. I added feature
+to filter contacts based on contact gap. The gap.rng argument should be
+a two-element vector representing closed range of gap values in bins to be
+considered for filtering.
+
+3.5. Code to generate an alternative plot for complementarity values using
+only boxplot whiskers (stat_boxplot(geom="errorbar")) with points at median.
+This also allows multiple datasets to be plotted together such as complementarity
+values at different gap ranges. As in B3, gap.rng argument i.e. closed range
+of allowable contact gap values in bins can be specified for filtering of contacts 
+based on contact gap. On the title, actual gap states the actual gap range
+per group of contacts plotted i.e. non missing x or y value.
 
 4. Calculate significance of trends by pairwise t-test and mann-whitney test,
 anova and correlation. For lower memory, sd values were multiplied by 10^4
