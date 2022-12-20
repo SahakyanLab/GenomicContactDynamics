@@ -14,4 +14,4 @@
 module load R-base/4.1.2
 module load R-cbrg/current
 
-Rscript --vanilla /project/sahakyanlab/ltamon/SahakyanLab/GenomicContactDynamics/11_Complementarity/F1_complementarityVsContactValue.R
+Rscript --vanilla /project/sahakyanlab/ltamon/SahakyanLab/GenomicContactDynamics/27_EvolutionaryAnalyses/B2_complementarityVsContactValue.R
