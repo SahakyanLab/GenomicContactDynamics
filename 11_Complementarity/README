@@ -221,7 +221,52 @@ do it per chromosome.
 1. Code for generating .RData and .csv per chromosome containing complementarity 
 values from all 3 methods. Format intended for sharing data.
 ################################################################################
+# F. 
+################################################################################
+1. Liftover CII.MX hg38 contacts to hg19. Source coordinates was converted
+to 1-based and subsequent analyses took into account this e.g. length calculation.
+Conversion is done for i and then j regions, inputting start and end coordinates
+at the same time. Strand not relevant for contact data so I used "*". 
+
+LOwidth.min.bp parameter
+- Take only regions maintaining bin resolution (50000 in our case) after liftover 
+as well as output regions >= LOwidth.min.bp (latter is relevant for regions broken 
+down into multiple regions after conversion i.e. 1 long plus few short ones). 
+Ideally, choose value > half of original bin resolution to get 1 output region for 
+1 input region.
+- Per chromosome, plot of density of widths each for i and j is produced before
+filtering based on LOwidth.min.bp for visual assessment of LOwidth.min.bp value. 
+Reassurring if peaks are close to 50000 and very small lengths. 
+
+Coordinates checked for negative or zero region lengths.
+
+Contacts with non-overlapping regions but i is downstream of j were switched.
+Although this is not necessary because getConsensusCpOfPairs() is agnostic to
+i and j order. 
+
+Output is per chromosome
+- Contains chromosome and region i and region j converted coordinates (format
+is meant for getConsensusCpOfPairs() )
+- Row order corrresponds with source file i.e. Phylo-HMRF regions per chromosome
+- NA coordinates could mean (1) contacts with one or both regions not converted 
+over given LOwidth.min.bp and other parameters, (2) contacts with at least 1 bp
+overlap of regions 
+ 
+2. Get Cp data overlapping with each converted hg38 to hg19 contacts from 1).
+Output:
+- 1 column dataframe with semi-colon separated string of Cp values per contact
+with order corresponding to the converted dataframe in 1) and hence it is the 
+same order as contacts in hg38 CII.MX.
+- NAs correspond to contacts with missing coordinates in one or two regions and
+those with no corresponding Cp values. 
+
+3. Calculate consensus Cp based on overlapping Cp values with each hg38 to
+hg19 converted contact save as semi-colon separated string from F2_assignCp.R. 
+Code expects to use consensus functions giving numeric values. Output maintains
+order of the source of Cp strings, which is the same order as CII.MX hg38 
+contacts.
+################################################################################
 LOG
 
-14/11/2022 - updated
+21/12/2022 - updated
 13/12/2019 - written
