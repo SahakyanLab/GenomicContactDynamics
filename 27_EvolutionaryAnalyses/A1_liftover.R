@@ -69,16 +69,16 @@ foreach(itr=isplitVector(1:chrs.len, chunks=nCPU), .inorder=F
     
     df <- fread(file=paste0(src.dir, "/", chr, "_", src.id, ".txt"), 
                 header=src.header, stringsAsFactors=F, data.table=F)
-    df$V2 <- df$V2 + 1L
-    df$V4 <- df$V4 + 1L
+    df[,2] <- df[,2] + 1L
+    df[,4] <- df[,4] + 1L
     
     # Coordinate conversion
     
-    orig.ij.num <- length(df$V1)
+    orig.ij.num <- length(df[,1])
     iLO.df <- liftOveR(conversion=LOchain, 
-                       space=as.character(df$V1), 
-                       start=as.numeric(df$V2),
-                       end=as.numeric(df$V3),
+                       space=as.character(df[,1]), 
+                       start=as.numeric(df[,2]),
+                       end=as.numeric(df[,3]),
                        strand=rep(x="*", times=orig.ij.num),
                        getchain=F,
                        rmchain=F,
@@ -86,9 +86,9 @@ foreach(itr=isplitVector(1:chrs.len, chunks=nCPU), .inorder=F
     iLO.df$seqnames <- as.character(iLO.df$seqnames)
     
     jLO.df <- liftOveR(conversion=LOchain, 
-                       space=as.character(df$V1), 
-                       start=as.numeric(df$V4),
-                       end=as.numeric(df$V5),
+                       space=as.character(df[,1]), 
+                       start=as.numeric(df[,4]),
+                       end=as.numeric(df[,5]),
                        strand=rep(x="*", times=orig.ij.num),
                        getchain=F,
                        rmchain=F,
