@@ -3,7 +3,7 @@
 ################################################################################
 
 ################################################################################
-# Assign Cp to Phylo-HMRF orthologous contacts (hg38)
+# A. Assign Cp to Phylo-HMRF orthologous contacts (hg38)
 ################################################################################
 1. Liftover Phylo-HMRF hg38 contacts to hg19. Source coordinates was converted
 to 1-based and subsequent analyses took into account this e.g. length calculation.
@@ -44,3 +44,8 @@ converted dataframe and hence the orig Phylo-HMRF data.
 - NAs correspond to contacts with missing coordinates in one or two regions and
 those with no corresponding Cp values
 ################################################################################
+# B. Assign Cp to Phylo-HMRF orthologous contacts (hg38)
+################################################################################
+
+################################################################################
+

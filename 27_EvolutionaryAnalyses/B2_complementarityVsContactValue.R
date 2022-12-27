@@ -25,16 +25,12 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/27_EvolutionaryAnalyses")
-
 CII.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/out_constraints_hg38_GfreeSingleNorm/merged_final")
-consensusCp.dir = paste0(wk.dir, "/out_assignCp")
 value.dir = paste0(data.dir, "/Phylo-HMRF/out_combine_splitPerChr") # Path to a directory
 out.dir = paste0(wk.dir, "/out_complementarityVsContactValue") 
 chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh38_chr_info.txt")
 ### OTHER SETTINGS #############################################################
-consensusCp.id = "hg38ToHg19_LOwidth.min.bp30000_genome_state_Phylo-HMRF_mapping_contact50K_norm"
 value.id = "genome_state_Phylo-HMRF_contact50K_norm_KR"
-consensus.FUN = c("mean", "median", "max")
 coord.system = "zero-based"
 gcb = "min2Mb"
 compl.data.ids = "kmer"
@@ -52,23 +48,11 @@ library(data.table)
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
 chrlen.df <- read.table(file=chrlen.file, stringsAsFactors=F, header=T)
-consensus.FUN.id <- paste(consensus.FUN, collapse="_")
 
 for(chr in chr.v){
   
   value.df <- fread(file=paste0(value.dir, "/", chr, "_", value.id, ".txt"), 
                     header=value.header, stringsAsFactors=F, data.table=F)
-  
-  # Add consensus Cp data
-  load(paste0(consensusCp.dir, "/", chr, "_", consensusCp.id, "_", 
-              consensus.FUN.id, "Cp.RData"))
-
-  if( identical(length(value.df$V1), length(consensusCp[,1])) ){
-    value.df <- cbind(value.df, consensusCp)
-  } else {
-    rm(value.df)
-    stop(paste0(chr, ": Consensus Cp and values data have different row lengths."))
-  }
   
   #
   
