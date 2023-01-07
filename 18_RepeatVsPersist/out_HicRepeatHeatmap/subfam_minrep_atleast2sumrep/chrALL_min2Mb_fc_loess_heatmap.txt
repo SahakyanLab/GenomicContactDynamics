@@ -1,0 +1,5 @@
+count	what
+372	Total element
+253	With correlation data
+54	Not significant alpha 0.05
+65	Missing value so not correlated
