@@ -6,7 +6,7 @@
 options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
 options(warn=1) # Expands warnings
 
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -24,7 +24,7 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/27_EvolutionaryAnalyses")
 valmx.dir = paste0(wk.dir, "/out_complementarityVsContactValue_unabridged") 
-out.dir = paste0(wk.dir, "/out_complementarityVsContactValue_plot") 
+out.dir = paste0(wk.dir, "/out_complementarityVsContactValue_plot") #paste0(wk.dir, "/out_complementarityVsContactValue_plot")  
 state.group.file = paste0(wk.dir, "/Phylo-HMRF_state_group.csv")
 group.col.file = paste0(wk.dir, "/Phylo-HMRF_state_group_col.csv")
 group.display.file = paste0(wk.dir, "/Phylo-HMRF_state_group_display.csv")
@@ -34,7 +34,7 @@ state.group = "Grp4"
 display.group.id = "Grp4_disp1"
 gcb = "min2Mb"
 group.order.basis = "kmer.CII" # Use "II" for "||"
-chr.v = paste0("chr", c(21:22))
+chr.v = paste0("chr", c(1:22, "X"))
 bin.len = 50000
 gap.range.bins.closed = NULL # j - i - 1, No gap filtering if NULL
 out.id = paste0("hg38.108_bin", bin.len, "bp_", value.id, "_gaprangebins_", 
@@ -116,7 +116,7 @@ col.df$Col <- paste0("#", col.df$Col)
 col.df <- col.df[col.df$Grp %in% levels(df$grp),]
 coul.grp <- setNames(col.df$Col, nm=col.df$Grp)
 
-#
+# Violin plot: States vs. complementarity values in hg38 genome
 
 compl.nmes <- colnames(df)
 compl.nmes <- compl.nmes[ grepl(pattern="kmer.|align.", compl.nmes) ]
@@ -124,15 +124,19 @@ P.LST <- list()
 for(nme in compl.nmes){
   
   df.tmp <- na.omit(df[,c("grp", nme)])
-  doCorTest(xval=df.tmp[[nme]], yval=vals, alt="two.sided", exactpval=F, out.dir, out.name)
+  doVarTest(xval=df.tmp[[nme]], grp=df.tmp$grp, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
+  doCorTest(xval=as.numeric(df.tmp$grp), # To label levels from left to right with 1 to N
+            yval=df.tmp[[nme]], alt="two.sided", exactpval=F, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
   #compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$grp, 
   #                alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
   
   P.LST[[nme]] <- ggplot(data=df.tmp, aes_string(x="grp", y=nme)) +
     geom_violin(scale="width", aes(fill=grp), col="white", alpha=0.5, trim=T, lwd=2) +
     #geom_point(data=median.df, aes(x=grp, y=value), alpha=1, size=4, pch=3, stroke=1.1) +
-    stat_boxplot(geom="errorbar", width=0, lty="dashed") + 
-    stat_summary(fun="median", pch=1, position=position_dodge(0.5)) +
+    stat_boxplot(geom="errorbar", width=0, lty="dotted", lwd=1) + 
+    stat_summary(fun="median", pch="-", position=position_dodge(0.5), size=4) +
     scale_x_discrete(limits=levels(df.tmp$grp)) +
     scale_fill_manual(values=unname(coul.grp[group.present])) + 
     scale_colour_manual(values=unname(coul.grp[group.present])) + 
@@ -151,19 +155,48 @@ for(nme in compl.nmes){
 #
 
 KR.nmes <- colnames(df)[grepl(colnames(df), pattern="_KR", fixed=T)] 
+
+# Median + tails plot: States vs. contact frequency data
+
+KR.df <- df[,c(KR.nmes, "grp")]
+KR.df <- reshape2::melt(KR.df, id="grp")
+
+coul.nme <- gsub(pattern="_KR", replacement="", x=levels(KR.df$variable))
+P.LST[["KR_Cp"]] <- ggplot(data=KR.df, aes(x=grp, y=log10(value))) +
+  stat_boxplot(aes(col=variable), geom="errorbar", width=0, lty="dotted", position=position_dodge(0.5), lwd=1) +
+  stat_summary(aes(col=variable), fun="median", pch=1, position=position_dodge(0.5), size=2) +
+  scale_x_discrete(limits=levels(KR.df$grp)) +
+  scale_colour_manual(values=unname(coul.spec[coul.nme])) +
+  labs(x=NULL, y="log10(KR)", 
+       title=paste0(out.id, violin.note, "_KR/NONE cf values not cross-species comparable")) +
+  bgr2 +
+  theme(legend.position="bottom") +
+  theme1
+
+P.LST[[paste0("KR_Cp_withCount")]] <- P.LST[["KR_Cp"]] + 
+  stat_summary(fun.data=countPerX, geom="text") +
+  facet_grid(variable~.)
+
+# Violin plot: Per species KR plot
+
 ylim.val <- range(log10(df[,KR.nmes]), na.rm=T)
 ylim.val <- c(floor(ylim.val[[1]]), ceiling(ylim.val[[2]]))
 for(nme in KR.nmes){
 
   df.tmp <- na.omit(df[,c("grp", nme)])
-  compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$grp,
-                  alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
+  doVarTest(xval=df.tmp[[nme]], grp=df.tmp$grp, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
+  doCorTest(xval=as.numeric(df.tmp$grp), # To label levels from left to right with 1 to N
+            yval=df.tmp[[nme]], alt="two.sided", exactpval=F, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
+  #compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$grp,
+  #                alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
   df.tmp[[nme]] <- log10(df.tmp[[nme]])
 
   P.LST[[nme]] <- ggplot(data=df.tmp, aes_string(x="grp", y=nme)) +
     geom_violin(scale="width", aes(col=grp), fill="white", alpha=0.1, trim=T, lwd=2) +
-    stat_boxplot(geom="errorbar", width=0, lty="dashed") +
-    stat_summary(fun="median", pch=1, position=position_dodge(0.5)) +
+    stat_boxplot(geom="errorbar", width=0, lty="dotted", lwd=1) +
+    stat_summary(fun="median", pch="-", position=position_dodge(0.5), size=4) +
     scale_x_discrete(limits=levels(df.tmp$grp)) +
     scale_y_continuous(limits=ylim.val) + 
     scale_fill_manual(values=unname(coul.grp[group.present])) +
@@ -190,11 +223,12 @@ colnames(norm.df) <- c("grp", "species", "value")
 norm.df$species <- factor(norm.df$species, levels=unique(norm.df$species))
 
 coul.nme <- gsub(pattern="_norm", replacement="", x=levels(norm.df$species))
+coul.vals <- adjustcolor(unname(coul.spec[coul.nme]), alpha.f=0.7)
 P.LST[["norm_cf"]] <- ggplot(data=norm.df, aes(x=value)) +
-  geom_density(aes(y= ..scaled.., col=species)) +
+  geom_density(aes(y= ..scaled.., col=species), lwd=2) +
   scale_x_continuous(labels=function(x) sprintf("%.1f", -(x))) + 
   scale_y_continuous(breaks=c(0,1)) + 
-  scale_color_manual(values=unname(coul.spec[coul.nme]), drop=F) + 
+  scale_color_manual(values=coul.vals, drop=F) + 
   labs(y=NULL, title=paste0(out.id, "_PhyloHMRF_norm_values")) + 
   bgr2 +
   theme1 + 
@@ -208,8 +242,13 @@ cp.nmes <- colnames(df)[grepl(colnames(df), pattern=".consCp", fixed=T)]
 for(nme in cp.nmes){
   
   df.tmp <- na.omit(df[,c("grp", nme)])
-  compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$grp, 
-                  alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
+  doVarTest(xval=df.tmp[[nme]], grp=df.tmp$grp, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
+  doCorTest(xval=as.numeric(df.tmp$grp), # To label levels from left to right with 1 to N
+            yval=df.tmp[[nme]], alt="two.sided", exactpval=F, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
+  #compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$grp, 
+  #                alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
   rm(df.tmp)
   
 }
@@ -221,13 +260,13 @@ cp.df <- reshape2::melt(cp.df, id="grp")
 variable.len <- length(levels(cp.df$variable))
 P.LST[["consCp"]] <- ggplot(data=cp.df[!is.na(cp.df$grp),], aes(x=grp, y=value)) +
   stat_boxplot(geom="errorbar", aes(lty=variable), col="gray30", 
-               position=position_dodge(0.5), width=0, lwd=0.5) + 
-  stat_summary(fun="median", aes(shape=variable), position=position_dodge(0.5)) +
+               position=position_dodge(0.5), width=0, lwd=1) + 
+  stat_summary(fun="median", aes(shape=variable), position=position_dodge(0.5), size=1) +
   scale_x_discrete(limits=levels(cp.df$grp)) +
   scale_y_continuous(labels=function(y) sprintf("%.1f", -(y))) + 
   #scale_colour_manual( values=pal_npg("nrc")(variable.len) ) +
-  scale_linetype_manual( values=rep("dashed", length=variable.len) ) + 
-  #scale_shape_manual(values=rep(1, times=variable.len)) + 
+  scale_linetype_manual( values=rep("dotted", length=variable.len) ) + 
+  scale_shape_manual(values=c(0,15,1,16,2)) + 
   labs(y="Cp", x=NULL, title=out.id) + 
   bgr2 + 
   theme(legend.position="top") +
@@ -242,7 +281,7 @@ P.LST[["consCp_withCount"]] <- P.LST[["consCp"]] +
 for( p.nme in names(P.LST) ){
   
   height.val = 5
-  if(p.nme == "consCp_withCount"){ height.val = 25 }
+  if( p.nme %in% c("consCp_withCount", "KR_Cp_withCount") ){ height.val = 25 }
   print(paste0("Plotting ", p.nme, "..."), quote=F)
   ggsave(paste0(out.dir, "/", out.id, "_", p.nme, ".pdf"), plot=P.LST[[p.nme]], 
          width=15, height=height.val, units="in")
