@@ -11,7 +11,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/19_RepeatVsPersist")
+    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/18_RepeatVsPersist")
   } else if (whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
     wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
@@ -21,9 +21,12 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 
-rep.group = "subfamALL" # "fam" | "subfam" | subfam6
+# Metric
+metric = "skewrep" # skewrep | minrep
+
+rep.group = "subfam" # "fam" | "subfam" | subfam6
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
-minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group)
+minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/subfamALL", metric)
 out.dir = paste0(wk.dir, "/out_HicRepeatHeatmapData/", rep.group)
 ### OTHER SETTINGS #############################################################
 # Age rank identifier
@@ -89,11 +92,18 @@ HicRepeatHeatmapData <- function(
         test1 <- (MINELM.MX[,element]>=1)
         non0cont.each.ntis <- rep(NA,times=21)
         for(ntis in 1:21){
+          
           test2 <- (MINELM.MX[,"ntis"]==ntis)
+          
           # Number of contacts with non0 mininum repeat count
           non0cont.each.ntis[ntis] <- sum(test2 & test1)
+          
           # Sum of minimum repeat counts 
           #non0cont.each.ntis[ntis] <- sum(MINELM.MX[test2, element],)
+          
+          # Median of non-0 shared number / non-1 skew
+          non0cont.each.ntis[ntis] <- median(MINELM.MX[test2, element],)
+          
           rm(test2)
         }#; rm(test1)
         return(non0cont.each.ntis)

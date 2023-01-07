@@ -1,5 +1,5 @@
 ################################################################################
-# Density plot of insertion sites vs. weigted mean Cp
+# Plots of insertion sites vs. weigted mean Cp or average Cp
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################

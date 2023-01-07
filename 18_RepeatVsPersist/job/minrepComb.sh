@@ -11,7 +11,7 @@
 #########################################################################
 ## JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS * JOB DETAILS ##
 #########################################################################
-module load R-base/4.1.2
+module load R-base/4.2.0
 module load R-cbrg/current
 
-R --vanilla < /project/sahakyanlab/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist/A2.5_minRepCounts_combine.R
+R --vanilla < /project/sahakyanlab/ltamon/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist/A2.5_minRepCounts_combine.R

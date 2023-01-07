@@ -34,7 +34,7 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 
 # Metric
-metric = "skewrep" # skewrep | minrep
+metric = "sumrep" # skewrep | minrep | sumrep
 
 rep.group = "subfam" # "fam" | "subfam"
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
@@ -139,6 +139,8 @@ if(makeMinElmSOURCE){
                                         min(v)  
                                       } else if(metric=="skewrep"){
                                         abs(diff(v)) / sum(v)
+                                      } else if(metric=="sumrep"){
+                                        sum(v)
                                       } else {
                                         stop("Invalid metric.")
                                       }
@@ -146,6 +148,7 @@ if(makeMinElmSOURCE){
                                     },
                                     simplify=TRUE, USE.NAMES=FALSE)
       return(element.count.chunk)
+      
     }
     ### END OF FOREACH EXECUTION ###
     

@@ -1,5 +1,5 @@
 ################################################################################
-# List family/subfamily that are and aren't transposon
+# Make list (.RData) of families and subfamilies that are and are not transposons.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################

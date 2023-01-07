@@ -20,9 +20,10 @@ source(paste0(lib, "/TrantoRextr/GEN_getRepMaskSubset.R"))
 source(paste0(wk.dir, "/lib/GEN_getBinsOverlapRepMasker2.R"))
 source(paste0(lib, "/doVenn.R"))
 ################################################################################
-# A. Number of contacts with shared number of repeat families/subfamilies  vs. 
-# contact persistence
+# A. Calculation of repeat site distribution metrics and other intermediate
+# files
 ################################################################################
+0. Make list (.RData) of families and subfamilies that are and are not transposons.
 1. Count insertion sites of repeats in each contact region (any type of overlap).
 Output: bin X repeats
 
@@ -34,9 +35,18 @@ Output: bin X repeats
 [4,]  239  9520001 9560000   6  8            0   6           3
 [5,]  240  9560001 9600000   0 18            1  22           2
 
-2. Using BINREP.MX, get shared number of each repeat per contact, per chr.
-The shared number is the minimum/smaller repeat count between the two
-contacting regions.
+2. Using BINREP.MX, calculate the following contact-wise repeat site distribution 
+metrics:
+
+a. minrep = or shared number, minimum value of two repeat site counts from two
+regions of a contact. 
+b. skwerep = like GC skew, take absolute difference of two site counts of contact
+then divide by the their sum
+c. sumrep = take sum of the two site counts of a contact
+
+filterMinVal argument, set to 2 in the analyses, filtered for contacts with at 
+least 2 site counts per contact coming from either region (i.e. sumrep of contact
+is 2)
 
 > MINELM.MX[1005:1015,1:8]
       ntis MIRb L1ME2 L1PA7 MIRc L1PB4 Tigger1 AluSc
@@ -56,7 +66,12 @@ sum of these three columns per contact and the value is the total number of pair
 of sites of MIRb/L1ME2/L1PA7 in the contact. Pairs of sites should be formed by the
 same repeat.
 
-2.5. Boxplot of the minimum repeat count of contacts per Cp (combining all chromosomes)
+2. (plot) Make density of MINREP.MX values (log10 transformed). This was used to 
+generate the distribution of sumrep values.
+
+2. (filter) Script specific for filtering MINREP.MX sumrep based on sumrep value.
+
+2.5. Extracts MINELM.MX values per Cp (generating output per chromosome).
 Output: MINREPCOUNT and plot
 > MINREPCOUNTS$MARNA
 $`1`
@@ -83,6 +98,17 @@ repeats, 25555 contacts have minimum repeat count of 1 and so on.
 
 Age ranking used is ./Repeat_rankingbyAge/plot_GiorPubl372rankrepFamilies.csv
 containing 372 repeat subfamilies.
+
+2.5. (combine) The script combines MINREPCOUNTS from all chromosomes and using the
+makeMinRepPlot() function, generates the boxplot of MINREP.MX values across Cp and 
+optionally can generate PREELMTISSDYN.MX, which has data on the mean values of the 
+distribution per Cp. This mean values is needed for the heatmap of the contact-wise 
+metrics. Mean values instead of median because median may not show subtle trends
+observed and can be equal across Cp.Hence, for the new and final metrics the 
+A4_HicRepeatHeatmapData.R is not anymore needed to generate the PREELMTISSDYN.MX. 
+In this version of PREELMTISSDYN.MX, num.contacts row consists of 1 so the same mean 
+values will be in ELMTISSDYN.MX for making the heatmap and doing correlations. A csv 
+file per element is also generated containing number of datapoints (contacts) per Cp. 
 
 3. Identify repeat subfamilies not present in all chromosomes. There are 16
 of these subfamilies out of the 372 in the repeat age ranking. 
@@ -118,7 +144,8 @@ chrX	1	Charlie12
 agerankNotincl - repeats not in that chr
 number - number of repeat not in that chr
 
-4. Per chr, per cp, per repeat subfamily, count number of contacts with non0 shared
+4. (This script is not needed for the minrep, skewrep and sumrep metrics)
+Per chr, per cp, per repeat subfamily, count number of contacts with non0 shared
 number that repeat or non0 minimum repeat count. In other words, count the contact
 if it shares at least 1 site of that repeat. This is in contrast to calculating the
 total shared number (mininum repeat count) of contacts. Given that seq i has 2 L3
@@ -156,6 +183,12 @@ Current data did the first approach.
 Sum matrices from all chr. They should have the same dimension since they contain
 data on elements in agerank arranged in the same order.
 
+Note:
+subfam_skewrep_mean/
+subfam_minrep_mean/
+Data in these directories generated when I tried using mean() instead of median()
+in A4_HicRepeatHeatmapData.R. Not relevant for the final plots.
+
 5. Generate ELMTISSDYN.MX and generate final heatmap. This can be done from 
 individual PREELMTISSDYN.MX of chr or the combined PREELMTISSDYN.MX dataset. 
 Values here are the PREELMTISSDYN.MX values divided by num.contacts (in first 
@@ -183,6 +216,18 @@ and then taking the mean of the products. A loess line was then fitted via the
 smooth argument (smooth=TRUE) of ComplexHeatmap::anno_lines(), which is used to 
 annotate heatmaps made using ComplexHeatmap. 
 
+The new and final version of the script calculates correlation between value with
+Cp dimension so mean value per Cp vs. 1 to 21 Cp values and then save each
+correlation result. If addLoess is true, it will plot the correlation coefficient
+per (chosen to be Mann-Kendall by default because it is said to work better
+for small number of values and gives lower values than Spearman) and then it
+will fit a loess line to the correlation coefficients. Coefficients of 
+non-significant correlations are not plotted. Alpha is set to be 0.05. A lineplot
+for each row in all versions of heatmap is also generated along with a density plot
+of all values in the heatmap across Cps to see the range of values in each heatmap
+generated. A text file of key numbers is also generated per heatmap. 
+
+
 6. Cluster repeats based on trend. Three clustering ways used:
 kmeans (euclidean), pam (euclidean), pam (manhattan). Venn is generated to
 compare differences in clustering across methods. 
@@ -190,4 +235,28 @@ compare differences in clustering across methods.
 7. Cluster trends of individual subfamilies in each bin for a given size.
 In the plot, the centers are in blue, the dominant subfamilies (>=10% raw fraction
 of contacts) are in red and the rest of the subfamilies are in grey. 
+################################################################################
+# B. Site count vs. average Cp
+################################################################################
+1. Count insertion sites of repeats in ALL bins of a chromosome. The BINREP.MX 
+object only contacts count of sites for bins forming a long-range contact. 
+
+2. Plots of insertion sites vs. weigted mean Cp or average Cp
+
+3. Plot repeat site count vs. average Cp (wmeanCp or wmeanCp0) per bin. Perform
+correlation of the two per repeat subfamily/family. There are two versions of 
+output:
+
+out_sitesVsmeanCp_binsWithNoSiteIncluded
+out_sitesVsmeanCp_binsWithSiteOnlyIncluded
+
+4. Generate scatter and heatmap summary plots of correlations from (3).
+################################################################################
+# C. Final plots for thesis
+################################################################################
+1. Plot for contact-wise metrics combining results from correlation and clustering
+method to determine trend of metrics across Cp. 
+
+2. Similar plot as (1) but for the results of the correlation of region-wise site
+count with average Cp described in (B). 
 ################################################################################

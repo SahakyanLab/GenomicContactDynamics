@@ -1,7 +1,6 @@
 ################################################################################
-# Using BINREP.MX, get shared number of each repeat per contact, per chr.
-# The shared number is the minimum/smaller repeat count between the two
-# contacting regions.
+# Using BINREP.MX, calculate the following contact-wise repeat site distribution 
+# metrics.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -34,7 +33,7 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 
 # Metric
-metric = "skewrep" # skewrep | minrep
+metric = "minrep" # skewrep | minrep | sumrep
 
 rep.group = "subfam" # "fam" | "subfam"
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
@@ -42,15 +41,22 @@ binRep.dir = paste0(wk.dir, "/out_RepeatOverlapPerBin/", rep.group)
 out.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", metric)
 source.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", metric, "_SOURCE")
 elementlistPath = paste0(wk.dir, "/out_makeElementsList/", rep.group, "ALL")
+
+# Filter based on sumrep (sum of sites per contact)
+sourcefilter.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_sumrep_SOURCE")
+filterMinVal = 2
+outfilter.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", 
+                       metric, "_atleast", filterMinVal, "sumrep")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr = "chrCHRREPLACE" 
 nCPU = 1L # Number of contacts
 # Index of element in elementlistPath; has to be an integer so add 'L', NA if
 # not element-wise running
-element.ind = elementREPLACE
-makeMinElmSOURCE = TRUE
-makeMINELMMX = FALSE
+element.ind = NA #elementREPLACE
+makeMinElmSOURCE = FALSE
+makeMINELMMX = TRUE
+filterMINELMMX = TRUE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -139,6 +145,8 @@ if(makeMinElmSOURCE){
                                         min(v)  
                                       } else if(metric=="skewrep"){
                                         abs(diff(v)) / sum(v)
+                                      } else if(metric=="sumrep"){
+                                        sum(v)
                                       } else {
                                         stop("Invalid metric.")
                                       }
@@ -146,6 +154,7 @@ if(makeMinElmSOURCE){
                                     },
                                     simplify=TRUE, USE.NAMES=FALSE)
       return(element.count.chunk)
+      
     }
     ### END OF FOREACH EXECUTION ###
     
@@ -178,17 +187,40 @@ if(makeMINELMMX){
   for(elem.names.counter in 1:elem.names.len){
     
     print(elem.names.counter, quote=FALSE)
+    
+    if(filterMINELMMX){
+      
+      SRC <- paste0(sourcefilter.dir, "/", chr, "_MinElmSOURCE_", suffix, "_", 
+                    as.character(elem.names.counter),".RData")
+      load(SRC)
+      filter.count <- element.count
+      out.dir <- outfilter.dir
+      
+    }
+    
     SRC <- paste0(source.dir, "/", chr, "_MinElmSOURCE_", suffix, "_", 
                   as.character(elem.names.counter),".RData")
     load(SRC)
     #file.remove(SRC)
+    
+    if(filterMINELMMX){
+      
+      if( (length(filter.count) == length(element.count)) & 
+          all(is.finite(filter.count)) ){
+        element.count[ (filter.count < filterMinVal) & is.finite(element.count) ] <- NA
+      } else {
+        rm(MINELM.MX)
+      }
+  
+    } 
+    
     MINELM.MX[,element.names[elem.names.counter]] <- element.count
     rm(element.count)
     gc()
     
   }
   save(MINELM.MX, file=paste0(out.dir, "/", chr, "_MinElm_", suffix, ".RData"))
-  
+
 }
 
 ############################

@@ -9,7 +9,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/18_RepeatVsPersist"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist"
   } else if (whorunsit == "LiezelCluster"){
     lib = "/t1-data/user/ltamon/DPhil/lib"
     wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/4_RepeatVsPersist"
@@ -18,11 +18,11 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 rep.group = "subfam" # "fam" | "subfam" | "subfam6"
-elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/viridis/", rep.group)
-out.dir = paste0(wk.dir, "/out_AverageBinTrend/forConfirmation")
+elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/subfam_skewrep_mean") # , rep.group)
+out.dir = paste0(wk.dir, "/out_AverageBinTrend/subfam_skewrep_mean")
 ### OTHER SETTINGS #############################################################
 # Age rank, ELMTISSDYN identifier
-elm.id = "GiorPubl" 
+elm.id = "subfam" 
 gcb = "min2Mb" 
 chr = "chrALL"
 bin.size = 31

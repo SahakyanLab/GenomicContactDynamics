@@ -1,5 +1,8 @@
 ################################################################################
-# Boxplot of minimum repeat count per Cp combining all chromosome data
+# Combine MINREPCOUNTS from all chromosomes and generate the boxplot of MINREP.MX 
+# values across Cp and (optional) REELMTISSDYN.MX, which has data on the mean 
+# values of the distribution per Cp, which are the values needed for ELMTISSDYN
+# for generating heatmaps. 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -17,31 +20,35 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist"
-  } else if (whorunsit == "LiezelCluster"){
-    home.dir = "/project/sahakyanlab/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
+    os = "Mac"
+  } else if(whorunsit == "LiezelCluster"){
+    home.dir = "/project/sahakyanlab/ltamon" 
+    os = "Linux"
   } else {
-    print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
+    stop("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
 }
+wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
 lib = paste0(home.dir, "/DPhil/lib")
 
 # Metric
-metric = "_skewrep" # _skewrep | "" for minrep
+metric = "_sumrep_atleast2sumrep" #"_minrep_atleast2sumrep" # _skewrep | "" for minrep
 
 rep.group = "subfamALL" #"subfamALL" # "fam" | "subfam"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
+minrepcount.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group, metric)
 out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group, metric)
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr.v = paste0("chr", c(1:22, "X"))
 ntis.v = 1:21
 # Number of repeat elements (372/56/62)
-nCPU = 2L # 15G each --> set to 50
+nCPU = 1L # 15G each --> set to 50
 # Age rank identifier
-out.name = paste0(rep.group, metric) #"subfamALL_minRepCounts" #"GiorPubl_minRepCounts"
-plotOnly = TRUE
+out.name = "subfamALL_sumrepCounts" 
+plotOnly = FALSE
+filterMINREPCOUNTSagerank.id = "subfam" # or NULL
+PREELMTISSDYN.id = "GiorPubl"
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -63,7 +70,7 @@ if(plotOnly==FALSE){
   agerank <- read.csv(file=paste0(agerank.dir, "/rep", rep.group, ".csv"),
                       header=TRUE, stringsAsFactors=FALSE)[,col.nme]; rm(col.nme)
   agerank <- as.character(agerank)
- 
+  
   # Initialize chrALL list
   lst <- vector("list", length(ntis.v))
   names(lst) <- as.character(ntis.v)
@@ -72,7 +79,7 @@ if(plotOnly==FALSE){
   
   for(chr in chr.v){
     
-    load(paste0(out.dir, "/", chr, "_", gcb, "_", out.name, ".RData"))
+    load(paste0(minrepcount.dir, "/", chr, "_", gcb, "_", out.name, ".RData"))
     
     if( !identical(agerank, names(MINREPCOUNTS)) ){
       
@@ -150,15 +157,29 @@ if(plotOnly==FALSE){
   rm(MINREPCOUNTS.ALL)
   
   save(MINREPCOUNTS, 
-       file=paste0(out.dir, "/chrALL_", gcb, "_", out.name, ".RData"))
+       file=paste0(minrepcount.dir, "/chrALL_", gcb, "_", out.name, ".RData"))
   
 } else {
   
   # Load MINREPCOUNTS
-  load(file=paste0(out.dir, "/chrALL_", gcb, "_", out.name, ".RData"))
+  load(file=paste0(minrepcount.dir, "/chrALL_", gcb, "_", out.name, ".RData"))
 
 }
 
-makeMinRepPlot(MINREPCOUNTS, ntis.v, affix=paste0("chrALL_", gcb, "_", out.name), out.dir, nCPU=nCPU)
+if( !is.null(filterMINREPCOUNTSagerank.id) ){
+  
+  col.nme <- ifelse(filterMINREPCOUNTSagerank.id=="fam", "repFamily", "repName")
+  agerank.filter <- read.csv(file=paste0(agerank.dir, "/rep", filterMINREPCOUNTSagerank.id, ".csv"), 
+                             header=TRUE, stringsAsFactors=FALSE)[,col.nme]; rm(col.nme)
+  agerank.filter <- as.character(agerank.filter)
+  
+  MINREPCOUNTS <- MINREPCOUNTS[agerank.filter]
+  
+}
+
+PREELMTISSDYN.MX <- makeMinRepPlot(MINREPCOUNTS, ntis.v, out.dir, nCPU=nCPU, metric=metric,
+                                   affix=paste0("chrALL_", gcb, "_", out.name), generatePREELMTISSDYNonly=FALSE)
+
+save(PREELMTISSDYN.MX, file=paste0(out.dir, "/chrALL_", gcb, "_", PREELMTISSDYN.id, "_PreElmTissDyn.RData"))
 
 # rm(list=ls()); gc()

@@ -19,24 +19,24 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 
-rep.group = "subfamALL" # "fam" | "subfam" | "subfam6"
-elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/", rep.group)
-out.dir = paste0(wk.dir, "/out_HicRepeatClustering")
+rep.group = "subfam" # "fam" | "subfam" | "subfam6"
+elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/subfam_sumrep_atleast2sumrep") 
+out.dir = paste0(wk.dir, "/out_HicRepeatClustering/subfam_sumrep_atleast2sumrep")
 # Repeats to mark with red line in final plot. Intended for those repeats with 
 # high raw fraction.  
 #red.v = c("CR1", "TcMar-Tigger", "ERV1", "ERVL", "hAT-Charlie", "ERVL-MaLR", "L2",
 #          "Low_complexity", "MIR", "Simple_repeat", "L1", "Alu")r
-red.v = c("MIR")
+red.v = "" # c("MIR")
 ### OTHER SETTINGS #############################################################
 # Age rank, ELMTISSDYN identifier
-elm.id = "subfamALL" #"GiorPubl" 
+elm.id = "GiorPubl" 
 gcb = "min2Mb" 
 chr = "chrALL"
 silhouette = TRUE
 # If numClusters=NULL, numClusters will come from silhouette result.
 numClusters = NULL
 clustering = TRUE
-SEED = 438
+SEED = 982
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -67,7 +67,7 @@ HicRepeatCluster <- function(
   # Remove those repeats
   if( sum(drp.rw)>0 ){
     MX <- MX[!drp.rw,]
-    drop <- paste0(chr, ":", paste(names(drp.rw==TRUE), collapse=";") )
+    drop <- paste0(chr, ":", paste(names(drp.rw)[unname(drp.rw)], collapse=";"))
     cat("These repeats were removed because of having NaN values.", drop)
     write(drop, file=paste0(out.dir, "/", chr, "_", gcb, "_", suffix, 
                             "_removedRepeats.txt"), append=FALSE)
@@ -131,6 +131,7 @@ HicRepeatCluster <- function(
           height=20, width=20)
       par(mfrow=c(2,2), mar=c(5.1, 7, 5, 2.1), mgp=c(4, 1.3, 0))
       
+      y.range <- range(MX)
       for(cl in 1:numClusters){
         
         elements.inclust <- names(which(clust$cluster==cl))
@@ -140,7 +141,7 @@ HicRepeatCluster <- function(
         write(x=addtext, file=paste0(out.dir, "/", out.id, "_HiCRepeatClusters.txt"), 
               ncolumns=1, sep="\t", append=TRUE)
         
-        y.range <- range(MX[elements.inclust,])
+        #y.range <- range(MX[elements.inclust,])
         plot(NA, ylim=y.range, xlim=range(unique.ntis), cex=1.5, pch=21, lwd=3,
              xlab="", ylab=paste0(suffix, " contact fr with >=1 repeat pair"),
              cex.main=1, cex.lab=2.5, cex.axis=2, xaxt="n",
@@ -180,10 +181,10 @@ HicRepeatCluster <- cmpfun(HicRepeatCluster, options=list(suppressUndefined=TRUE
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-out.dir <- paste0(out.dir, "/", rep.group)
-if( !dir.exists(out.dir) ){
-  dir.create(out.dir)
-}
+#out.dir <- paste0(out.dir, "/", rep.group)
+#if( !dir.exists(out.dir) ){
+#  dir.create(out.dir)
+#}
 
 load(file=paste0(elm.dir, "/", chr, "_", gcb, "_ElmTissDyn_",
                  elm.id, ".RData"))

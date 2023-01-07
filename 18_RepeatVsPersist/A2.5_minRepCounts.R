@@ -1,5 +1,5 @@
 ################################################################################
-# Boxplot of minimum repeat count per Cp 
+# Extracts MINELM.MX values per Cp (generating output per chromosome).
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -11,7 +11,7 @@ options(warnPartialMatchDollar=T)
 # Expands warnings
 options(warn=1)
 
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
@@ -28,15 +28,15 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 
 # Metric
-metric = "skewrep" # skewrep | minrep
+metric = "minrep" # skewrep | minrep
 
 rep.group = "subfamALL" #"subfamALL" # "fam" | "subfam"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
-minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "_", metric)
-out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group, "_", metric)
+minelm.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "_", metric, "_atleast2sumrep")
+out.dir = paste0(wk.dir, "/out_minRepCounts/", rep.group, "_", metric, "_atleast2sumrep")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr.v = paste0("chr", c(1:22, "X")) #"CHRREPLACE"
+chr.v = "chrCHRREPLACE" #paste0("chr", c(1:22, "X")) #"CHRREPLACE"
 ntis.v = 1:21
 # Number of repeat elements (372/56/62)
 nCPU = 1L # 15G each --> set to 50
