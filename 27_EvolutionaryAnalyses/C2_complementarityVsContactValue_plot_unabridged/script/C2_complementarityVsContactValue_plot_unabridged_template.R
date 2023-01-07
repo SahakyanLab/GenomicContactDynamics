@@ -6,7 +6,7 @@
 options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
 options(warn=1) # Expands warnings
 
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -30,8 +30,8 @@ group.col.file = paste0(wk.dir, "/Phylo-HMRF_state_group_col.csv")
 ### OTHER SETTINGS #############################################################
 value.id = "min2Mb_genome_state_Phylo-HMRF_contact50K_norm_KR_CPhg38ToHg19_LOwidth.min.bp30000_kmer_min2Mb_consensusCp_CFcontact50K_NONE_KR"
 state.group = "Grp4"
-consensus.Cp.val = "CPREPLACE" #"median.consCp"
-chrs = paste0("chr", c(1:22, "X"))
+consensus.Cp.val = "median.consCp" #"CPREPLACE" #"median.consCp"
+chrs = paste0("chr", c(21:22))
 bin.len = 50000
 gap.range.bins.closed = NULL # j - i - 1, No gap filtering if NULL
 out.id = paste0("hg38.108_bin", bin.len, "bp_", value.id, "_gaprangebins_", 
@@ -50,6 +50,8 @@ library(RColorBrewer)
 library(ggplot2)
 source(paste0(lib, "/GG_bgr.R"))
 source(paste0(lib, "/compareManyDist.R"))
+source(paste0(lib, "/doCorTest.R"))
+source(paste0(lib, "/doVarTest.R"))
 
 theme1 <- list(theme(legend.text=element_text(size=2),legend.title=element_text(size=2),
                      axis.text.x=element_text(size=7), axis.title.y=element_text(size=15),
@@ -116,8 +118,13 @@ compl.nmes <- compl.nmes[ grepl(pattern="kmer.|align.", compl.nmes) ]
 for(nme in compl.nmes){
   
   df.tmp <- na.omit(df[,c("Cp.plot", nme)])
-  compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$Cp.plot, 
-                  alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
+  #compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$Cp.plot, 
+  #                alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
+  doVarTest(xval=df.tmp[[nme]], grp=df.tmp$Cp.plot, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
+  doCorTest(xval=as.numeric(as.character(df.tmp$Cp.plot)), 
+            yval=df.tmp[[nme]], alt="two.sided", exactpval=F, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
 
   P.LST[[nme]] <- ggplot(data=df.tmp, aes_string(x="Cp.plot", y=nme)) +
     geom_violin(scale="width", fill="#FDC776", col="#FDC776", trim=T, lwd=2) +
@@ -160,108 +167,114 @@ P.LST[[paste0("KR_Cp_withCount")]] <- P.LST[["KR_Cp"]] +
 for(nme in KR.nmes){
   
   df.tmp <- na.omit(df[,c("Cp.plot", nme)])
-  compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$Cp.plot, 
-                  alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
+  #compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$Cp.plot, 
+  #                alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
+  doVarTest(xval=df.tmp[[nme]], grp=df.tmp$Cp.plot, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
+  doCorTest(xval=as.numeric(as.character(df.tmp$Cp.plot)), 
+            yval=df.tmp[[nme]], alt="two.sided", exactpval=F, out.dir=out.dir, 
+            out.name=paste0(out.id, "_", nme))
+  
   rm(df.tmp)
     
 }
 
 rm(KR.df, coul.nme)
 
-# Bar-plot: Phylo-HMRF states vs. Cp
+# # Bar-plot: Phylo-HMRF states vs. Cp
+# 
+# bar.df <- df[,c("grp", "Cp.plot")]
+# bar.df$grp[is.na(bar.df$grp)] <- "NONE"
+# 
+# bar.df <- na.omit(bar.df) 
+# bar.df$grp <- factor(bar.df$grp, 
+#                      levels=intersect(grp.order.bar, unique(bar.df$grp)))
+# 
+# barcol.df <- col.df[col.df$Grp %in% levels(bar.df$grp),]
+# barcoul.grp <- setNames(barcol.df$Col, nm=barcol.df$Grp)
+# 
+# P.LST[["grp_Cp_bar"]] <- ggplot(data=bar.df, aes(x=Cp.plot)) +
+#   geom_bar(aes(fill=grp), position="fill") + 
+#   scale_fill_manual(values=unname(barcoul.grp[levels(bar.df$grp)])) + 
+#   labs(x=NULL, title=out.id) + 
+#   guides(fill=guide_legend(ncol=length(levels(bar.df$grp)))) + 
+#   bgr2 + 
+#   theme(legend.position="bottom") + 
+#   theme1
+# 
+# P.LST[["grp_Cp_bar_withCount"]] <- ggplot(data=bar.df, aes(x=Cp.plot)) +
+#   geom_bar() +
+#   labs(title="grp_Cp_bar_withCount") +
+#   geom_text(stat="count", label=unname(table(bar.df$Cp.plot)), size=3, vjust=-0.2) +
+#   bgr2 + 
+#   theme(legend.position="bottom") +
+#   theme1
+# 
+# rm(bar.df, barcol.df, barcoul.grp)
+# 
+# # Bar-plot: across-species Cp vs. Cp
+# 
+# NONE.nmes <- colnames(df)[grepl(colnames(df), pattern="_NONE", fixed=T)] 
+# 
+# df$Cp.spec.KR <- unname( rowSums(!is.na(df[,KR.nmes])) )
+# df$Cp.spec.NONE <- unname( rowSums(!is.na(df[,NONE.nmes])) )
+# 
+# # Comparison plot of across species Cp based on KR vs. NONE
+# diff.val <- diff(df$Cp.spec.NONE-df$Cp.spec.KR)
+# diff.meta <- stack(table(diff.val))
+# colnames(diff.meta) <- c("count", "dfCp.spec.NONEMINUSdfCp.spec.KR")
+# write.table(diff.meta, file=paste0(out.dir, "/", out.id, "_dfCp.spec.NONEMINUSdfCp.spec.KR__metadata.txt"),
+#             row.names=F, quote=F, sep="\t")
+# pdf(paste0(out.dir, "/", out.id, "_densityOfdfCp.spec.NONEMINUSdfCp.spec.KR.pdf"), 
+#     height=10, width=10)
+# plot(density(diff.val), main="diff(df$Cp.spec.NONE-df$Cp.spec.KR)")
+# dev.off()
+# 
+# cpspec.df <- df[,c("Cp.plot", "Cp.spec.KR", "Cp.spec.NONE")]
+# cpspec.df$Cp.spec.KR <- factor(as.character(cpspec.df$Cp.spec.KR), 
+#                                levels=as.character(sort(unique(cpspec.df$Cp.spec.KR))))
+# cpspec.df$Cp.spec.NONE <- factor(as.character(cpspec.df$Cp.spec.NONE), 
+#                                  levels=as.character(sort(unique(cpspec.df$Cp.spec.NONE))))
+# coul <- colorRampPalette( rev(brewer.pal(11, "Spectral")) )(4)
+# coul <- c("black", coul)  
+# names(coul) <- levels(cpspec.df$Cp.spec.KR)
+# 
+# for( cf.nme in c("KR", "NONE") ){
+#   
+#   col.nme <- paste0("Cp.spec.", cf.nme)
+#   df.tmp <- cpspec.df[,c("Cp.plot", col.nme)]
+#   df.tmp <- na.omit(df.tmp)
+#   P.LST[[paste0(col.nme, "_Cp_bar")]] <- ggplot(data=df.tmp, aes(x=Cp.plot)) +
+#     geom_bar(aes_string(fill=col.nme), position="fill") + 
+#     scale_fill_manual(values=unname( coul[levels(df.tmp[[col.nme]])] )) + 
+#     labs(x=NULL, title=out.id, fill=cf.nme) + 
+#     guides(fill=guide_legend( ncol=length(levels(df.tmp[[col.nme]])) )) + 
+#     bgr2 + 
+#     theme(legend.position="bottom") +
+#     theme1
+#   
+#   P.LST[[paste0(col.nme, "_Cp_bar_withCount")]] <- ggplot(data=df.tmp, aes(x=Cp.plot)) +
+#     geom_bar() +
+#     labs(title=paste0(col.nme, "_Cp_bar_withCount")) +
+#     geom_text(stat="count", label=unname(table(df.tmp$Cp.plot)), size=3, vjust=-0.2) +
+#     bgr2 + 
+#     theme(legend.position="bottom") + 
+#     theme1
+#   
+#   rm(df.tmp)
+#   
+# }
+# 
+# # Save plots
 
-bar.df <- df[,c("grp", "Cp.plot")]
-bar.df$grp[is.na(bar.df$grp)] <- "NONE"
-
-bar.df <- na.omit(bar.df) 
-bar.df$grp <- factor(bar.df$grp, 
-                     levels=intersect(grp.order.bar, unique(bar.df$grp)))
-
-barcol.df <- col.df[col.df$Grp %in% levels(bar.df$grp),]
-barcoul.grp <- setNames(barcol.df$Col, nm=barcol.df$Grp)
-
-P.LST[["grp_Cp_bar"]] <- ggplot(data=bar.df, aes(x=Cp.plot)) +
-  geom_bar(aes(fill=grp), position="fill") + 
-  scale_fill_manual(values=unname(barcoul.grp[levels(bar.df$grp)])) + 
-  labs(x=NULL, title=out.id) + 
-  guides(fill=guide_legend(ncol=length(levels(bar.df$grp)))) + 
-  bgr2 + 
-  theme(legend.position="bottom") + 
-  theme1
-
-P.LST[["grp_Cp_bar_withCount"]] <- ggplot(data=bar.df, aes(x=Cp.plot)) +
-  geom_bar() +
-  labs(title="grp_Cp_bar_withCount") +
-  geom_text(stat="count", label=unname(table(bar.df$Cp.plot)), size=3, vjust=-0.2) +
-  bgr2 + 
-  theme(legend.position="bottom") +
-  theme1
-
-rm(bar.df, barcol.df, barcoul.grp)
-
-# Bar-plot: across-species Cp vs. Cp
-
-NONE.nmes <- colnames(df)[grepl(colnames(df), pattern="_NONE", fixed=T)] 
-
-df$Cp.spec.KR <- unname( rowSums(!is.na(df[,KR.nmes])) )
-df$Cp.spec.NONE <- unname( rowSums(!is.na(df[,NONE.nmes])) )
-
-# Comparison plot of across species Cp based on KR vs. NONE
-diff.val <- diff(df$Cp.spec.NONE-df$Cp.spec.KR)
-diff.meta <- stack(table(diff.val))
-colnames(diff.meta) <- c("count", "dfCp.spec.NONEMINUSdfCp.spec.KR")
-write.table(diff.meta, file=paste0(out.dir, "/", out.id, "_dfCp.spec.NONEMINUSdfCp.spec.KR__metadata.txt"),
-            row.names=F, quote=F, sep="\t")
-pdf(paste0(out.dir, "/", out.id, "_densityOfdfCp.spec.NONEMINUSdfCp.spec.KR.pdf"), 
-    height=10, width=10)
-plot(density(diff.val), main="diff(df$Cp.spec.NONE-df$Cp.spec.KR)")
-dev.off()
-
-cpspec.df <- df[,c("Cp.plot", "Cp.spec.KR", "Cp.spec.NONE")]
-cpspec.df$Cp.spec.KR <- factor(as.character(cpspec.df$Cp.spec.KR), 
-                               levels=as.character(sort(unique(cpspec.df$Cp.spec.KR))))
-cpspec.df$Cp.spec.NONE <- factor(as.character(cpspec.df$Cp.spec.NONE), 
-                                 levels=as.character(sort(unique(cpspec.df$Cp.spec.NONE))))
-coul <- colorRampPalette( rev(brewer.pal(11, "Spectral")) )(4)
-coul <- c("black", coul)  
-names(coul) <- levels(cpspec.df$Cp.spec.KR)
-
-for( cf.nme in c("KR", "NONE") ){
-  
-  col.nme <- paste0("Cp.spec.", cf.nme)
-  df.tmp <- cpspec.df[,c("Cp.plot", col.nme)]
-  df.tmp <- na.omit(df.tmp)
-  P.LST[[paste0(col.nme, "_Cp_bar")]] <- ggplot(data=df.tmp, aes(x=Cp.plot)) +
-    geom_bar(aes_string(fill=col.nme), position="fill") + 
-    scale_fill_manual(values=unname( coul[levels(df.tmp[[col.nme]])] )) + 
-    labs(x=NULL, title=out.id, fill=cf.nme) + 
-    guides(fill=guide_legend( ncol=length(levels(df.tmp[[col.nme]])) )) + 
-    bgr2 + 
-    theme(legend.position="bottom") +
-    theme1
-  
-  P.LST[[paste0(col.nme, "_Cp_bar_withCount")]] <- ggplot(data=df.tmp, aes(x=Cp.plot)) +
-    geom_bar() +
-    labs(title=paste0(col.nme, "_Cp_bar_withCount")) +
-    geom_text(stat="count", label=unname(table(df.tmp$Cp.plot)), size=3, vjust=-0.2) +
-    bgr2 + 
-    theme(legend.position="bottom") + 
-    theme1
-  
-  rm(df.tmp)
-  
-}
-
-# Save plots
-
-for( p.nme in names(P.LST) ){
-  
-  print(paste0("Plotting ", p.nme, "..."), quote=F)
-  height.val = 5
-  if(p.nme == "KR_Cp_withCount"){ height.val = 20 }
-  ggsave(paste0(out.dir, "/", out.id, "_", p.nme, ".pdf"), plot=P.LST[[p.nme]], 
-         width=15, height=height.val, units="in")
-
-}
+# for( p.nme in names(P.LST) ){
+#   
+#   print(paste0("Plotting ", p.nme, "..."), quote=F)
+#   height.val = 5
+#   if(p.nme == "KR_Cp_withCount"){ height.val = 20 }
+#   ggsave(paste0(out.dir, "/", out.id, "_", p.nme, ".pdf"), plot=P.LST[[p.nme]], 
+#          width=15, height=height.val, units="in")
+# 
+# }
 
 # rm(list=ls()); gc()

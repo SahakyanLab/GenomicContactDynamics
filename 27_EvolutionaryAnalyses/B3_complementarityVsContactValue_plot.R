@@ -6,7 +6,7 @@
 options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
 options(warn=1) # Expands warnings
 
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -34,7 +34,7 @@ state.group = "Grp4"
 display.group.id = "Grp4_disp1"
 gcb = "min2Mb"
 group.order.basis = "kmer.CII" # Use "II" for "||"
-chr.v = paste0("chr", c(1:22, "X"))
+chr.v = paste0("chr", c(21:22))
 bin.len = 50000
 gap.range.bins.closed = NULL # j - i - 1, No gap filtering if NULL
 out.id = paste0("hg38.108_bin", bin.len, "bp_", value.id, "_gaprangebins_", 
@@ -54,6 +54,8 @@ library(ggpubr)
 library(ggsci)
 library(ggplot2)
 source(paste0(lib, "/GG_bgr.R"))
+source(paste0(lib, "/doCorTest.R"))
+source(paste0(lib, "/doVarTest.R"))
 source(paste0(lib, "/compareManyDist.R"))
 
 theme1 <- list(theme(legend.text=element_text(size=2),legend.title=element_text(size=2),
@@ -122,8 +124,9 @@ P.LST <- list()
 for(nme in compl.nmes){
   
   df.tmp <- na.omit(df[,c("grp", nme)])
-  compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$grp, 
-                  alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
+  doCorTest(xval=df.tmp[[nme]], yval=vals, alt="two.sided", exactpval=F, out.dir, out.name)
+  #compareManyDist(xval=df.tmp[[nme]], grp=df.tmp$grp, 
+  #                alt="two.sided", out.dir=out.dir, out.name=paste0(out.id, "_", nme))
   
   P.LST[[nme]] <- ggplot(data=df.tmp, aes_string(x="grp", y=nme)) +
     geom_violin(scale="width", aes(fill=grp), col="white", alpha=0.5, trim=T, lwd=2) +
