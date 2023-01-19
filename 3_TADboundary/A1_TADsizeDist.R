@@ -15,7 +15,7 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/3_TADboundary"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/3_TADboundary"
     data.dir = "/Users/ltamon/Database"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
@@ -80,11 +80,23 @@ for(ct in ct.v){
   mean.v[ct] <- mean(len.v)
   
   
-  p.lst[[ct]] <- plotLengthDist(df=data.frame(variable="size", value=(len.v/10^6)),
-                                vline.v=c(0.5, 2), col.v="#55bde6",
-                                label.x=bquote(bold("TAD size, "%*%~10^6)),
-                                out.name=paste0("chrALL_", ct, "_TADsizeDist_Schmitt"), 
-                                out.dir=out.dir, addlabs=FALSE, addlegend=FALSE)
+  #p.lst[[ct]] <- plotLengthDist(df=data.frame(variable="size", value=log10(len.v)),#(len.v/10^6)),
+  #                              vline.v=log10(c(0.5e6, 2e6)), col.v="#55bde6",
+  #                              label.x="log10(value), bp", #bquote(bold("TAD size, "%*%~10^6)),
+  #                              out.name=paste0("chrALL_", ct, "_TADsizeDist_Schmitt"), 
+  #                              out.dir=out.dir, addlabs=FALSE, addlegend=FALSE)
+  
+  p.lst[[ct]] <- ggplot(data=data.frame(variable="size", value=log10(len.v)), aes(x=value)) +
+    geom_density(aes(y=..scaled..), col="#55bde6", fill="#55bde6") +
+    geom_vline(linetype="dashed", colour="black", size=2, xintercept=log10(0.5e6)) + 
+    geom_vline(linetype="dashed", colour="tomato3", size=2, xintercept=log10(2e6)) + 
+    scale_x_continuous(breaks=seq(4.5,7.5,0.5), limits=c(4.5,7.5)) + 
+    labs(y="Density", x="log10(value), bp", title=paste0("chrALL_", ct, "_TADsizeDist_Schmitt")) + 
+    bgr1 +
+    #theme(axis.text.x=element_blank(), axis.text.y=element_blank(), 
+    #      axis.title.x=element_blank(), axis.title.y=element_blank(), 
+    #      plot.title=element_blank()) + 
+    theme(legend.position="none")
   
   print(paste0(ct, " done!"), quote=FALSE)
   
@@ -99,8 +111,7 @@ x <- rbind(All=c(min(min.v), max(max.v), mean(mean.v)),
 write.table(x, file=paste0(out.dir, "/Schmitt2016_stat_TAD"), col.names=TRUE,
             row.names=TRUE, sep="\t", quote=FALSE)
 
-p.arr <- ggarrange(plotlist=p.lst, nrow=3, ncol=7,
-                   legend=NULL)
+p.arr <- ggarrange(plotlist=p.lst, nrow=3, ncol=7, legend=NULL)
 #ggexport(p.arr, height=22.5, width=52.5, 
 ggexport(p.arr, height=15, width=35, 
          filename=paste0(out.dir, "/TADsizeDist_Schmitt.pdf" ))
