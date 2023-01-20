@@ -2,7 +2,9 @@
 # Distance of bin midpoints to reference points in the genome marking certain 
 # areas i.e. chr ends, centromere midpoints. Note that R rounds up >= XXXXXXX.5 
 # values to nearest integer when printing which could also happen when saving.
-# If last bin shorter than bin resolute, populate output matrix row with NAs.
+# If last bin shorter than bin resolution, populate output matrix row with NAs.
+# Did not take unique bins per Cp so the subsequent density of distances would
+# reflect frequency of contacts formed by each bin. 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -35,7 +37,7 @@ chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 centro.file = paste0(data.dir, "/ucsc_tables/hsa_centromere/ct_hg19_foi_centromereonly_desc_DNA")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr.v = "chr21" #paste0("chr", c(1:22, "X"))
+chr.v = paste0("chr", c(1:22, "X"))
 nCPU = 1
 bin.len = 40000
 # Should match ref.points order

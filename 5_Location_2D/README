@@ -18,9 +18,13 @@ A. Location of contacts in the linear genome
 ################################################################################
 1. Density plot of the nearest distance (log10 transformed) to chromosome ends 
 of the midPoints of unique bins per Cp (combined for all chr). 
+
+2. Distance of bin midpoints to reference points in the genome marking certain 
+areas i.e. chr ends, centromere midpoints. Note that R rounds up >= XXXXXXX.5 
+values to nearest integer when printing which could also happen when saving.
+If last bin shorter than bin resolution, populate output matrix row with NAs.
+Did not take unique bins per Cp so the subsequent density of distances would
+reflect frequency of contacts formed by each bin. 
+
+2.5 Density plot of log10 distances (in bp) from reference points
 ################################################################################
-
-
-
-
-
