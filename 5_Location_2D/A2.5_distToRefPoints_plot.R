@@ -27,6 +27,7 @@ wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/5_Location_2D")
 src.dir = paste0(wk.dir, "/out_distToRefPoints")
 out.dir = paste0(wk.dir, "/out_distToRefPoints_plot")
 ### OTHER SETTINGS #############################################################
+Cp.v = 1:21
 gcb = "min2Mb"
 chr.v = paste0("chr", c(1:22, "X"))
 chr.id = "chrALL" #"chr21and22"
@@ -56,7 +57,7 @@ df$centromere.midP.bp <- abs(df$centromere.midP.bp)
 df$chr.start.bp <- df$chr.end.bp <- NULL
 
 df <- reshape2::melt(df, id="Cp")
-df$Cp <- factor(as.numeric(as.character(df$Cp)), levels=1:21)
+df$Cp <- factor(as.character(df$Cp), levels=as.character(Cp.v))
 
 coul <- colorRampPalette( rev( brewer.pal(11, "Spectral") ) )( length(levels(df$Cp)))
 
