@@ -26,5 +26,32 @@ If last bin shorter than bin resolution, populate output matrix row with NAs.
 Did not take unique bins per Cp so the subsequent density of distances would
 reflect frequency of contacts formed by each bin. 
 
-2.5 Density plot of log10 distances (in bp) from reference points
+Output is IJDISTTOREF.MX:
+> head(IJDISTTOREF.MX)
+     chr.start.bp chr.end.bp centromere.midP.bp Cp
+[1,]      59999.5 -133791894          -36296694  3
+[2,]      59999.5 -133791894          -36296694  1
+[3,]     139999.5 -133711894          -36216694  2
+[4,]     139999.5 -133711894          -36216694  6
+[5,]     179999.5 -133671894          -36176694 15
+[6,]      99999.5 -133751894          -36256694  1
+
+The signs of the distances in IJDISTTOREF.MX can tell whether the bin is
+upstream or downstream of the reference points, which are the chromosome
+start, end and centromere midpoint. Distances were calculated to be
+bin midpoints - reference points so all distances from the start should be
+positive or 0 and all distances relative to end should be negative or 0. For
+the distance to centromere midpoint, negative values mean that the bins are
+upstream while positive means that the bins are downstream of the centromere midpoint.
+
+2.5 Density plot of log10 absoluet distances (in bp) from reference points. 
+
+3. Combining all chromosome data, plot minimum distance of contact bin midpoint
+to centromere midpoint divided by length of arm, where bin is located. If
+value is positive (because min distance is positive) the bin is located downstream
+of centromere midpoint, if the value is negative (because min distance is negative) 
+the bin is located upstream of centromere midpoint. Because the minimum distance
+values were calculated as bin midpoint minus centromere midpoint using 1-based
+coordinates, the same is done for arm lengths i.e. centromere midpoints minus
+chromosome start or end in 1-based CS.
 ################################################################################
