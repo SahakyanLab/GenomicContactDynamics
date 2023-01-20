@@ -101,7 +101,7 @@ foreach(itr=isplitVector(1:chr.v.len, chunks=nCPU), .inorder=F,
       disttoref.mx[bin.num, ] <- bin.midP[bin.num] - ref.points[[chr]] 
     }
     
-    # If last bin shorter than bin resolute, populate with NAs.
+    # If last bin shorter than bin resolution, populate with NAs.
     if( abs(bin.start[chr.bin.end] - chr.end.bp + 1) < bin.len ){
       disttoref.mx[chr.bin.end,] <- NA
       print(paste0(chr, ": Populating last bin with NAs in disttoref.mx."))
