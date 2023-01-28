@@ -5,18 +5,18 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/6_Location_Chrom3D"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/6_Location_Chrom3D"
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/6_Chrom3D"
+    lib = "/project/sahakyanlab/ltamon/DPhil/lib"
+    wk.dir = "/project/sahakyanlab/ltamon/SahakyanLab/GenomicContactDynamics/6_Location_Chrom3D"
     os = "Linux"
   } else if(whorunsit == "LiezelLinuxDesk"){
     lib = "/home/ltamon/DPhil/lib"
@@ -27,7 +27,7 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 model.id = "IMR90_LMNB1_GSE49341_hg19" # "IMR90_LMNB1_GSE49341_hg19" | "H1-hESC_LMNB1_hg38"
-data.dir = out.dir = paste0(wk.dir, "/z_ignore_git/out_ContactRadDist/", model.id)
+data.dir = out.dir = paste0(wk.dir, "/out_ContactRadDist/", model.id)
 ### OTHER SETTINGS #############################################################
 ploidy = "haploid"
 gcb.v = "min2Mb"
@@ -37,14 +37,14 @@ doParCHR = FALSE
 nCPU = 1L
 
 boxPlot = FALSE
-densPlot = FALSE
+densPlot = TRUE
 corPlot = FALSE
  ggscattr = FALSE
  ntis.corPlot = 1:21
  ntis.lab = "PScoreALL"
-corCoefPlot = TRUE
-plotOnlyCoeff = TRUE
-
+corCoefPlot = FALSE
+plotOnlyCoeff = FALSE
+cor.method = "spearman"
 ## Note
 # Adjust to x limits of density plot to make models comparable
 # Currently c(0,6) for both FC and ESC cell lines
@@ -79,7 +79,7 @@ myboxplot <- function( df=df,
     scale_x_discrete(limits=sort(as.numeric(uniqueNtis), decreasing=FALSE),
                      drop=FALSE) +
     #scale_fill_manual(values=coul) +
-    guides(fill=FALSE) + 
+    guides(fill="none") + 
     labs(title=title, x=expression("c"["p"]), y=expression("r"["ij"])) +
     bgr2 
 }
@@ -93,11 +93,10 @@ mydensplot <- function( df=df,
   
   ggplot(data=as.data.frame(df),
          aes(value, colour=factor(ntis))) +
-    geom_density(stat="density", position="identity", na.rm=FALSE, 
-                 bw="nrd0", adjust=1, kernel="gaussian", 
-                 n=512, trim=FALSE) +
+    geom_density(na.rm=FALSE) +
     # Adjust to make density plot comparable among models
-    scale_x_continuous(limits=c(0,6)) +
+    scale_x_continuous(limits=c(0,6), breaks=0:6) +
+    #scale_y_continuous(limits=c(0,0.8), breaks=seq(0,0.8,0.2)) +
     scale_colour_manual(values=coul) +
     guides(colour=guide_legend(ncol=1)) + 
     labs(title=title, x="r", y="Density", colour=expression("c"["p"])) +
@@ -107,13 +106,21 @@ mydensplot <- function( df=df,
 
 mycorplot <- function( df=df, title=plottitle ){
   
+  RadDist.lims <- range(c(df[,"iRadDist"], df[,"jRadDist"]), na.rm=T)
+  RadDist.lims[1] <- floor(RadDist.lims[1])
+  RadDist.lims[2] <- ceiling(RadDist.lims[2])
+  
+  axis.brks <- RadDist.lims[1]:RadDist.lims[2]
+  
   if(ggscattr==FALSE){
     ggplot(data=as.data.frame(df), aes(x=iRadDist, y=jRadDist)) +
       geom_point(color="gray59", shape=1) +
       stat_smooth(geom="smooth", method="lm", formula=y~x, se=TRUE, 
                   n=80, span=0.75, level=0.95, aes(colour="darkred"), size=3) +
-      scale_y_continuous(limits=c(-1, NA)) +
-      guides(colour=FALSE) + 
+      #scale_y_continuous(limits=c(-1, NA)) +
+      scale_y_continuous(breaks=axis.brks) + 
+      scale_x_continuous(breaks=axis.brks) + 
+      guides(colour="none") + 
       labs( title=title, x=expression("r"["i"]), y=expression("r"["j"]) ) + 
       bgr3 + 
       facet_wrap( ~ ntis, ncol=3) + 
@@ -135,14 +142,14 @@ mycorplot <- function( df=df, title=plottitle ){
   
 }
 
-mycorCoefPlot <- function(df=df, title=plottitle){
-  ggplot(data=df, aes(x=ntis, y=PearsonCoef, label=pvalue)) +
+mycorCoefPlot <- function(df=df, title=plottitle, cor.method){
+  ggplot(data=df, aes(x=ntis, y=Coef, label=pvalue)) +
     #geom_line(size=2.5) +
     geom_point(size=6, colour="darkred") +
     scale_x_continuous(breaks=ntis.corPlot) +
     scale_y_continuous(limits=c(0,1)) +
     labs(title=title, x=expression("c"["p"]), 
-         y=expression(paste("Pearson's")~italic("r"))) +
+         y=paste0(cor.method, " coefficient")) +
     bgr2 
 }
 ################################################################################
@@ -185,7 +192,7 @@ for(v in for.v){
       }
       
       # Load IJ.FEAT.MX
-      if( boxPlot==TRUE | densPlot==TRUE | corPlot==TRUE ){
+      if( any(c(boxPlot, densPlot, corPlot, corCoefPlot)) ){
         # Load IJ.FEAT.MX
         load(file=paste0(data.dir, "/", chr, "_", gcb, "_", out.name, 
                          ".RData"))
@@ -247,25 +254,25 @@ for(v in for.v){
             test1 <- IJ.FEAT.MX[,"ntis"]==ntis
             corr <- cor.test(IJ.FEAT.MX[test1,"iRadDist"], 
                              IJ.FEAT.MX[test1, "jRadDist"],
-                             method="pearson", exact=NULL, conf.level=0.95)
+                             method=cor.method, exact=FALSE, conf.level=0.95)
             # Value lower than .Machine$double.eps (2.220446e-16) is returned as 0
             ifelse( corr$p.value==0, pval <- "<2.2e-16", 
                     pval <- formatC(x=corr$p.value, format="e", digits=1) )
-            data.frame(ntis=ntis, PearsonCoef=corr$estimate, pvalue=pval, 
+            data.frame(ntis=ntis, Coef=corr$estimate, pvalue=pval, pvalue.actual=corr$p.value,
                        row.names=NULL, stringsAsFactors=FALSE)
           })
           
           df <- do.call(what="rbind", corr)
           save(df, file=paste0(out.dir, "/", chr, "_", gcb, "_", 
-                               out.name, "_PCoeff.RData"))
+                               out.name, "_", cor.method, "_PCoeff.RData"))
         } else {
           load(file=paste0(out.dir, "/", chr, "_", gcb, "_", 
-                           out.name, "_PCoeff.RData"))
+                           out.name, "_", cor.method, "_PCoeff.RData"))
         }
         
-        cfp <- mycorCoefPlot(df=df, title=plottitle)
+        cfp <- mycorCoefPlot(df=df, title=plottitle, cor.method=cor.method)
         ggsave(filename=paste0(out.dir, "/", chr, "_", gcb, "_", 
-                               out.name, "_PCoeff.jpeg"), 
+                               out.name, "_", cor.method, "_PCoeff.jpeg"), 
                units="in", width=13, height=13)
       }
       
