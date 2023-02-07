@@ -1,5 +1,8 @@
 ################################################################################
-# Vioplin plots log10(Cs/Cf) vs. Cp
+# Cf vs. Cp boxplots with contact gap filtering generated per tissue but 
+# combining data from all chromosomes. Correlation tests and pairwise comparisons
+# of Cp distributions performed. Plots contacts with Cp even though they are 
+# not present in given tissue but 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################

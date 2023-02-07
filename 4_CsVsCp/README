@@ -83,4 +83,21 @@ chr1:66,999,825-67,210,768 (SGIP1, bins 1675-1681) with chr1:69120001-69320000
 c. low and high Cs with low Cp
 chr1:34,080,000-34,360,000 (CSMD2, HMGB4, bins 853-859) with bins c(1184, 1208, 
 1210, 1215, 1223, 1228, 1232)
+
+5. Cf vs. Cp boxplots with contact gap filtering generated per tissue but 
+combining data from all chromosomes. Correlation tests and pairwise comparisons
+of Cp distributions performed.
+
+6. # Generate a across-dataset normalised Cf vs. Cp plot combining data from all
+# cell lines/tissues and chromosomes for a given gap range. All contacts with 
+# Cp data are considered. Two version of the plot is made one plots all Cf values
+# of a contact with Cp data meaning that it plots the 20 zero Cf of a Cp=1 contact.
+# The other version only plots the Cf > 0 values of contacts with Cp data.
+# If we are interested in answering whether persistent/dynamic contacts tend to
+# have higher/lower Cf value in a tissue, it would be better to exclude the 0s
+# because the dynamic contacts will have a lot of 0 Cf pulling down the 
+# distribution. Currently A5_morePlots.R considers the 0 Cf values. Both box/violin
+# and density plots are made. For the density, zero Cf values are translated by the
+# minimum non-zero Cf cause density plots log10 transformed Cf and log10 of 0
+# is -Inf.
 ################################################################################
