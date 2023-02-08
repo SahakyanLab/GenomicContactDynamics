@@ -46,7 +46,7 @@ gene.id = "LTr_ALL" #"ALL"
 annofilePath = paste0(data.dir, "/ucsc_tables/hsa_geneAnno/hg19anno", gene.id)
 ### OTHER SETTINGS #############################################################
 chr = "chrCHRREPLACE"
-cor.meth = "pearson" # "pearson" "spearman"
+cor.meth = "spearman" # "pearson" "spearman"
 expr.cutoff = 0 #0.5
 nCPU = 1 #4 # Number of pairs # 4G per core
 src.id = "data2" 
@@ -57,6 +57,7 @@ library(foreach)
 library(doParallel)
 library(itertools)
 source(paste0(lib, "/UTL_doPar.R"))
+source(paste0(lib, "/doCorTest.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
@@ -146,11 +147,26 @@ PAIRCOR.MX <- foreach(pair.ind.v=isplitVector(1:pair.len, chunks=nCPU),
     noNAtisspair.TF <- !is.na(frTisspairAtleast1NA)
     frTisspairAtleast1NA <- sum(!noNAtisspair.TF, na.rm=F)/tiss.len
     
-    cor.val <- cor(x=expr.mx[g1.ind, noNAtisspair.TF], 
-                   y=expr.mx[g2.ind, noNAtisspair.TF], 
-                   method=cor.meth)
+    #cor.val <- cor(x=expr.mx[g1.ind, noNAtisspair.TF], 
+    #               y=expr.mx[g2.ind, noNAtisspair.TF], 
+    #               method=cor.meth)
     
-    return( c( g1.ind, g2.ind, cor.val, frTisspairAtleast1NA) )
+    cor.meth.id <- substr(cor.meth,1,4)
+    
+    cor.val <- tryCatch(
+      {
+        doCorTest(xval=expr.mx[g1.ind, noNAtisspair.TF], 
+                  yval=expr.mx[g2.ind, noNAtisspair.TF], 
+                  alt="two.sided", exactpval=F, out.dir=NULL, out.name=NULL,
+                  method.names=cor.meth)
+      },
+      error = function(e){
+        setNames(list(list(estimate=NA, p.value=NA)), nm=cor.meth.id)
+      }
+    )
+    
+    return( c(g1.ind, g2.ind, unname(cor.val[[cor.meth.id]]$estimate), 
+              frTisspairAtleast1NA, cor.val[[cor.meth.id]]$p.value) )
   
   })
   
@@ -163,7 +179,7 @@ PAIRCOR.MX <- foreach(pair.ind.v=isplitVector(1:pair.len, chunks=nCPU),
 print("Done with PAIRCOR.MX parallel execution.", quote=F)
 
 dimnames(PAIRCOR.MX)[[1]] <- NULL
-dimnames(PAIRCOR.MX)[[2]] <- c("g1.ind", "g2.ind", "cor", "frTisspairAtleast1NA")
+dimnames(PAIRCOR.MX)[[2]] <- c("g1.ind", "g2.ind", "cor", "frTisspairAtleast1NA", "pval")
 PAIRCOR.MX <- PAIRCOR.MX[order(PAIRCOR.MX[,1],PAIRCOR.MX[,2]), 1:length(PAIRCOR.MX[1,])]
 
 rm(pair.ind.df)
