@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+67588 165025 0.409562187547341

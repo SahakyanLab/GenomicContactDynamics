@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+279356 717003 0.389616221968388

@@ -1,0 +1,2 @@
+NAcorpair totpairInAnno frNAcorpair
+319582 569778 0.560888626798507
