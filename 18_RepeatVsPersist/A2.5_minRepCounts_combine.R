@@ -58,6 +58,8 @@ library(doParallel)
 library(itertools)
 source(paste0(lib, "/UTL_doPar.R"))
 source(paste0(lib, "/compareTwoDist.R"))
+source(paste0(lib, "/doVarTest.R"))
+source(paste0(lib, "/doCorTest.R"))
 source(paste0(wk.dir, "/lib/makeMinRepPlot.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *

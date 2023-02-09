@@ -32,7 +32,7 @@ wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersis
 lib = paste0(home.dir, "/DPhil/lib")
 
 # Metric
-metric = "_skewrep_atleast2sumrep" #"_minrep_atleast2sumrep" # _skewrep | "" for minrep
+metric = "_minrep_atleast2sumrep" #"_minrep_atleast2sumrep" # _skewrep | "" for minrep
 
 rep.group = "subfamALL" #"subfamALL" # "fam" | "subfam"
 agerank.dir = paste0(wk.dir, "/Repeat_rankingbyAge")
@@ -45,7 +45,7 @@ ntis.v = 1:21
 # Number of repeat elements (372/56/62)
 nCPU = 1L # 15G each --> set to 50
 # Age rank identifier
-out.name = "subfamALL_skewrepCounts" 
+out.name = "subfamALL_minrepCounts" 
 plotOnly = FALSE
 filterMINREPCOUNTSagerank.id = "subfam" # or NULL
 PREELMTISSDYN.id = "GiorPubl"

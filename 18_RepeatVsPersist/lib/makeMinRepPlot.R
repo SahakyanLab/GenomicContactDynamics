@@ -1,6 +1,8 @@
 ############################################################################### 
 # Make boxplot of shared number of repeat elements vs. Cp
 # source(paste0(lib, "/compareTwoDist.R"))
+# source(paste0(lib, "/doVarTest.R"))
+# source(paste0(lib, "/doCorTest.R"))
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -91,8 +93,17 @@ makeMinRepPlot <- function(MINREPCOUNTS, ntis.v,
             TEST <- list(test.id="failed")
           }
           
+          save(TEST, file=paste0(out.dir, "/", affix1, "_testresultinboxplot.RData"))
+          
           df$cp <- factor(as.character(df$cp), levels=as.character(1:21))
           
+          # Other statistical tests
+          try(doVarTest(xval=df$mincount, grp=df$cp, out.dir=paste0(out.dir, "/correlation"),  
+                        out.name=affix1))
+          try(doCorTest(xval=as.numeric(as.character(df$cp)), yval=df$mincount, 
+                        alt="two.sided", exactpval=F, out.dir=paste0(out.dir, "/correlation"), 
+                        out.name=paste0(affix1, "_cortest.RData")))
+                    
           # Plot
           png(file=paste0(out.dir, "/", affix1, "_bp.png"), 
               res=300, width=3000, height=3000)
