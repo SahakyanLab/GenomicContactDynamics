@@ -32,18 +32,19 @@ wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersis
 
 # ELMTISSDYN Only for getting subfamily names
 elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/subfam_sumrep_atleast2sumrep")
-cor.dir = paste0(elm.dir, "/correlation")
+#cor.dir = paste0(elm.dir, "/correlation")
+cor.dir = paste0(wk.dir, "/z_ignore_git/out_minRepCounts/subfamALL_sumrep_atleast2sumrep/correlation")
 clust.dir = paste0(wk.dir, "/out_HicRepeatClustering/subfam_sumrep_atleast2sumrep")
 out.dir = paste0(wk.dir, "/out_correlationPlusClutering_plot/subfam_sumrep_atleast2sumrep")
 repTranspoType.file = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/17_RepeatAge/out_cleanAgeRank/agerank_summary_sheet1.csv")
 ### OTHER SETTINGS #############################################################
 elm.id = "chrALL_min2Mb_ElmTissDyn_GiorPubl"
-cor.id = "chrALL_min2Mb_raw" # "raw" | "norm" | "fc"
+cor.id = "chrALL_min2Mb_subfamALL_sumrepCounts" #"chrALL_min2Mb_raw" # "raw" | "norm" | "fc"
 clust.id = "seed_982_chrALL_min2Mb_norm_kmeans_euclidean_2cl_HiCRepeatClusters"
 numClusters = 2
-alpha.val = 0.05
+alpha.val = 0.0001
 clust.order.ind = 2:1
-clust.cols = c(blue="#67001F", red="#053061")
+clust.cols = c(red="#67001F", blue="#053061")
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -66,14 +67,18 @@ rm(ELMTISSDYN)
 mx <- matrix(data=NA, ncol=6, nrow=element.len, 
              dimnames=list(element, c("pear.coef", "pear.pval", "spea.coef", "spea.pval",
                                       "kend.coef", "kend.pval")))
+
 for(elm.ind in 1:element.len){
   
   elm <- element[[elm.ind]]
-  cor.path <- paste0(cor.dir, "/", cor.id, "_", elm, "_cortest.RData_cortest.RData")
+  #cor.path <- paste0(cor.dir, "/", cor.id, "_", elm, "_cortest.RData_cortest.RData")
+  cor.path <- paste0(cor.dir, "/", cor.id, "_", elm, "_", elm.ind, "_cortest.RData_cortest.RData")
+  
   if( file.exists(cor.path) ){
     load(cor.path)
     
-    cor.types <- setdiff(names(TEST), "alt")
+    is_corNULL <- unlist(lapply(TEST, is.null))
+    cor.types <- setdiff(names(TEST)[!is_corNULL], "alt")
     for(typ in cor.types){
       
       mx[elm.ind, paste0(typ, ".coef") ] <- unname( TEST[[typ]][["estimate"]] )
@@ -133,6 +138,11 @@ for(typ in cor.types){
   data.table::setnames(df.tmp, old=paste0(typ, ".coef"), "value")
   data.table::setnames(df.tmp, old=paste0(typ, ".pval"), "pval")
   
+  # Remove those with no correlation data # Charlie12, AluYa8, AluYd8
+  df.tmp <- df.tmp[! (is.na(df.tmp$value) | is.na(df.tmp$cluster)),]
+  
+  corlim.val <- range(df.tmp$value, na.rm=T)
+  
   # P-value filtering
   df.tmp$sig <- 0
   is_sig <- df.tmp$pval < alpha.val
@@ -144,11 +154,11 @@ for(typ in cor.types){
   out.name <- paste0(out.id, "_", typ)
   
   p <- ggplot(data=df.tmp, aes(x=Rank, y=value)) +
-    geom_hline(yintercept=0, lty="dashed", alpha=0.5) + 
+    geom_hline(yintercept=0, lty="dashed", alpha=0.5, lwd=1) + 
     geom_point(data=df.tmp[df.tmp$sig==0,], size=10, shape=20, colour="gray70") + 
     geom_point(size=3.5, alpha=0.7, aes(colour=cluster, shape=repTranspoType)) +
     scale_x_reverse() + 
-    scale_y_continuous(limits=c(-1, 1)) +
+    scale_y_continuous(limits=corlim.val) +
     scale_shape_manual(values=c(4,19)) + 
     scale_colour_manual(values=unname(clust.cols)) + #c("#541352FF", "#2f9aa0FF", "#ffcf20FF")) + 
     labs(x="Rank", y="Cor", title=plot.title) + 
@@ -163,7 +173,7 @@ for(typ in cor.types){
   
   save(df.tmp, file=paste0(out.dir, "/", out.name, "_corplot.RData"))
   
-  rm(df.tmp, is_sig, plot.title)
+  #rm(df.tmp, is_sig, plot.title)
   
   message(paste0(typ, ": Plotted!"))
   
