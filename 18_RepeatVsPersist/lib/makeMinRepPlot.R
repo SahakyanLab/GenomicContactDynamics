@@ -1,12 +1,12 @@
 ############################################################################### 
 # Make boxplot of shared number of repeat elements vs. Cp
-# source(paste0(lib, "/compareTwoDist.R"))
-# source(paste0(lib, "/doVarTest.R"))
-# source(paste0(lib, "/doCorTest.R"))
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
-# source(paste0(lib, "/compareTwoDist.R"))
+# source(paste0(lib, "/compareManyDist.R"))
+# source(paste0(lib, "/compareManyDist.R"))
+# source(paste0(lib, "/doVarTest.R"))
+# source(paste0(lib, "/doCorTest.R"))
 ### FUNCTION ###################################################################
 makeMinRepPlot <- function(MINREPCOUNTS, ntis.v, 
                            affix=paste0(chr, "_", gcb, "_", out.name),
@@ -95,14 +95,19 @@ makeMinRepPlot <- function(MINREPCOUNTS, ntis.v,
           
           save(TEST, file=paste0(out.dir, "/", affix1, "_testresultinboxplot.RData"))
           
+          # Do other significants tests
+          
+          
           df$cp <- factor(as.character(df$cp), levels=as.character(1:21))
           
           # Other statistical tests
-          try(doVarTest(xval=df$mincount, grp=df$cp, out.dir=paste0(out.dir, "/correlation"),  
-                        out.name=affix1))
-          try(doCorTest(xval=as.numeric(as.character(df$cp)), yval=df$mincount, 
-                        alt="two.sided", exactpval=F, out.dir=paste0(out.dir, "/correlation"), 
-                        out.name=paste0(affix1, "_cortest.RData")))
+          try(compareManyDist(xval=df$mincount, grp=df$cp, alt="two.sided", out.dir=paste0(out.dir, "/pairwise"), 
+                              out.name=affix1))
+          #try(doVarTest(xval=df$mincount, grp=df$cp, out.dir=paste0(out.dir, "/correlation"),  
+          #              out.name=affix1))
+          #try(doCorTest(xval=as.numeric(as.character(df$cp)), yval=df$mincount, 
+          #              alt="two.sided", exactpval=F, out.dir=paste0(out.dir, "/correlation"), 
+          #              out.name=paste0(affix1, "_cortest.RData")))
                     
           # Plot
           png(file=paste0(out.dir, "/", affix1, "_bp.png"), 
