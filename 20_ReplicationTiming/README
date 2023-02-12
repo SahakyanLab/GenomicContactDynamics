@@ -6,7 +6,7 @@ Processed RT data using James' script (data in ~/Database/replication_timing/out
 library(reshape2)
 source(paste0(lib, "/makebp.R"))
 ################################################################################
-# Replication timing (RT) vs. Cp
+# A. Replication timing (RT) vs. Cp
 ################################################################################
 1. # Generate vals object with rt calculations per chr. Lengths of vals object for a 
 # chromosome should all be equal to the total chr bins based on HiC resolution. 
@@ -22,4 +22,9 @@ source(paste0(lib, "/makebp.R"))
 # correlation, pairwise comparison of Cp distributions plus each Cp distribution 
 # vs. all long-range contacts. Generate plots and do p-value calculations per 
 # rt.type (i.e. all, nontumor, tumor).
+################################################################################
+# B.
+################################################################################
+1. # Count number of unique cell lines contributing RT data and if how many are tumors 
+# and nontumors. 
 ################################################################################
