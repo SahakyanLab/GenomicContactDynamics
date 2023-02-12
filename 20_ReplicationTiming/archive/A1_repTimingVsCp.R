@@ -25,7 +25,7 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-id = "nontumor"
+id = "all"
 reptimePath = paste0(data.dir, "/replication_timing/out_clustering_combined/hg19/", 
                      id, "/RT_data_hg19.RData")
 #reptimePath = "/Users/ltamon/Desktop/RT_data_hg19.RData"
@@ -33,7 +33,7 @@ out.dir = paste0(wk.dir, "/out_repTimingVsCp")
 chrLenfile = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr.v = paste0("chr", c(1:22, "X"))
+chr.v = paste0("chr", c(21:22))
 HiC.res = 40000
 Cp.v = 1:21
 ################################################################################
@@ -41,6 +41,8 @@ Cp.v = 1:21
 ################################################################################
 library(reshape2)
 source(paste0(lib, "/makebp.R"))
+library(ggplot2)
+source(paste0(lib, "/GG_bgr.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
@@ -191,26 +193,47 @@ calc.v <- c("mean", "mean.cA", "mean.cB", "median", "median.cA", "median.cB",
             "norm", "norm.cA", "norm.cB", "sd", "sd.cA", "sd.cB", 
             "set.count", "point.count", "skew", "clust.p.value")
 #rm(col.TF)
+rt <- cbind(rt, `0`=rep(1))
 df <- reshape2::melt(data=rt, id.vars=calc.v)
 # Choose only bins with Cp (only bins forming long-range contacts)
 df <- df[df$value==1,]
 
+df$variable <- factor(as.character(df$variable), levels=as.character(c(0,Cp.v)))
+
 #  Boxplot - replication timing value  vs. Cp
 plot.id <- paste0(gcb, "_", id, "_rtres", rt.res, "_repTimingVsCp")
-pdf(file=paste0(out.dir, "/", plot.id, ".pdf"), height=60, width=30)
-par(mfrow=c(6,3))
+#pdf(file=paste0(out.dir, "/", plot.id, ".pdf"), height=60, width=30)
+#par(mfrow=c(6,3))
 
+calc.v = c("mean", "median", "sd") # REMOVE
 for( calc in calc.v ){
   
-  outline <- ifelse(calc=="set.count", TRUE, FALSE)
-  makebp(df=df, x="variable", y=calc, xlab="Cp", ylab=calc, outline=outline,
-         addjitter=FALSE, plot.id=paste0(plot.id, "_", calc, "_percFiltered", filteredOut.perc,
-                                         "_totalbins", nrow(rt))
-         )
+  #outline <- ifelse(calc=="set.count", TRUE, FALSE)
+  #makebp(df=df, x="variable", y=calc, xlab="Cp", ylab=calc, outline=outline,
+  #       addjitter=FALSE, plot.id=paste0(plot.id, "_", calc, "_percFiltered", filteredOut.perc,
+  #                                       "_totalbins", nrow(rt))
+  #       )
+  
+  plot.title <- paste0(plot.id, "_", calc, "_percFiltered", filteredOut.perc, "_totalbins", nrow(rt),
+                       "_Cp=0 is all regions with y value")
+  
+  df.tmp <- na.omit(data.frame(Cp=df$variable, vals=df[[calc]]))
+  p <- ggplot(data=df.tmp, aes(x=Cp, y=vals)) +
+    geom_violin(fill="honeydew3", scale="width", width=1, col="white", trim=T, alpha=0.8) +
+    stat_boxplot(geom="errorbar", lwd=0.6, width=0.3) +
+    geom_boxplot(lwd=0.6, width=0.3, fill="honeydew3") + 
+    scale_x_discrete(limits=levels(df$variable)) + 
+    scale_y_continuous(limits=c(-2,2)) + 
+    labs(x="Cp", y="Cf", title=plot.title) + 
+    bgr1 + 
+    theme(plot.title=element_text(size=7), aspect.ratio=0.8) 
+  
+  ggsave(filename=paste0(out.dir, "/", plot.id, "_", calc, ".pdf"),
+         width=10, height=10, plot=p)
   
 }
 
-dev.off()
+#dev.off()
 
 # rm(list=ls()); gc()
 
