@@ -20,10 +20,11 @@ if( !is.null(whorunsit[1]) ){
     binmx.dir = "/Users/ltamon/DPhil/GCD_polished/7_FeaturePermutation/binmx/out_bindata_1perc_HiCNorm"
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
-    lib = "/t1-data/user/ltamon/DPhil/lib"
-    data.dir = "/t1-data/user/ltamon/Database"
-    wk.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/19_Mutation_rates"
-    binmx.dir = "/t1-data/user/ltamon/DPhil/GenomicContactDynamics/20_ChromFeatAssoc/binmx/out_bindata_1perc_HiCNorm"
+    home.dir = "/project/sahakyanlab/ltamon"
+    lib = paste0(home.dir, "/DPhil/lib")
+    data.dir = paste0(home.dir, "/Database")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/19_MutationRatesVsPersist")
+    binmx.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/7_FeaturePermutation/binmx/out_bindata_1perc_HiCNorm")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)

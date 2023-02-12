@@ -1,7 +1,7 @@
 #!/bin/sh
 
-#array1=("numWTSEQ" "Tmut" "Tmutnorm" "Nmsite" "Nmsitenorm" "TmutDIVNmsite")
-array1=("Tmutnorm")
+array1=("numWTSEQ" "Tmut" "Tmutnorm" "Nmsite" "Nmsitenorm" "TmutDIVNmsite")
+#array1=("TmutDIVNmsite")
 prefix1="calc"
 
 array2=($(seq 1 1 1400)) #arr2.repl
@@ -9,7 +9,7 @@ prefix2="comb"
 len2=${#array2[@]}
 fileArr2=($(seq 1 1 ${len2}))
 
-srcfile="/Users/ltamon/DPhil/GCD_polished/19_MutationRatesVsPersist/A2_plotdataVsCp_median/script/A2_plotdataVsCp_template.R"
+srcfile="/project/sahakyanlab/ltamon/SahakyanLab/GenomicContactDynamics/19_MutationRatesVsPersist/A2_plotdataVsCp/script/A2_plotdataVsCp_template.R"
 ###################################################################################
 # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE #
 ###################################################################################
