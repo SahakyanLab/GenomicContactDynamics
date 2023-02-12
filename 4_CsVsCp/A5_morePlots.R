@@ -48,8 +48,8 @@ gap.range.bins.closed = c(50,50) # j - i - 1, closed range, NULL to skip filteri
 library(ggplot2)
 library(ggpubr)
 source(paste0(lib, "/GG_bgr.R"))
-source(paste0(lib, "/compareManyDist.R"))
-source(paste0(lib, "/doCorTest.R"))
+source(paste0(lib, "/compareManyDist.R")) # Update deva copy
+source(paste0(lib, "/doCorTest.R")) 
 source(paste0(lib, "/doVarTest.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
