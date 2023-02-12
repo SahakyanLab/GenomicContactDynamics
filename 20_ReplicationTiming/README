@@ -1,0 +1,25 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+Processed RT data using James' script (data in ~/Database/replication_timing/out_clustering_combined/hg19/", id, "RT_data_hg19.RData"))
+
+library(reshape2)
+source(paste0(lib, "/makebp.R"))
+################################################################################
+# Replication timing (RT) vs. Cp
+################################################################################
+1. # Generate vals object with rt calculations per chr. Lengths of vals object for a 
+# chromosome should all be equal to the total chr bins based on HiC resolution. 
+# The code also expects that the resolution of RT data should be equal to HiC 
+# resolution. Before generating .vals object, all values of bins/regions 
+# not satisfying filtering criteria are set to NA ( see checkANDfilterRTdata() ).
+
+2. # Generate per chr the IJ.RT.TYPES object for contact-wise plot of RT vs. Cp.
+# IJ.RT.TYPES contains consensus value per contact depending on ij.fnx(na.rm=F)
+# for all rt types i.e. all, nontumor, tumor (so 3 columns). 
+
+3. # Generate contact-wise plot of RT vs. Cp. Calculate p-values i.e. ANOVA/KRUSKAL, 
+# correlation, pairwise comparison of Cp distributions plus each Cp distribution 
+# vs. all long-range contacts. Generate plots and do p-value calculations per 
+# rt.type (i.e. all, nontumor, tumor).
+################################################################################
