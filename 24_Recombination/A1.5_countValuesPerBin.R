@@ -1,6 +1,7 @@
 ################################################################################
 # Visualise distribution of counts of rates per bin to determine the appropriate
-# minimum count a bin should have to be considered.
+# minimum count a bin should have to be considered. Counts made sure to be
+# identical with countPerBin column in FEATURE.BIN.MX.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -28,7 +29,7 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/24_Recombination")
-src.dir = paste0(wk.dir, "/out_mapToHiCcontactPersistBins")
+src.dir = paste0(wk.dir, "/z_ignore_git/out_mapToHiCcontactPersistBins")
 out.dir = paste0(wk.dir, "/out_countValuesPerBin")
 ### OTHER SETTINGS #############################################################
 chrs = paste0("chr", c(21:22))
@@ -46,23 +47,34 @@ source(paste0(lib, "/GG_bgr.R"))
 out.name <- paste0(out.id, "_", src.id)
 
 # Get count of rates of bins from all chr
-
 COUNTBIN <- sapply(X=chrs, simplify=F, FUN=function(chr){
   
   # FEATURE.BIN.MX only contains bins forming a long-range contact
   load(paste0(src.dir, "/", chr, "_", src.id, ".RData"))
-  rates <- setNames(FEATURE.BIN.MX[,"V5"], nm=FEATURE.BIN.MX[,"bin"])
+  rates <- FEATURE.BIN.MX[,"V5"]
   rates <- rates[!is.na(rates)] 
   rates <- strsplit(x=rates, split=";")
-  return( unname(lengths(rates)) )
+  
+  countPerBins <- FEATURE.BIN.MX[,"countPerBin"]
+  countPerBins <- countPerBins[countPerBins > 0 & !is.na(countPerBins)]
+  countPerBins.derived <- lengths(rates)
+  
+  if( !identical(as.numeric(countPerBins), as.numeric(countPerBins.derived)) ){
+    rm(rates)
+    stop( paste0(chr, ": FEATURE.BIN.MX countPerBin not identical to countPerBins.derived
+                 derived from FEATURE.BIN.MX rates column." ) )
+  } else {
+    return( lengths(rates) )
+  }
   
 })
 COUNTBIN <- do.call("c", COUNTBIN)
 COUNTBIN <- data.frame(count=COUNTBIN)
+rownames(COUNTBIN) <- NULL
 
 # Summary statistics
 
-SUMM.STAT <- summarySE(COUNTBIN, measurevar="count")
+SUMM.STAT <- summarySE(COUNTBIN, measurevar="count", .drop=F)
 save(SUMM.STAT, file=paste0(out.dir, "/", out.name, "_CountOfRatesPerNonNABin_summstat.RData"))
 
 # Plot
