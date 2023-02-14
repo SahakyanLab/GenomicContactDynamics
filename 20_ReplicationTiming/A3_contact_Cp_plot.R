@@ -143,7 +143,7 @@ p <- ggplot(data=df.summ.SE, aes(x=Cp, y=value.tr)) +
 ggsave(filename=paste0(out.dir, "/", src.id, "_meanPlus95PercCI_Cp0MeanAt0.pdf"), width=10, height=10, 
        plot=p)
 
-# Boxplots of rt values vs. Cp generated per rt.type, calculate p-values
+# Boxplots of rt values vs. Cp generated per rt.type
 
 for( rt.type in unique(df$rt.type) ){
   
@@ -171,6 +171,59 @@ for( rt.type in unique(df$rt.type) ){
   
   rm(p)
 
+  # # P-values, ANOVA/KW and correlation tests
+  # 
+  # try(doVarTest(xval=df.tmp$value, grp=df.tmp$Cp, out.dir=out.dir, out.name=out.name))
+  # 
+  # try(doCorTest(xval=as.numeric(as.character(df.tmp$Cp)), yval=df.tmp$value, alt="two.sided",
+  #               exactpval=F, out.dir=out.dir, out.name=out.name))
+  # 
+  # # Treat ALL long-range contact data distribution as extra Cp i.e. Cp = 0 then do
+  # # Cp pairwise comparisons
+  # 
+  # # Add Cp=0
+  # df.tmp$Cp <- as.character(df.tmp$Cp)
+  # df.tmp.all <- df.tmp
+  # df.tmp.all$Cp <- "0"
+  # df.tmp <- rbind(df.tmp.all, df.tmp)
+  # rm(df.tmp.all)
+  # df.tmp$Cp <- factor(as.character(df.tmp$Cp), levels=as.character(c("0", Cp.v)))
+  # 
+  # try(compareManyDist( xval=df.tmp$value, grp=df.tmp$Cp, alt="two.sided", out.dir=out.dir, 
+  #                      out.name=paste0(out.name, "_Cp0To21compare") ))
+  
+  rm(df.tmp)
+  
+  message(paste0(rt.type, " done!"))
+  
+}
+
+## Other p-values
+
+# 1. P-values, pairwise comparisons per rt.type, per Cp 1 to 21
+
+try(compareManyDist( xval=df$value, grp=paste0(df$Cp, df$rt.type), alt="two.sided", out.dir=out.dir, 
+                     out.name=paste0(src.id, "_Cp1To21compare") ))
+
+try(compareManyDist( xval=df$value, grp=df$rt.type, alt="two.sided", out.dir=out.dir, 
+                     out.name=paste0(src.id, "_Cp0CompareRt.types") ))
+
+# 2. P-values, two-way (Cp and rt.type) ANOVA, Kruskal-Wallis
+# Refer to http://www.sthda.com/english/wiki/two-way-anova-test-in-r#compute-two-way-anova-test-in-r-for-unbalanced-designs
+
+TEST <- list()
+TEST[["aov2"]] <- aov(value ~ Cp * rt.type, data=df)
+TEST[["aov2_unbTyp3"]] <- Anova(TEST[["aov2"]], type="III")
+save(TEST, file=paste0(out.dir, "/", src.id, "_aov2_varbasedtest.RData"))
+
+# 3. P-values described below
+
+for( rt.type in unique(df$rt.type) ){
+  
+  df.tmp <- df[df$rt.type == rt.type, ]
+  df.tmp <- na.omit(df.tmp)
+  out.name <- paste0(rt.type, "_", src.id)
+  
   # P-values, ANOVA/KW and correlation tests
   
   try(doVarTest(xval=df.tmp$value, grp=df.tmp$Cp, out.dir=out.dir, out.name=out.name))
@@ -194,26 +247,8 @@ for( rt.type in unique(df$rt.type) ){
   
   rm(df.tmp)
   
-  message(paste0(rt.type, " done!"))
+  message(paste0(rt.type, " p-value calc done!"))
   
 }
-
-## Other p-values
-
-# P-values, pairwise comparisons per rt.type, per Cp 1 to 21
-
-try(compareManyDist( xval=df$value, grp=paste0(df$Cp, df$rt.type), alt="two.sided", out.dir=out.dir, 
-                     out.name=paste0(src.id, "_Cp1To21compare") ))
-
-try(compareManyDist( xval=df$value, grp=df$rt.type, alt="two.sided", out.dir=out.dir, 
-                     out.name=paste0(src.id, "_Cp0CompareRt.types") ))
-
-# P-values, two-way (Cp and rt.type) ANOVA, Kruskal-Wallis
-# Refer to http://www.sthda.com/english/wiki/two-way-anova-test-in-r#compute-two-way-anova-test-in-r-for-unbalanced-designs
-
-TEST <- list()
-TEST[["aov2"]] <- aov(value ~ Cp * rt.type, data=df)
-TEST[["aov2_unbTyp3"]] <- Anova(TEST[["aov2"]], type="III")
-save(TEST, file=paste0(out.dir, "/", src.id, "_aov2_varbasedtest.RData"))
 
 # rm(list=ls()); gc()
