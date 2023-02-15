@@ -38,7 +38,10 @@ nCPU = 1
 src.id = "ij.fnxmean_allrttypes_mean_normNot1_setpointcountGrEq3_40000bpHiCres"
 Cp.v = 1:21
 
-rt.type.cols = c(all="#c1cdc1", nontumor="#3288BD", tumor="#e25d6c")
+#rt.type.cols = c(all="#c1cdc1", nontumor="#3288BD", tumor="#e25d6c")
+rt.type.cols = c(all="#c1cdc1", nontumor="#4DBBD5FF", tumor="#F39B7FFF")
+rt.type.cols.dark = rgb(hex2RGB(rt.type.cols)@coords * 0.7)
+names(rt.type.cols.dark) <- names(rt.type.cols)
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -54,7 +57,7 @@ library(reshape2)
 library(gghalves)
 library(ggplot2)
 source(paste0(lib, "/GG_bgr.R"))
-library(colorspace) # lighten colour
+library(colorspace) # darken colour
 
 library(car) # ANOVA for unbalanced dataset
 source(paste0(lib, "/doVarTest.R"))
@@ -112,7 +115,7 @@ p <- ggplot(data=df.summ.SE, aes(x=Cp, y=value)) +
                 width=1, linewidth=0.6, position=pd) + 
   stat_summary(aes(col=rt.type), fun="mean", size=0.35, position=pd) +
   scale_y_continuous(limits=c(-0.75, 0.25)) + 
-  scale_colour_manual(values=rt.type.cols[levels(df.summ.SE$rt.type)]) +
+  scale_colour_manual(values=rt.type.cols.dark[levels(df.summ.SE$rt.type)]) +
   labs(title=paste0(src.id, "_meanPlus95PercCI")) + 
   bgr1
 
@@ -132,11 +135,14 @@ for( rt.type in levels(df.summ.SE$rt.type) ){
 }
 
 p <- ggplot(data=df.summ.SE, aes(x=Cp, y=value.tr)) +
+  #geom_point(data=aggs, aes(x=Group.2, y=x, aes(col="Group.1"))) + 
   geom_errorbar(aes(ymin=value.tr - ci, ymax=value.tr + ci, col=rt.type), 
                 width=1, linewidth=0.6, position=pd) + 
+  # stat_summary causes this warning Warning: Removed 66 rows containing missing values (`geom_segment()`).
+  # but I've checked that the mean values are right with aggregate() and geom_point()
   stat_summary(aes(col=rt.type), fun="mean", size=0.35, position=pd) +
-  scale_y_continuous(limits=c(-0.75, 0.25)) + 
-  scale_colour_manual(values=rt.type.cols[levels(df.summ.SE$rt.type)]) +
+  #scale_y_continuous(limits=c(-0.75, 0.25)) + 
+  scale_colour_manual(values=rt.type.cols.dark[levels(df.summ.SE$rt.type)]) +
   labs(title=paste0(src.id, "_meanPlus95PercCI_meanTranslatedtoSetCp0MeanAt0")) + 
   bgr1
 
@@ -151,16 +157,14 @@ for( rt.type in unique(df$rt.type) ){
   df.tmp <- na.omit(df.tmp)
   bp.stat <- boxplot.stats(x=df.tmp$value)$stats
   
-  rt.type.col.light <- rgb(hex2RGB(rt.type.cols[[rt.type]])@coords * 0.8)
   plot.title <- paste0(rt.type, "_", src.id, "_solidLineMedianALL_dashed1st3rdQuartileAll")
   out.name <- paste0(rt.type, "_", src.id)
   
   p <- ggplot(data=df.tmp, aes(x=Cp, y=value)) +
     geom_hline(yintercept=bp.stat[[3]], col="black") + 
     geom_hline(yintercept=bp.stat[c(2,4)], col="gray50", lty="dashed") + 
-    geom_half_violin(side="r", fill=rt.type.col.light, scale="width", lwd=0.6, 
-                     width=0.8, trim=T) +
-    geom_half_boxplot(fill=rt.type.cols[[rt.type]], lwd=0.6, width=0.5, outlier.shape=1) + 
+    geom_half_violin(side="r", fill=rt.type.cols[[rt.type]], scale="width", lwd=0.6, width=0.8, trim=T) +
+    geom_half_boxplot(fill=rt.type.cols.dark[[rt.type]], lwd=0.6, width=0.5, outlier.shape=1) + 
     scale_y_continuous(limits=c(-2,2)) + 
     labs(title=plot.title) + 
     bgr1 + 
