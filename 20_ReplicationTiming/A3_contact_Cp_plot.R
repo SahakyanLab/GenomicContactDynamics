@@ -60,8 +60,8 @@ source(paste0(lib, "/GG_bgr.R"))
 library(colorspace) # darken colour
 
 library(car) # ANOVA for unbalanced dataset
-source(paste0(lib, "/doVarTest.R"))
-source(paste0(lib, "/doCorTest.R")) 
+source(paste0(lib, "/doVarTest.R")) # Update deva copy
+source(paste0(lib, "/doCorTest.R")) # Update deva copy
 source(paste0(lib, "/compareManyDist.R"))  # Update deva copy
 ### FUNCTION ###################################################################
 ################################################################################
@@ -94,10 +94,14 @@ df$Cp <- factor(as.character(df$Cp), levels=as.character(Cp.v))
 df <- reshape2::melt(df, id="Cp")
 colnames(df) <- c("Cp", "rt.type", "value")
 
+# Remove NAs
+
+df <- na.omit(df)
+
 # df summary statistics
 
-df.summ.SE <- summarySE(df, measurevar="value", groupvars=c("Cp","rt.type"), .drop=F)
-df.summ.SE.Cp0 <- cbind(Cp="0", summarySE(df, measurevar="value", groupvars="rt.type", .drop=F))
+df.summ.SE <- summarySE(df, measurevar="value", groupvars=c("Cp","rt.type"), na.rm=T, .drop=F)
+df.summ.SE.Cp0 <- cbind(Cp="0", summarySE(df, measurevar="value", groupvars="rt.type", na.rm=T, .drop=F))
 df.summ.SE <- rbind(df.summ.SE.Cp0, df.summ.SE)
 
 SUMM.STAT <- list(summ.SE=df.summ.SE)
@@ -216,9 +220,9 @@ try(compareManyDist( xval=df$value, grp=df$rt.type, alt="two.sided", out.dir=out
 # Refer to http://www.sthda.com/english/wiki/two-way-anova-test-in-r#compute-two-way-anova-test-in-r-for-unbalanced-designs
 
 TEST <- list()
-TEST[["aov2"]] <- aov(value ~ Cp * rt.type, data=df)
-TEST[["aov2_unbTyp3"]] <- Anova(TEST[["aov2"]], type="III")
-save(TEST, file=paste0(out.dir, "/", src.id, "_aov2_varbasedtest.RData"))
+TEST[["ano2"]] <- aov(value ~ Cp * rt.type, data=df)
+TEST[["ano2_unbTyp3"]] <- Anova(TEST[["ano2"]], type="III")
+save(TEST, file=paste0(out.dir, "/", src.id, "_ano2_varbasedtest.RData"))
 
 # 3. P-values described below
 
