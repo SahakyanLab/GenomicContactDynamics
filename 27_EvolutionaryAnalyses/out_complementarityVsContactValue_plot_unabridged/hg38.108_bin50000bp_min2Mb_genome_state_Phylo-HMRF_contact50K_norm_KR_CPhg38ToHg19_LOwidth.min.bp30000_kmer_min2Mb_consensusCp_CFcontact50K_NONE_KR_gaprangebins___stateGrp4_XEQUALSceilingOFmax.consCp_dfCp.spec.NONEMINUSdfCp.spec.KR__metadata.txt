@@ -1,8 +1,0 @@
-count	dfCp.spec.NONEMINUSdfCp.spec.KR
-2	-3
-107	-2
-846582	-1
-92496795	0
-846600	1
-98	2
-2	3
