@@ -69,6 +69,9 @@ source(paste0(lib, "/compareManyDist.R"))  # Update deva copy
 ################################################################################
 chrs.len <- length(chrs)
 toExport <- c("chrs", "src.dir", "src.id")
+
+# Combine contact-wise RT data from all chr
+
 #### PARALLEL EXECUTION #########
 df <- foreach(itr=isplitVector(1:chrs.len, chunks=nCPU), .combine="rbind", .inorder=F,
               .export=toExport, .noexport=ls()[!ls()%in%toExport]
