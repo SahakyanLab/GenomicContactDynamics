@@ -30,8 +30,8 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/19_MutationRatesVsPersist")
-src.dir = paste0(wk.dir, "/out_mut_contact_Cp_plotdata")
-out.dir = paste0(wk.dir, "/out_mut_contact_Cp_plot")
+src.dir = paste0(wk.dir, "/z_ignore_git/out_mut_contact_Cp_plotdata")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_mut_contact_Cp_plot")
 
 mutsig.file = paste0(data.dir, "/signal_mutSig/out_samplesForSignature/donorlist_signatureExposureRAW.csv")
 ### OTHER SETTINGS #############################################################
@@ -62,10 +62,16 @@ source(paste0(lib, "/UTL_doPar.R"))
 
 library(Rmisc)
 
-library(ggsci)
+library(car) # ANOVA for unbalanced dataset
+source(paste0(lib, "/doVarTest.R")) # Update deva copy
+source(paste0(lib, "/doCorTest.R")) # Update deva copy
+source(paste0(lib, "/compareManyDist.R"))  # Update deva copy
+
 library(ggplot2)
-library(ggpubr)
 source(paste0(lib, "/GG_bgr.R"))
+library(cowplot)
+library(ggpubr)
+library(ggsci)
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
@@ -127,44 +133,61 @@ DF.STAT <- foreach(c.ind=1:combi.len, .combine="rbind"
                    rbind(df.stat.Cp0, df.stat.Cp1To21),
                    med=C0To21.meds)
   
-  # TO DO - Save df all chr combined
-  # TO DO - Save df.stat all chr combined
-  # TO DO - P-values
+  save(df, file=paste0(out.dir, "/chrALL_", src.nme, ".RData"))
+  save(df.stat, file=paste0(out.dir, "/chrALL_", src.nme, "_summ_stat.RData"))
+  
+  ## P-values
+  
+  # P-values, ANOVA/KW and correlation tests
+  
+  df <- na.omit(df)
+  
+  try(doVarTest( xval=df$value, grp=df$Cp, out.dir=out.dir, out.name=paste0("chrALL_", src.nme) ))
+  
+  try(doCorTest( xval=as.numeric(as.character(df$Cp)), yval=df$value, alt="two.sided",
+                 exactpval=F, out.dir=out.dir, out.name=paste0("chrALL_", src.nme) ))
+  
+  # Add all values as Cp=0
+  
+  df.Cp0 <- df
+  df.Cp0$Cp <- factor("0", levels="0")
+  df <- rbind(df.Cp0, df)
+  
+  try(compareManyDist( xval=df$value, grp=df$Cp, alt="two.sided", out.dir=out.dir, 
+                       out.name=paste0("chrALL_", src.nme) ))
+  rm(df)
   
   return(df.stat)
   
 } # combi.len foreach loop end
 
-# Plot
+## PLOTS
 
 backup <- DF.STAT
 DF.STAT.dummy <- DF.STAT                 # REMOVE
 DF.STAT.dummy$loc <- "intron"
-DF.STAT.dummy$type <- "CToA" # REMOVE
+DF.STAT.dummy$type <- "All" # REMOVE
 DF.STAT <- rbind(DF.STAT, DF.STAT.dummy) # REMOVE
 
-out.id.ci <- paste0(mut.data.id, "_", sig.filter.id)
+# Variables needed for plots
 
-#
+out.id.general <- paste0(mut.data.id, "_", sig.filter.id)
 
-calc.sig.combi.df <- expand.grid(calc=mut.calcs, sig=mut.sigs, stringsAsFactors=F)
-cs.len <- length(calc.sig.combi.df[,1])  
+calc.type.combi.df <- expand.grid(calc=unique(DF.STAT$calc), type=unique(DF.STAT$type), stringsAsFactors=F)
+ct.len <- length(calc.type.combi.df[,1])
+calc.len <- length(unique(DF.STAT$calc))
+type.len <- length(unique(DF.STAT$type))
 
-# Per sig panel (calc vs. mut.types) -> mainly for nosampfilter
+type.shapes <- setNames(object=c(4,15,2,18,0,16,17),
+                        nm=c("All", "CToA", "CToG", "CToT", "TToA", "TToC", "TToG"))
+pd <- position_dodge(0.1)
 
-shapes <- setNames(object=c(4,15,2,18,0,16,17),
-                   nm=c("All", "CToA", "CToG", "CToT", "TToA", "TToC", "TToG"))
-
-calc.type.combi.df <- expand.grid(calc=mut.calcs, type=mut.types, stringsAsFactors=F)
-ct.len <- length(calc.sig.combi.df[,1])
-
-calc.len <- length(mut.calcs)
-type.len <- length(mut.types)
+# (1) Per sig panel (mut.types vs. calc) -> mainly for nosampfilter
 
 for(sig in mut.sigs){
   
   is.sig <- DF.STAT$sig == sig
-  out.name.sig <- paste0(sig, "_", out.id.ci)
+  out.id.sig <- paste0(sig, "_", out.id.general)
   
   P.LST <- sapply(1:ct.len, simplify=F, FUN=function(ct){
     
@@ -175,59 +198,37 @@ for(sig in mut.sigs){
     p <- ggplot(DF.STAT[is.sig & is.ct,], aes(x=Cp, y=value)) +
       geom_errorbar(aes(col=loc, ymin=value - ci, ymax=value + ci), width=0.4, linewidth=0.6, 
                     position=pd) +
-      geom_point(aes(col=loc), size=2, position=pd, shape=shapes[[type]]) + 
+      geom_point(aes(col=loc), size=2, position=pd, shape=type.shapes[[type]]) + 
       scale_color_npg() + 
+      labs(title=paste0(sig, "_", calc, "_", type), col=paste0(out.id.sig, "_loc")) + 
       bgr1 
-      
     return(p)
     
   })
   
-  p.arr <- ggarrange(plotlist=P.LST, nrow=calc.len, ncol=type.len, common.legend=T)
-  ggexport(p.arr, height=calc.len * 5, width=type.len * 5,
-           filename=paste0(out.dir, "/", out.name.sig, ".pdf"))
+  out.id.fin <- paste0(out.id.sig, "_meanPlus95PercCI")
   
+  # Version with all details
+
+  p.arr <- ggarrange(plotlist=P.LST, ncol=calc.len, common.legend=T, legend="top")
+  ggexport(p.arr, width=calc.len * 5, height=type.len * 5, 
+           filename=paste0(out.dir, "/", out.id.fin, "_withLegend.pdf"))
+
+  # Final minimal version
+  P.LST <- lapply(P.LST, FUN=function(p){
+    
+    p <- p + 
+      labs(title=NULL) +
+      theme(axis.text.x=element_blank(), axis.title.x=element_blank(),
+            axis.title.y=element_blank(), legend.position="none")
+    return(p)
+    
+  })
   
-} # mut.sigs for loop end
-
-
-  for(calc in mut.calcs){
-    
-    # Plot mean value at Cp (plus ci) vs. Cp
-    # Per calc, sig, mut types separated because of ci bars
-    
-    out.name <- paste0(calc, "_", sig, "_", out.id.ci)
-    is.row.cs <- DF.STAT$calc == calc & DF.STAT$sig == sig
-    pd <- position_dodge(0.1)
-    
-    p <- ggplot(DF.STAT[is.row,], aes(x=Cp, y=value)) +
-      geom_errorbar(aes(col=loc, ymin=value - ci, ymax=value + ci), width=0.4, linewidth=0.6, 
-                    position=pd) +
-      geom_point(aes(col=loc, shape=type), size=2, position=pd) + 
-      scale_color_npg() + 
-      bgr1 +
-      labs(title=out.name) + 
-      facet_wrap(.~type, nrow=2) +
-      theme(strip.text=element_blank(), legend.position="bottom")
-    
-    ggsave(filename=paste0(out.dir, "/", out.name, "_meanPlus95PercCI.pdf"), 
-           width=40, height=20, plot=p)
-    
-  } # mut.calcs for loop end
+  p.arr <- plot_grid(plotlist=P.LST, ncol=calc.len, align="hv", byrow=T)
+  save_plot(filename=paste0(out.dir, "/", out.id.fin, "_noLegend.pdf"), plot=p.arr,
+            base_height=type.len * 5, base_width=calc.len * 5)
   
 } # mut.sigs for loop end
-
-for(cs in 1:cs.len){
-
-  calc <- calc.sig.combi.df$calc[[cs]]
-  sig <- calc.sig.combi.df$sig[[cs]]
-  
-  
-}
-
-# Per sig - Plot mean value at Cp (no ci) vs. Cp
-
-# Plot mean value at Cp (plus ci) vs. Cp
-# Per calc, sig, mut types separated because of ci bars
 
 # rm(list=ls()); gc()
