@@ -1,8 +1,8 @@
 ################################################################################
-# Title
-# deva, R/3.5.0-newgcc, gcc/4.9.2
-# deva, R/3.6.0-newgcc, gcc/4.9.2
-# Mac, R/3.5.2, R/3.6.1
+# Per sig, calc, type, loc, generate df (with data from all chr), df.stat (with
+# summary statistics of df including Cp=0 or all long-range contacts), calculate
+# P-values comparing Cp distributions and calc vs. Cp, generate average calc
+# values vs. Cp per signature (but mainly for nosampfilter). 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -212,7 +212,7 @@ for(sig in mut.sigs){
 
   p.arr <- ggarrange(plotlist=P.LST, ncol=calc.len, common.legend=T, legend="top")
   ggexport(p.arr, width=calc.len * 5, height=type.len * 5, 
-           filename=paste0(out.dir, "/", out.id.fin, "_withLegend.pdf"))
+           filename=paste0(out.dir, "/", out.id.fin, "_withLabels.pdf"))
 
   # Final minimal version
   P.LST <- lapply(P.LST, FUN=function(p){
@@ -226,7 +226,7 @@ for(sig in mut.sigs){
   })
   
   p.arr <- plot_grid(plotlist=P.LST, ncol=calc.len, align="hv", byrow=T)
-  save_plot(filename=paste0(out.dir, "/", out.id.fin, "_noLegend.pdf"), plot=p.arr,
+  save_plot(filename=paste0(out.dir, "/", out.id.fin, "_noLabels.pdf"), plot=p.arr,
             base_height=type.len * 5, base_width=calc.len * 5)
   
 } # mut.sigs for loop end
