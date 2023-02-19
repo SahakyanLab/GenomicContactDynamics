@@ -37,7 +37,7 @@ mutsig.file = paste0(data.dir, "/signal_mutSig/out_samplesForSignature/donorlist
 ### OTHER SETTINGS #############################################################
 Cp.v = 1:21
 
-mut.data.id = "donor_centric_PCAWG_Hg19"
+mut.data.id = "ijfnxmean_donor_centric_PCAWG_Hg19"
 sig.filter.id = "sigEperclimits_nosampfilter_ijmut"
 
 chrs = paste0("chr", c(21:22))
@@ -52,6 +52,8 @@ mut.locs = "exon" #c("exon", "intron", "intergenic", "intron_intergenic",
 sig.df = read.csv(file=mutsig.file)[,-(1:7)]
 mut.sigs = "RefSig.1" #c("RefSig.MMR1_RefSig.MMR2", colnames(sig.df))
 rm(sig.df)
+
+ij.fnx = "mean" # "median" # IJFNXREPLACE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################

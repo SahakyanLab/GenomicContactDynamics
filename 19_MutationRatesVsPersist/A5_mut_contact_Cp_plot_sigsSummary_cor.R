@@ -34,7 +34,7 @@ mutsig.file = paste0(data.dir, "/signal_mutSig/out_samplesForSignature/donorlist
 ### OTHER SETTINGS #############################################################
 Cp.v = 1:21
 
-mut.data.id = "donor_centric_PCAWG_Hg19"
+mut.data.id = "ijfnxmean_donor_centric_PCAWG_Hg19"
 sig.filter.id = "sigEperclimits_nosampfilter_ijmut"
 
 mut.calcs = c("numWTSEQ", "Tmut", "Tmutnorm", "Nmsite", "Nmsitenorm", "TmutDIVNmsite")

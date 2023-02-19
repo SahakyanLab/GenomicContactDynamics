@@ -31,18 +31,25 @@ data.dir = paste0(home.dir, "/Database")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/19_MutationRatesVsPersist")
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 src.dir = paste0(wk.dir, "/out_mutCalcPerBin")
-out.dir = paste0(wk.dir, "/out_contact_Cp_plotdata")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_mut_contact_Cp_plotdata")
 ### OTHER SETTINGS #############################################################
 chrs = paste0("chr", c(21:22))
+nCPU = 1
 persist.id = "Persist_min2Mb"
 src.file.pattern = c("donor_centric_PCAWG_Hg19", "mutCalcPerBin.RData") # case-sensitive
 ij.fnx = "mean" # "median" # IJFNXREPLACE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
+library(foreach)
+library(doParallel)
+library(itertools)
+source(paste0(lib, "/UTL_doPar.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
+chrs.len <- length(chrs)
+
 all.files <- list.files(path=src.dir)
 
 # Get list of files satisfying all patterns
@@ -61,69 +68,83 @@ for(src.file in src.files){
   
   MUTBIN.DF <- MUTBIN.DF[MUTBIN.DF$chr %in% chrs,]
   
-  out.id <- gsub("mutCalcPerBin.", "ijmut.", src.file, fixed=T)
+  out.id <- paste0("ijfnx", ij.fnx, "_", gsub("mutCalcPerBin.", "ijmut.", src.file, fixed=T))
   
-  for(chr in chrs){
+  toExport <- c("chrs", "persist.dir", "persist.id", "MUTBIN.DF", "mut.calcs", "out.id",
+                "ij.fnx", "out.dir")
+  #### PARALLEL EXECUTION #########
+  foreach(itr=isplitVector(1:chrs.len, chunks=nCPU), .inorder=F,
+          .export=toExport, .noexport=ls()[!ls()%in%toExport]
+                
+  ) %op% {
     
-    # Load contact data
-    
-    load(paste0(persist.dir, "/", chr, "_", persist.id, ".RData"))
-    ij.mx <- cbind(i=PERSIST.MX$hits$i, j=PERSIST.MX$hits$j, Cp=PERSIST.MX$ntis)
-    rm(PERSIST.MX)
-    
-    # From MUTBIN.DF, make matrix of bin mut.calcs based on order of i and j bins in contact matrix
-    
-    is.chr <- MUTBIN.DF$chr == chr
-    
-    ind.MUTBINDF <- match(ij.mx[,"i"], table=MUTBIN.DF$bin[is.chr])
-    i.mut.mx <- data.matrix( MUTBIN.DF[is.chr, mut.calcs][ind.MUTBINDF,] )
-    
-    ind.MUTBINDF <- match(ij.mx[,"j"], table=MUTBIN.DF$bin[is.chr])
-    j.mut.mx <- data.matrix( MUTBIN.DF[is.chr, mut.calcs][ind.MUTBINDF,] )
-    
-    if( !identical(dim(i.mut.mx), dim(j.mut.mx)) ){
-      rm(MUTBIN.DF)
-      stop("i.mut.mx and j.mut.mx differ in dimension.")
+    for(i in itr){
+      
+      chr <- chrs[[i]]
+      
+      # Load contact data
+      
+      load(paste0(persist.dir, "/", chr, "_", persist.id, ".RData"))
+      ij.mx <- cbind(i=PERSIST.MX$hits$i, j=PERSIST.MX$hits$j, Cp=PERSIST.MX$ntis)
+      rm(PERSIST.MX)
+      
+      # From MUTBIN.DF, make matrix of bin mut.calcs based on order of i and j bins in contact matrix
+      
+      is.chr <- MUTBIN.DF$chr == chr
+      
+      ind.MUTBINDF <- match(ij.mx[,"i"], table=MUTBIN.DF$bin[is.chr])
+      i.mut.mx <- data.matrix( MUTBIN.DF[is.chr, mut.calcs][ind.MUTBINDF,] )
+      
+      ind.MUTBINDF <- match(ij.mx[,"j"], table=MUTBIN.DF$bin[is.chr])
+      j.mut.mx <- data.matrix( MUTBIN.DF[is.chr, mut.calcs][ind.MUTBINDF,] )
+      
+      if( !identical(dim(i.mut.mx), dim(j.mut.mx)) ){
+        rm(MUTBIN.DF)
+        stop("i.mut.mx and j.mut.mx differ in dimension.")
+      }
+      
+      rownames(i.mut.mx) <- rownames(j.mut.mx) <- NULL
+      rm(ind.MUTBINDF)
+      
+      # Apply ij.funx from generated i and j matrices to derive consensus metric per contact
+      
+      if(ij.fnx == "mean"){
+        ij.mut.mx <- (i.mut.mx + j.mut.mx) / 2
+      } else {
+        
+        ij.mut.array <- simplify2array(list(i.mut.mx, j.mut.mx))
+        eval(parse(text=paste0(
+          'ij.mut.mx <- apply(ij.mut.array, MARGIN=c(1,2), FUN=', ij.fnx, ', na.rm=F)'
+        )))
+        
+      }
+      
+      rm(i.mut.mx, j.mut.mx)
+      
+      # Add Cp to ij.mut.mx
+      ij.mut.mx <- cbind(ij.mut.mx, Cp=ij.mx[,"Cp"])
+      rm(ij.mx)
+      
+      # Save IJ.MUT per mut metric
+      
+      for(calc in mut.calcs){
+        
+        IJ.MUT <- cbind(value=ij.mut.mx[,calc], Cp=ij.mut.mx[,"Cp"])
+        save(IJ.MUT, file=paste0(out.dir, "/", chr, "_", calc, "_", out.id))
+        rm(IJ.MUT)
+        
+      } # mut.calcs for loop end
+      
+      rm(ij.mut.mx)
+      
+      # Remove chr data from MUTBIN.DF
+      
+      MUTBIN.DF <- MUTBIN.DF[!is.chr,]
+      
     }
     
-    rownames(i.mut.mx) <- rownames(j.mut.mx) <- NULL
-    rm(ind.MUTBINDF)
-    
-    # Apply ij.funx from generated i and j matrices to derive consensus metric per contact
-    
-    if(ij.fnx == "mean"){
-      ij.mut.mx <- (i.mut.mx + j.mut.mx) / 2
-    } else {
-      
-      eval(parse(text=paste0(
-        'ij.mut.mx <- apply(ij.mut.array, MARGIN=c(1,2), FUN=', ij.fnx, ', na.rm=F)'
-      )))
-      
-    }
-    
-    rm(i.mut.mx, j.mut.mx)
-    
-    # Add Cp to ij.mut.mx
-    ij.mut.mx <- cbind(ij.mut.mx, Cp=ij.mx[,"Cp"])
-    rm(ij.mx)
-    
-    # Save IJ.MUT per mut metric
-    
-    for(calc in mut.calcs){
-      
-      IJ.MUT <- cbind(value=ij.mut.mx[,calc], Cp=ij.mut.mx[,"Cp"])
-      save(IJ.MUT, file=paste0(out.dir, "/", chr, "_", calc, "_", out.id))
-      rm(IJ.MUT)
-      
-    } # mut.calcs for loop end
-    
-    rm(ij.mut.mx)
-    
-    # Remove chr data from MUTBIN.DF
-    
-    MUTBIN.DF <- MUTBIN.DF[!is.chr,]
-    
-  } # chrs for loop end
+  } # chrs.len foreach loop end
+  ### END OF PARALLEL EXECUTION ###
   
   rm(MUTBIN.DF)
   
