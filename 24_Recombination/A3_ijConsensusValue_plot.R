@@ -6,7 +6,7 @@
 options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
 options(warn=1) # Expands warnings
 
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -23,14 +23,14 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/24_Recombination")
-ijrates.dir = paste0(wk.dir, "/z_ignore_git/out_ijConsensusValue/tmp")
-out.dir = paste0(wk.dir, "/out_ijConsensusValue_plot1")
+ijrates.dir = paste0(wk.dir, "/out_ijConsensusValue/tmp")
+out.dir = paste0(wk.dir, "/out_ijConsensusValue_plot")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr.v = paste0("chr", c(21:22))
 Cp.v = 1:21
-consensus.method = "MEDIAN.MEDIAN" 
-recom.id = "recomRates_2011_01_phaseII_B37_Myers" #"min.countPerBin3_ij_recomRates_2011_01_phaseII_B37_Myers" 
+consensus.method = "MEAN.MEAN" #"MEDIAN.MEDIAN" 
+src.id = "min.countPerBin3_ij_recomRates_2011_01_phaseII_B37_Myers"
 col.hex = "#c1cdc1"
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
@@ -64,7 +64,7 @@ num.ij.Cp <- setNames(rep(NA, times=length(Cp.v)), nm=Cp.v)
 for(Cp in Cp.v){
   
   IJ.RATES.CP <- sapply(X=chr.v, simplify=T, FUN=function(chr){
-    load(paste0(ijrates.dir, "/mthd_", consensus.method, "_Cp", Cp, "_", chr, "_", gcb, "_ij_", recom.id, ".RData"))
+    load(paste0(ijrates.dir, "/mthd_", consensus.method, "_Cp", Cp, "_", chr, "_", gcb, "_", src.id, ".RData"))
     return(IJ.RATES)
   })
   IJ.RATES.CP <- unname(unlist(IJ.RATES.CP))
@@ -94,7 +94,7 @@ BOX.DF <- na.omit(BOX.DF)
 
 #
 
-out.name <- paste0("mthd_", consensus.method, "_", gcb, "_allChr_ijratesVsCp_", recom.id)
+out.name <- paste0("mthd_", consensus.method, "_", gcb, "_allChr_ijratesVsCp_", src.id)
 
 # Boxplot statistics
 

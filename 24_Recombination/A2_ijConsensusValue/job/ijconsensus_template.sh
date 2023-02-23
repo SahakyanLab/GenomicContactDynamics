@@ -4,8 +4,8 @@
 ## Please note that anything after "#SBATCH" on a line will be treated as
 ## a SLURM command.
 ##########################################################################
-#SBATCH --mem=15G
-#SBATCH -n 3
+#SBATCH --mem=10G
+#SBATCH -n 1
 #SBATCH --array=1-23
 #SBATCH --mail-user=ltamon
 #SBATCH --mail-type=ALL

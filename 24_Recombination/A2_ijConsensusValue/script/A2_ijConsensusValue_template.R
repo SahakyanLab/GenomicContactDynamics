@@ -8,7 +8,7 @@
 options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
 options(warn=1) # Expands warnings
 
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
@@ -27,15 +27,15 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/24_Recombination")
-featbin.dir = paste0(wk.dir, "/z_ignore_git/out_mapToHiCcontactPersistBins")
+featbin.dir = paste0(wk.dir, "/out_mapToHiCcontactPersistBins")
 out.dir = paste0(wk.dir, "/out_ijConsensusValue")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr = "chr19" #"chrarr1.repl" 
-Cp = 1 #arr2.repl
+chr = "chrarr1.repl" 
+Cp = arr2.repl
 nCPU = 1
 chunk.size = 100 # Number of contacts to be processed at the same time per CPU
-consensus.method = "MEDIAN.MEDIAN" 
+consensus.method = "MEDIAN.MEDIAN" #"MEAN.MEAN" #"MEDIAN.MEDIAN" 
 min.countPerBin = 3 # 3 to be consistent with RT data
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
