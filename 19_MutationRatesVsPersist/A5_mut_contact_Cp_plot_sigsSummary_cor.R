@@ -37,11 +37,12 @@ Cp.v = 1:21
 mut.data.id = "ijfnxmean_donor_centric_PCAWG_Hg19"
 sig.filter.id = "sigEperclimits_nosampfilter_ijmut"
 
-mut.calcs = c("numWTSEQ", "Tmut", "Tmutnorm", "Nmsite", "Nmsitenorm", "TmutDIVNmsite")
+nCPU = 3 # Number of combinations
+mut.calcs = "Tmutnorm" #c("numWTSEQ", "Tmut", "Tmutnorm", "Nmsite", "Nmsitenorm", "TmutDIVNmsite")
 mut.types = "All" #c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
 mut.types = gsub(">", "To", mut.types, fixed=T)
-mut.locs = "exon" #c("exon", "intron", "intergenic", "intron_intergenic", 
-                  #  "exon_intron_intergenic_intergenic.excl")
+mut.locs = c("exon_intron_intergenic_intergenic.excl", "exon") #c("exon_intron_intergenic_intergenic.excl", "intron_intergenic", 
+          #   "intergenic", "intron", "exon")
 
 # Get list of signatures
 sig.df = read.csv(file=mutsig.file)[,-(1:7)]
@@ -54,6 +55,9 @@ average.fnx = "MEAN"
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
 library(foreach)
+library(doParallel)
+library(itertools)
+source(paste0(lib, "/UTL_doPar.R"))
 source(paste0(lib, "/doCorTest.R")) # Update deva copy
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
@@ -64,9 +68,12 @@ combi.len <- length(combi.df$type)
 
 # Data for CSV
 
-df <- foreach(c.ind=1:combi.len 
-                   
-  ) %do% {
+#### PARALLEL EXECUTION #########
+df <- foreach(itr=isplitVector(1:combi.len, chunks=nCPU), .inorder=T, .combine="c"
+              
+) %op% {
+  
+  chunk <- sapply(itr, simplify=F, FUN=function(c.ind){
   
   type <- combi.df$type[[c.ind]]
   loc <- combi.df$loc[[c.ind]]
@@ -98,13 +105,21 @@ df <- foreach(c.ind=1:combi.len
   
   COR.and.N <- c(unlist(COR), list(min.N=min(src.mx[,"N"]), max.N=max(src.mx[,"N"])))
   
+  combi.append <- setNames( object=as.character(combi.df[c.ind,]), nm=colnames(combi.df) )
+  COR.and.N <- c(as.list(combi.append), COR.and.N)
+  
   return(COR.and.N)
   
+  })
+  
+  return(chunk)
+  
 }
+### END OF PARALLEL EXECUTION ###
 
 df <- lapply(df, FUN=as.data.frame)
 df <- do.call("rbind", df)
-df <- cbind(combi.df, df)
+#df <- cbind(combi.df, df)
 
 df$pear.pval.BH <- p.adjust(p=df$pear.pval, method="BH")
 df$spea.pval.BH <- p.adjust(p=df$spea.pval, method="BH")

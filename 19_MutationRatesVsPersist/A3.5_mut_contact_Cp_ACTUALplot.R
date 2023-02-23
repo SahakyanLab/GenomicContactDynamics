@@ -38,7 +38,7 @@ mutsig.file = paste0(data.dir, "/signal_mutSig/out_samplesForSignature/donorlist
 mut.data.id = "ijfnxmean_donor_centric_PCAWG_Hg19"
 sig.filter.id = "sigEperclimits_nosampfilter_ijmut" #"sigEperclimits_1000rawInf_ijmut"
 
-nCPU = 1 # Number of combinations
+nCPU = 3 # Number of combinations
 #mut.calcs = c("numWTSEQ", "Tmut", "Nmsite", "Tmutnorm", "Nmsitenorm", "TmutDIVNmsite")
 mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite")
 mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
@@ -85,15 +85,17 @@ DF.STAT <- foreach(itr=isplitVector(1:combi.len, chunks=nCPU), .inorder=F, .comb
     
     # Per calc, sig, type, loc, combine data from all chr -> df
     src.nme <- paste0(calc, "_", mut.data.id, "_", type, "_", sig, "_", loc, "_", sig.filter.id)
-    load(file=paste0(out.dir, "/chrALL_", src.nme, "_summ_stat.RData"))
+    load(file=paste0(src.dir, "/chrALL_", src.nme, "_summ_stat.RData"))
     return(df.stat)
     
   })
   
+  return( do.call("rbind", chunk) )
+  
 } # combi.len foreach loop end
 ### END OF PARALLEL EXECUTION ###
 
-## PLOTS
+## PLOT
 
 # Variables needed for plots
 
@@ -128,7 +130,7 @@ for(sig in mut.sigs){
       scale_color_npg() + 
       labs(title=paste0(sig, "_", calc, "_", type), col=paste0(out.id.sig, "_loc")) + 
       bgr1 + 
-      theme(legend.title=element_text(size=7), legend.text=element_text(size=7))
+      theme(legend.title=element_text(size=5), legend.text=element_text(size=7))
     return(p)
     
   })
