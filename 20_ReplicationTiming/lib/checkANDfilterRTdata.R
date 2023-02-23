@@ -7,22 +7,22 @@
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
 ### FUNCTION ###################################################################
-checkANDfilterRTdata <- function(rt, HiC.res, chrs, chrLenfile){
+checkANDfilterRTdata <- function(rt, HiC.res, chrs, chrLen.file){
   
-  # Check that rt data resolution equal to Hi-C resolution
-  
-  rt.res <- unique(diff( rt$starts[rt$chroms==chrs[1]] ))
-  if( !identical(rt.res, HiC.res) ){
-    stop("checkANDfilterRTdata(): rt.res and HiC.res not identical.")
-  }
-  
-  # Check if rt data has all hg19 bins and in order 
-  
-  chrLen.df <- read.delim(file=chrLenfile, header=T)
-  rt$bin <- ceiling(rt$starts / rt.res)
+  chrLen.df <- read.delim(file=chrLen.file, header=T)
   
   for( chr in unique(rt$chroms) ){
     
+    # Check that rt data resolution equal to Hi-C resolution
+    
+    rt.res <- unique(diff( rt$starts[rt$chroms==chr] ))
+    if( !identical(rt.res, HiC.res) ){
+      warning( paste0("checkANDfilterRTdata(): ", chr, ": rt.res and HiC.res not identical.") )
+    }
+    
+    # Check if rt data has all hg19 bins and in order 
+   
+    rt$bin <- ceiling(rt$starts / rt.res) 
     chr.len <- chrLen.df$length.bp[chrLen.df$chromosome==chr]
     tot.bin <- ceiling(chr.len / rt.res)
     
@@ -31,22 +31,24 @@ checkANDfilterRTdata <- function(rt, HiC.res, chrs, chrLenfile){
     if(
       !identical(as.numeric(rt$bin[chr.TF]), as.numeric(1:tot.bin))
     ){
-      stop( paste0("checkANDfilterRTdata(): ", chr, ": Missing chr bins in rt.") )
+      warning( paste0("checkANDfilterRTdata(): ", chr, ": Missing chr bins in rt.") )
     }
     
     if( max(rt$starts[chr.TF]) > chrLen.df$length.bp[chrLen.df$chromosome==chr] ){
-      stop( paste0(chr, ": max rt start coordinate > chr length.") )
+      warning( paste0(chr, ": max rt start coordinate > chr length.") )
     }
     
   }
   
-  # Filter, set to NA those bins not satisfying criteria
+  # # Filter, set to NA those bins not satisfying criteria
+  # 
+  # col.TF <- !colnames(rt)%in%c("chroms", "starts")
+  # dropBin.TF <- rt$set.count < 3 | rt$point.count < 3 | rt$norm == 1 
+  # rt[dropBin.TF,col.TF] <- NA
+  # 
+  # message("checkANDfilterRTdata(): rt data checked and filtered.")
   
-  col.TF <- !colnames(rt)%in%c("chroms", "starts")
-  dropBin.TF <- rt$set.count < 3 | rt$point.count < 3 | rt$norm == 1 
-  rt[dropBin.TF,col.TF] <- NA
-  
-  message("checkANDfilterRTdata(): rt data checked and filtered.")
+  message("checkANDfilterRTdata(): rt data checked.")
   
   return(rt)
 
