@@ -10,7 +10,7 @@
 options(warnPartialMatchDollar=T) # Warning for left to right partial matching by $
 options(warn=1) # Expands warnings
 
-whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){

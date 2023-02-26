@@ -28,7 +28,7 @@ if( !is.null(whorunsit[1]) ){
 data.dir = paste0(home.dir, "/Database")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/20_ReplicationTiming")
 out.dir = paste0(wk.dir, "/out_transform_rtdata")
-reptimePath = paste0(data.dir, "/replication_timing/TARG/rsc/rt_dataset_process/new/bioav_rt_withna.RData")
+reptimePath = paste0(data.dir, "/replication_timing/TARG/rsc/rt_dataset_process/bioav_rt_withna.RData")
 ### OTHER SETTINGS #############################################################
 min.cellline = 59 # see /Users/ltamon/Database/replication_timing/A3_explore_dataset.R
 # how this cutoff was chosen

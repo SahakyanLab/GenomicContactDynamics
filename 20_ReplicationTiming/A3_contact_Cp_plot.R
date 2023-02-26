@@ -60,10 +60,10 @@ library(colorspace) # darken colour
 rt.type.cols.dark = rgb(hex2RGB(rt.type.cols)@coords * 0.7)
 names(rt.type.cols.dark) <- names(rt.type.cols)
 
-library(car) # ANOVA for unbalanced dataset
-source(paste0(lib, "/doVarTest_new.R")) # Update deva copy
-source(paste0(lib, "/doCorTest.R")) # Update deva copy
-source(paste0(lib, "/compareManyDist.R"))  # Update deva copy
+#library(car) # ANOVA for unbalanced dataset
+#source(paste0(lib, "/doVarTest_new.R")) # Update deva copy
+#source(paste0(lib, "/doCorTest.R")) # Update deva copy
+#source(paste0(lib, "/compareManyDist.R"))  # Update deva copy
 ### FUNCTION ###################################################################
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
@@ -130,7 +130,7 @@ pd <- position_dodge(0.3)
 p <- ggplot(data=df.summ.SE, aes(x=Cp, y=value)) +
   geom_errorbar(aes(ymin=value - ci, ymax=value + ci, col=rt.type), 
                 width=1, linewidth=0.6, position=pd) + 
-  stat_summary(aes(col=rt.type), fun="mean", size=0.35, position=pd) +
+  stat_summary(aes(col=rt.type), fun="mean", size=1, position=pd, shape=1) +
   scale_y_continuous(limits=ci.plot.ylim) + 
   scale_colour_manual(values=rt.type.cols.dark[levels(df.summ.SE$rt.type)]) +
   labs(title=paste0(src.id, "_meanPlus95PercCI")) + 
@@ -157,7 +157,7 @@ p <- ggplot(data=df.summ.SE, aes(x=Cp, y=value.tr)) +
                 width=1, linewidth=0.6, position=pd) + 
   # stat_summary causes this warning Warning: Removed 66 rows containing missing values (`geom_segment()`).
   # but I've checked that the mean values are right with aggregate() and geom_point()
-  stat_summary(aes(col=rt.type), fun="mean", size=0.35, position=pd) +
+  stat_summary(aes(col=rt.type), fun="mean", size=1, position=pd, shape=1) +
   scale_y_continuous(limits=ci.plot.ylim) + 
   scale_colour_manual(values=rt.type.cols.dark[levels(df.summ.SE$rt.type)]) +
   labs(title=paste0(src.id, "_meanPlus95PercCI_meanTranslatedtoSetCp0MeanAt0")) + 
@@ -166,110 +166,110 @@ p <- ggplot(data=df.summ.SE, aes(x=Cp, y=value.tr)) +
 ggsave(filename=paste0(out.dir, "/", src.id, "_meanPlus95PercCI_Cp0MeanAt0.pdf"), width=10, height=10, 
        plot=p)
 
-# Boxplots of rt values vs. Cp generated per rt.type
-
-for( rt.type in unique(df$rt.type) ){
-  
-  df.tmp <- df[df$rt.type == rt.type, ]
-  df.tmp <- na.omit(df.tmp)
-  bp.stat <- boxplot.stats(x=df.tmp$value)$stats
-  
-  plot.title <- paste0(rt.type, "_", src.id, "_solidLineMedianALL_dashed1st3rdQuartileAll")
-  out.name <- paste0(rt.type, "_", src.id)
-  
-  p <- ggplot(data=df.tmp, aes(x=Cp, y=value)) +
-    geom_hline(yintercept=bp.stat[[3]], col="black") + 
-    geom_hline(yintercept=bp.stat[c(2,4)], col="gray50", lty="dashed") + 
-    geom_half_violin(side="r", fill=rt.type.cols[[rt.type]], scale="width", lwd=0.6, width=0.8, trim=T) +
-    geom_half_boxplot(fill=rt.type.cols.dark[[rt.type]], lwd=0.6, width=0.5, outlier.shape=1) + 
-    scale_y_continuous(limits=ylim.dist) + 
-    labs(title=paste0(plot.title, "_", y.label)) + 
-    bgr1 + 
-    theme(plot.title=element_text(size=4)) 
-  
-  ggsave(filename=paste0(out.dir, "/", out.name, ".png"),
-         width=10*300, height=10*300, plot=p, units="px")
-  
-  rm(p)
-
-  # # P-values, ANOVA/KW and correlation tests
-  # 
-  # try(doVarTest(xval=df.tmp$value, grp=df.tmp$Cp, out.dir=out.dir, out.name=out.name))
-  # 
-  # try(doCorTest(xval=as.numeric(as.character(df.tmp$Cp)), yval=df.tmp$value, alt="two.sided",
-  #               exactpval=F, out.dir=out.dir, out.name=out.name))
-  # 
-  # # Treat ALL long-range contact data distribution as extra Cp i.e. Cp = 0 then do
-  # # Cp pairwise comparisons
-  # 
-  # # Add Cp=0
-  # df.tmp$Cp <- as.character(df.tmp$Cp)
-  # df.tmp.all <- df.tmp
-  # df.tmp.all$Cp <- "0"
-  # df.tmp <- rbind(df.tmp.all, df.tmp)
-  # rm(df.tmp.all)
-  # df.tmp$Cp <- factor(as.character(df.tmp$Cp), levels=as.character(c("0", Cp.v)))
-  # 
-  # try(compareManyDist( xval=df.tmp$value, grp=df.tmp$Cp, alt="two.sided", out.dir=out.dir, 
-  #                      out.name=paste0(out.name, "_Cp0To21compare") ))
-  
-  rm(df.tmp)
-  
-  message(paste0(rt.type, " done!"))
-  
-}
-
-## Other p-values
-
-# 1. P-values, pairwise comparisons per rt.type, per Cp 1 to 21
-
-try(compareManyDist( xval=df$value, grp=paste0(df$Cp, df$rt.type), alt="two.sided", out.dir=out.dir, 
-                     out.name=paste0(src.id, "_Cp1To21compare") ))
-
-try(compareManyDist( xval=df$value, grp=df$rt.type, alt="two.sided", out.dir=out.dir, 
-                     out.name=paste0(src.id, "_Cp0CompareRt.types") ))
-
-# 2. P-values, two-way (Cp and rt.type) ANOVA, Kruskal-Wallis
-# Refer to http://www.sthda.com/english/wiki/two-way-anova-test-in-r#compute-two-way-anova-test-in-r-for-unbalanced-designs
-
-TEST <- list()
-TEST[["ano2"]] <- aov(value ~ Cp * rt.type, data=df)
-TEST[["ano2_unbTyp3"]] <- Anova(TEST[["ano2"]], type="III")
-save(TEST, file=paste0(out.dir, "/", src.id, "_ano2_varbasedtest.RData"))
-
-# 3. P-values described below
-
-for( rt.type in unique(df$rt.type) ){
-  
-  df.tmp <- df[df$rt.type == rt.type, ]
-  df.tmp <- na.omit(df.tmp)
-  out.name <- paste0(rt.type, "_", src.id)
-  
-  # P-values, ANOVA/KW and correlation tests
-  
-  try(doVarTest(xval=df.tmp$value, grp=df.tmp$Cp, out.dir=out.dir, out.name=out.name, lightenAOV=F))
-  
-  try(doCorTest(xval=as.numeric(as.character(df.tmp$Cp)), yval=df.tmp$value, alt="two.sided",
-                exactpval=F, out.dir=out.dir, out.name=out.name))
-  
-  # Treat ALL long-range contact data distribution as extra Cp i.e. Cp = 0 then do
-  # Cp pairwise comparisons
-  
-  # Add Cp=0
-  df.tmp$Cp <- as.character(df.tmp$Cp)
-  df.tmp.all <- df.tmp
-  df.tmp.all$Cp <- "0"
-  df.tmp <- rbind(df.tmp.all, df.tmp)
-  rm(df.tmp.all)
-  df.tmp$Cp <- factor(as.character(df.tmp$Cp), levels=as.character(c("0", Cp.v)))
-  
-  try(compareManyDist( xval=df.tmp$value, grp=df.tmp$Cp, alt="two.sided", out.dir=out.dir, 
-                       out.name=paste0(out.name, "_Cp0To21compare") ))
-  
-  rm(df.tmp)
-  
-  message(paste0(rt.type, " p-value calc done!"))
-  
-}
+# # Boxplots of rt values vs. Cp generated per rt.type
+# 
+# for( rt.type in unique(df$rt.type) ){
+#   
+#   df.tmp <- df[df$rt.type == rt.type, ]
+#   df.tmp <- na.omit(df.tmp)
+#   bp.stat <- boxplot.stats(x=df.tmp$value)$stats
+#   
+#   plot.title <- paste0(rt.type, "_", src.id, "_solidLineMedianALL_dashed1st3rdQuartileAll")
+#   out.name <- paste0(rt.type, "_", src.id)
+#   
+#   p <- ggplot(data=df.tmp, aes(x=Cp, y=value)) +
+#     geom_hline(yintercept=bp.stat[[3]], col="black") + 
+#     geom_hline(yintercept=bp.stat[c(2,4)], col="gray50", lty="dashed") + 
+#     geom_half_violin(side="r", fill=rt.type.cols[[rt.type]], scale="width", lwd=0.6, width=0.8, trim=T) +
+#     geom_half_boxplot(fill=rt.type.cols.dark[[rt.type]], lwd=0.6, width=0.5, outlier.shape=1) + 
+#     scale_y_continuous(limits=ylim.dist) + 
+#     labs(title=paste0(plot.title, "_", y.label)) + 
+#     bgr1 + 
+#     theme(plot.title=element_text(size=4)) 
+#   
+#   ggsave(filename=paste0(out.dir, "/", out.name, ".png"),
+#          width=10*300, height=10*300, plot=p, units="px")
+#   
+#   rm(p)
+# 
+#   # # P-values, ANOVA/KW and correlation tests
+#   # 
+#   # try(doVarTest(xval=df.tmp$value, grp=df.tmp$Cp, out.dir=out.dir, out.name=out.name))
+#   # 
+#   # try(doCorTest(xval=as.numeric(as.character(df.tmp$Cp)), yval=df.tmp$value, alt="two.sided",
+#   #               exactpval=F, out.dir=out.dir, out.name=out.name))
+#   # 
+#   # # Treat ALL long-range contact data distribution as extra Cp i.e. Cp = 0 then do
+#   # # Cp pairwise comparisons
+#   # 
+#   # # Add Cp=0
+#   # df.tmp$Cp <- as.character(df.tmp$Cp)
+#   # df.tmp.all <- df.tmp
+#   # df.tmp.all$Cp <- "0"
+#   # df.tmp <- rbind(df.tmp.all, df.tmp)
+#   # rm(df.tmp.all)
+#   # df.tmp$Cp <- factor(as.character(df.tmp$Cp), levels=as.character(c("0", Cp.v)))
+#   # 
+#   # try(compareManyDist( xval=df.tmp$value, grp=df.tmp$Cp, alt="two.sided", out.dir=out.dir, 
+#   #                      out.name=paste0(out.name, "_Cp0To21compare") ))
+#   
+#   rm(df.tmp)
+#   
+#   message(paste0(rt.type, " done!"))
+#   
+# }
+# 
+# ## Other p-values
+# 
+# # 1. P-values, pairwise comparisons per rt.type, per Cp 1 to 21
+# 
+# try(compareManyDist( xval=df$value, grp=paste0(df$Cp, df$rt.type), alt="two.sided", out.dir=out.dir, 
+#                      out.name=paste0(src.id, "_Cp1To21compare") ))
+# 
+# try(compareManyDist( xval=df$value, grp=df$rt.type, alt="two.sided", out.dir=out.dir, 
+#                      out.name=paste0(src.id, "_Cp0CompareRt.types") ))
+# 
+# # 2. P-values, two-way (Cp and rt.type) ANOVA, Kruskal-Wallis
+# # Refer to http://www.sthda.com/english/wiki/two-way-anova-test-in-r#compute-two-way-anova-test-in-r-for-unbalanced-designs
+# 
+# TEST <- list()
+# TEST[["ano2"]] <- aov(value ~ Cp * rt.type, data=df)
+# TEST[["ano2_unbTyp3"]] <- Anova(TEST[["ano2"]], type="III")
+# save(TEST, file=paste0(out.dir, "/", src.id, "_ano2_varbasedtest.RData"))
+# 
+# # 3. P-values described below
+# 
+# for( rt.type in unique(df$rt.type) ){
+#   
+#   df.tmp <- df[df$rt.type == rt.type, ]
+#   df.tmp <- na.omit(df.tmp)
+#   out.name <- paste0(rt.type, "_", src.id)
+#   
+#   # P-values, ANOVA/KW and correlation tests
+#   
+#   try(doVarTest(xval=df.tmp$value, grp=df.tmp$Cp, out.dir=out.dir, out.name=out.name, lightenAOV=F))
+#   
+#   try(doCorTest(xval=as.numeric(as.character(df.tmp$Cp)), yval=df.tmp$value, alt="two.sided",
+#                 exactpval=F, out.dir=out.dir, out.name=out.name))
+#   
+#   # Treat ALL long-range contact data distribution as extra Cp i.e. Cp = 0 then do
+#   # Cp pairwise comparisons
+#   
+#   # Add Cp=0
+#   df.tmp$Cp <- as.character(df.tmp$Cp)
+#   df.tmp.all <- df.tmp
+#   df.tmp.all$Cp <- "0"
+#   df.tmp <- rbind(df.tmp.all, df.tmp)
+#   rm(df.tmp.all)
+#   df.tmp$Cp <- factor(as.character(df.tmp$Cp), levels=as.character(c("0", Cp.v)))
+#   
+#   try(compareManyDist( xval=df.tmp$value, grp=df.tmp$Cp, alt="two.sided", out.dir=out.dir, 
+#                        out.name=paste0(out.name, "_Cp0To21compare") ))
+#   
+#   rm(df.tmp)
+#   
+#   message(paste0(rt.type, " p-value calc done!"))
+#   
+# }
 
 # rm(list=ls()); gc()
