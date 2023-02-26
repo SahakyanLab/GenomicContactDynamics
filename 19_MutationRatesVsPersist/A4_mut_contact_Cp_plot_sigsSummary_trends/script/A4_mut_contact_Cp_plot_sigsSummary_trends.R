@@ -1,5 +1,5 @@
 ################################################################################
-# Barplot of trends of Cp means relative to mean of previous Cp, make plot
+# Barplot of trends of Cp averages relative to average of previous Cp, make plot
 # combining sig and calc (final) and plot for each calc (for checking variations
 # across calc). I think combining calc is okay because we expect trend to be 
 # similar between calcs.
@@ -44,7 +44,7 @@ sig.filter.id = "sigEperclimits_nosampfilter_ijmut"
 
 nCPU = 3 # Number of combinations
 #mut.calcs = c("numWTSEQ", "Tmut", "Tmutnorm", "Nmsite", "Nmsitenorm", "TmutDIVNmsite")
-mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite")
+mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite", "Tmut", "Nmsite")
 mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
 mut.types = gsub(">", "To", mut.types, fixed=T)
 mut.locs = c("exon_intron_intergenic_intergenic.excl", "intron_intergenic", 
@@ -55,6 +55,9 @@ sig.df = read.csv(file=mutsig.file)
 mut.sigs = colnames(sig.df)[grepl("RefSig.", colnames(sig.df))]
 mut.sigs = "RefSig.1" #c(mut.sigs, "RefSig.MMR1_RefSig.MMR2")
 rm(sig.df)
+
+# Cp MEAN or MED (median)?
+average.fnx = "MED"
 
 fdr.cutoff = 0.05
 
@@ -101,7 +104,7 @@ df <- foreach(itr=isplitVector(1:combi.len, chunks=nCPU), .inorder=F, .combine="
     # Summary of trends looking at if value at a Cp greater/less/ns that value of Cp - 1
     
     trend.mx <- matrix(data=NA, nrow=length(Cp.v) + 1, ncol=4,
-                       dimnames=list(c("0", Cp.v), c("Cpafter", "BH", "mean.val", "mean.CpMINUSPrevCp")))
+                       dimnames=list(c("0", Cp.v), c("Cpafter", "BH", "ave.val", "ave.CpMINUSPrevCp")))
     
     # BH adjusted p-values
     BH.df <- reshape2::melt(t(TEST$pmw$p.value)) # transpose so Var1 is Cpbefore, Var2 is Cpafter
@@ -139,8 +142,8 @@ df <- foreach(itr=isplitVector(1:combi.len, chunks=nCPU), .inorder=F, .combine="
     Cpafter <- c("0", Cp.v)
     trend.mx[,"Cpafter"] <- as.numeric(Cpafter)
     trend.mx[-1,"BH"] <- BH.df$BH
-    trend.mx[,"mean.val"] <- do.call("rbind", TEST$meanmed)[Cpafter,"MEAN"]
-    trend.mx[-1,"mean.CpMINUSPrevCp"] <- unname(diff(trend.mx[,"mean.val"]))
+    trend.mx[,"ave.val"] <- do.call("rbind", TEST$meanmed)[Cpafter,average.fnx]
+    trend.mx[-1,"ave.CpMINUSPrevCp"] <- unname(diff(trend.mx[,"ave.val"]))
     
     trend.df <- cbind.data.frame(calc=calc, sig=sig, type=type, loc=loc, trend.mx)
     
@@ -162,11 +165,11 @@ df$Cpafter <- factor(as.character(df$Cpafter), levels=as.character(Cp.v))
 
 # Add other pertinent columns
 
-# gr (Cp mean greater than mean of previous Cp), le (less), eq (equal)
-df$trend.CpMINUSPrevCp <- df$mean.CpMINUSPrevCp
-df$trend.CpMINUSPrevCp[ df$mean.CpMINUSPrevCp > 0 ] <- "gr"
-df$trend.CpMINUSPrevCp[ df$mean.CpMINUSPrevCp < 0 ] <- "le"
-df$trend.CpMINUSPrevCp[ df$mean.CpMINUSPrevCp == 0 ] <- "eq"
+# gr (Cp ave greater than ave of previous Cp), le (less), eq (equal)
+df$trend.CpMINUSPrevCp <- df$ave.CpMINUSPrevCp
+df$trend.CpMINUSPrevCp[ df$ave.CpMINUSPrevCp > 0 ] <- "gr"
+df$trend.CpMINUSPrevCp[ df$ave.CpMINUSPrevCp < 0 ] <- "le"
+df$trend.CpMINUSPrevCp[ df$ave.CpMINUSPrevCp == 0 ] <- "eq"
 
 #  
 df$significance <- df$BH
@@ -197,7 +200,7 @@ if(switchCalcType){
 # Variables needed for plots
 
 out.id.general <- paste0("chrALL_", mut.data.id, "_", sig.filter.id, "_fdrcutoff", fdr.cutoff,
-                         "_switchCalcType", switchCalcType)
+                         "_switchCalcType", switchCalcType, "_Cp", average.fnx)
 out.id.fin <- paste0(out.id.general, "_barplot")
 
 pd <- position_dodge(0.1)
@@ -215,7 +218,7 @@ P.LST <- sapply(1:type.len, simplify=F, FUN=function(t.ind){
   
   trend.group.present <- levels(df$trend.group)[levels(df$trend.group) %in% df$trend.group]
   
-  p <- ggplot(df.typ, aes(Cpafter, fill=trend.group)) +
+  p <- ggplot(df.typ, aes(Cpafter)) +
     geom_bar(aes(fill=trend.group)) +
     scale_fill_manual(limits=trend.group.present,
                       values=cols.trend.group[trend.group.present]) +
@@ -262,7 +265,7 @@ for( calc in unique(df$calc) ){
     
     trend.group.present <- levels(df$trend.group)[levels(df$trend.group) %in% df$trend.group]
     
-    p <- ggplot(df.typ, aes(Cpafter, fill=trend.group)) +
+    p <- ggplot(df.typ, aes(Cpafter)) +
       geom_bar(aes(fill=trend.group)) +
       scale_fill_manual(limits=trend.group.present,
                         values=cols.trend.group[trend.group.present]) +
