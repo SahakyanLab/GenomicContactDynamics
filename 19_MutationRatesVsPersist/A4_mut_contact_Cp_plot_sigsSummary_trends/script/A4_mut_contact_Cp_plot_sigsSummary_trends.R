@@ -42,7 +42,7 @@ Cp.v = 1:21
 mut.data.id = "ijfnxmean_donor_centric_PCAWG_Hg19"
 sig.filter.id = "sigEperclimits_nosampfilter_ijmut"
 
-nCPU = 3 # Number of combinations
+nCPU = 1 # Number of combinations
 #mut.calcs = c("numWTSEQ", "Tmut", "Tmutnorm", "Nmsite", "Nmsitenorm", "TmutDIVNmsite")
 mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite", "Tmut", "Nmsite")
 mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
@@ -59,6 +59,7 @@ rm(sig.df)
 # Cp MEAN or MED (median)?
 average.fnx = "MED"
 
+pval.test = "pt"
 fdr.cutoff = 0.05
 
 switchCalcType = T # i.e. if True, combine types instead of calcs
@@ -107,7 +108,7 @@ df <- foreach(itr=isplitVector(1:combi.len, chunks=nCPU), .inorder=F, .combine="
                        dimnames=list(c("0", Cp.v), c("Cpafter", "BH", "ave.val", "ave.CpMINUSPrevCp")))
     
     # BH adjusted p-values
-    BH.df <- reshape2::melt(t(TEST$pmw$p.value)) # transpose so Var1 is Cpbefore, Var2 is Cpafter
+    BH.df <- reshape2::melt(t(TEST[[pval.test]]$p.value)) # transpose so Var1 is Cpbefore, Var2 is Cpafter
     BH.df <- BH.df[!is.na(BH.df$value),]
     colnames(BH.df) <- c("Cpbefore", "Cpafter", "BH")
     # Get pairs of consecutive Cps
@@ -199,7 +200,8 @@ if(switchCalcType){
 
 # Variables needed for plots
 
-out.id.general <- paste0("chrALL_", mut.data.id, "_", sig.filter.id, "_fdrcutoff", fdr.cutoff,
+out.id.general <- paste0("chrALL_", mut.data.id, "_", sig.filter.id, 
+                         "_fdrcutoff", fdr.cutoff, "_pvaltest", pval.test,
                          "_switchCalcType", switchCalcType, "_Cp", average.fnx)
 out.id.fin <- paste0(out.id.general, "_barplot")
 

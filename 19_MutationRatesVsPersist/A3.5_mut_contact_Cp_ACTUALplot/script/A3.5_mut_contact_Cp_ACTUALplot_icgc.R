@@ -35,15 +35,23 @@ out.dir = paste0(wk.dir, "/out_mut_contact_Cp_ACTUALplot_fast")
 
 mutsig.file = paste0(data.dir, "/signal_mutSig/out_samplesForSignature/donorlist_signatureExposureRAW.csv")
 ### OTHER SETTINGS #############################################################
-mut.data.id = "ijfnxmean_donor_centric_PCAWG_Hg19"
+mut.data.id = "ijfnxmean_donor_centric_ICGC_Hg19"
 sig.filter.id = "sigEperclimits_nosampfilter_ijmut" #"sigEperclimits_1000rawInf_ijmut"
 
-nCPU = 3 # Number of combinations
+nCPU = 1 # Number of combinations
 #mut.calcs = c("numWTSEQ", "Tmut", "Nmsite", "Tmutnorm", "Nmsitenorm", "TmutDIVNmsite")
-mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite", "Tmut", "Nmsite")
-mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
+#mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite", "Tmut", "Nmsite")
+mut.calcs = "TmutDIVNmsite" # c("Tmut", "Nmsite") # c("Tmutnorm", "Nmsitenorm")
+#mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
+mut.types = c("All", "C>T", "C>G", "C>A", "T>G", "T>C", "T>A")
 mut.types = gsub(">", "To", mut.types, fixed=T)
-mut.locs = c("exon", "intron", "intergenic", "intron_intergenic", "exon_intron_intergenic_intergenic.excl")
+mut.locs = c("exon_intron_intergenic_intergenic.excl", "intron_intergenic", 
+             "intergenic", "intron", "exon")
+
+loc.cols = c(`exon_intron_intergenic_intergenic.excl`="#FDC776", 
+             `intron_intergenic`="#bb88dd", 
+             intergenic="#ABDDA4", 
+             intron="#3288BD", exon="#e25d6c")
 
 # Get list of signatures
 sig.df = read.csv(file=mutsig.file)
@@ -52,7 +60,9 @@ mut.sigs = "RefSig.1" #c(mut.sigs, "RefSig.MMR1_RefSig.MMR2")
 rm(sig.df)
 
 # Cp MEAN or MED (median)?
-average.fnx = "MED"
+average.fnx = "MEAN"
+
+combineCalcs = T
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -105,14 +115,36 @@ if(average.fnx == "MED"){
 
 ## PLOTS
 
+DF.STAT$loc <- factor(as.character(DF.STAT$loc), levels=mut.locs)
+
 # Variables needed for plots
 
 out.id.general <- paste0(mut.data.id, "_", sig.filter.id)
 
-calc.type.combi.df <- expand.grid(calc=unique(DF.STAT$calc), type=unique(DF.STAT$type), stringsAsFactors=F)
-ct.len <- length(calc.type.combi.df[,1])
-calc.len <- length(unique(DF.STAT$calc))
-type.len <- length(unique(DF.STAT$type))
+if(combineCalcs){
+  
+  calc.type.combi.df <- expand.grid(type=unique(DF.STAT$type), stringsAsFactors=F)
+  pcombi.len <- length(calc.type.combi.df[,1])
+  
+  type.len <- length(unique(DF.STAT$type))
+  
+  calc.id <- paste(unique(DF.STAT$calc), collapse="-") # For plot title below
+  
+  row.num <- 2
+  col.num <- 4
+  
+} else {
+  
+  calc.type.combi.df <- expand.grid(calc=unique(DF.STAT$calc), type=unique(DF.STAT$type), stringsAsFactors=F)
+  pcombi.len <- length(calc.type.combi.df[,1])
+  
+  calc.len <- length(unique(DF.STAT$calc))
+  type.len <- length(unique(DF.STAT$type))
+  
+  row.num <- calc.len
+  col.num <- type.len
+  
+}
 
 #type.shapes <- setNames(object=c(4,15,2,18,0,16,17),
 #                        nm=c("All", "CToA", "CToG", "CToT", "TToA", "TToC", "TToG"))
@@ -125,33 +157,59 @@ for(sig in mut.sigs){
   is.sig <- DF.STAT$sig == sig
   out.id.sig <- paste0(sig, "_", out.id.general)
   
-  P.LST <- sapply(1:ct.len, simplify=F, FUN=function(ct){
+  P.LST <- sapply(1:pcombi.len, simplify=F, FUN=function(pc){
     
-    calc <- calc.type.combi.df$calc[[ct]]
-    type <- calc.type.combi.df$type[[ct]]
-    is.ct <- DF.STAT$calc == calc & DF.STAT$type == type
+    type <- calc.type.combi.df$type[[pc]]
     
-    p <- ggplot(DF.STAT[is.sig & is.ct,], aes(x=Cp, y=value)) +
+    if(combineCalcs){
+      calc <- calc.id
+      is.toplot <- DF.STAT$type == type
+    } else {
+      calc <- calc.type.combi.df$calc[[pc]]
+      is.toplot <- DF.STAT$calc == calc & DF.STAT$type == type
+    }
+    
+    #
+    
+    p <- ggplot(DF.STAT[is.sig & is.toplot,], aes(x=Cp, y=value)) +
       geom_errorbar(aes(col=loc, ymin=value - ci, ymax=value + ci), width=0.4, linewidth=0.6, 
                     position=pd) +
-      geom_point(aes(col=loc), size=3, position=pd, shape=1) + 
-      scale_color_npg() + 
-      labs(title=paste0(sig, "_", calc, "_", type), col=paste0(out.id.sig, "_loc")) + 
-      bgr1 + 
+      scale_color_manual(values=loc.cols[levels(DF.STAT$loc)]) + 
+      labs(title=paste0(sig, "_", calc, "_", type), col=paste0(out.id.sig, "\n_loc")) + 
+      bgr2 + 
       theme(legend.title=element_text(size=5), legend.text=element_text(size=7))
+    
+    #
+    
+    if(combineCalcs){
+      p <- p + 
+        geom_point(aes(col=loc, shape=calc), size=5, position=pd) +
+        scale_shape_manual(values=c(1,2)) 
+    } else {
+      p <- p + 
+        geom_point(aes(col=loc), size=3, position=pd, shape=1) 
+    }
+      
     return(p)
     
   })
   
-  out.id.fin <- paste0(out.id.sig, "_meanPlus95PercCI")
+  #
+  
   if(average.fnx == "MED"){
     out.id.fin <- paste0(out.id.sig, "_medianNoCI")
+  } else if(average.fnx == "MEAN") {
+    out.id.fin <- paste0(out.id.sig, "_meanPlus95PercCI")
+  }
+  
+  if(combineCalcs){
+    out.id.fin <- paste0(out.id.fin, "_", calc.id)
   }
   
   # Version with all details
 
-  p.arr <- ggarrange(plotlist=P.LST, ncol=calc.len, nrow=type.len, common.legend=T, legend="top")
-  ggexport(p.arr, width=calc.len * 5, height=type.len * 5, 
+  p.arr <- ggarrange(plotlist=P.LST, nrow=row.num, ncol=col.num, common.legend=T, legend="top")
+  ggexport(p.arr, height=row.num * 5, width=col.num * 5, 
            filename=paste0(out.dir, "/", out.id.fin, "_withLabels.pdf"))
 
   # Final minimal version
@@ -165,9 +223,9 @@ for(sig in mut.sigs){
     
   })
   
-  p.arr <- plot_grid(plotlist=P.LST, ncol=calc.len, align="hv", byrow=T)
+  p.arr <- plot_grid(plotlist=P.LST, nrow=row.num, ncol=col.num, align="hv", byrow=T)
   save_plot(filename=paste0(out.dir, "/", out.id.fin, "_noLabels.pdf"), plot=p.arr,
-            base_height=type.len * 5, base_width=calc.len * 5)
+            base_width=col.num * 5, base_height=row.num * 5)
   
 } # mut.sigs for loop end
 

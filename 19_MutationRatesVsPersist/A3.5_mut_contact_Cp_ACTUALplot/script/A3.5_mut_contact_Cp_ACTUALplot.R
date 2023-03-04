@@ -41,7 +41,7 @@ sig.filter.id = "sigEperclimits_nosampfilter_ijmut" #"sigEperclimits_1000rawInf_
 nCPU = 1 # Number of combinations
 #mut.calcs = c("numWTSEQ", "Tmut", "Nmsite", "Tmutnorm", "Nmsitenorm", "TmutDIVNmsite")
 #mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite", "Tmut", "Nmsite")
-mut.calcs = c("Tmut", "Nmsite")
+mut.calcs = "TmutDIVNmsite" # c("Tmut", "Nmsite") # c("Tmutnorm", "Nmsitenorm")
 #mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
 mut.types = c("All", "C>T", "C>G", "C>A", "T>G", "T>C", "T>A")
 mut.types = gsub(">", "To", mut.types, fixed=T)
