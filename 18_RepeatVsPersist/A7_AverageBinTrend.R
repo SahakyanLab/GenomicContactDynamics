@@ -18,11 +18,12 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 rep.group = "subfam" # "fam" | "subfam" | "subfam6"
-elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/subfam_skewrep_mean") # , rep.group)
-out.dir = paste0(wk.dir, "/out_AverageBinTrend/subfam_skewrep_mean")
+metric.id = "subfam_sumrep_atleast2sumrep"
+elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/", metric.id) # , rep.group)
+out.dir = paste0(wk.dir, "/out_AverageBinTrend/", metric.id)
 ### OTHER SETTINGS #############################################################
 # Age rank, ELMTISSDYN identifier
-elm.id = "subfam" 
+elm.id = "GiorPubl" #"subfam" 
 gcb = "min2Mb" 
 chr = "chrALL"
 bin.size = 31
@@ -36,7 +37,8 @@ hmaptype.v = "norm" # c("raw", "norm", "fc")
 # marked red in the plot
 #red.v = c("MER5A", "L3", "L1M5", "AluJo", "L2", "AluJb", "AluSx", "MIR3", "AluY", 
 #          "MIR", "MIRb")
-red.v = c("AluJo", "L2", "AluJb", "AluSx", "MIR3", "AluY", "MIR", "MIRb")
+#red.v = c("AluJo", "L2", "AluJb", "AluSx", "MIR3", "AluY", "MIR", "MIRb")
+red.v = c("L2", "MIR3", "MIRb", "MIR", "AluJo", "AluJb", "AluSx", "AluSc")
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
