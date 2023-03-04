@@ -30,21 +30,25 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
 
+metric = "skewrep"
+
 # ELMTISSDYN Only for getting subfamily names
-elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/subfam_sumrep_atleast2sumrep")
+elm.dir = paste0(wk.dir, "/out_HicRepeatHeatmap/subfam_", metric, "_atleast2sumrep")
+
 #cor.dir = paste0(elm.dir, "/correlation")
-cor.dir = paste0(wk.dir, "/z_ignore_git/out_minRepCounts/subfamALL_sumrep_atleast2sumrep/correlation")
-clust.dir = paste0(wk.dir, "/out_HicRepeatClustering/subfam_sumrep_atleast2sumrep")
-out.dir = paste0(wk.dir, "/out_correlationPlusClutering_plot/subfam_sumrep_atleast2sumrep")
+cor.dir = paste0(wk.dir, "/z_ignore_git/out_minRepCounts/subfamALL_", metric, "_atleast2sumrep/correlation")
+clust.dir = paste0(wk.dir, "/out_HicRepeatClustering/subfam_", metric, "_atleast2sumrep")
+out.dir = paste0(wk.dir, "/out_correlationPlusClutering_plot/subfam_", metric, "_atleast2sumrep")
 repTranspoType.file = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/17_RepeatAge/out_cleanAgeRank/agerank_summary_sheet1.csv")
 ### OTHER SETTINGS #############################################################
 elm.id = "chrALL_min2Mb_ElmTissDyn_GiorPubl"
-cor.id = "chrALL_min2Mb_subfamALL_sumrepCounts" #"chrALL_min2Mb_raw" # "raw" | "norm" | "fc"
+cor.id = paste0("chrALL_min2Mb_subfamALL_", metric, "Counts") #"chrALL_min2Mb_raw" # "raw" | "norm" | "fc"
 clust.id = "seed_982_chrALL_min2Mb_norm_kmeans_euclidean_2cl_HiCRepeatClusters"
 numClusters = 2
-alpha.val = 0.0001
-clust.order.ind = 2:1
+alpha.fdr = 0.05 # p-values BH adjusted below
+clust.order.ind = 1:2 # skewrep - 1(up):2(down) # sumrep, minrep - 2:1
 clust.cols = c(red="#67001F", blue="#053061")
+label.count = 30 # how many top points to label
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -55,7 +59,7 @@ source(paste0(lib, "/GG_bgr.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
-out.id <- paste0(elm.id, "_", cor.id, "_", clust.id, "_alpha", alpha.val)
+out.id <- paste0(elm.id, "_", cor.id, "_", clust.id, "_alpha", alpha.fdr)
 
 load(paste0(elm.dir, "/", elm.id, ".RData"))
 element <- rownames(ELMTISSDYN[[1]])
@@ -143,20 +147,29 @@ for(typ in cor.types){
   
   corlim.val <- range(df.tmp$value, na.rm=T)
   
-  # P-value filtering
+  # P-value BH adjustment and filtering
+  df.tmp$pval.BH <- p.adjust(df.tmp$pval,method="BH")
   df.tmp$sig <- 0
-  is_sig <- df.tmp$pval < alpha.val
+  is_sig <- df.tmp$pval < alpha.fdr
   df.tmp$sig[is_sig] <- 1
  
-  #
+  # Label top 10 abs correlation coefficient
+  cor.vals <- setNames(df.tmp$value, nm=rownames(df.tmp))
+  cor.abs.sort <- sort(abs(cor.vals), decreasing=T)
+  top10absCor <- names(head(cor.abs.sort, n=label.count))
   
-  plot.title <- paste0(out.id, "_", typ, "_pointswithgrayshadowarenotsig>=alpha", alpha.val)
+  is.top10absCor <- rownames(df.tmp) %in% top10absCor
+  df.tmp$label.top10absCor <- NA
+  df.tmp$label.top10absCor[is.top10absCor] <- rownames(df.tmp)[is.top10absCor]
+  
+  plot.title <- paste0(out.id, "_", typ, "_pointswithgrayshadowarenotsig>=alpha", alpha.fdr)
   out.name <- paste0(out.id, "_", typ)
   
-  p <- ggplot(data=df.tmp, aes(x=Rank, y=value)) +
+  p <- ggplot(data=df.tmp, aes(x=Rank, y=value, label=label.top10absCor)) +
     geom_hline(yintercept=0, lty="dashed", alpha=0.5, lwd=1) + 
     geom_point(data=df.tmp[df.tmp$sig==0,], size=10, shape=20, colour="gray70") + 
     geom_point(size=3.5, alpha=0.7, aes(colour=cluster, shape=repTranspoType)) +
+    geom_text_repel(box.padding=0.5) + 
     scale_x_reverse() + 
     scale_y_continuous(limits=corlim.val) +
     scale_shape_manual(values=c(4,19)) + 
