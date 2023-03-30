@@ -43,6 +43,9 @@ makecorVsGroupPlot <- function(CORCP.DF, dynamic.Cp, persistent.Cp,
               adjustcolor(cols[[21]], 1), adjustcolor(cols[[21]], 1))
     names(cols) <- levels(CORCP.DF$group)
     
+    cols.fill <- cols
+    cols.fill[c(1,3)] <- "gray80"
+    
     # Boxplot
     png(filename=paste0(out.dir, "/", out.name, "_corval_dynamic-persistentAndNonhub0-Hub1_box.png"), 
         height=300*10, width=300*10, res=300)
@@ -58,9 +61,14 @@ makecorVsGroupPlot <- function(CORCP.DF, dynamic.Cp, persistent.Cp,
     dev.off()
     
     # Violin plot
-    p <- makeViolinPlot(df=CORCP.DF, x.nme="group", y.nme="corval", sd.mult=1, 
-                        fill.nme="group", fill.cols=cols, fill.legend="none",
-                        plot.title=out.name, ylim.val=c(-1,1), showOutlier=F)
+    p <- makeViolinPlot(df=CORCP.DF, x.nme="group", y.nme="corval", sd.mult=1, col.nme="group", 
+                        line.cols=cols, fill.nme="group", fill.cols=cols.fill, fill.legend="none",  
+                        plot.title=out.name, ylim.val=c(-1,1), showOutlier=F, addmean=F, 
+                        geom.viol.scale="area") # "area" is default, trim=T
+    
+    #p <- ggplot(data=CORCP.DF, aes(x=group, y=corval)) +
+    #  geom_violin(scale="width", col="darkblue", alpha=0.5, trim=T, lwd=2) +
+    #  bgr2
     
     ggsave(filename=paste0(out.dir, "/", out.name, "_corval_dynamic-persistentAndNonhub0-Hub1_violin.pdf"),
            plot=p, height=10, width=10)
@@ -75,7 +83,7 @@ makecorVsGroupPlot <- function(CORCP.DF, dynamic.Cp, persistent.Cp,
       scale_color_manual(values=cols) + 
       scale_fill_manual(values=cols.fill) +
       labs(title=out.name) +
-      facet_grid(Cpgroup~.) +
+      #facet_grid(Cpgroup~.) +
       bgr2
     
     ggsave(filename=paste0(out.dir, "/", out.name, "_corval_dynamic-persistentAndNonhub0-Hub1_density.pdf"),

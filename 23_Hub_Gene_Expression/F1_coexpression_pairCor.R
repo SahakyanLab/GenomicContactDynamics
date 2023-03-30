@@ -1,12 +1,8 @@
 ################################################################################
 # Pairwise correlation of cross-tissue expression values of all possible gene 
 # pairs in expression data. Use correlation as a measure of coexpression. 
-# percNDopenUpperLimPair argument is an open upper limit for allowable fraction
-# of tissues with no expression value for the gene pair. If percNDopenUpperLimPair
-# equal to 0.2, only gene pairs with no expression values < 0.2 of tissues 
-# are selected. Expression values < expr.cutoff converted to 0. 
-# Output is a unique genes x unique genes matrix of correlation values with 
-# only the lower triangle filled. 
+# Expression values < expr.cutoff converted to 0. Output is a unique genes x 
+# unique genes matrix of correlation values with only the lower triangle filled. 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################

@@ -32,30 +32,31 @@ if( !is.null(whorunsit[1]) ){
 }
 lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
-wk.dir = paste0(home.dir, "/SahakyanLab/CoreGenomeExplorer")
+wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/23_Hub_Gene_Expression")
 
 exprData.dir = paste0(wk.dir, "/out_cleanExprData")
 pairCor.dir = paste0(wk.dir, "/out_coexpression_pairCor")
 pairCp.dir = paste0(wk.dir, "/out_coexpression_pairCp")
 pairHub.dir = paste0(wk.dir, "/out_coexpression_pairHub")
-out.dir = paste0(wk.dir, "/out_coexpression_vsCp")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_coexpression_vsCp")
 
 gene.id = "LTr_ALL" #"ALL"
 anno.file = paste0(data.dir, "/ucsc_tables/hsa_geneAnno/hg19anno", gene.id)
 ### OTHER SETTINGS #############################################################
 bin.len = 40000
-chr.v = "chr20" #paste0("chr", c(1:22, "X"))
+chr.v = paste0("chr", c(1:22, "X"))
 cor.meth = "pearson"
 expr.cutoff = 0 #0.5
 gcb = "min2Mb"
 genepairMaxCp.v = NULL # If NULL, allow all Cp values
 genepairMaxCp.id = "1To21" 
 hub.id = "min2Mb_All_topCP3_gapBin50"
-percNDclosedUpperLim = 0.5
+percNDclosedUpperLim = 0.75 #0.5
 plotOnly = F
 src.id = "data2"
 
 # For correlation vs. group plots
+Cp.v = 1:21
 dynamic.Cp = 1:3
 persistent.Cp = 19:21
 ################################################################################
@@ -90,32 +91,80 @@ if(plotOnly==F){
   load(paste0(out.dir, "/", out.name, "_plot.RData"))
 }
 
-#
+# Record pertinent numbers
+paircount.mx <- matrix(data=NA, nrow=6, ncol=length(Cp.v), 
+                       dimnames=list(c("WithMaxCp", "WithDataMin1Tiss", 
+                                       paste0("WithLEQ", percNDclosedUpperLim, "percNDclosedUpperLim"),
+                                       "WithFiniteCor", "WithSigCorBHless0.05", "SigCorWithHubTF"), Cp.v))
+
+# Possible gene pairs (with or without maxCp)
+possible.pair.count <- nrow(CORCP.DF)
+
+CORCP.DF <- CORCP.DF[!is.na(CORCP.DF$maxCp), ]
+# Pairs with maxCp
+for(Cp in Cp.v){
+  paircount.mx[1,as.character(Cp)] <- sum(CORCP.DF$maxCp == Cp)
+}
+
+CORCP.DF <- CORCP.DF[CORCP.DF$frTisspairAtleast1NA < 1, ]
+# Pairs with data in at least 1 tissue
+for(Cp in Cp.v){
+  paircount.mx[2,as.character(Cp)] <- sum(CORCP.DF$maxCp == Cp)
+}
+
+# Take only correlations with tissue data <= percNDclosedUpperLim 
+
 CORCP.DF <- CORCP.DF[CORCP.DF$frTisspairAtleast1NA <= percNDclosedUpperLim,]
-CORCP.DF$frTisspairAtleast1NA <- NULL
+#CORCP.DF$frTisspairAtleast1NA <- NULL
+# Pairs satisfying percNDclosedUpperLim
+for(Cp in Cp.v){
+  paircount.mx[3,as.character(Cp)] <- sum(CORCP.DF$maxCp == Cp)
+}
 
 #
-CORCP.DF <- CORCP.DF[!is.na(CORCP.DF$corval),] 
 
-count.df <- table(CORCP.DF[,c("maxCp", "hubTF")], useNA="always")
-colnames(count.df) <- paste0("hubTF", colnames(count.df))
-rownames(count.df) <- paste0("maxCp", rownames(count.df))
-write.csv(x=count.df, row.names=T, 
-          file=paste0(out.dir, "/", out.name, "_percNDclosedUpperLim", 
-                      percNDclosedUpperLim, "_NAcorvalueRemoved_NdatapointsPerCp.csv"))
+CORCP.DF <- CORCP.DF[is.finite(CORCP.DF$corval), ]
+sum(!is.finite(CORCP.DF$corpval)) # Pairs with non-finite correlation pvalues
+
+# Pairs with finite correlation
+for(Cp in Cp.v){
+  paircount.mx[4,as.character(Cp)] <- sum(CORCP.DF$maxCp == Cp)
+}
+
+##
+#CORCP.DF <- CORCP.DF[!is.na(CORCP.DF$corval),] 
+
+# Adjust p-values
+
+CORCP.DF$corpval <- p.adjust(CORCP.DF$corpval, method="BH")
+CORCP.DF <- CORCP.DF[CORCP.DF$corpval < 0.05, ]
+# Pairs with significant correlations
+for(Cp in Cp.v){
+  paircount.mx[5,as.character(Cp)] <- sum(CORCP.DF$maxCp == Cp)
+}
+
+#boxplot(frTisspairAtleast1NA~maxCp, data=tmp, outline=F)
+#
+
+# count.df <- table(CORCP.DF[,c("maxCp", "hubTF")], useNA="always")
+# colnames(count.df) <- paste0("hubTF", colnames(count.df))
+# rownames(count.df) <- paste0("maxCp", rownames(count.df))
+# write.csv(x=count.df, row.names=T, 
+#           file=paste0(out.dir, "/", out.name, "_percNDclosedUpperLim", 
+#                       percNDclosedUpperLim, "_NAcorvalueRemoved_NdatapointsPerCp.csv"))
 
 #
 out.name <- paste0(out.name, "_percNDclosedUpperLim", percNDclosedUpperLim,
                    "_genepairMaxCp", genepairMaxCp.id)
 
-CORCP.DF <- CORCP.DF[!is.na(CORCP.DF$maxCp),]
+#CORCP.DF <- CORCP.DF[!is.na(CORCP.DF$maxCp),]
 if( !is.null(genepairMaxCp.v) ){
   CORCP.DF <- CORCP.DF[CORCP.DF$maxCp%in%genepairMaxCp.v,]
 }
 
 # Correlation coefficient vs. Cp
 
-makecorVsCpPlot(CORCP.DF=CORCP.DF, CpsToCompare=list(1, 21), out.dir=out.dir, out.name=out.name)
+makecorVsCpPlot(CORCP.DF=CORCP.DF, CpsToCompare=list(1:3, 19:21), out.dir=out.dir, out.name=out.name)
 
 # Correlation coefficient distributions of dynamic/persistent max Cp and non-hub/hub gene pairs
 
@@ -123,6 +172,15 @@ out.id <- paste0(paste(range(dynamic.Cp), collapse="-"), "_",
                  paste(range(persistent.Cp), collapse="-"))
 
 CORCP.DF <- CORCP.DF[!is.na(CORCP.DF$hubTF),]
+# Pairs with significant correlations and nonhub, hub information
+for(Cp in Cp.v){
+  paircount.mx[6,as.character(Cp)] <- sum(CORCP.DF$maxCp == Cp)
+}
+
+#
+write.csv(paircount.mx, file=paste0(out.dir, "/", out.name, "_paircountmx", "_countPossibleGenePair", 
+                                    possible.pair.count, ".csv"), row.names=T)
+
 CORCP.DF <- makecorVsGroupPlot(CORCP.DF=CORCP.DF, dynamic.Cp=dynamic.Cp, 
                                persistent.Cp=persistent.Cp, 
                                out.dir=out.dir, out.name=paste0(out.name, "_", out.id))
@@ -132,6 +190,7 @@ CORCP.DF <- makecorVsGroupPlot(CORCP.DF=CORCP.DF, dynamic.Cp=dynamic.Cp,
 makeGeneExprVsGroupPlot(CORCP.DF=CORCP.DF, anno.file=anno.file, 
                         exprData.dir=exprData.dir, src.id=src.id, 
                         gene.id=gene.id, expr.cutoff=expr.cutoff, 
-                        out.dir=out.dir, out.name=paste0(out.name, "_", out.id))
+                        out.dir=out.dir, out.name=paste0(out.name, "_", out.id),
+                        removeOutliers = F, addmean = F)
 
 # rm(list=ls()); gc()

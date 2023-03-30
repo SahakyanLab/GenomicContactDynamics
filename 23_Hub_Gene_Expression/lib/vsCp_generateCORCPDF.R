@@ -47,6 +47,7 @@ generateCORCPDF <- function(chr.v,
       
       CORCP.DF[[chr]] <- cbind(PAIRCOR.MX[,c("g1.ind", "g2.ind")],
                                corval=PAIRCOR.MX[,"cor"], 
+                               corpval=PAIRCOR.MX[,"pval"],
                                maxCp=PAIRCP.MX[,"maxCp"],
                                hubTF=PAIRHUB.MX[,"hubTF"],
                                frTisspairAtleast1NA=PAIRCOR.MX[,"frTisspairAtleast1NA"])

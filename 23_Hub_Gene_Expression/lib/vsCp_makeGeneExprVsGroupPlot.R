@@ -7,7 +7,8 @@
 # source(paste0(wk.dir, "/lib/compareTwoDist.R"))
 ### FUNCTION ###################################################################
 makeGeneExprVsGroupPlot <- function(CORCP.DF, anno.file, exprData.dir, src.id, 
-                                    gene.id, expr.cutoff, out.dir, out.name){
+                                    gene.id, expr.cutoff, out.dir, out.name,
+                                    removeOutliers, addmean){
   
   g.ind.lst <- by(data=CORCP.DF[,c("g1.ind", "g2.ind")], 
                   INDICES=list(CORCP.DF$group), FUN=function(df) unique(unlist(df, use.names=F)) ) 
@@ -36,32 +37,36 @@ makeGeneExprVsGroupPlot <- function(CORCP.DF, anno.file, exprData.dir, src.id,
   
   GRPEXPR.DF$values[GRPEXPR.DF$values < expr.cutoff] <- 0
   
-  # Remove outliers 
-  ind.v <- levels(GRPEXPR.DF$ind)
-  box.outl <- matrix(data=NA, nrow=length(ind.v), ncol=7,
-                     dimnames=list(ind.v, c("group", "lower.whisk", "upper.whisk",
-                                            "val.count", "outl.count", "outl.min", "outl.max")))
-  box.outl <- as.data.frame(box.outl)
-  
-  for(ind in ind.v){
+  if(removeOutliers){
     
-    ind.TF <- as.character(GRPEXPR.DF$ind)==ind
-    bp.stats <- boxplot.stats(x=GRPEXPR.DF$values[ind.TF], coef=1.5)$stats
-    outl.TF <- ind.TF & GRPEXPR.DF$values > bp.stats[5]
+    # Remove outliers 
+    ind.v <- levels(GRPEXPR.DF$ind)
+    box.outl <- matrix(data=NA, nrow=length(ind.v), ncol=7,
+                       dimnames=list(ind.v, c("group", "lower.whisk", "upper.whisk",
+                                              "val.count", "outl.count", "outl.min", "outl.max")))
+    box.outl <- as.data.frame(box.outl)
     
-    box.outl[ind, "group"] <- ind
-    box.outl[ind, -1] <- c(bp.stats[1], bp.stats[5],
-                           sum(ind.TF), sum(outl.TF),
-                           range(GRPEXPR.DF$values[outl.TF])
-                           )
+    for(ind in ind.v){
+      
+      ind.TF <- as.character(GRPEXPR.DF$ind)==ind
+      bp.stats <- boxplot.stats(x=GRPEXPR.DF$values[ind.TF], coef=1.5)$stats
+      outl.TF <- ind.TF & GRPEXPR.DF$values > bp.stats[5]
+      
+      box.outl[ind, "group"] <- ind
+      box.outl[ind, -1] <- c(bp.stats[1], bp.stats[5],
+                             sum(ind.TF), sum(outl.TF),
+                             range(GRPEXPR.DF$values[outl.TF])
+      )
+      
+      GRPEXPR.DF <- GRPEXPR.DF[!outl.TF,]
+      
+    }
     
-    GRPEXPR.DF <- GRPEXPR.DF[!outl.TF,]
+    if( identical(rownames(box.outl), box.outl$group) ){
+      write.csv(box.outl, row.names=F, 
+                file=paste0(out.dir, "/", out.name, "_exprval_dynamic-persistentAndNonhub0-Hub1_outliers.csv"))
+    }
     
-  }
-  
-  if( identical(rownames(box.outl), box.outl$group) ){
-    write.csv(box.outl, row.names=F, 
-              file=paste0(out.dir, "/", out.name, "_exprval_dynamic-persistentAndNonhub0-Hub1_outliers.csv"))
   }
   
   # Compare
@@ -76,18 +81,23 @@ makeGeneExprVsGroupPlot <- function(CORCP.DF, anno.file, exprData.dir, src.id,
   cols.fill[c(1,3)] <- "gray80"
   
   # Boxplot
+  
+  GRPEXPR.DF$values <- log10(GRPEXPR.DF$values)
+  
   png(filename=paste0(out.dir, "/", out.name, "_exprval_dynamic-persistentAndNonhub0-Hub1.png"), 
       height=300*10, width=300*10, res=300)
   
-  boxplot(formula=values~ind, data=GRPEXPR.DF, outline=F, xlab=NULL, range=0,
+  boxplot(formula=values~ind, data=GRPEXPR.DF, outline=T, xlab=NULL, range=0,
           main=paste0(out.name, "\nNgenes: ", ngenesprgrp.id), lwd=4,
-          ylab="expression in TPM; all tissues", ylim=c(0,60), 
+          ylab="expression in TPM; all tissues", #ylim=c(0,60), 
           border=cols, col=adjustcolor(cols.fill, 0.7), cex.main=0.8)
   
-  df.mean <- stack(by(data=GRPEXPR.DF$values, INDICES=GRPEXPR.DF$ind, FUN=mean, na.rm=F))
-  points(x=df.mean$ind, y=df.mean$values, cex=4, pch=15)
-  rm(df.mean)
-         
+  if(addmean){
+    df.mean <- stack(by(data=GRPEXPR.DF$values, INDICES=GRPEXPR.DF$ind, FUN=mean, na.rm=F))
+    points(x=df.mean$ind, y=df.mean$values, cex=4, pch=15)
+    rm(df.mean)
+  }
+  
   dev.off()
 
   # Violin plot
