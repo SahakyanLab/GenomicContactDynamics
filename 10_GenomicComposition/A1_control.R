@@ -23,12 +23,12 @@ if( !is.null(whorunsit[1]) ){
 binkmer.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/binkmer_orig_persist") # DON'T CHANGE, required for source(paste0(wk.dir, "/lib/makeKmerStrandInvar.R"))
 out.dir = paste0(wk.dir, "/out_control")
 ### OTHER SETTINGS #############################################################
-chr.v = paste("chr", c(17, 22:18, 16:1, "X"), sep="")
+chr.v = "chr21" #paste("chr", c(17, 22:18, 16:1, "X"), sep="")
 gcb = "min05Mb"
 kmer.len = 7
 HiC.res = 4e4L
 # Unique bins per chromosome
-nCPU = 3L 
+nCPU = #3L 
 # Identifier of BINKMER.MX (could be the shuffled set so I added this)
 affix = ""
 saveStrandInvarMx = TRUE
