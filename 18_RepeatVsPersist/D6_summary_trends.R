@@ -24,21 +24,23 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
 
-metric = "minrep"
+metric = "sumrep"
 src.dir = paste0(wk.dir, "/z_ignore_git/out_minRepCounts/subfamALL_", metric, 
                  "_atleast2sumrep/pairwise")
-out.dir = paste0(wk.dir, "/out_summary_trends")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_summary_trends")
 element.file = paste0(wk.dir, "/Repeat_rankingbyAge/plot_GiorPubl372rankrepFamilies.csv")
 ### OTHER SETTINGS #############################################################
 src.nme = paste0("chrALL_min2Mb_subfamALL_", metric, "Counts")
 nCPU = 1 # elements
 Cp.v = 1:21
 # Cp MEAN or MED (median)?
-average.fnx = "MEAN"
+average.fnx = "MED"
 fdr.cutoff = 0.05
 
 age.group.num = 1 # Choose number based on timepoints in the old density map
 #age.numPer.group = 372 #7 / age.group.num # Should be integer
+
+elm.file = paste0(wk.dir, "/z_ignore_git/out_combine/out_filterElmTRUE_repName.txt")
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -57,7 +59,7 @@ library(ggsci)
 ################################################################################
 Cp.v.len <- length(Cp.v)
 #elements <- read.csv(element.file, header=T, stringsAsFactors=F)$repName
-elements <- c("AluY", "AluYa5", "L2a", "MIR", "MIR3", "MIRb", "MIRc")
+elements <- readLines(elm.file) #c("AluY", "AluYa5", "L2a", "MIR", "MIR3", "MIRb", "MIRc")
 elm.len <- length(elements)
 age.numPer.group <- elm.len / age.group.num
 
@@ -207,6 +209,11 @@ src.nmes <- c(paste0("chrALL_min2Mb_subfamALL_sumrepCounts"),
               paste0("chrALL_min2Mb_subfamALL_skewrepCounts"),
               paste0("chrALL_min2Mb_subfamALL_minrepCounts")
               )
+#src.nmes <- c(#paste0("chrALL_min2Mb_subfamALL_sumrepCounts"),
+#              paste0("chrALL_min2Mb_subfamALL_skewrepCounts")#,
+#              #paste0("chrALL_min2Mb_subfamALL_minrepCounts")
+#)
+
 P.LST <- sapply(src.nmes, simplify=F, FUN=function(src.nme){
   
   load(paste0(out.dir, "/", src.nme, "_", age.id, "plot.RData"))
@@ -214,8 +221,24 @@ P.LST <- sapply(src.nmes, simplify=F, FUN=function(src.nme){
   trend.group.present <- levels(df$trend.group)[levels(df$trend.group) %in% df$trend.group]
   plot.title <- paste0(src.nme, "_onlyShownAreTrend.groupPresent")
   
-  p <- ggplot(df, aes(Cpafter)) +
-    geom_bar(aes(fill=trend.group)) +
+  # p <- ggplot(df, aes(Cpafter)) +
+  #   geom_bar(aes(fill=trend.group)) +
+  #   #scale_y_continuous(breaks=seq(0,age.numPer.group,10)) + 
+  #   scale_fill_manual(limits=trend.group.present,
+  #                     values=cols.trend.group[trend.group.present]) +
+  #   labs(title=plot.title) + 
+  #   bgr1 +
+  #   facet_grid(type~.) +
+  #   theme(legend.title=element_text(size=5), legend.text=element_text(size=5),
+  #         plot.title=element_text(size=5))
+  
+  #df$elm.ind <- as.character(df$elm.ind)
+  df$elm <- elements[df$elm.ind]
+  df$elm <- factor(df$elm, levels=rev(elements))
+  
+  p <- ggplot(df, aes(x=Cpafter, y=elm)) +
+    geom_tile(aes(fill=trend.group), colour="white") + 
+    #geom_bar(aes(fill=trend.group)) +
     #scale_y_continuous(breaks=seq(0,age.numPer.group,10)) + 
     scale_fill_manual(limits=trend.group.present,
                       values=cols.trend.group[trend.group.present]) +
@@ -224,6 +247,7 @@ P.LST <- sapply(src.nmes, simplify=F, FUN=function(src.nme){
     facet_grid(type~.) +
     theme(legend.title=element_text(size=5), legend.text=element_text(size=5),
           plot.title=element_text(size=5))
+  
   return(p)
   
 })

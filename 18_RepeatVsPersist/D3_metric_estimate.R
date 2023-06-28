@@ -1,5 +1,9 @@
 ################################################################################
-# 
+# # Per subfamily, determine median or mean (estimate.fnx argument) value of 
+# metrics of contacts of given Cp or Cp range with at least 1 shared number of 
+# site. Cps.forCalc is a list of Cp or Cp range to use. If Cps.forCalc pertains 
+# to more than 1 Cp value, the number would be determined using all contacts 
+# within Cp range. Compare distributions of each Cp or Cp range in Cps.forCalc. 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -24,79 +28,148 @@ if( !is.null(whorunsit[1]) ){
 lib = paste0(home.dir, "/DPhil/lib")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
 
-metric = "minrep"
-src.dir = paste0(wk.dir, "/z_ignore_git/out_minRepCounts/subfamALL_", metric, "_atleast2sumrep")
-out.dir = paste0(wk.dir, "/out_combine") #paste0(wk.dir, "/out_metric_estimate")
+metric = "skewrep"
+src.dir = paste0(wk.dir, "/z_ignore_git/out_minRepCounts/subfamALL_", metric) #, "_atleast2sumrep")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_combine") #paste0(wk.dir, "/out_metric_estimate")
 ### OTHER SETTINGS #############################################################
 src.nme = paste0("chrALL_min2Mb_subfamALL_", metric, "Counts")
-Cps.forCalc = 19:21 # Cp values to consider when calculating median non-zero count fraction
-out.id = paste0("estimate_Cp", Cps.forCalc[[1]], "To", tail(Cps.forCalc, n=1))
-# GROUP.CLASS <- list(
-#   not.transposon = c("Low_complexity", "RNA", "rRNA", "Satellite", "scRNA", 
-#                      "Simple_repeat", "snRNA", "srpRNA", "tRNA"),
-#   DNA.transposon = c("DNA", "DNA?"), 
-#   retro.transposon = c("LINE", "SINE", "LTR", "RC", "LINE?", "SINE?", "LTR?"),
-#   not.classified = c("Other", "Unknown", "Unknown?")
-# )
-# group.cols = setNames(object=c("#7E6148FF", "#3C5488FF", "#00A087FF", "black"), 
-#                       nm=names(GROUP.CLASS))
+Cps.forCalc = list(dyn1T3=1:3, per19To21=19:21) # Cp values to consider when calculating median non-zero count fraction
+estimate.fnx = "median" #"mean" | "median" 
+out.id = paste0("metric_estimate", estimate.fnx, "_Cp", names(Cps.forCalc)[[1]], 
+                "_", names(Cps.forCalc)[[2]])
+out.dir = paste0(wk.dir, "/z_ignore_git/out_combine") #/estimates_", estimate.fnx)
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
 library(data.table)
+library(foreach)
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
 load(paste0(src.dir, "/", src.nme, ".RData"))
+#MINREPCOUNTS <- MINREPCOUNTS[1:5] # REMOVE
 elements <- names(MINREPCOUNTS)
 
+# Confirm that only metric values that exist in at least one contact are recorded
+# in MINREPCOUNTS
+
+counts <- unlist(MINREPCOUNTS)
+if( any(counts <= 0) ){
+  rm(MINREPCOUNTS)
+  stop("<= 0 counts")
+}
+rm(counts)
+  
 # Deal with NULLS, these are for Cp values without contacts with at least 2 sites
 # of the element; convert nulls to c(`0`=NA)
+# c(`0`=NA) is converted to 0 metric val with 0 counts and are removed
 for(elm in elements){
-  
+
   MINREPCOUNTS[[elm]] <- sapply(names(MINREPCOUNTS[[elm]]), simplify=F, FUN=function(cp.nme){
     counts <- MINREPCOUNTS[[elm]][[cp.nme]]
     if(is.null(counts)){
-      return(c(`0`=NA)) 
+      return(c(`0`=NA))
     } else {
       return(counts)
     }
   })
-  
+
 }
 
 if( unique(lengths(MINREPCOUNTS)) != 21 ){
   stop("Missing Cps.")
 }
 
-# Metric estimate = median of values from Cps.forCalc
+# Metric estimate = median/mean of values from Cps.forCalc
 
-CP.ESTIMATE <- MINREPCOUNTS
+#mx <- matrix(data=NA, nrow=length(elements), ncol=length(Cps.forCalc) + 1,
+#             dimnames=list(elements, c(names(Cps.forCalc), "pval")))
+
+Cps.forCalc.len <- length(Cps.forCalc)
+
+ESTIMATE <- list()
 for(elm in elements){
   
-  cpvals <- MINREPCOUNTS[[elm]][ c(as.character(Cps.forCalc)) ]
-  cpvals <- lapply(cpvals, FUN=stack)
-  cpvals <- do.call("rbind", cpvals)
-  setnames(cpvals, old=c("values", "ind"), new=c("count", "metric.val"))
-  cpvals <- cpvals[!is.na(cpvals$count),]
+  # VALCOUNTS is a list containing dataframe of metric values and counts per Cps.forCalc, 
+  VALCOUNTS <- foreach(Cps.i=1:Cps.forCalc.len, .combine="list", .inorder=T
   
-  if( nrow(cpvals) > 0 ){
-    cpvals <- Map(f=rep, as.numeric(as.character(cpvals$metric.val)), times=cpvals$count)
-    cpvals <- median(unlist(cpvals))
-  } else {
-    cpvals <- NA
+  ) %do% {
+    
+    cpvals <- MINREPCOUNTS[[elm]][ c(as.character(Cps.forCalc[[Cps.i]])) ]
+    # df of values and counts
+    cpvals <- do.call("rbind", lapply(cpvals, FUN=stack))
+    setnames(cpvals, old=c("values", "ind"), new=c("count", "metric.val"))
+    
+    # Aggregate to combine counts of same valuess
+    cpvals <- aggregate(x=cpvals$count, by=list(cpvals$metric.val), FUN=sum, na.rm=T)
+    setnames(cpvals, old=c("Group.1", "x"), new=c("metric.val", "count"))
+    cpvals$metric.val <- as.numeric(as.character(cpvals$metric.val))
+    cpvals <- cpvals[cpvals$count > 0,]
+    
+    return(cpvals)
+    
   }
   
-  CP.ESTIMATE[[elm]] <- cpvals
+  ESTIMATE[[elm]] <- lapply(VALCOUNTS, FUN=function(cpvals){
     
+    if( nrow(cpvals) == 0 ){
+      return(NA)
+    } else {
+      
+      sum.count <- sum(cpvals$count)
+      halfsum.val <- sum.count / 2
+      
+      max.count <- max(cpvals$count)
+      val.max.count <- cpvals$metric.val[ cpvals$count == max.count ]
+      
+      #
+      
+      if( (max.count > halfsum.val) & (estimate.fnx == "median") ){
+        return(val.max.count)
+      } else {
+        
+        message(paste0(elm, " expand..."))
+        
+        cpvals <- Map(f=rep, as.numeric(as.character(cpvals$metric.val)), times=cpvals$count)
+        
+        eval(parse(text=paste0(
+          'estimate <- ', estimate.fnx, '(unlist(cpvals))'
+        )))
+        
+        return(estimate)
+        
+      }
+      
+    }
+      
+  })
+  
+  rm(VALCOUNTS)
+  
+  message(paste0(elm, " done!"))
+  
+} # elements for loop end
+
+ESTIMATE <- lapply(ESTIMATE, FUN=function(x) do.call("cbind", x))
+ESTIMATE <- do.call("rbind", ESTIMATE)
+
+if( !is.null(names(Cps.forCalc)) ){
+  dimnames(ESTIMATE)[[2]] <- names(Cps.forCalc)
 }
 
-## PLOT data
+dimnames(ESTIMATE)[[1]] <- elements
 
-df <- stack(unlist(CP.ESTIMATE))
-df$ind <- as.character(df$ind)
-setnames(df, old="ind", new="repName")
-
-save(df, file=paste0(out.dir, "/", metric, "_", out.id, ".RData"))
+mx <- ESTIMATE
+save(mx, file=paste0(out.dir, "/", metric, "_", out.id, ".RData"))
 
 # rm(list=ls()); gc()
+
+# #### PARALLEL EXECUTION #########
+# foreach(itr=isplitVector(1:cp.v.len, chunks=nCPU), 
+#         .inorder=T, .combine="rbind",
+#         .export=toExport, .noexport=ls()[!ls()%in%toExport]
+#         
+# ) %op% {
+#   
+# }
+# ### END OF PARALLEL EXECUTION ###

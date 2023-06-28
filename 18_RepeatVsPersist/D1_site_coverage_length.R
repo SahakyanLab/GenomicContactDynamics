@@ -1,6 +1,6 @@
 ################################################################################
-# Per element, calculate stats pertaining to genome coverage and range of site
-# length. Append also copy number calculated previously.
+# Per element/subfamily, calculate stats pertaining to genome coverage and range 
+# of site length. Append also copy number calculated previously.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
