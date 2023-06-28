@@ -31,7 +31,7 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/19_MutationRatesVsPersist")
 src.dir = paste0(wk.dir, "/out_mut_contact_Cp_plot_fast")
-out.dir = paste0(wk.dir, "/out_mut_contact_Cp_ACTUALplot_fast")
+out.dir = paste0(wk.dir, "/out_mut_contact_Cp_ACTUALplot_fast/paper")
 
 mutsig.file = paste0(data.dir, "/signal_mutSig/out_samplesForSignature/donorlist_signatureExposureRAW.csv")
 ### OTHER SETTINGS #############################################################
@@ -41,14 +41,14 @@ sig.filter.id = "sigEperclimits_nosampfilter_ijmut" #"sigEperclimits_1000rawInf_
 nCPU = 1 # Number of combinations
 #mut.calcs = c("numWTSEQ", "Tmut", "Nmsite", "Tmutnorm", "Nmsitenorm", "TmutDIVNmsite")
 #mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite", "Tmut", "Nmsite")
-mut.calcs = "TmutDIVNmsite" # c("Tmut", "Nmsite") # c("Tmutnorm", "Nmsitenorm")
+mut.calcs = c("Tmutnorm", "Nmsitenorm")
 #mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
 mut.types = c("All", "C>T", "C>G", "C>A", "T>G", "T>C", "T>A")
 mut.types = gsub(">", "To", mut.types, fixed=T)
 mut.locs = c("exon_intron_intergenic_intergenic.excl", "intron_intergenic", 
              "intergenic", "intron", "exon")
 
-loc.cols = c(`exon_intron_intergenic_intergenic.excl`="#FDC776", 
+loc.cols = c(`exon_intron_intergenic_intergenic.excl`="black", #"#FDC776", 
              `intron_intergenic`="#bb88dd", 
              intergenic="#ABDDA4", 
              intron="#3288BD", exon="#e25d6c")
@@ -177,7 +177,10 @@ for(sig in mut.sigs){
       scale_color_manual(values=loc.cols[levels(DF.STAT$loc)]) + 
       labs(title=paste0(sig, "_", calc, "_", type), col=paste0(out.id.sig, "\n_loc")) + 
       bgr2 + 
-      theme(legend.title=element_text(size=5), legend.text=element_text(size=7))
+      theme(legend.title=element_text(size=5), legend.text=element_text(size=7)) +
+      theme(panel.border=element_blank(), panel.background=element_blank(),
+            axis.line=element_line(colour="gray22", size=0.8))
+    
     
     #
     
@@ -225,7 +228,7 @@ for(sig in mut.sigs){
   
   p.arr <- plot_grid(plotlist=P.LST, nrow=row.num, ncol=col.num, align="hv", byrow=T)
   save_plot(filename=paste0(out.dir, "/", out.id.fin, "_noLabels.pdf"), plot=p.arr,
-            base_width=col.num * 5, base_height=row.num * 5)
+            base_width=col.num * 7.5, base_height=row.num * 7.5)
   
 } # mut.sigs for loop end
 

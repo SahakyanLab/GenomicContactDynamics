@@ -39,13 +39,14 @@ mutsig.file = paste0(data.dir, "/signal_mutSig/out_samplesForSignature/donorlist
 ### OTHER SETTINGS #############################################################
 Cp.v = 1:21
 
-mut.data.id = "ijfnxmean_donor_centric_PCAWG_Hg19"
+mut.data.id = "ijfnxmean_donor_centric_ICGC_Hg19"
 sig.filter.id = "sigEperclimits_nosampfilter_ijmut"
 
 nCPU = 1 # Number of combinations
 #mut.calcs = c("numWTSEQ", "Tmut", "Tmutnorm", "Nmsite", "Nmsitenorm", "TmutDIVNmsite")
-mut.calcs = c("Tmutnorm", "Nmsitenorm", "TmutDIVNmsite", "Tmut", "Nmsite")
-mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
+mut.calcs = c("Nmsitenorm", "Tmutnorm", "TmutDIVNmsite", "Nmsite", "Tmut")
+#mut.types = c("All", "C>A", "C>G", "C>T", "T>A", "T>C", "T>G")
+mut.types = c("All", "C>T", "C>G", "C>A", "T>G", "T>C", "T>A")
 mut.types = gsub(">", "To", mut.types, fixed=T)
 mut.locs = c("exon_intron_intergenic_intergenic.excl", "intron_intergenic", 
              "intergenic", "intron", "exon")
@@ -57,9 +58,9 @@ mut.sigs = "RefSig.1" #c(mut.sigs, "RefSig.MMR1_RefSig.MMR2")
 rm(sig.df)
 
 # Cp MEAN or MED (median)?
-average.fnx = "MED"
+average.fnx = "MEAN"
 
-pval.test = "pt"
+pval.test = "pmw"
 fdr.cutoff = 0.05
 
 switchCalcType = T # i.e. if True, combine types instead of calcs
@@ -184,10 +185,11 @@ df$trend.group <- factor(as.character(df$trend.group),
                                   "gr.nm", "eq.nm", "le.nm"))
 cols.trend.group <- setNames(object=c("#E64B35FF", "#F39B7FFF", "#7E6148FF", 
                                       "#B09C85FF", "#3C5488FF", "#8491B4FF",
-                                      "#DC0000FF", "#7E6148FF", "#4DBBD5FF"),
+                                      "#F39B7FFF", "#7E6148FF", "#8491B4FF"),
                              nm=levels(df$trend.group))
 
 df$loc <- factor(as.character(df$loc), levels=mut.locs)
+df$type <- factor(df$type, levels=rev(mut.types))
 
 # Rename calc to type and type to calc (i.e. switch columns)
 
@@ -209,6 +211,7 @@ pd <- position_dodge(0.1)
 types <- unique(df$type)
 type.len <- length(types)
 loc.len <- length(unique(df$loc))
+calc.len <- length(unique(df$calc))
 plot.title <- paste0(out.id.general, "_onlyShownAreTrend.groupPresent")
 
 # Plot, type vs. loc panel, combine sig, calc
@@ -220,8 +223,11 @@ P.LST <- sapply(1:type.len, simplify=F, FUN=function(t.ind){
   
   trend.group.present <- levels(df$trend.group)[levels(df$trend.group) %in% df$trend.group]
   
-  p <- ggplot(df.typ, aes(Cpafter)) +
-    geom_bar(aes(fill=trend.group)) +
+  p <- ggplot(df.typ, aes(x=Cpafter, y=calc)) +
+    geom_raster(aes(fill=trend.group)) + 
+    #geom_bar(aes(fill=trend.group)) +
+    geom_hline(yintercept=seq(1.5,calc.len,1), colour="white", linewidth = 1.5) + 
+    scale_x_discrete(limits=as.character(sort(Cp.v)[-1])) + 
     scale_fill_manual(limits=trend.group.present,
                       values=cols.trend.group[trend.group.present]) +
     labs(title=paste0(typ, "_", plot.title)) + 
@@ -267,8 +273,9 @@ for( calc in unique(df$calc) ){
     
     trend.group.present <- levels(df$trend.group)[levels(df$trend.group) %in% df$trend.group]
     
-    p <- ggplot(df.typ, aes(Cpafter)) +
-      geom_bar(aes(fill=trend.group)) +
+    p <- ggplot(df.typ, aes(x=Cpafter, y=type)) +
+      geom_raster(aes(fill=trend.group)) + 
+      #geom_bar(aes(fill=trend.group)) +
       scale_fill_manual(limits=trend.group.present,
                         values=cols.trend.group[trend.group.present]) +
       labs(title=paste0(typ, "_", plot.title)) + 
