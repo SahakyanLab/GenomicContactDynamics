@@ -28,7 +28,7 @@ lib = paste0(home.dir, "/DPhil/lib")
 data.dir = paste0(home.dir, "/Database")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/20_ReplicationTiming")
 src.dir = paste0(wk.dir, "/out_contact_Cp_plotdata")
-out.dir = paste0(wk.dir, "/out_contact_Cp_plot")
+out.dir = paste0(wk.dir, "/out_contact_Cp_plot/paper")
 ### OTHER SETTINGS #############################################################
 chrs = paste0("chr", c(1:22, "X"))
 nCPU = 4
@@ -130,12 +130,15 @@ pd <- position_dodge(0.3)
 p <- ggplot(data=df.summ.SE, aes(x=Cp, y=value)) +
   geom_errorbar(aes(ymin=value - ci, ymax=value + ci, col=rt.type), 
                 width=1, linewidth=0.6, position=pd) + 
-  stat_summary(aes(col=rt.type), fun="mean", size=1, position=pd, shape=1) +
+  stat_summary(aes(col=rt.type), fun="mean", size=2, position=pd, shape=1) +
+  #scale_x_discrete(limits=as.character(Cp.v)) + 
   scale_y_continuous(limits=ci.plot.ylim) + 
   scale_colour_manual(values=rt.type.cols.dark[levels(df.summ.SE$rt.type)]) +
   labs(title=paste0(src.id, "_meanPlus95PercCI")) + 
-  bgr1
-
+  bgr2 +
+  theme(panel.border=element_blank(), panel.background=element_blank(),
+        axis.line=element_line(colour="gray22", size=0.8))
+ 
 ggsave(filename=paste0(out.dir, "/", src.id, "_meanPlus95PercCI.pdf"), width=10, height=10, 
        plot=p)
 
