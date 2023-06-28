@@ -29,7 +29,7 @@ model.ids = c("IMR90_LMNB1_GSE49341_hg19", "H1-hESC_LMNB1_hg38")
 wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/6_Location_Chrom3D")
 src.dir = out.dir = paste0(wk.dir, "/z_ignore_git/out_ContactRadDist")
 ### OTHER SETTINGS #############################################################
-cor.method = "spearman"
+cor.method = "pearson" #"spearman"
 out.name = paste0("chrALL_min2Mb_", paste0(model.ids, collapse="-"), 
                   "_haploid_ContactRadDist_", cor.method)
 ntis.corPlot = 1:21
@@ -56,6 +56,8 @@ DF <- sapply(model.ids, simplify=F, FUN=function(model.id){
 DF <- do.call(rbind, DF)
 rownames(DF) <- NULL
 DF$ntis <- factor(as.character(DF$ntis), levels=as.character(ntis.corPlot))
+coef.col.ind <- grepl(colnames(DF), pattern="Coef", fixed=T)
+colnames(DF)[coef.col.ind] <- "Coef"
 
 ggplot(data=DF, aes(x=ntis, y=Coef)) +
   geom_point(size=6, aes(colour=model.id), shape=1, stroke=2, alpha=0.7) +
