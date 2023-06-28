@@ -3,17 +3,17 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     home.dir = "/Users/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GCD_polished/1_HiC_Human21_Expl")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/1_HiC_Human21_Expl")
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon"
-    wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/1_HiC_Human21_Expl")
+    wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/1_HiC_Human21_Expl")
   } else if(whorunsit == "LiezelLinuxDesk"){
     home.dir = "/home/ltamon"
     wk.dir = paste0(home.dir, "/DPhil/GCD_polished/1_HiC_Human21_Expl")
@@ -24,23 +24,26 @@ if( !is.null(whorunsit[1]) ){
 }
 data.dir = paste0(home.dir, "/Database")
 
+bin.len.id = "50kb"
+mx.type.id = "KRoe"
+
 # Path of the file holding the structure of the GSE87112 contact maps:
-data.str.path = paste0(wk.dir, "/data_structure_dme.txt")
+data.str.path = paste0(wk.dir, "/data_structure.txt") 
 ## The directory holding the contact maps of interest from GSE87112:
 #contact.map.dir = paste0(data.dir, "/GSE87112/contact_maps/HiCNorm_QQ")
-contact.map.dir = paste0(data.dir, "/drosophila_Chathoth2019_HiC/Chathoth2019_10kb_contact_maps/KR_Chathoth")
+contact.map.dir = paste0(data.dir, "/human_hg38_contacts/contact_maps_", bin.len.id, "/", mx.type.id)
 # Mid- and end-parts of the matrix files in the above directories:
 midpart.mx.filename = ".nor.chr"
-endpart.mx.filename = ".norm.mat" #".qq.mat"
+endpart.mx.filename = paste0(".", mx.type.id, ".mat") #".qq.mat"
 # Path to the location, where the outputs are to be saved (make sure that the
 # location exists):
 #out.path = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_QQ_primary_cohort")
-out.path = paste0(data.dir, "/drosophila_Chathoth2019_HiC/Chathoth2019_10kb_combined_contacts/KR_Chathoth")
+out.path = paste0(data.dir, "/human_hg38_contacts/combined_contacts_", bin.len.id, "/", mx.type.id)
 
-source.id = "Chathoth_2019_10kb" # "primary_cohort"
-species.id = "dme" #"human"
+source.id = "hg38_contacts" # "primary_cohort"
+species.id = "human" #"human" "dme"
 ### OTHER SETTINGS #############################################################
-chrs = as.character(c("X", "2L", "2R", "3L", "3R", "4"))
+chrs = c(1:22, "X") #as.character(c("X", "2L", "2R", "3L", "3R", "4"))
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
