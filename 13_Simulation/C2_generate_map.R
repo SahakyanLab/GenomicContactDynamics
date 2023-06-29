@@ -3,7 +3,7 @@
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
-whorunsit = "LiezelMac" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
+whorunsit = "LiezelCluster" # "LiezelMac", "LiezelCluster", "LiezelLinuxDesk",
 # "AlexMac", "AlexCluster"
 
 # Expands warnings
@@ -14,17 +14,9 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     prefix = "/Users/ltamon"
-    lib = paste0(prefix, "/DPhil/lib")
-    data.dir = paste0(prefix, "/Database")
-    wk.dir = paste0(prefix, "/SahakyanLab/GenomicContactDynamics/13_Simulation")
-    CII.dir = paste0(prefix, "/SahakyanLab/GenomicContactDynamics/11_Complementarity/z_ignore_git")
     os = "Mac"
   } else if(whorunsit == "LiezelCluster"){
     prefix = "/project/sahakyanlab/ltamon"
-    lib = paste0(prefix, "/DPhil/lib")
-    data.dir = paste0(prefix, "/Database")
-    wk.dir = paste0(prefix, "/DPhil/GenomicContactDynamics/21_Simulation")
-    CII.dir = paste0(prefix, "/DPhil/GenomicContactDynamics/11_Constraints/out_constraints/merged_final")
     os = "Linux"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
@@ -32,23 +24,28 @@ if( !is.null(whorunsit[1]) ){
   
 }
 
-param.file = paste0(wk.dir, "/param.csv") #"/C2_generate_map/param.csv")
+lib = paste0(prefix, "/DPhil/lib")
+data.dir = paste0(prefix, "/Database")
+wk.dir = paste0(prefix, "/SahakyanLab/GenomicContactDynamics/13_Simulation")
+CII.dir = paste0(prefix, "/SahakyanLab/GenomicContactDynamics/11_Complementarity")
+
+param.file = paste0(wk.dir, "/C2_generate_map_mns_2ndsub/param_mns.csv")
 param.v <- read.csv(file=param.file, stringsAsFactors=F, header=T)
-param.ind = 13 #PARAMREPLACE
+param.ind = PARAMREPLACE
 param.v <- param.v[param.ind,]
 
 species.id = param.v[["species.id"]]
 
 if(species.id=="human"){
   
+  bin.len = 50000
+  binlen.id = paste0(bin.len / 1000, "kb")
   simmap.dir = paste0(wk.dir, "/sim_maps")
-  Cs.raw.dir = Cp.dir = paste0(data.dir, "/GSE87112/combined_contacts/RAW_primary_cohort")
-  Cs.norm.dir = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_primary_cohort")
-  CII.dir = ifelse(whorunsit=="LiezelCluster", CII.dir, paste0(CII.dir, "/out_constraints/merged_final"))
-  chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh37_73_chr_info.txt")
-  bin.len = 40000
+  Cs.norm.dir = paste0(data.dir, "/human_hg38_contacts/combined_contacts_", binlen.id, "/KRoe")
+  CII.dir = paste0(CII.dir, "/out_constraints_hg38_GfreeSingleNorm_", binlen.id, "/merged_final")
   gcb = "min2Mb"
-  chr.v = "chr17" #paste0("chr", c(1:22, "X"))
+  chrlen.file = paste0(data.dir, "/genome_info/Hsa_GRCh38_chr_info.txt")
+  chr.v = paste0("chr", c(1:22, "X"))
   
 } else if(species.id=="ath"){
   
@@ -64,10 +61,11 @@ if(species.id=="human"){
   
 } else if(species.id=="dme"){
   
-  Cs.norm.dir = paste0(data.dir, "/drosophila_Chathoth2019_HiC/Chathoth2019_10kb_combined_contacts/KR_Chathoth")
+  bin.len = 10000
+  binlen.id = paste0(bin.len / 1000, "kb")
+  Cs.norm.dir = paste0(data.dir, "/drosophila_dm6_contacts/combined_contacts_", binlen.id, "/KRoe")
   CII.dir = paste0(CII.dir, "/out_constraints_dme_10kb")
   chrlen.file = paste0(data.dir, "/genome_info/Dme_dm6_chr_info.txt")
-  bin.len = 10000
   gcb = "min0Mb"
   chr.v = paste0("chr", c("2L", "2R", "3L", "3R", "4", "X")) 
   
@@ -79,7 +77,7 @@ CII.disc.kmer.5.dir = CII.disc.align.5.dir = CII.disc.G.5.dir = CII.dir
 CII.cont.kmer.5.dir = CII.cont.align.5.dir = CII.cont.G.5.dir = CII.dir
 CII.disc.kmer.10.dir = CII.disc.align.15.dir = CII.disc.G.15.dir = CII.dir
 CII.cont.kmer.15.dir = CII.cont.align.15.dir = CII.cont.G.15.dir = CII.dir
-out.dir = paste0(wk.dir, "/z_ignore_git/out_generate_map_test")
+out.dir = paste0(wk.dir, "/out_generate_map_mns_2ndsub")
 ### OTHER SETTINGS #############################################################
 #gcb = "min2Mb" #"min0Mb" for ath
 #bin.len = 40000 #40000 #20000 #50000 
@@ -117,7 +115,7 @@ out.id = gsub(x=paste(paste(ct.v, metric.v, sep="_"), collapse="_"),
 out.id = gsub(x=out.id, pattern=";", replacement="", fixed=T)
 out.id = paste0(out.id, collapse="_")
 chr.id = ifelse(length(chr.v)==1, chr.v, paste(chr.v[c(1, length(chr.v))], collapse="To"))
-out.id = paste0(species.id, "_", chr.id, "_", out.id) #paste0(species.id, "_chr122X_", out.id) 
+out.id = paste0(species.id, "_", chr.id, "_", out.id)
 
 if( length(ct.v)!=length(metric.v) ){
   
@@ -134,6 +132,9 @@ if( length(ct.v)!=length(metric.v) ){
 scaleContactByDist.TF = param.v[["scaleContactByDist.TF"]]
 scaled.disc.cutoff = as.numeric(param.v[["scaled.disc.cutoff"]])
 
+# Transform contact values? list(upper tri, lower tri)
+transform.fun <- list(NULL, log2)
+
 # Convert metric values to contact probability?
 contProb = F
 
@@ -141,12 +142,12 @@ contProb = F
 
 # If both incl.bin.x and incl.bin.y lists are NULL, use whole chr.
 # Upper triangle perspective, i -> y, j -> x
-incl.bin.x = NULL
-incl.bin.y = NULL
-mask.bin.x = NULL #list(3563:6232) #NULL
-mask.bin.y = NULL #list(1:3563) #NULL
+incl.bin.x = NULL 
+incl.bin.y = NULL 
+mask.bin.x = NULL #list(447:544, 545:1666) #list(3563:6232) #NULL
+mask.bin.y = NULL #list(1:544, 447:544) #list(1:3563) #NULL
 # If closed vector gap.range is NULL, no filtering. 
-gap.range = c(50, Inf)
+gap.range = c(0,Inf) #c(50, Inf)
 
 #-------------------SET PLOT PARAMETERS
 
@@ -154,7 +155,7 @@ gap.range = c(50, Inf)
 limits.x = NULL 
 limits.y = NULL 
 # Plot values symmetrically e.g. plot value for (1,2) and (2,1)? Depends on limits set.
-symmetric = T
+symmetric = TRUE
 
 # Mark bins along x- or/and y-axis
 #tmp = seq(1000, 1500, 100)
@@ -162,14 +163,16 @@ mark.x = NULL #c(1, tmp, 2812-tmp+1, 2812)
 mark.y = NULL #mark.x
 #rm(tmp)
 
+na.cols = c("black", "black")
+
 # Output specifications
 
 # If scalebr.v==NULL, no scale bar
 # scalebr.v = c(xmin=1, xmax=100, ymin=1, ymax=50)
-scalebr.v = c(xmin=1, xmax=4e6/bin.len, ymin=1, ymax=50)
-res = 100
+scalebr.v = c(xmin=1, xmax=4e6 / bin.len, ymin=1, ymax=50)
+res = 300
 # Number of rows and columns plot will be displayed
-out.dim = c(nrow=3, ncol=2)
+out.dim = c(nrow=1, ncol=2)
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -210,7 +213,7 @@ for( nme in names(tmp) ){
   out.id <- paste0(out.id, "_", nme, paste(tmp[[nme]], collapse="To"))
 }
 
-out.name0 <- paste0(gcb, "_", out.id, "_res", res)
+out.name0 <- paste0(gcb, "_", binlen.id, "binlen_", out.id, "_res", res)
 out.name0 <- paste0(out.name0, "_scaleContactByDist", scaleContactByDist.TF,
                     "_scaleddisc", scaled.disc.cutoff)
 
@@ -245,7 +248,8 @@ for(M in 1:len){
                               incl.bin.x=incl.bin.x, incl.bin.y=incl.bin.y, 
                               mask.bin.x=mask.bin.x, mask.bin.y=mask.bin.y,
                               chrlen.file=chrlen.file, bin.len=bin.len, 
-                              invalidij.action=NA, species.id=species.id)[,c("i", "j", "value")]
+                              invalidij.action=NA, species.id=species.id,
+                              categoriseValues="after")[,c("i", "j", "value")]
                             
     rownames(df[[map]]) <- NULL
     
@@ -335,7 +339,7 @@ for(M in 1:len){
                                               scalebr.v=scalebr.v, mark.x=mark.x, mark.y=mark.y,
                                               limits.x=limits.x, limits.y=limits.y, 
                                               is.contProb=contProb, is.scaleContactByDist=scaleContactByDist.TF,
-                                              species.id=species.id)
+                                              species.id=species.id, transform.fun=transform.fun)
                                    
   print(paste0(out.name, " done!"), quote=F)
   rm(df, map.v, chr, ct.p, metric.p, out.name)

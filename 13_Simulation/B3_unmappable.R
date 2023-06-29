@@ -11,20 +11,21 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GenomicContactDynamics/21_Simulation"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/13_Simulation"
   } else {
     stop("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
-data.dir = paste0(wk.dir, "/out_reduceContactMxGap")
-out.dir = paste0(wk.dir, "/out_unmappable")
+data.dir = paste0(wk.dir, "/z_ignore_git/out_reduceContactMxGap_hg38_10kb")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_unmappable_hg38_10kb")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr.v = paste0("chr", c(1:22, "X"))
+chr.v = "chr17" #paste0("chr", c(1:22, "X"))
 metric = "Cs.norm"
 out.id = "whole"
-ct.v = sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", 
-              "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC"))
+ct.v = c("ESC", "HFFc6", "LC")
+#ct.v = sort(c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", 
+#              "AG", "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC"))
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -76,7 +77,7 @@ for(chr in chr.v){
   }
   
   if(!unmapbig.bin%in%unmap.bin){
-    stop(paste0(chr, ": Largest unmappable not unmappable across all tissues"))
+    warning(paste0(chr, ": Largest unmappable not unmappable across all tissues"))
   } 
   
   # Largest unmappable area
