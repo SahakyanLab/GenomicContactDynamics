@@ -24,26 +24,27 @@ if( !is.null(whorunsit[1]) ){
 }
 data.dir = paste0(home.dir, "/Database")
 
-bin.len.id = "50kb"
+bin.len.id = "10kb"
 mx.type.id = "KRoe"
+src.id = "drosophila_dm6_contacts"
 
 # Path of the file holding the structure of the GSE87112 contact maps:
-data.str.path = paste0(wk.dir, "/data_structure.txt") 
+data.str.path = paste0(wk.dir, "/data_structure_dme.txt") 
 ## The directory holding the contact maps of interest from GSE87112:
 #contact.map.dir = paste0(data.dir, "/GSE87112/contact_maps/HiCNorm_QQ")
-contact.map.dir = paste0(data.dir, "/human_hg38_contacts/contact_maps_", bin.len.id, "/", mx.type.id)
+contact.map.dir <- paste0(data.dir, "/", src.id, "/contact_maps_", bin.len.id, "/", mx.type.id)
 # Mid- and end-parts of the matrix files in the above directories:
 midpart.mx.filename = ".nor.chr"
 endpart.mx.filename = paste0(".", mx.type.id, ".mat") #".qq.mat"
 # Path to the location, where the outputs are to be saved (make sure that the
 # location exists):
 #out.path = paste0(data.dir, "/GSE87112/combined_contacts/HiCNorm_QQ_primary_cohort")
-out.path = paste0(data.dir, "/human_hg38_contacts/combined_contacts_", bin.len.id, "/", mx.type.id)
+out.path <- paste0(data.dir, "/", src.id, "/combined_contacts_", bin.len.id, "/", mx.type.id)
 
-source.id = "hg38_contacts" # "primary_cohort"
-species.id = "human" #"human" "dme"
+source.id = src.id # "primary_cohort"
+species.id = "dme" #"human" "dme"
 ### OTHER SETTINGS #############################################################
-chrs = c(1:22, "X") #as.character(c("X", "2L", "2R", "3L", "3R", "4"))
+chrs = c("X", "2L", "2R", "3L", "3R", "4") #c(1:22, "X") 
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################

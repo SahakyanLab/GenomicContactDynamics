@@ -44,7 +44,6 @@ zuin_2014 HRV.merge HRV.rep1;HRV.rep2 human 'c(1:22,"X")' - -
 zuin_2014 siCONTROL.merge siCONTROL.rep1;siCONTROL.rep2 human 'c(1:22,"X")' - -
 zuin_2014 siCTCF.merge siCTCF.rep1;siCTCF.rep2 human 'c(1:22,"X")' - -
 zuin_2014 TEV.merge TEV.rep1;TEV.rep2 human 'c(1:22,"X")' - -
-hg38_contacts HFFc6 - human 'c(1:22,"X")' 'Human foreskin fibroblast cell line immortalized' HFFc6
-hg38_contacts GM12878 - human 'c(1:22,"X")' 'lymphoblast cell' LC
-hg38_contacts H1-hESC - human 'c(1:22,"X")' 'embryonic stem cell' ESC
-
+human_hg38_contacts HFFc6 - human 'c(1:22,"X")' 'Human foreskin fibroblast cell line immortalized' HFFc6
+human_hg38_contacts GM12878 - human 'c(1:22,"X")' 'lymphoblast cell' LC
+human_hg38_contacts H1-hESC - human 'c(1:22,"X")' 'embryonic stem cell' ESC
