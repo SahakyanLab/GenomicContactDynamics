@@ -25,14 +25,14 @@ if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
     lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/DPhil/GCD_polished/8_FeatureVsPersist"
+    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/8_FeatureVsPersist"
     data.dir = "/Users/ltamon/Database"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
 # Chromatin features directory
-run.id = "dec"
+run.id = "inc"
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_associated")
 foifile = paste0(wk.dir, "/foifile/FINAL_", run.id, "_foifile_priority_nperm10000_seed662_mxmskfr0_Cp21_pvalcutoff0.05_numOlapA_comOlap_edited_consistentAcrossCT")
 #foifile = paste0(wk.dir, "/foifile/foifile_test")
@@ -52,7 +52,7 @@ FCBIN.order = 1 # pos
 FCCP.order = 21 # Cp
 
 colourBy = "group" # "foi" | "group"
-ylimits.v = c(-6,6)
+ylimits.v = c(-0.1, 1) # Watch out for missing points depending on limits
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -257,6 +257,7 @@ plotParam <- list(geom_line(size=1, aes_string(colour=colourBy)
                              size=0.5),
                   scale_y_continuous(limits=ylimits.v
                                      ,breaks=seq(ylimits.v[1],ylimits.v[2],1)
+                                     #,breaks=seq(0,1)
                                      ),
                   guides(colour=guide_legend(ncol=num.col)
                          ),
