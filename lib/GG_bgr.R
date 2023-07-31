@@ -51,7 +51,7 @@ bgr2.1 <- bgr2 +
     panel.background=element_rect(colour="gray44", 
                                   size=1, fill=NA)
   )
-  
+
 bgr3 <- bgr1 + 
   theme(
     # X-axis title 

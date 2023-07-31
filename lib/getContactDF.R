@@ -27,7 +27,8 @@ getContactDF <- function(metric.dir='', metric='', gcb = '', chr = '',
                          invalidij.action = 'specify what to do with unwanted
                          contacts; NA - set their values to NA, "drop" - remove
                          them from df, "none" - keep them as it is',
-                         species.id = 'ath | dme | osa | human'
+                         species.id = 'ath | dme | osa | human', 
+                         categoriseValues = "before" # or "after" filtering
                          ){
 
   print(metric.dir)
@@ -108,7 +109,7 @@ getContactDF <- function(metric.dir='', metric='', gcb = '', chr = '',
     df <- data.frame(CII.MX[,c("i", "j")], value=CII.MX[,value], stringsAsFactors=FALSE)
     rm(CII.MX)
     
-    if( m.v[["value"]]=="disc" ){
+    if( m.v[["value"]]=="disc" & categoriseValues == "before" ){
       
       if(m.v[["type"]]=="G"){
         # Negate G because G is negatively correlated with CII
@@ -117,11 +118,13 @@ getContactDF <- function(metric.dir='', metric='', gcb = '', chr = '',
       
       df$value <- categoriseValues(val.v=df$value, cutoff=as.numeric(m.v[["cutoff"]]))
       
+      print("getContactDF(): Categorising values before filtering.")
+      
     }  
     
     print("getContactDF(): C|| value obtained.", quote=F)
       
-    rm(m.v, type.id, value)
+    rm(type.id, value)
     
   } else if( grepl(x=metric, pattern="SIM.", fixed=TRUE) ){
     
@@ -213,6 +216,25 @@ getContactDF <- function(metric.dir='', metric='', gcb = '', chr = '',
     print("getContactDF(): Unwanted contacts untouched.")
   } else {
     stop("getContactDF(): Invalid invalidij.action argument.")
+  }
+  
+  # Categorise values after filtering
+  
+  if( grepl(x=metric, pattern="CII.disc.") ){
+    
+    if( m.v[["value"]]=="disc" & categoriseValues == "after" ){
+      
+      if(m.v[["type"]]=="G"){
+        # Negate G because G is negatively correlated with CII
+        df$value <- -(df$value)
+      } 
+      
+      df$value <- categoriseValues(val.v=df$value, cutoff=as.numeric(m.v[["cutoff"]]))
+      
+      print("getContactDF(): Categorising values after filtering.")
+      
+    }
+    
   }
   
   print(paste0("getContactDF(): ", metric, " values retrieved!"), quote=FALSE)

@@ -8,18 +8,24 @@
 # library(Hmisc) # for mean_sdl function
 # source(paste0(lib, "/GG_bgr.R"))
 ### FUNCTION ###################################################################
-makeViolinPlot <- function(df, x.nme, y.nme, sd.mult, fill.nme = NULL, 
-                           fill.cols = NULL, fill.legend = '"none" or factor name', 
-                           plot.title, ylim.val = NULL, showOutlier){
-
+makeViolinPlot <- function(df, x.nme, y.nme, sd.mult, col.nme = NULL, line.cols = NULL, 
+                           fill.nme = NULL, fill.cols = NULL, fill.legend = '"none" or factor name', 
+                           plot.title, ylim.val = NULL, showOutlier, addmean,
+                           geom.viol.scale="count"){
+  
   p <- ggplot(data=df, aes_string(x=x.nme, y=y.nme))
   
+  violin.note <- "\n geom_violin(trim=T) so tails at range of data"
+
   # Combine with box plot to add median and quartiles
   # Change fill color by groups, remove legend
-  p <- p + geom_violin(aes_string(fill=fill.nme), trim = FALSE) + 
+  p <- p + 
+    geom_violin(aes_string(fill=fill.nme, col=col.nme), 
+                lwd=1.5, scale=geom.viol.scale, trim=T) + 
     scale_y_continuous(limits=ylim.val) + 
     scale_fill_manual(values=fill.cols) +
-    labs(title=plot.title) + 
+    scale_color_manual(values=line.cols) + 
+    labs(title=paste0(plot.title, violin.note)) + 
     guides(fill=fill.legend) + 
     bgr2
   
@@ -38,9 +44,11 @@ makeViolinPlot <- function(df, x.nme, y.nme, sd.mult, fill.nme = NULL,
   #)
  
   # Add mean
-  df.mean <- stack(by(df[[y.nme]], INDICES=df[[x.nme]], FUN=mean, na.rm=F))
-  p <- p + 
-    geom_point(data=df.mean, aes(x=ind, y=values), size=5, col="black", shape=7)
+  if(addmean){
+    df.mean <- stack(by(df[[y.nme]], INDICES=df[[x.nme]], FUN=mean, na.rm=F))
+    p <- p + 
+      geom_point(data=df.mean, aes(x=ind, y=values), size=5, col="black", shape=7)
+  }
 
   return(p)
   

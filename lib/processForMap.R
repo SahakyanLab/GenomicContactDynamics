@@ -49,7 +49,7 @@ processForMap <- function(x, metric, is.contProb, is.scaleContactByDist, species
     coul <- setNames(object=coul, nm=usedlvl.v)
     x <- factor(x=as.character(x), levels=usedlvl.v)
     
-    col.lst[[1]] <- scale_fill_manual(values=coul[levels(x)], na.translate=FALSE, na.value=na.colour,
+    col.lst[[1]] <- scale_fill_manual(values=coul[levels(x)], na.translate=TRUE, na.value=na.colour,
                                       guide=guide_legend(ncol=1), name=bquote(c[p]))
     
   } else if( grepl(x=metric, pattern="CII.disc.", fixed=TRUE) ){
@@ -61,7 +61,7 @@ processForMap <- function(x, metric, is.contProb, is.scaleContactByDist, species
     leg.lab <- strsplit(x=metric, split=".", fixed=T)[[1]][3]
     leg.lab <- bquote(c['||']~.(leg.lab))
     
-    col.lst[[1]] <- scale_fill_manual(values=coul[levels(x)], na.translate=FALSE, 
+    col.lst[[1]] <- scale_fill_manual(values=coul[levels(x)], na.translate=TRUE, 
                                       na.value=na.colour, name=leg.lab)
     
   } else if( grepl(x=metric, pattern="Cs.raw|Cs.norm|SIM.|CII.cont", fixed=FALSE) ){

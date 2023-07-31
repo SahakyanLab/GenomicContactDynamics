@@ -21,12 +21,18 @@ compareManyDist <- function(xval, grp, #'grp should be a factor'
                                 paired=F, conf.level=0.95)
     
     meanmed <- by( data=xval, INDICES=list(grp), 
-                   FUN=function(x) c(MEAN=mean(x), MED=median(x)) )
+                   FUN=function(x) c(MEAN=mean(x), MED=median(x), 
+                                     MIN=min(x), MAX=max(x), N=length(x)) ) # Added later
    
     TEST <- list(pt=pt, pmw=pmw, meanmed=meanmed, alt=alt)
-    save(TEST, file=paste0(out.dir, "/", out.name, "_pairwisedifftest.RData"))
+    
+    if( !is.null(out.dir) & !is.null(out.name) ){
+      save(TEST, file=paste0(out.dir, "/", out.name, "_pairwisedifftest.RData"))
+    } 
     
   }
+  
+  return(TEST)
   
 }
 
