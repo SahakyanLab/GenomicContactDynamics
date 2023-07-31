@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[57]:
+# In[3]:
 
 
 import pandas as pd
@@ -12,13 +12,13 @@ from autogluon.tabular import TabularDataset, TabularPredictor
 from timeit import default_timer as timer
 
 
-# In[ ]:
+# In[4]:
 
 
 start = timer()
 
 
-# In[70]:
+# In[5]:
 
 
 whorunsit = 'LiezelCluster'  # 'LiezelMac' | 'LiezelCluster'
@@ -33,34 +33,36 @@ else:
 wk_dir = home_dir + '/SahakyanLab/GenomicContactDynamics/26_PredictingCp'
 #csv_dir = wk_dir + '/z_ignore_git/out_makeTable'
 csv_dir = wk_dir + '/out_makeTable'
-out_dir = wk_dir + '/out_autogluon_run_cpu_medium'
+out_dir = wk_dir + '/out_autogluon_run'
+#out_dir = wk_dir + '/out_autogluon_run_cpu_medium'
 
 
-# In[59]:
+# In[6]:
 
 
 generate_train_data_subsample = False
 do_subsample = True # Also set to true to load subsampled data for fit_model = True
-fit_model = True
+fit_model = False
+assess_model = True
 pred_model = False
 num_train_points = 1237618
 
 
-# In[ ]:
+# In[7]:
 
 
 num_cpus = 3 # 10G per cpu/gpu
 num_gpus = 0
 
-presets = 'medium_quality'
-num_folds_parallel = 3
+presets = 'best_quality' #'medium_quality'
+num_folds_parallel = 2 #3
 
-time_limit = None #5*60*60 # seconds
+time_limit = 5*60*60 # seconds
 
 ag_args_fit = {'num_cpus': num_cpus, 'num_gpus': num_gpus}
 
 
-# In[72]:
+# In[8]:
 
 
 gcb = 'min2Mb'
@@ -69,7 +71,7 @@ chrs_test = ['chr18']
 feat_regex = 'grp.compl.|grp.kmer3.|grp.kmer1.|grp.GC.'
 
 
-# In[61]:
+# In[9]:
 
 
 sampling_id = '5percExceptgrthn18' #'0point1percExceptgrthn18' #'5percExceptgrthn18'
@@ -80,7 +82,7 @@ seed_val = 234
 #[percs, groups]
 
 
-# In[62]:
+# In[10]:
 
 
 label_col = 'LABEL'
@@ -89,7 +91,7 @@ problem_type = 'regression' # (options: ‘binary’, ‘multiclass’, ‘regre
 label_count_threshold = 2 # For multi-class classification problems, this is the minimum number of times a label must appear in dataset in order to be considered an output class.
 
 
-# In[63]:
+# In[11]:
 
 
 try:
@@ -102,7 +104,7 @@ feat_regex_id = re.compile('[^a-zA-Z0-9]').sub('', feat_regex)
 #[chrs_id, feat_regex_id]
 
 
-# In[64]:
+# In[12]:
 
 
 try:
@@ -234,6 +236,8 @@ if do_subsample:
 
 if fit_model:
     
+    print("Preparing train data for model fitting...")
+    
     train_data = TabularDataset(csv_path)
     
     if do_subsample:
@@ -253,7 +257,46 @@ model_path = out_dir + '/' + model_id
 
 
 if fit_model:
+    
+    print("Model fitting...")
+    
     predictor = TabularPredictor(label=label_col, eval_metric=metric, path=model_path, problem_type=problem_type, learner_kwargs={'label_count_threshold': label_count_threshold}).fit(train_data, ag_args_fit=ag_args_fit, ag_args_ensemble={'num_folds_parallel': num_folds_parallel}, presets=presets, time_limit=time_limit)
+
+
+# In[ ]:
+
+
+model_path = out_dir + '/' + model_id + '_' + str(num_train_points) + 'datapoints'
+
+
+# In[ ]:
+
+
+# Get test data from chr used for training
+if assess_model & do_subsample: # by comparing validation and test score; likely overfitted if score_val > score_test
+    
+    print("Generating test data...")
+    
+    train_data = concat_chrcsv(csv_dir, gcb, chrs)
+    train_ind = sampleManyGroupsInSeries(train_data['LABEL'], percs, groups, seed_val=seed_val)
+    test_ind = sampleManyGroupsInSeries(train_data.drop(index=train_ind, inplace=False)['LABEL'], percs / 2, groups, seed_val=seed_val)
+    
+    if np.intersect1d(np.array(train_ind), np.array(test_ind)).any():
+        raise Exception("Overlapping train and test sets.")
+    else:
+        test_data = train_data.iloc[test_ind,:]
+
+
+# In[ ]:
+
+
+if assess_model:
+    
+    print("Assessing model...")
+    
+    predictor = TabularPredictor.load(model_path)
+    leaderboard = predictor.leaderboard(test_data, silent = True)
+    leaderboard.to_csv(model_path + '_leaderboard.csv')
 
 
 # MODEL ON TEST DATA
@@ -268,8 +311,6 @@ if pred_model:
     test_data = TabularDataset(test_data)
     #test_data = test_data.sample(n=5, random_state=0)
     print('Test data prepared.')
-    
-    model_path = out_dir + '/' + model_id + '_' + str(num_train_points) + 'datapoints'
 
 
 # In[ ]:

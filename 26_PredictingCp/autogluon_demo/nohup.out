@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/ltamon/SahakyanLab/GenomicContactDynamics/26_PredictingCp/autogluon_demo/ag_test.py", line 1, in <module>
-    import autogluon
-ModuleNotFoundError: No module named 'autogluon'
