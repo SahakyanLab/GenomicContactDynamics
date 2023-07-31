@@ -1,2 +1,0 @@
-ONTOLOGY,ID,Description,GeneRatio,BgRatio,pvalue,p.adjust,qvalue,geneID,Count
-GO_MF,GO:0005547,phosphatidylinositol-3 4 5-trisphosphate binding,7/382,34/16377,1.11058060097616e-05,0.00704108101018886,0.00644136748566174,PLEKHB2/DAPP1/MYO10/ASAP1/PARD3/ANXA8/KIF16B,7

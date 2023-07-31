@@ -1,2 +1,0 @@
-ID,Description,GeneRatio,BgRatio,pvalue,p.adjust,qvalue,geneID,Count
-GO:0005149,interleukin-1 receptor binding,8/774,15/16429,1.12206313863926e-07,8.52767985365837e-05,8.44500151712706e-05,IL1A/IL1B/IL36A/IL36B/IL36G/IL36RN/IL37/IRAK4,8

@@ -1,2 +1,0 @@
-ID,Description,GeneRatio,BgRatio,pvalue,p.adjust,qvalue,geneID,Count
-GO:0070492,oligosaccharide binding,7/1116,15/16429,2.59662389203283e-05,0.02373314237318,0.0233149492621474,REG1A/REG1B/REG3A/REG3G/SELE/SELL/SELP,7

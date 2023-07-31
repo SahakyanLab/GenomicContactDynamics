@@ -1,8 +1,0 @@
-KEGG_terms,_Bl_count_1;all_genes,_Bl_count_1;_Bl_count_HiC_all,_Bl_count_2;_Bl_count_1,_Bl_count_3;_Bl_count_1,_Bl_count_4;_Bl_count_1,_Bl_count_5;_Bl_count_1,_Bl_count_grthan5;_Bl_count_1
-Arrhythmogenic right ventricular cardiomyopathy (ARVC),NA,NA,NA,NA,NA,0.0053793262216153,NA
-Calcium signaling pathway,NA,NA,NA,NA,NA,0.0184112639041689,NA
-Glutamatergic synapse,NA,NA,NA,NA,NA,0.0184112639041689,0.00597559590774255
-Long-term depression,NA,NA,NA,NA,NA,0.0241669307050508,0.00597559590774255
-Morphine addiction,NA,NA,NA,NA,NA,0.0184112639041689,NA
-Neuroactive ligand-receptor interaction,NA,NA,NA,NA,NA,0.0184112639041689,0.00188769072208479
-Nicotine addiction,NA,NA,NA,NA,NA,0.0451005759039757,0.000849086119900761
