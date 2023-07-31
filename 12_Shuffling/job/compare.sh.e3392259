@@ -1,3 +1,0 @@
-Warning message:
-In wilcox.test.default(x = c(-0.5163, -0.51695, -0.521025, -0.515875,  :
-  cannot compute exact p-value with ties
