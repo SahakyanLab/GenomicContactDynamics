@@ -1,5 +1,0 @@
-Gene Group 1	Enrichment Score: 1.1837889994627695
-OFFICIAL_GENE_SYMBOL	Gene Name
-CDH10	cadherin 10(CDH10)
-CDH6	cadherin 6(CDH6)
-

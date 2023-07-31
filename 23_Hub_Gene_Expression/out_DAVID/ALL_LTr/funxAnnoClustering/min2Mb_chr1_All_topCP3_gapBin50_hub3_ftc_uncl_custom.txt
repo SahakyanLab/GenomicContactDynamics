@@ -1,2 +1,0 @@
-Category	Term	Count	%	PValue	Genes	List Total	Pop Hits	Pop Total	Fold Enrichment	Bonferroni	Benjamini	FDR
-GOTERM_MF_DIRECT	GO:0042803~protein homodimerization activity	3	25.0	0.03393273738747773	SRGAP2C, CTSE, SRGAP2	8	730	16881	8.671746575342466	0.6196300246122658	0.6196300246122658	25.083570467903925

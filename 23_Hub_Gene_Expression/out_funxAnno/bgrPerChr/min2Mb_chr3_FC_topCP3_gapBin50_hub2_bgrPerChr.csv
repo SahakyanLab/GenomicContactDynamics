@@ -1,2 +1,0 @@
-ONTOLOGY,ID,Description,GeneRatio,BgRatio,pvalue,p.adjust,qvalue,geneID,Count
-KEGG,hsa04919,Thyroid hormone signaling pathway,1/1,10/415,0.0240963855421686,0.0481927710843373,0.0253646163601775,THRB,1

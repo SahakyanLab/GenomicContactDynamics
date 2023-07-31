@@ -1,7 +1,0 @@
-Gene Group 1	Enrichment Score: 1.569448548210483
-OFFICIAL_GENE_SYMBOL	Gene Name
-ZNF117	zinc finger protein 117(ZNF117)
-ZNF716	zinc finger protein 716(ZNF716)
-ZNF713	zinc finger protein 713(ZNF713)
-ZNF680	zinc finger protein 680(ZNF680)
-

@@ -1,9 +1,0 @@
-Gene Group 1	Enrichment Score: 0.09708774068277888
-OFFICIAL_GENE_SYMBOL	Gene Name
-FAM189A2	family with sequence similarity 189 member A2(FAM189A2)
-TMEM252	transmembrane protein 252(TMEM252)
-C9orf135	chromosome 9 open reading frame 135(C9orf135)
-EQTN	equatorin(EQTN)
-LINGO2	leucine rich repeat and Ig domain containing 2(LINGO2)
-TRPM3	transient receptor potential cation channel subfamily M member 3(TRPM3)
-

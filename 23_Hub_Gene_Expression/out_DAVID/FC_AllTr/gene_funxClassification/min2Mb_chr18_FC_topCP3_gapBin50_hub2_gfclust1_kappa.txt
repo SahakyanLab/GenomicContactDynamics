@@ -1,7 +1,0 @@
-#	Gene	Species	Kappa
-1	serpin family B member 11 (gene/pseudogene)(SERPINB11)	Homo sapiens	0.9230723646726056
-2	serpin family B member 12(SERPINB12)	Homo sapiens	0.8666577118630387
-3	serpin family B member 8(SERPINB8)	Homo sapiens	0.8571337868092126
-4	serpin family B member 7(SERPINB7)	Homo sapiens	0.7499824072119395
-5	serpin family B member 13(SERPINB13)	Homo sapiens	0.6499719994190173
-6	serpin family B member 2(SERPINB2)	Homo sapiens	0.5713934988302759

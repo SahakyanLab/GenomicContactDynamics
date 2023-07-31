@@ -1,5 +1,0 @@
-Gene Group 1	Enrichment Score: 0.2211599670597173
-OFFICIAL_GENE_SYMBOL	Gene Name
-HS3ST4	heparan sulfate-glucosamine 3-sulfotransferase 4(HS3ST4)
-XYLT1	xylosyltransferase 1(XYLT1)
-

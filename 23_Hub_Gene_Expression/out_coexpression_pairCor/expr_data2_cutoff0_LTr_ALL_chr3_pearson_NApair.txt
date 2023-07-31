@@ -1,2 +1,0 @@
-NAcorpair totpairInAnno frNAcorpair
-294753 902496 0.32659756940751
