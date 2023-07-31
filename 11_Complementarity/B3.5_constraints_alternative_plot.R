@@ -30,28 +30,31 @@ gcb = "min2Mb"
 type = "kmer"
 affix = ""
 Cps = 1:21
-ylim.val = list(CIIkmer=c(-2.5,0), CIIalign=NULL, 
+ylim.val = list(CIIkmer=c(-2.5,0), CIIalign=NULL, # CIIkmer=c(-2.5,0)
                 Gfreekmer=c(-1.2,-0.4), sdDifferencekmer=c(0,0.00030))
 
 out.id = constraints.id # gap_effect
 
 DATA.PATH = list(paste0(compl.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"),
                  paste0(compl.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"),
+                 paste0(compl.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"),
                  paste0(compl.dir, "/", chr, "_", type, "_", gcb, affix, ".RData"))
-GAP.RNG = list(NULL, c(50,100), c(50,50)) # j - i - 1, closed range, set to NULL if not filtering
-lty.val = c("solid", "dashed", "dotted")
-shp.val = c(15,1,2)
+GAP.RNG = list(NULL, c(50,50), c(50,125), c(125,Inf)) # j - i - 1, closed range, set to NULL if not filtering
+lty.val = rep("dashed", 4) #c("solid", "dashed", "dotted", "dotdash")
+shp.val = 21:24 #c(15,1,2,4)
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
+library(Rmisc)
 library(data.table)
 library(ggplot2)
+library(RColorBrewer)
 source(paste0(lib, "/GG_bgr.R"))
 ################################################################################
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
 LENS <- c(length(DATA.PATH), length(GAP.RNG), length(lty.val), length(shp.val))
-if( any(LENS != 3) ){
+if( any(LENS != length(DATA.PATH)) ){
   rm(GAP.RNG, DATA.PATH)
   stop("Check lengths of objects, whose lengths should be equal.")
 }
@@ -101,11 +104,15 @@ out.name <- paste0(out.id, "_", chr, "_", type, "_", gcb, affix)
 dta.ids <- levels(df$dta.id)
 gaps.noNACp <- df$j - df$i - 1 
 
+coul <- colorRampPalette(rev(brewer.pal(n=11,name="Spectral")))(length(Cps))
+pd <- position_dodge(0.7)
+
 for(c.type in compl.types){
   
   # Calculate actual range of gap values and add to title
   
   is.nonNA.c.type <- !is.na(df[[c.type]])
+  df.tmp <- df[is.nonNA.c.type,]
   
   ACT.GAP.RNG.ID <- sapply(X=dta.ids, simplify=T, FUN=function(dta.id){
     is.dta <- df$dta.id == dta.id
@@ -115,22 +122,76 @@ for(c.type in compl.types){
  
   plot.title <- paste0(out.name, "\nactualgapAfterNAxyvaldropped_", paste(ACT.GAP.RNG.ID, collapse="_"))
   
-  p <- ggplot(data=df[is.nonNA.c.type,], aes_string(x="Cp", y=c.type)) +
-    stat_boxplot(col="gray50", geom="errorbar", aes(lty=dta.id), width=0, position=position_dodge(0.7)) + # To add only whiskers of default boxplot
-    stat_summary(col="#fc9a08", fun="median", aes(shape=dta.id), position=position_dodge(0.7)) +
-    scale_y_continuous(limits=ylim.val[[paste0(c.type, type)]]) + 
-    scale_linetype_manual(values=lty.val) + 
-    scale_shape_manual(values=shp.val) + 
-    labs(title=paste0(plot.title, "\ngapequalsjMINUSiMINUS1_pointsAtMedian_errorbarSameAsDefaultBoxplotWhiskers")) +
-    bgr2 +
-    theme(aspect.ratio=0.8,
-          legend.position="bottom",
-          plot.title=element_text(size=5))
+  ## PLOTS
   
-  ggsave(filename=paste0(out.dir, "/", out.name, "_", c.type, ".pdf"), 
+  # Plot 1 - Median + Boxplot whiskers
+  
+  p.bp <- ggplot(data=df.tmp, aes_string(x="Cp", y=c.type)) +
+    scale_y_continuous(limits=ylim.val[[paste0(c.type, type)]]) +
+    scale_fill_manual(values=coul) +
+    scale_linetype_manual(values=lty.val) +
+    scale_shape_manual(values=shp.val) +
+    guides(fill="none") +
+    bgr2 +
+    theme(aspect.ratio=0.8, plot.title=element_text(size=5),
+          legend.position="bottom", legend.text=element_text(size=5),
+          legend.title=element_text(size=5))
+    
+  p <- p.bp + 
+    stat_boxplot(geom="errorbar", aes(lty=dta.id), col="gray20", width=0, position=pd) + 
+    stat_summary(aes(shape=dta.id, fill=Cp), fun="median", position=pd) +
+    geom_vline(xintercept=seq(1.5, length(levels(df$Cp))-0.5, 1), col="gray90", lty="solid", lwd=0.5) + 
+    labs(title=paste0(plot.title, "\ngapequalsjMINUSiMINUS1_pointsAtMedian_errorbarSameAsDefaultBoxplotWhiskers"))
+    
+  ggsave(filename=paste0(out.dir, "/", out.name, "_", c.type, "_medianPlusBPwhiskers.pdf"), 
                          width=10, height=8, plot=p)
   
-  rm(is.nonNA.c.type, ACT.GAP.RNG.ID, plot.title, p)
+  # Plot 2 - Median + Boxplot hinges
+  
+  p <- p.bp + 
+    stat_summary(aes(shape=dta.id, fill=Cp, lty=dta.id), col="gray20", fun.y="median", position=pd,
+                 fun.min=function(a){quantile(a, 0.25)}, fun.max=function(a){quantile(a, 0.75)}) +
+    geom_vline(xintercept=seq(1.5, length(levels(df$Cp))-0.5, 1), colour="gray90", lty="solid", lwd=0.5) + 
+    labs(title=paste0(plot.title, "\ngapequalsjMINUSiMINUS1_pointsAtMedian_errorbarSameAsDefaultBoxplotHinges")) 
+  
+  if(c.type == "CII"){ # Modify
+    p <- p + 
+    scale_y_continuous(limits=c(-1.9, -0.5), breaks=seq(-1.8, -0.6, by=0.2))
+  } 
+  
+    ggsave(filename=paste0(out.dir, "/", out.name, "_", c.type, "_medianPlusBPhinges.pdf"), 
+           width=10, height=8, plot=p)
+  
+  # Plot 3 - Mean + 95% CI
+  
+  df.summ.SE <- summarySE(df.tmp, measurevar=c.type, groupvars=c("Cp","dta.id"), na.rm=F, .drop=F)
+  save(df.summ.SE, file=paste0(out.dir, "/", out.name, "_", c.type, "_summary_statistics.RData"))
+  
+  setnames(x=df.summ.SE, old=c.type, new="value")
+  
+  p <- ggplot(data=df.summ.SE, aes(x=Cp, y=value)) + 
+    geom_errorbar(aes(ymin=value - ci, ymax=value + ci, lty=dta.id), 
+                  width=0, linewidth=0.6, position=pd) + 
+    stat_summary(aes(shape=dta.id, fill=Cp), fun="mean", position=pd) +
+    geom_vline(xintercept=seq(1.5, length(levels(df$Cp))-0.5, 1), colour="gray90", lty="solid", lwd=0.5) + 
+    labs(title=paste0(plot.title, "\ngapequalsjMINUSiMINUS1_pointsAtmean_errorbarAt95PercCI"),
+         y=c.type) +
+    scale_y_continuous(limits=ylim.val[[paste0(c.type, type)]]) +
+    scale_fill_manual(values=coul) + 
+    scale_linetype_manual(values=lty.val) + 
+    scale_shape_manual(values=shp.val) + 
+    guides(fill="none") + 
+    bgr2 +
+    theme(aspect.ratio=0.8, plot.title=element_text(size=5), 
+          legend.position="bottom", legend.text=element_text(size=5),
+          legend.title=element_text(size=5))
+  
+  ggsave(filename=paste0(out.dir, "/", out.name, "_", c.type, "_meanPlus95PercCI.pdf"), 
+         width=10, height=8, plot=p)
+  
+  #
+  
+  rm(is.nonNA.c.type, ACT.GAP.RNG.ID, plot.title, p, df.tmp, df.summ.SE)
   gc()
   
   print(paste0(c.type, " done!"), quote=F)
@@ -138,9 +199,4 @@ for(c.type in compl.types){
 }
 
 # rm(list=ls()); gc()
-
-
-
-
-
 

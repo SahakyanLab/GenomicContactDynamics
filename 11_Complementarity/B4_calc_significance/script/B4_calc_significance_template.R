@@ -27,11 +27,12 @@ CII.dir = paste0(wk.dir, "/out_constraints_", constraints.id, "/merged_final")
 out.dir  = paste0(wk.dir, "/out_calc_significance_", constraints.id)
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr = "chr22"
-type.v = c("kmer", "Gfree", "sdDifference", "align")
-mult.v = setNames(c(1, 1, 10^4, 1), nm=type.v) # Multiplier before doing test, for less memory usage
+chr = "chrALL"
+type.v = "kmer" #c("kmer", "Gfree", "sdDifference", "align")
+mult.v = c(kmer=1) #setNames(c(1, 1, 10^4, 1), nm=type.v) # Multiplier before doing test, for less memory usage
 affix = ""
-gap.rng = list(c(50,50), c(50,100))[[arr2.repl]] # j - i - 1, closed range, Set to NULL if not filtering
+gap.rng = list(c(50,50), c(50,100), c(125,Inf), c(50,Inf),
+               c(50,125), c(100,Inf))[[arr2.repl]] # j - i - 1, closed range, Set to NULL if not filtering
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################

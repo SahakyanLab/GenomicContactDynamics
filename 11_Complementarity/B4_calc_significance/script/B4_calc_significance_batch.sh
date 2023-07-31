@@ -3,9 +3,9 @@
 array1=($(seq 1 1 2)) #arr1.repl, note that if array1 has 23 --> X, disable this if
 # array1 is not for chr
 prefix1="dta"
-array2=($(seq 1 1 2))  #arr2.repl
+array2=($(seq 1 1 6))  #arr2.repl
 prefix2="gap"
-srcfile="/Users/ltamon/SahakyanLab/GenomicContactDynamics/11_Complementarity/B4_calc_significance/script/B4_calc_significance_template.R"
+srcfile="/project/sahakyanlab/ltamon/SahakyanLab/GenomicContactDynamics/11_Complementarity/B4_calc_significance/script/B4_calc_significance_template.R"
 ###################################################################################
 # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE # # MAIN CODE #
 ###################################################################################
