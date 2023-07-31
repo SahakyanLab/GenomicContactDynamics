@@ -1,6 +1,0 @@
-Loading required package: iterators
-Loading required package: parallel
-Error in { : 
-  task 1 failed - "'names' attribute [2] must be the same length as the vector [0]"
-Calls: %op% -> <Anonymous>
-Execution halted
