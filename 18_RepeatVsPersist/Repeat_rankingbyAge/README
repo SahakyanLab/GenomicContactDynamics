@@ -1,5 +1,0 @@
-################################################################################
-fam45 and fam12 don't add up to fam56 because tRNA repeat family have one 
-subfamily in the transposon SINE class, rest are in non-transposon tRNA class.
-So tRNA repeat family appear both in fam45 (transposon) and fam12 (non-transposon).
-################################################################################

@@ -1,6 +1,0 @@
->Cluster1_center_L2
-Alu;L2;L1;ERVL;ERVL-MaLR;MIR;hAT-Charlie;ERV1;CR1;Low_complexity;Other;TcMar-Tigger;Simple_repeat;hAT-Tip100;ERVK;hAT;snRNA;MuDR;tRNA;hAT-Blackjack;srpRNA;rRNA;TcMar-Tc2;PiggyBac;scRNA
->Cluster2_center_Gypsy?
-TcMar-Mariner;RTE;LTR;Gypsy?;Gypsy;Deu;Unknown;ERVL?;DNA?;TcMar;DNA;TcMar?;Helitron;hAT?;SINE;SINE?;ERV
->Cluster3_center_centr
-centr
