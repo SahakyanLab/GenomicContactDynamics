@@ -1,9 +1,0 @@
-################################################################################
-Output in ~/Database/HiC_features_GSE87112_RAWpc/persist_HiCNorm/
-
-
-Updated on 24 Jan 2022 because in the old one min05Mb PERSIST.MX is identical to 
-min2Mb because min.dist was not changed from 2,000,000 to 500,000. The old min2Mb 
-PERSIST.MX is identical to the new one (checked using check.R) so this only 
-affected the CsVsCp hexbin plots and were already corrected. 
-################################################################################
