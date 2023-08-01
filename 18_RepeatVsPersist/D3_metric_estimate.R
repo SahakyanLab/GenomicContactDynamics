@@ -1,5 +1,5 @@
 ################################################################################
-# # Per subfamily, determine median or mean (estimate.fnx argument) value of 
+# Per subfamily, determine median or mean (estimate.fnx argument) value of 
 # metrics of contacts of given Cp or Cp range with at least 1 shared number of 
 # site. Cps.forCalc is a list of Cp or Cp range to use. If Cps.forCalc pertains 
 # to more than 1 Cp value, the number would be determined using all contacts 
