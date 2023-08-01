@@ -1,5 +1,6 @@
 ################################################################################
-# Calculate per class/family/subfamily content in genome
+# Calculate per class/family/subfamily content in genome. Note that this counts
+# all chr sites include chr. Y. 
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
