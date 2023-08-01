@@ -99,7 +99,7 @@ repeats, 25555 contacts have minimum repeat count of 1 and so on.
 Age ranking used is ./Repeat_rankingbyAge/plot_GiorPubl372rankrepFamilies.csv
 containing 372 repeat subfamilies.
 
-2.5. (combine) The script combines MINREPCOUNTS from all chromosomes and using the
+2.5. (combine) The script combines MINREPCOUNTS from all chromosomes (except chr. Y) and using the
 makeMinRepPlot() function, generates the boxplot of MINREP.MX values across Cp and 
 optionally can generate PREELMTISSDYN.MX, which has data on the mean values of the 
 distribution per Cp. This mean values is needed for the heatmap of the contact-wise 
@@ -241,7 +241,7 @@ of contacts) are in red and the rest of the subfamilies are in grey.
 1. Count insertion sites of repeats in ALL bins of a chromosome. The BINREP.MX 
 object only contacts count of sites for bins forming a long-range contact. 
 
-2. Plots of insertion sites vs. weigted mean Cp or average Cp
+2. Plots of insertion sites vs. weighted mean Cp or average Cp
 
 3. Plot repeat site count vs. average Cp (wmeanCp or wmeanCp0) per bin. Perform
 correlation of the two per repeat subfamily/family. There are two versions of 
@@ -260,3 +260,17 @@ method to determine trend of metrics across Cp.
 2. Similar plot as (1) but for the results of the correlation of region-wise site
 count with average Cp described in (B). 
 ################################################################################
+# D.
+################################################################################
+0. Generate dataframe containing repeat subfamilies (repNames) and their repeat family and class. Also contains grouping of repeat subfamilies based on GROUP.CLASS argument.There are 1395 unique subfamilies but output contains 1397 rows because there are two repeat subfamilies classified into two families and classes.
+
+1. Per element/subfamily, calculate stats pertaining to genome coverage and range of site length. Append also copy number calculated previously. This was modifiedto directly calculate copy number and to not include chr. Y sites in the calculation.
+
+2. # Per subfamily, determine number of contacts of given Cp or Cp range with at # least 1 shared number of site. Cps.forCalc is a list of Cp or Cp range to use.# If Cps.forCalc pertains to more than 1 Cp value, the number would be determined# using all contacts within Cp range.
+
+3. # Per subfamily, determine median or mean (estimate.fnx argument) value of # metrics of contacts of given Cp or Cp range with at least 1 shared number of # site. Cps.forCalc is a list of Cp or Cp range to use. If Cps.forCalc pertains # to more than 1 Cp value, the number would be determined using all contacts # within Cp range. Compare distributions of each Cp or Cp range in Cps.forCalc.
+
+4. # Calculate per subfamily the percentage of contacts with measured metrics so# contacts with at least 2 sites relative to number of long-range contacts per# Cp. 
+
+
+
