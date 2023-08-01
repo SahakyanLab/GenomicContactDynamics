@@ -1,6 +1,7 @@
 ################################################################################
 # Per element/subfamily, calculate stats pertaining to genome coverage and range 
-# of site length. Append also copy number calculated previously.
+# of site length. Append also copy number calculated previously. This was modified
+# to directly calculate copy number and to not include chr. Y sites in the calculation.
 ################################################################################
 # FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS * FLAGS
 ### DIRECTORY STRUCTURE ########################################################
@@ -17,8 +18,8 @@ if( !is.null(whorunsit[1]) ){
   }
 }
 repmask.file = paste0(data.dir, "/ucsc_tables/hsa_RepeatMasker/RepeatMasker_hg19")
-copyNum.file = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/17_RepeatAge/out_repeatContent/hg19repeats_copyNumber.RData"
-out.dir = paste0(wk.dir, "/out_site_coverage_length")
+#copyNum.file = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/17_RepeatAge/out_repeatContent/hg19repeats_copyNumber.RData"
+out.dir = paste0(wk.dir, "/z_ignore_git/out_site_coverage_length")
 ### OTHER SETTINGS #############################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
@@ -29,6 +30,7 @@ library(Rmisc)
 # MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE * MAIN CODE *
 ################################################################################
 repmasker.df <- fread(file=repmask.file, header=TRUE, data.table=FALSE, stringsAsFactors=FALSE)
+repmasker.df <- repmasker.df[repmasker.df$genoName != "chrY", ]
 elements <- unique(repmasker.df$repName) # REMOVE
 elm.len <- length(elements)
 
@@ -72,12 +74,22 @@ dimnames(mx) <- list(elements, c("total.bp", "reduced.bp",
                                  "min.len.bp", "max.len.bp",
                                  "mean.len.bp", "median.len.bp"))
 
+# Add copynumber 
+
+mx <- mx[sort(dimnames(mx)[[1]], decreasing=F), ]
+copynum <- table(repmasker.df$repName)
+
+if( identical(rownames(mx), names(copynum)) ){
+  mx <- cbind(mx, copynum=copynum)
+} else{
+  stop("Repeat names of mx and copynum in different order.")
+}
+
 # Add copynumber data
 
-load(copyNum.file)
-rownames(COPYNUM$repName) <- COPYNUM$repName$repName
-mx <- cbind(mx, copynum=COPYNUM$repName[ elements, "copyNumber"]) # REMOVE
-mx <- mx[sort(dimnames(mx)[[1]], decreasing=F), ]
+#load(copyNum.file)
+#rownames(COPYNUM$repName) <- COPYNUM$repName$repName
+#mx <- cbind(mx, copynum=COPYNUM$repName[ elements, "copyNumber"]) # REMOVE
 
 save(mx, file=paste0(out.dir, "/hg19_site_coverage_length.RData"))
 
