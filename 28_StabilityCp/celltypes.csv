@@ -1,0 +1,22 @@
+﻿origin,group,type,abbr,source
+Ectoderm,nervous,Dorsolateral prefrontal cortex ,Co,1
+Ectoderm,nervous,Hippocampus,Hi,1
+Endoderm,Liver,Liver,Li,2
+Endoderm,Lung,Lung,Lu,1
+Endoderm,Pancreas,Pancreas,Pa,1
+Endoderm,Small bowel,Small bowel,SB,1
+Mesoderm_Endoderm,Aorta,Aorta,Ao,2
+Mesoderm_Endoderm,Adrenal gland,Adrenal gland,AG,1
+Mesoderm_Endoderm,Bladder,Bladder,Bl,1
+Mesoderm_Endoderm,muscle,Left ventricle,LV,2
+Mesoderm_Endoderm,Ovary,Ovary,Ov,1
+Mesoderm_Endoderm,muscle,Psoas muscle,PM,1
+Mesoderm_Endoderm,muscle,Right ventricle,RV,1
+Mesoderm_Endoderm,Spleen,Spleen,Sp,1
+Fully_differentiated,differentiated,IMR-90 fetal lung fibroblast cell line,FC,3
+Fully_differentiated,differentiated,GM12878 lymphoblast cell line,LC,4
+ES_ES-derived,pluripotent_precursor,H1 human embryonic stem cell line,ESC,5
+ES_ES-derived,multipotent_precursor,Mesendoderm cell,MesC,5
+ES_ES-derived,multipotent_precursor,Mesenchymal stem cell,MSC,5
+ES_ES-derived,multipotent_precursor,Neural Progenitor cell,NPC,5
+ES_ES-derived,Trophoblast-like cell,Trophoblast-like cell,TLC,5

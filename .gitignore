@@ -1,11 +1,17 @@
 .DS_Store
 
+*.err
+*.out
+*.pdf
+*.xlsx
+
 # History files
 .Rhistory
 .Rapp.history
 
 # Session Data files
-.RData
+*.rds
+*.RData
 
 # User-specific files
 .Ruserdata
