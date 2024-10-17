@@ -1,0 +1,15 @@
+################################################################################
+# LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
+################################################################################
+PERSIST.MX
+
+library(dplyr)library(tibble)library(tidyr)library(ggplot2)library(ggsci)source(file.path(lib, "doCorTest.R"))source(file.path(lib, "GG_bgr.R"))
+################################################################################
+# A. Test how robust Cp is to the identity of Hi-C datasets used
+################################################################################
+1. Create R list containing cell type/s to leave out when recalculating Cp.
+
+2. Recalculate Cp after removing a cell type or group of cell types, scale Cp bynumber of celltype/tissue used
+
+3. Correlate recalculated scaled Cp with original scaled Cp
+################################################################################
