@@ -9,6 +9,12 @@ library(reshape2)
 library(viridis)
 library(RColorBrewer)
 
+library(tidyr)
+library(dplyr)
+library(tibble)
+library(tidyr)
+library(stringr)
+
 source(paste0(lib, "/GG_bgr.R"))
 source(paste0(lib, "/makeHexbinggplot.R"))
 source(paste0(lib, "/compareTwoDist.R"))
@@ -34,4 +40,11 @@ all chromosomes at once (not per chromosome) because we are more interested in
 getting contacts at the extremes of the length distribution and we are not so
 concerned above representing all chromosomes in the subset. Gap is calculated
 as j-i-1 and is in terms of bins. 
+################################################################################
+# B. Compare complementarity between variable and persistent contacts per contact gap
+# to remove distance confounding complementarity trend
+################################################################################
+1. Per gcb, chr, gap and complementarity method, get values for variable and persistent contacts
+2. Per gcb and gap, compare complementarity values between persistent and variable
+contacts
 ################################################################################
