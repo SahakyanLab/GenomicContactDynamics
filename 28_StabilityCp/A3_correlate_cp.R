@@ -30,7 +30,7 @@ out.dir = file.path(wk.dir, "out_correlate_cp")
 gcb = "min2Mb"
 chrs = paste0("chr", c("X", 1:22))
 plot_only = TRUE
-regenerate_corr = TRUE
+regenerate_corr = FALSE
 
 leave_out_lst <- readRDS(leave_out_list_path)
 drop_ids <- names(leave_out_lst)
@@ -135,9 +135,11 @@ p <- ggplot(cor_df, aes(x = coef)) +
   bgr2
 ggsave(file.path(out.dir, "density_correlation.pdf"), plot = p, height = 10, width = 10)
 
+set.seed(290)
 p <- ggplot(cor_df, aes(x = reorder(group, -coef), y = coef)) +
-  geom_violin(scale = "width", trim = TRUE, width = 0.5, colour = "gray80", fill = "gray80") +
-  geom_jitter(aes(fill = drop_n, colour = padj < 0.0001), width = 0.1, alpha = 0.7, size = 4, shape = 21) +
+  #geom_violin(scale = "width", trim = TRUE, width = 0.5, colour = "gray80", fill = "gray80") +
+  geom_boxplot(width = 0.5, colour = "gray10", fill = "gray95") +
+  geom_jitter(aes(fill = drop_n, colour = padj < 0.0001), width = 0.1, alpha = 0.7, size = 2.5, shape = 21) +
   #scale_fill_jama() +
   scale_fill_brewer(palette = "Spectral", direction = -1) +
   scale_colour_manual(values = c("black", "white")) +
@@ -148,7 +150,6 @@ p <- ggplot(cor_df, aes(x = reorder(group, -coef), y = coef)) +
 ggsave(file.path(out.dir, "violin_correlation.pdf"), plot = p, height = 10, width = 15)
 
 # rm(list=ls()); gc()
-
 
 # leave_out_lst_1 <- lapply(leave_out_lst[-(1:21)], function(x) {
 #   union(x, leave_out_lst$drop_abbrs_outliers_1nmads)
