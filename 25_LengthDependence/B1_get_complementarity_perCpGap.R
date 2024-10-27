@@ -62,15 +62,12 @@ for (chr in chrs) {
   use_cols <- intersect(c("Cp", "C||", "Gfree"), colnames(CII.MX))
   gap_vals <- CII.MX[,"j"] - CII.MX[,"i"] - 1
   gap_factor <- factor(as.character(gap_vals), levels = sort(unique(gap_vals)))
-  compl_per_cpgap_lst <- split(as.data.frame(CII.MX[,c(use_cols)]), gap_factor)
+  compl_per_cpgap_lst <- split(as.data.frame(CII.MX[,use_cols]), gap_factor)
   
   for (gap_char in names(compl_per_cpgap_lst)) {
     
-    compl_per_cpgap_lst[[gap_char]][,"Cp_group"] <- factor(ifelse(compl_per_cpgap_lst[[gap_char]][,"Cp"] %in% per.Cp, 
-                                                                  "per.Cp", "var.Cp"),
-                                                           levels = c("var.Cp", "per.Cp"))
     Cp_group_factor <- factor(ifelse(compl_per_cpgap_lst[[gap_char]][,"Cp"] %in% per.Cp, "per.Cp", "var.Cp"),
-                       levels = c("var.Cp", "per.Cp"))
+                              levels = c("var.Cp", "per.Cp"))
     saveRDS(split(compl_per_cpgap_lst[[gap_char]][,"C||"], Cp_group_factor),
             file.path(out.dir, paste0(gcb, "_gap", gap_char, "_", chr, "_", compl.type, "_per_cpgroup.rds")))
     
