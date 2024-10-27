@@ -13,8 +13,8 @@ Mesoderm_Endoderm,Ovary,Ovary,Ov,1
 Mesoderm_Endoderm,muscle,Psoas muscle,PM,1
 Mesoderm_Endoderm,muscle,Right ventricle,RV,1
 Mesoderm_Endoderm,Spleen,Spleen,Sp,1
-Fully_differentiated,IMR-90 fetal lung fibroblast cell line,IMR-90 fetal lung fibroblast cell line,FC,3
-Fully_differentiated,GM12878 lymphoblast cell line,GM12878 lymphoblast cell line,LC,4
+Fully_differentiated,differentiated,IMR-90 fetal lung fibroblast cell line,FC,3
+Fully_differentiated,differentiated,GM12878 lymphoblast cell line,LC,4
 ES_ES-derived,pluripotent_precursor,H1 human embryonic stem cell line,ESC,5
 ES_ES-derived,multipotent_precursor,Mesendoderm cell,MesC,5
 ES_ES-derived,multipotent_precursor,Mesenchymal stem cell,MSC,5

@@ -29,8 +29,8 @@ out.dir = file.path(wk.dir, "out_correlate_cp")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chrs = paste0("chr", c("X", 1:22))
-plot_only = FALSE
-regenerate_corr = FALSE
+plot_only = TRUE
+regenerate_corr = TRUE
 
 leave_out_lst <- readRDS(leave_out_list_path)
 drop_ids <- names(leave_out_lst)
@@ -124,7 +124,9 @@ if (!plot_only) {
 # Plot
 
 num_dropped_celltypes <- lengths(leave_out_lst)
-cor_df$drop_n <- as.character(num_dropped_celltypes[cor_df$drop_id])
+cor_df$drop_n <- num_dropped_celltypes[cor_df$drop_id]
+cor_df$drop_n <- factor(as.character(cor_df$drop_n), levels = sort(unique(cor_df$drop_n)))
+cor_df$group <- unlist(lapply(strsplit(cor_df$drop_id, "-"), function(x) x[1]))
 
 p <- ggplot(cor_df, aes(x = coef)) +
   geom_density(aes(fill = cor_method, colour = cor_method), alpha = 0.6) +
@@ -133,14 +135,22 @@ p <- ggplot(cor_df, aes(x = coef)) +
   bgr2
 ggsave(file.path(out.dir, "density_correlation.pdf"), plot = p, height = 10, width = 10)
 
-p <- ggplot(cor_df, aes(x = cor_method, y = coef)) +
+p <- ggplot(cor_df, aes(x = reorder(group, -coef), y = coef)) +
   geom_violin(scale = "width", trim = TRUE, width = 0.5, colour = "gray80", fill = "gray80") +
-  geom_jitter(aes(fill = drop_n, colour = padj < 0.0001), width = 0.1, alpha = 0.5, size = 3, shape = 21) +
-  scale_fill_jama() +
+  geom_jitter(aes(fill = drop_n, colour = padj < 0.0001), width = 0.1, alpha = 0.7, size = 4, shape = 21) +
+  #scale_fill_jama() +
+  scale_fill_brewer(palette = "Spectral", direction = -1) +
   scale_colour_manual(values = c("black", "white")) +
-  bgr2
-ggsave(file.path(out.dir, "violin_correlation.pdf"), plot = p, height = 10, width = 10)
+  scale_y_continuous(limits = c(round(min(cor_df$coef), 1), 1)) +
+  facet_wrap(~ cor_method, ncol = 2) +
+  bgr2 +
+  theme(axis.text.x = element_text(angle = 45, size = 10, hjust = 1))
+ggsave(file.path(out.dir, "violin_correlation.pdf"), plot = p, height = 10, width = 15)
 
 # rm(list=ls()); gc()
 
+
+# leave_out_lst_1 <- lapply(leave_out_lst[-(1:21)], function(x) {
+#   union(x, leave_out_lst$drop_abbrs_outliers_1nmads)
+# })
 
