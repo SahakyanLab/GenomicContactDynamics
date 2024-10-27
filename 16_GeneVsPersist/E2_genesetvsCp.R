@@ -30,10 +30,16 @@ out.dir = file.path(wk.dir, "out_genesetvsCp")
 # Annotation file prefix
 anno.nme = "hg19anno" #"hg19annoLTr"
 gcb="min2Mb"
+n_iter = 1e4 # Permutation test
+out_id_a = "top_housekeeping_genes" #"all_housekeeping_genes"
+out_id = paste0("niter", n_iter, "_", out_id_a)
 ################################################################################
 # LIBRARIES & DEPENDANCES * LIBRARIES & DEPENDANCIES * LIBRARIES & DEPENDANCES *
 ################################################################################
+library(cowplot)
+library(dplyr)
 library(ggplot2)
+library(tibble)
 source(file.path(lib, "do_permute_test.R"))
 source(file.path(lib, "GG_bgr.R"))
 ################################################################################
@@ -47,7 +53,9 @@ hkgenes_df$top <- ifelse(hkgenes_df$Gene.name %in% hkgenes_top_df$Gene.name, "ye
 
 # Housekeeping genes
 genes_of_interest <- unique(as.character(hkgenes_df$Gene.name))
-#genes_of_interest <- unique(as.character(hkgenes_df$Gene.name[hkgenes_df$top == "yes"]))
+if (out_id_a == "top_housekeeping_genes") {
+  genes_of_interest <- unique(as.character(hkgenes_df$Gene.name[hkgenes_df$top == "yes"]))
+}
 
 # Retrieve Cp genes
 temp <- readLines(con=CpGenesPath)
@@ -85,40 +93,50 @@ p <- ggplot(data=obs_df, aes(x=Cp, y=fr, fill=type)) +
        y="Fraction", fill=NULL) + 
   bgr2 +
   theme(axis.text.x = element_text(size=10, angle=360, colour="black"))
-ggsave(filename=paste0(out.dir, "/", gcb, "_", anno.nme, "_genesetvsCp.pdf"),
+ggsave(filename=paste0(out.dir, "/", gcb, "_", anno.nme, "_", out_id, "_genesetvsCp.pdf"),
        plot = p, width=10, height=10)
 
 # Permutation test to determine significance of fraction of genes of interest per Cp
-p_values <- numeric(length(CpGenes))
-
-p_values <- vapply(names(CpGenes), FUN.VALUE = numeric(1), FUN = function(x) {
-  do_permute_test(unique(CpGenes$HiC_all), 
-                  obs_set = unique(unlist(CpGenes[as.character(x)])), 
+p_values_lst <- lapply(names(CpGenes), FUN = function(x) {
+  do_permute_test(control_set = unique(CpGenes$HiC_all), 
+                  obs_set = unique(CpGenes[[as.character(x)]]), 
                   olap_set = unique(genes_of_interest),
-                  seed_val = 290, n_iter = 1000)
+                  seed_val = 290, n_iter = n_iter)
 })
-p_adj <- p.adjust(p_values, method = "BH")
+p_values <- unlist(p_values_lst)
+sig_df <- tibble::enframe(p_values, name = "test", "p_values")
+sig_df$Cp <- names(CpGenes)
+sig_df$p_adj <- p.adjust(sig_df$p_values, method = "BH")
 
 # Scatter plot
 
 plot_df <- obs_df %>% 
   filter(type == "goi")
 
-if (identical(names(p_adj), as.character(plot_df$Cp))) {
+if (identical(sig_df$Cp, as.character(plot_df$Cp))) {
   plot_df <- obs_df %>% 
     filter(type == "goi") %>% 
-    mutate(p_adj = p_adj, perc = fr * 100)
+    mutate(p_adj = sig_df$p_adj, test = sig_df$test, perc = fr * 100)
 }
 
-p <- ggplot(plot_df, aes(x = Cp, y = perc)) +
+p1 <- ggplot(plot_df, aes(x = Cp, y = perc)) +
   geom_point(aes(colour = p_adj < 0.05)) +
   scale_colour_manual(values = c("black", "darkred")) +
-  labs(y = "Percentage overlap", title = "Overlap of housekeeping genes") + 
+  labs(y = "Percentage overlap", title = paste0("Overlap of ", out_id)) + 
   bgr1 +
   theme(axis.text.x = element_text(size = 5))
 
-ggsave(filename=paste0(out.dir, "/", gcb, "_", anno.nme, "_genesetvsCp_fraction.pdf"),
-       plot = p, width=5, height=5)
+p2 <- ggplot(plot_df, aes(x = Cp, y = perc)) +
+  geom_point(aes(colour = test)) +
+  scale_colour_manual(values = c("black", "darkred")) +
+  labs(y = "Percentage overlap", title = paste0("Overlap of ", out_id)) + 
+  bgr1 +
+  theme(axis.text.x = element_text(size = 5))
+
+p_grid <- plot_grid(p1, p2, ncol = 2)
+
+ggsave(filename=paste0(out.dir, "/", gcb, "_", anno.nme, "_", out_id, "_genesetvsCp_fraction.pdf"),
+       plot = p_grid, width=15, height=5)
 
 # ggsave(filename=paste0(out.dir, "/", gcb, "_", anno.nme, "_genesetvsCp_fraction_tophousekeeping.pdf"),
 #        plot = p, width=5, height=5)

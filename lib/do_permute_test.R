@@ -16,7 +16,7 @@ do_permute_test <- function (control_set, obs_set, olap_set, seed_val = 290, n_i
     return(overlap / length(input) * 100)  # Percentage overlap
   }
   
-  observed_overlap <- calculate_overlap(obs_set, olap_set)
+  observed_overlap <- calculate_overlap(input = obs_set, olap_set = olap_set)
   
   # 2. Permutation test: Randomly permute gene sets and calculate the overlap for each
   permuted_overlaps <- numeric(n_iter)
@@ -24,8 +24,8 @@ do_permute_test <- function (control_set, obs_set, olap_set, seed_val = 290, n_i
   
   for (i in 1:n_iter) {
     
-    permuted_control <- sample(control_set, obs_set_size, replace = FALSE)
-    permuted_overlaps[i] <- calculate_overlap(permuted_control, olap_set)
+    permuted_control <- sample(control_set, size = obs_set_size, replace = FALSE)
+    permuted_overlaps[i] <- calculate_overlap(input = permuted_control, olap_set = olap_set)
     
   }
   
@@ -35,18 +35,21 @@ do_permute_test <- function (control_set, obs_set, olap_set, seed_val = 290, n_i
   message("\n")
   message("Observed Overlap:", observed_overlap, "\n")
   
-  higher_count <- sum(permuted_overlaps >= observed_overlap)
+  right_tail_count <- sum(permuted_overlaps >= observed_overlap)
   #if (direction == "lower") {
   if (observed_overlap < mean(permuted_overlaps)) {
     p_value <- sum(permuted_overlaps <= observed_overlap) / n_iter
+    names(p_value) <- "one-tailed"
     message("p-value (one-tailed, observed overlap lower):", p_value, "\n")
   #} else if (direction == "higher") {
   } else if (observed_overlap > mean(permuted_overlaps)) {
-    p_value <- higher_count / n_iter
+    p_value <- right_tail_count / n_iter
+    names(p_value) <- "one-tailed"
     message("p-value (one-tailed, observed overlap higher):", p_value, "\n")
   } else if (observed_overlap == mean(permuted_overlaps)) {
     left_tail_count <- sum(permuted_overlaps <= -abs(observed_overlap))
-    p_value <- (left_tail_count + higher_count) / n_iter
+    p_value <- (left_tail_count + right_tail_count) / n_iter
+    names(p_value) <- "two-tailed"
     message("p-value (two-tailed, observed overlap):", p_value, "\n")
   }
   
