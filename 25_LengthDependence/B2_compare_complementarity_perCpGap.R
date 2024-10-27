@@ -30,8 +30,8 @@ out.dir = file.path(wk.dir, "out_compare_complementarity_perCpGap")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chrs = paste0("chr", c("X", 22:1)) #paste0("chr", c("X", 1:22))
-gaps = 50:1000
-compl.type = "align" # kmer | align | Gfree
+gaps = 50:7000
+compl.type = "kmer" # kmer | align | Gfree
 plot_only = TRUE
 min_ij_group = 100 # Compare at gap with >= 100 persistent and >= 100 variable contacts
 ################################################################################
@@ -43,6 +43,7 @@ library(tidyr)
 library(stringr)
 library(ggplot2)
 library(ggpubr)
+library(ggnewscale)
 library(RColorBrewer)
 source(file.path(lib, "compareTwoDist.R"))
 source(file.path(lib, "GG_bgr.R"))
@@ -79,38 +80,43 @@ if (!plot_only) {
         compl_per_gap_lst[["per.Cp"]] <- c(compl_per_gap_lst[["per.Cp"]], 
                                            compl_per_chr_per_gap_lst[["per.Cp"]])
         
+      } else {
+        next
       }
       
-    }
+    } # chrs for loop end
     
     if (all(is.null(unlist(compl_per_gap_lst)))) {
       next
+    } else {
+      
+      # Per gap, number of persistent and variable contacts used for comparison
+      TEST <- tryCatch(
+        {
+          compareTwoDist(x = compl_per_gap_lst$var.Cp, y = compl_per_gap_lst$per.Cp)
+        },
+        error = function(e) {
+          TEST <- list(t = list(p.value = NA), mw = list(p.value = NA), ks = list(p.value = NA), test.id = NA)
+          return(TEST)
+        }
+      )
+      
+      mx[paste0("gap_", gap_char), ] <- unname(
+        c(vapply(compl_per_gap_lst, function(x) sum(!is.na(x)), FUN.VALUE = numeric(1)),
+          vapply(compl_per_gap_lst, mean, FUN.VALUE = numeric(1), na.rm = TRUE),
+          vapply(compl_per_gap_lst, median, FUN.VALUE = numeric(1), na.rm = TRUE),
+          vapply(compl_per_gap_lst, sd, FUN.VALUE = numeric(1), na.rm = TRUE),
+          vapply(c("t", "mw", "ks"), FUN = function(x) TEST[[x]][["p.value"]], FUN.VALUE = numeric(1))
+        )
+      )
+      
+      rm(compl_per_gap_lst, TEST)
+      
     }
     
-    # Per gap, number of persistent and variable contacts used for comparison
-    TEST <- tryCatch(
-      {
-        compareTwoDist(x = compl_per_gap_lst$var.Cp, y = compl_per_gap_lst$per.Cp)  
-      },
-      error = function(e) {
-        TEST <- list(t = list(p.value = NA), mw = list(p.value = NA), ks = list(p.value = NA))
-        return(TEST)
-      }
-    )
-    
-    mx[paste0("gap_", gap_char), ] <- unname(
-      c(vapply(compl_per_gap_lst, function(x) sum(!is.na(x)), FUN.VALUE = numeric(1)),
-        vapply(compl_per_gap_lst, mean, FUN.VALUE = numeric(1), na.rm = TRUE),
-        vapply(compl_per_gap_lst, median, FUN.VALUE = numeric(1), na.rm = TRUE),
-        vapply(compl_per_gap_lst, sd, FUN.VALUE = numeric(1), na.rm = TRUE),
-        vapply(c("t", "mw", "ks"), FUN = function(x) TEST[[x]][["p.value"]], FUN.VALUE = numeric(1))
-      )
-    )
-    
-    rm(compl_per_gap_lst, TEST)
     message(gcb, " gap=", gap_char, " done!")
     
-  }
+  } # gaps for loop end
   
   mx <- mx[!is.na(mx[,1]) & !is.na(mx[,2]),]
   saveRDS(mx, file.path(out.dir, paste0(gcb, "_", compl.type, "_compare_complementarity.rds")))
@@ -144,11 +150,13 @@ plot_df$cp_group <- factor(plot_df$cp_group, levels = c("var.Cp", "per.Cp"))
 
 set.seed(290) # For geom_jitter
 p <- ggplot(plot_df, aes(x = cp_group, y = value)) +
-  geom_boxplot(alpha = 0.5, aes(colour = cp_group)) +  
-  geom_jitter(aes(fill = gap_val), width = 0.2, size = 1.5, alpha = 0.7, shape = 21) +
+  geom_boxplot(alpha = 0.5, aes(colour = cp_group)) +
+  scale_colour_manual(values = colorRampPalette(brewer.pal(n = 11, name = "Spectral"))(21)[c(21, 1)]) +
+  ggnewscale::new_scale_colour() +
+  geom_jitter(aes(fill = gap_val, colour = pval_mw < 0.0001), width = 0.2, size = 2, alpha = 0.7, shape = 21) +
+  scale_colour_manual(values = c("black", "white")) +
   stat_compare_means(comparisons = list(c("var.Cp", "per.Cp")), ref.group = "var.Cp",
                      method = "wilcox.test", paired = TRUE, label = "p.format", size = 1) +
-  scale_colour_manual(values = colorRampPalette(brewer.pal(n = 11, name = "Spectral"))(21)[c(21, 1)]) +
   scale_fill_distiller(palette = "BrBG", direction = 1) +
   labs(title = paste0(gcb, "_", compl.type, ", paired wilcox p-value"), x = NULL) +
   facet_wrap(~ metric, ncol = 2) +
