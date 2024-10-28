@@ -3,6 +3,7 @@
 *.err
 *.out
 *.pdf
+*.png
 *.xlsx
 
 # History files
