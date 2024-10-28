@@ -139,7 +139,7 @@ set.seed(290)
 p <- ggplot(cor_df, aes(x = reorder(group, -coef), y = coef)) +
   #geom_violin(scale = "width", trim = TRUE, width = 0.5, colour = "gray80", fill = "gray80") +
   geom_boxplot(width = 0.5, colour = "gray10", fill = "gray95") +
-  geom_jitter(aes(fill = drop_n, colour = padj < 0.0001), width = 0.1, alpha = 0.7, size = 2.5, shape = 21) +
+  geom_jitter(aes(fill = drop_n, colour = padj < 0.0001), width = 0.1, alpha = 0.7, size = 4, shape = 21) +
   #scale_fill_jama() +
   scale_fill_brewer(palette = "Spectral", direction = -1) +
   scale_colour_manual(values = c("black", "white")) +
@@ -147,7 +147,7 @@ p <- ggplot(cor_df, aes(x = reorder(group, -coef), y = coef)) +
   facet_wrap(~ cor_method, ncol = 2) +
   bgr2 +
   theme(axis.text.x = element_text(angle = 45, size = 10, hjust = 1))
-ggsave(file.path(out.dir, "violin_correlation.pdf"), plot = p, height = 10, width = 15)
+ggsave(file.path(out.dir, "violin_correlation.png"), plot = p, height = 10 * 300, width = 15 * 300, units = "px", limitsize = FALSE)
 
 # rm(list=ls()); gc()
 

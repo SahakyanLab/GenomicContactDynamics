@@ -31,7 +31,7 @@ out.dir = file.path(wk.dir, "out_compare_complementarity_perCpGap")
 gcb = "min2Mb"
 chrs = paste0("chr", c("X", 22:1)) #paste0("chr", c("X", 1:22))
 gaps = 50:7000
-compl.type = "kmer" # kmer | align | Gfree
+compl.type = "align" # kmer | align | Gfree
 plot_only = TRUE
 min_ij_group = 100 # Compare at gap with >= 100 persistent and >= 100 variable contacts
 ################################################################################
@@ -161,6 +161,6 @@ p <- ggplot(plot_df, aes(x = cp_group, y = value)) +
   labs(title = paste0(gcb, "_", compl.type, ", paired wilcox p-value"), x = NULL) +
   facet_wrap(~ metric, ncol = 2) +
   bgr1
-ggsave(file.path(out.dir, paste0(gcb, "_", compl.type, "_boxplot_correlation.pdf")), plot = p, height = 5, width = 15)
+ggsave(file.path(out.dir, paste0(gcb, "_", compl.type, "_boxplot_correlation.png")), plot = p, height = 5 * 300, width = 15 * 300, units = "px", limitsize = FALSE)
 
 # rm(list=ls()); gc()
