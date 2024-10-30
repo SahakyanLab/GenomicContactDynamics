@@ -78,7 +78,7 @@ for (foi_char in names(foifile_lst)) {
   if (length(plot_name) == 1) {
     
     plot_name_new <- gsub(paste0("_", foi_char, "_", foivsij_plot_suffix),
-                          paste0("_", dir_name, "_", foivsij_plot_suffix),
+                          paste0("_", dir_name, "_", foivsij_plot_suffix, "_", foi_char),
                           plot_name)
     
     file.copy(file.path(featvscp.dir, plot_name), file.path(plot_out_dir, plot_name_new), overwrite = TRUE)
