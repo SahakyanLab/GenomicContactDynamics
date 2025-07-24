@@ -32,4 +32,4 @@ Liezel Tamon, Zahra Fahmi, James Ashford, Rosana Collepardo-Guevara, and Aleksan
 - `18_RepeatVsPersist`
 
 ###### Others
-- `lib` contains utility functions used in scripts across directories
+- `lib` contains utility functions used in scripts across directories.
