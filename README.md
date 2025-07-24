@@ -1,6 +1,8 @@
 ## Analysis of long-range contacts across cell types outlines a core sequence determinant of 3D genome organisation
 Liezel Tamon, Zahra Fahmi, James Ashford, Rosana Collepardo-Guevara, and Aleksandr B. Sahakyan*
 
+---------------
+
 Each directory contains a README explaining each script. Directories relevant for each main figure:
 
 #### Figure 1. Contact persistence to isolate and investigate the core genomic contacts, their determinants and implications.
