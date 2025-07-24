@@ -3,7 +3,7 @@ Liezel Tamon, Zahra Fahmi, James Ashford, Rosana Collepardo-Guevara, and Aleksan
 
 ---------------
 
-**Each directory contains a README explaining each script. Directories relevant for each main figure:**
+<u>**Each directory contains a README explaining each script. Directories relevant for each main figure:**<u>
 
 #### Figure 1. Contact persistence to isolate and investigate the core genomic contacts, their determinants and implications.
 - C. `11_Complementarity` to generate contact maps.
