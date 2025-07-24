@@ -3,12 +3,12 @@ Liezel Tamon, Zahra Fahmi, James Ashford, Rosana Collepardo-Guevara, and Aleksan
 
 ---------------
 
-## **Each directory contains a README explaining each script. Directories relevant for each main figure:**
+### **Each directory contains a README explaining each script. Directories relevant for each main figure:**
 
-#### Figure 1. Contact persistence to isolate and investigate the core genomic contacts, their determinants and implications.
+##### Figure 1. Contact persistence to isolate and investigate the core genomic contacts, their determinants and implications.
 - C. `11_Complementarity` to generate contact maps.
 
-#### Figure 2. Visualisation of persistent contacts and the chromosome organisation they mediate.
+##### Figure 2. Visualisation of persistent contacts and the chromosome organisation they mediate.
 - A,C. `4_ArcPlot` to generate arc plots representing contacts per chromosome.
 - B,D. [CoreGenomeExplorer Shiny app](https://github.com/liezeltamon/CoreGenomeExplorerLite) to generate network plots representing contacts per chromosome.
 
