@@ -24,9 +24,12 @@ options(warn=1)
 if( !is.null(whorunsit[1]) ){
   # This can be expanded as needed ...
   if(whorunsit == "LiezelMac"){
-    lib = "/Users/ltamon/DPhil/lib"
-    wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/8_FeatureVsPersist"
-    data.dir = "/Users/ltamon/Database"
+    #lib = "/Users/ltamon/DPhil/lib"
+    lib = "../lib"
+    #wk.dir = "/Users/ltamon/SahakyanLab/GenomicContactDynamics/8_FeatureVsPersist"
+    wk.dir = "./z_ignore_git"
+    #data.dir = "/Users/ltamon/Database"
+    data.dir = "../z_ignore_git/Database"
   } else {
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
@@ -61,6 +64,7 @@ library(ggplot2)
 library(ggpubr)
 library(RColorBrewer)
 library(stringr)
+library(tidyverse)
 library(yarrr); base.pal <- yarrr::piratepal("basel")
 source(paste0(lib, "/GG_bgr.R"))
 source(paste0(lib, "/finaliseFOI.R"))
@@ -215,6 +219,24 @@ if(plotOnly==FALSE){
   # Load METAPLOT list
   load(file=paste0(out.dir, "/", id, "_metaPcomb.RData"))
 }
+
+# Get order of group based on the median of "percbinDIVref" at Cp=19:21
+# Use to order text in main figure
+group_ordered_df <- METAPLOT$FCVSCP %>% 
+  filter(Cp %in% 19:21) %>% 
+  mutate(log2percbinDIVref = log2(percbinDIVref)) %>% 
+  group_by(group) %>% 
+  summarise(
+    percbinDIVref_median = median(percbinDIVref),
+    log2percbinDIVref_median = median(log2percbinDIVref)
+  ) %>%
+  ungroup() %>% 
+  arrange(desc(percbinDIVref_median))
+write.csv(
+  group_ordered_df, paste0(out.dir, "/", id, "_colBy", colourBy, "_FCVSCP_metaPcomb_legend_order.csv")
+)
+
+# Plot
 
 if(colourBy=="foi"){
   
