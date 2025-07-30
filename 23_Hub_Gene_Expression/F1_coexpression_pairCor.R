@@ -31,9 +31,11 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
 }
-lib = paste0(home.dir, "/DPhil/lib")
-data.dir = paste0(home.dir, "/Database")
-wk.dir = paste0(home.dir, "/SahakyanLab/CoreGenomeExplorer")
+#lib = paste0(home.dir, "/DPhil/lib")
+#data.dir = paste0(home.dir, "/Database")
+#wk.dir = paste0(home.dir, "/SahakyanLab/CoreGenomeExplorer")
+lib = "../lib"
+data.dir = wk.dir = "z_ignore_git"
 
 exprData.dir = paste0(wk.dir, "/out_cleanExprData")
 out.dir = paste0(wk.dir, "/out_coexpression_pairCor")

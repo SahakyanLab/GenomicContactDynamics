@@ -83,7 +83,7 @@ makecorVsGroupPlot <- function(CORCP.DF, dynamic.Cp, persistent.Cp,
       scale_color_manual(values=cols) + 
       scale_fill_manual(values=cols.fill) +
       labs(title=out.name) +
-      #facet_grid(Cpgroup~.) +
+      facet_grid(Cpgroup~.) +
       bgr2
     
     ggsave(filename=paste0(out.dir, "/", out.name, "_corval_dynamic-persistentAndNonhub0-Hub1_density.pdf"),

@@ -30,28 +30,30 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
 }
-lib = paste0(home.dir, "/DPhil/lib")
-data.dir = paste0(home.dir, "/Database")
-wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/23_Hub_Gene_Expression")
+#lib = paste0(home.dir, "/DPhil/lib")
+#data.dir = paste0(home.dir, "/Database")
+#wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/23_Hub_Gene_Expression")
+lib = "../lib"
+data.dir = wk.dir = "z_ignore_git"
 
 exprData.dir = paste0(wk.dir, "/out_cleanExprData")
 pairCor.dir = paste0(wk.dir, "/out_coexpression_pairCor")
 pairCp.dir = paste0(wk.dir, "/out_coexpression_pairCp")
 pairHub.dir = paste0(wk.dir, "/out_coexpression_pairHub")
-out.dir = paste0(wk.dir, "/z_ignore_git/out_coexpression_vsCp")
+out.dir = paste0(wk.dir, "/out_coexpression_vsCp")
 
 gene.id = "LTr_ALL" #"ALL"
 anno.file = paste0(data.dir, "/ucsc_tables/hsa_geneAnno/hg19anno", gene.id)
 ### OTHER SETTINGS #############################################################
 bin.len = 40000
 chr.v = paste0("chr", c(1:22, "X"))
-cor.meth = "pearson"
+cor.meth = "pearson" #"spearman"
 expr.cutoff = 0 #0.5
 gcb = "min2Mb"
 genepairMaxCp.v = NULL # If NULL, allow all Cp values
 genepairMaxCp.id = "1To21" 
 hub.id = "min2Mb_All_topCP3_gapBin50"
-percNDclosedUpperLim = 0.75 #0.5
+percNDclosedUpperLim = 0.5 #0.5
 plotOnly = F
 src.id = "data2"
 

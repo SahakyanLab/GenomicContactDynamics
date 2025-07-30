@@ -21,9 +21,11 @@ plotgeneExprVsCp <- function(CPGNEXPR.DF = 'CPGNEXPR.DF',
                              dim.boxplot = 'for par(mfrow)'){
   
   # Specify colours for stats
-  col.v = c(MEAN="#d9c741", MEDIAN="#edb340", SD="#32a864", SDdivMEAN="#32a8a4", 
+  #col.v = c(MEAN="#d9c741", MEDIAN="#edb340", SD="#32a864", SDdivMEAN="#32a8a4", 
+  #          nND="gray50", nNE="gray70", nLE="#2171B5", nME="#9ECAE1", nHE="#A50F15")
+  col.v = c(MEAN="#2171B5", MEDIAN="#edb340", SD="#32a864", SDdivMEAN="#b592d4", 
             nND="gray50", nNE="gray70", nLE="#2171B5", nME="#9ECAE1", nHE="#A50F15")
-
+  #"#a175c9"
   if( any(!statToPlot%in%colnames(CPGNEXPR.DF)) ){
     stop("plotgeneExprVsCp(): Invalid statToPlot element.")
   } else {
