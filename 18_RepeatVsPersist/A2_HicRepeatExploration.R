@@ -21,6 +21,8 @@ if( !is.null(whorunsit[1]) ){
     home.dir = "/Users/ltamon"
     wk.dir = paste0(home.dir, "/SahakyanLab/GenomicContactDynamics/18_RepeatVsPersist")
     os = "Mac"
+  } else if(whorunsit == "LiezelMacBiochem"){
+    wk.dir = "z_ignore_git"
   } else if(whorunsit == "LiezelCluster"){
     home.dir = "/project/sahakyanlab/ltamon" 
     wk.dir = paste0(home.dir, "/DPhil/GenomicContactDynamics/4_RepeatVsPersist")
@@ -29,34 +31,48 @@ if( !is.null(whorunsit[1]) ){
     stop("The supplied <whorunsit> option is not created in the script.", quote=F)
   }
 }
-lib = paste0(home.dir, "/DPhil/lib")
-data.dir = paste0(home.dir, "/Database")
-
+#lib = paste0(home.dir, "/DPhil/lib")
+#data.dir = paste0(home.dir, "/Database")
+lib = "../lib"
+data.dir = "../z_ignore_git/Database"
+wk.dir = "./z_ignore_git"
+ 
 # Metric
-metric = "minrep" # skewrep | minrep | sumrep
+metric = "sumrep" # skewrep | minrep | sumrep
+subfam_suffix = "Satellite" #"ALL"
 
 rep.group = "subfam" # "fam" | "subfam"
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
-binRep.dir = paste0(wk.dir, "/out_RepeatOverlapPerBin/", rep.group)
-out.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", metric)
-source.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", metric, "_SOURCE")
-elementlistPath = paste0(wk.dir, "/out_makeElementsList/", rep.group, "ALL")
+#binRep.dir = paste0(wk.dir, "/out_RepeatOverlapPerBin/", rep.group)
+binRep.dir = paste0(wk.dir, "/out_RepeatOverlapPerBinALL/", rep.group)
+#out.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", metric)
+out.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, subfam_suffix, "_", metric)
+dir.create(out.dir, recursive = TRUE)
+#source.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", metric, "_SOURCE")
+source.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, subfam_suffix, "_", metric, "_SOURCE")
+dir.create(source.dir)
+#elementlistPath = paste0(wk.dir, "/out_makeElementsList/", rep.group, "ALL")
+elementlistPath = paste0(wk.dir, "/out_makeElementsList/", rep.group, "Satellite")
 
 # Filter based on sumrep (sum of sites per contact)
-sourcefilter.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_sumrep_SOURCE")
-filterMinVal = 2
-outfilter.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", 
-                       metric, "_atleast", filterMinVal, "sumrep")
+#sourcefilter.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_sumrep_SOURCE")
+sourcefilter.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, subfam_suffix, "_sumrep_SOURCE")
+filterMinVal = 0 #2
+#outfilter.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, "ALL_", 
+#                       metric, "_atleast", filterMinVal, "sumrep")
+outfilter.dir = paste0(wk.dir, "/out_HicRepeatExploration/", rep.group, subfam_suffix, "_", 
+                       metric, "_atleast", filterMinVal, metric)
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
-chr = "chrCHRREPLACE" 
-nCPU = 1L # Number of contacts
+#chr = "chr21" #"chrCHRREPLACE" 
+chrs = paste0("chr", c(22, 5:1, "X"))
+nCPU = 2L #1L # Number of contacts
 # Index of element in elementlistPath; has to be an integer so add 'L', NA if
 # not element-wise running
 element.ind = NA #elementREPLACE
-makeMinElmSOURCE = FALSE
+makeMinElmSOURCE = TRUE #FALSE
 makeMINELMMX = TRUE
-filterMINELMMX = TRUE
+filterMINELMMX = FALSE
 ################################################################################
 # LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES * LIBRARIES & DEPENDENCIES 
 ################################################################################
@@ -87,20 +103,22 @@ print(paste0(metric, "..."), quote=FALSE)
   
 id <- paste0(chr,"_",suffix)
 
-load(paste0(binRep.dir, "/", chr, "_BinRep_", suffix, ".RData"))
-#load(paste0(binRep.dir, "/", chr, "_BinRep.RData"))
+#load(paste0(binRep.dir, "/", chr, "_BinRep_", suffix, ".RData"))
+load(paste0(binRep.dir, "/", chr, "_BinRep.RData"))
 load(paste0(persist.dir, "/", chr, "_Persist_", suffix,".RData"))
 
 ############################
+elementlistPath = paste0(elementlistPath, "/", suffix, "_", chr, "_elements.txt")
+tmp <- readLines(con=elementlistPath) 
 if( is.na(element.ind) ){
   
-  element.names <- names(BINREP.MX[1,-(1:3)])
+  element.names <- intersect(names(BINREP.MX[1,-(1:3)]), tmp)
   elem.names.counter <- 0L
   
 } else if( is.integer(element.ind) & length(element.ind)==1 ){
   
-  elementlistPath = paste0(elementlistPath, "/", suffix, "_", chr, "_elements.txt")
-  tmp <- readLines(con=elementlistPath) 
+  #elementlistPath = paste0(elementlistPath, "/", suffix, "_", chr, "_elements.txt")
+  #tmp <- readLines(con=elementlistPath) 
   
   if( element.ind>length(tmp) ){
     stop("HicRepeatExploration(): element.ind out of bounds.")
@@ -235,21 +253,23 @@ HicRepeatExploration <- cmpfun(HicRepeatExploration, options=list(suppressUndefi
 ################################################################################
 print(paste0(gcb, "..."), quote=FALSE)
 
-HicRepeatExploration(
-  
-  PersistPath=persist.dir,
-  BinRepPath=binRep.dir, 
-  out.dir=out.dir,
-  elementlistPath=elementlistPath,
-  element.ind=element.ind,
-  nCPU=nCPU,
-  chr=chr,
-  suffix=gcb,
-  makeMinElmSOURCE=makeMinElmSOURCE,
-  makeMINELMMX=makeMINELMMX,
-  metric=metric
-  
-)
+for(chr in chrs) {
+  message(chr, " running...")
+  HicRepeatExploration(
+    PersistPath=persist.dir,
+    BinRepPath=binRep.dir, 
+    out.dir=out.dir,
+    elementlistPath=elementlistPath,
+    element.ind=element.ind,
+    nCPU=nCPU,
+    chr=chr,
+    suffix=gcb,
+    makeMinElmSOURCE=makeMinElmSOURCE,
+    makeMINELMMX=makeMINELMMX,
+    metric=metric
+  )
+  message(chr, " done!")
+}
 ################################################################################
 #changes made with Alex's original script
 ##deleted initialExplPlots section
