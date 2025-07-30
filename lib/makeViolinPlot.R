@@ -30,9 +30,9 @@ makeViolinPlot <- function(df, x.nme, y.nme, sd.mult, col.nme = NULL, line.cols 
     bgr2
   
   if(!showOutlier){ 
-    p <- p + geom_boxplot(width=0.1, outlier.shape=NA)
+    p <- p + geom_boxplot(width=0.1, outlier.shape=NA, fill = NA)
   } else {
-    p <- p + geom_boxplot(width=0.1)
+    p <- p + geom_boxplot(width=0.1, fill = NA)
   }
     
   # Add mean points +/- SD
