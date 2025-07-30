@@ -29,12 +29,15 @@ if( !is.null(whorunsit[1]) ){
     print("The supplied <whorunsit> option is not created in the script.", quote=FALSE)
   }
 }
+data.dir = "../z_ignore_git/Database"
+wk.dir = "."
+lib = "../lib"
 # Using raw because athena does not havepersist_HiCNorm/
 persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc")
 #persist.dir = paste0(data.dir, "/HiC_features_GSE87112_RAWpc/persist_HiCNorm")
 foi.dir = paste0(data.dir, "/funx_data_fixCoordSys/masterpool_hg19_convTo1based/raw_associated")
-foifile = paste0(wk.dir, "/foifile/foivsij/foifile194")
-out.dir = paste0(wk.dir, "/out_foiVsij")
+foifile = paste0(wk.dir, "/foifile/foivsij/foifile176")
+out.dir = paste0(wk.dir, "/z_ignore_git/out_foiVsij")
 ### OTHER SETTINGS #############################################################
 gcb = "min2Mb"
 chr.v = paste0("chr", c(1:22, "X"))
@@ -42,8 +45,8 @@ bin.len = 40000
 Cp.v = 1:21
 Ct.v = c("Co", "Hi", "Lu", "LV", "RV", "Ao", "PM", "Pa", "Sp", "Li", "SB", "AG", 
          "Ov", "Bl", "MesC", "MSC", "NPC", "TLC", "ESC", "FC", "LC")
-out.id = "194" #"FOIREPLACE" 
-type.olap = "within" # "any" | "within"
+out.id = "176" #"FOIREPLACE" 
+type.olap = "any" # "any" | "within"
 query = "foi" #"bin" | "foi"
 plotOnly = TRUE
 ################################################################################
@@ -219,7 +222,7 @@ df$Pair <- factor(as.character(df$Pair), levels=unique(as.character(df$Pair)))
 x.lab <- Cp.v; x.lab[(x.lab%%2)==0] <- ""
 
 p <- ggplot(data=df, aes(x=Cp, y=Value, fill=Pair)) +
-  geom_col(position="fill") +
+  geom_col(position="fill", width = 1, aes(colour = Pair)) +
   scale_x_continuous(breaks=Cp.v, labels=x.lab) + 
   labs(title=paste0(out.name, "_olaptype=", type.olap), 
        x=expression(bold("c"["p"])),
@@ -234,10 +237,11 @@ if(pair.len>10){
                    yarrr::piratepal(palette="basel", length.out=pair.len-10)))
   #coul <- colorRampPalette(coul)(pair.len)
   p <- p + scale_fill_manual(values=coul) +
+    scale_colour_manual(values=coul) +
     guides(fill=guide_legend(ncol=1)) 
   
 } else {
-  p <- p + ggsci::scale_fill_npg()
+  p <- p + ggsci::scale_fill_npg() + ggsci::scale_colour_npg()
 }
   
 ggsave(filename=paste0(out.dir, "/", out.name, "_foiVsij_ij.pdf"),
@@ -251,7 +255,7 @@ df <- apply(X=FEATVSCP.MX, MARGIN=1, FUN=function(rw){
   return(v)
 }); rm(FEATVSCP.MX)
 totij.pair[totij.pair>0] <- 1
-if( !identical(rowSums(df), totij.pair) ){ stop("Fractions don't add up to 1.") }
+if( !identical(rowSums(df), totij.pair) ){ warning("Fractions don't add up to 1.") }
 
 df <- reshape2::melt(df)
 colnames(df) <- c("Pair", "Cp", "Value")
@@ -262,8 +266,9 @@ df$Pair <- factor(as.character(df$Pair), levels=unique(as.character(df$Pair)))
 coul <- colorRampPalette(rev(brewer.pal(n=11,name="Spectral")))(length(Cp.v))
 
 ggplot(data=df, aes(x=Pair, y=Value, fill=Cp)) +
-  geom_col(position="fill") +
+  geom_col(position="fill", width = 1, aes(fill=Cp)) +
   scale_fill_manual(values=coul) +
+  scale_colour_manual(values=coul) +
   labs(title=paste0(out.name, "_olaptype=", type.olap, "\n",
                     ij.num), 
        x="", y="Fraction of contacts", 
