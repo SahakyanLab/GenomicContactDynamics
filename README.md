@@ -3,6 +3,8 @@ Liezel Tamon, Zahra Fahmi, James Ashford, Rosana Collepardo-Guevara, and Aleksan
 
 ---------------
 
+Tamon L, Fahmi Z, Ashford J et al (2025) Analysis of long-range contacts across cell types outlines a core sequence determinant of 3D genome organisation. 2025.03.16.643527. https://www.biorxiv.org/content/10.1101/2025.03.16.643527v1 (in revision)
+
 #### **Each directory contains a README explaining each script. Directories relevant for each main figure:**
 
 ###### Figure 1. Contact persistence to isolate and investigate the core genomic contacts, their determinants and implications.
